@@ -218,8 +218,34 @@
 			<artifactId>flood-websocket</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<!-- xxl-job -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-xxl-job-admin</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-xxl-job-core</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 
 		<!-- floodCloud Core -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-config-nacos</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-spring-cloud-starter-nacos</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-spring-cloud-starter-web</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-spring-cloud-starter-comm</artifactId>
@@ -227,7 +253,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-spring-cloud-starter-web</artifactId>
+			<artifactId>flood-spring-cloud-starter-gateway</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 		<dependency>
@@ -272,17 +298,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-spring-cloud-starter-nacos</artifactId>
-			<version>${flood.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-spring-cloud-starter-xxlJob</artifactId>
-			<version>${flood.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-spring-cloud-starter-gateway</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 		<dependency>
