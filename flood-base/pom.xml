@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.mmdai</groupId>
+    <artifactId>flood-dependencies</artifactId>
+    <version>2.0.0</version>
+  </parent>
+  <groupId>io.github.mmdai</groupId>
+  <artifactId>flood-base</artifactId>
+  <version>2.0.0</version>
+  <name>flood-base</name>
+  <url>http://maven.apache.org</url>
+
+
+  <dependencies>
+      <!--undertow容器-->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-undertow</artifactId>
+      </dependency>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+    </dependency>
+	<!-- commons -->
+	<dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>${commons.collections4.version}</version>
+    </dependency>
+    <!-- //protostuff序列化 -->
+      <dependency>
+          <groupId>com.dyuproject.protostuff</groupId>
+          <artifactId>protostuff-api</artifactId>
+          <version>${protostuff.version}</version>
+      </dependency>
+    <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-core</artifactId>
+        <version>${protostuff.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.dyuproject.protostuff</groupId>
+        <artifactId>protostuff-runtime</artifactId>
+        <version>${protostuff.version}</version>
+    </dependency>
+
+      <dependency>
+          <groupId>com.fasterxml.jackson.datatype</groupId>
+          <artifactId>jackson-datatype-jsr310</artifactId>
+          <version>${jackson.datatype.version}</version>
+      </dependency>
+
+  </dependencies>
+</project>

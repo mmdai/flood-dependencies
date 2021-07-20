@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.flood.context.StringContextConfiguration,\
+cn.flood.trace.WebTraceFilter

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flood-job</artifactId>
+        <groupId>io.github.mmdai</groupId>
+        <version>2.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>flood-xxl-job-admin-web</artifactId>
+
+    <dependencies>
+
+        <!-- starter-web：spring-webmvc + autoconfigure + log4j2 + yaml + undertow -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-xxl-job-admin</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <!-- banner -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-tools-banner</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <!-- core -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-tools-core</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <!-- Spring boot 热部署 : 此热部署会遇到 java.lang.ClassCastException 异常 -->
+        <!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖myboot项目的项目如果想要使用devtools，需要重新引入 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+</project>

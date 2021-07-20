@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.flood.datasource.spring.DataSourceSpring,\
+cn.flood.datasource.spring.SqlSessionFactorySpring

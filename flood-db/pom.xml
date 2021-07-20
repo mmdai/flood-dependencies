@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flood-dependencies</artifactId>
+        <groupId>io.github.mmdai</groupId>
+        <version>2.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+
+    <artifactId>flood-db</artifactId>
+
+    <modules>
+        <!-- flood关系型数据库，支持单及多数据源配置 -->
+        <module>flood-db-database</module>
+        <!-- 基础jdbc -->
+        <module>flood-db-jdbc</module>
+        <!-- 基础mongodb -->
+        <module>flood-db-mongodb</module>
+        <!-- 基础cache基于redis工具类 -->
+        <module>flood-db-redis-cache</module>
+        <!-- 基础sharding-jdbc -->
+        <module>flood-db-sharding</module>
+        <!-- redis -->
+        <module>flood-db-redis-spring</module>
+        <!--lock 基于redisson-->
+        <module>flood-db-redis-lock</module>
+        <!-- elasticsearch -->
+        <module>flood-db-elasticsearch</module>
+        <module>flood-db-mybatis</module>
+
+    </modules>
+
+
+
+
+</project>

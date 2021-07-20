@@ -1,0 +1,173 @@
+########################################################
+
+### undertow setting.
+
+########################################################
+server:
+  undertow:
+    accesslog:
+      #Undertow access log directory.
+      dir: /app/winsunapp/job-admin/temp
+      #Whether to enable the access log.
+      enabled: false
+      #Format pattern for access logs.(%t [%I] %a %r %s (%b Byte) (%T ms) )
+      pattern: common
+      #Log file name prefix.
+      prefix: access_log.
+      #Whether to enable access log rotation.
+      rotate: true
+      #Log file name suffix.
+      suffix: log
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    #每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
+    buffer-size: 1024 
+    # Allocate buffers outside the Java heap. The default is derived from the maximum amount of memory that is available to the JVM. 
+    direct-buffers: true
+    # Whether servlet filters should be initialized on startup.
+    eager-filter-init: true
+    # Number of I/O threads to create for the worker. The default is derived from the number of available processors.
+    io-threads: 2
+    # Maximum size in bytes of the HTTP post content. When the value is -1, the default, the size is unlimited.
+    max-http-post-size: -1
+    # Number of worker threads. The default is 8 times the number of I/O threads.默认值是IO线程数*8
+    worker-threads: 16 
+########################################################
+
+### database setting.
+
+########################################################
+spring:
+  datasource:
+     #数据库组件 druid相关配置
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
+      url: jdbc:mysql://127.0.0.1:3306/center_job?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+      username: 'root'
+      password: 'root'
+      driver-class-name:  com.mysql.cj.jdbc.Driver
+      #配置初始化大小/最小/最大
+      initial-size: 1
+      min-idle: 2
+      max-active: 12
+      #获取连接等待超时时间
+      max-wait: 30000
+      validation-query: select 1
+      validation-query-timeout: 5
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: true
+      remove-abandoned: true
+      remove-abandoned-timeout: 120
+      #间隔多久进行一次检测，检测需要关闭的空闲连接
+      time-between-eviction-runs-millis: 30000
+      #一个连接在池中最小生存的时间
+      min-evictable-idle-time-millis: 60000
+      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+      #监控统计拦截的filters
+      filters: stat,wall
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录 
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=10
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+mybatis:
+  mapper-locations: classpath:/mybatis-mapper/*Mapper.xml
+  config-location: classpath:/mybatis-config.xml
+
+########################################################
+
+### i18n setting.
+
+########################################################
+---
+spring:
+  messages:
+    basename: i18n/message   #指定message的basename，多个以逗号分隔，如果不加包名的话，默认从classpath路径开始，默认: message
+    cache-duration: 3600  #设定加载的资源文件缓存失效时间，-1的话为永不过期，默认为-1
+    encoding: UTF-8   #设定Message bundles的编码，默认: UTF-8
+########################################################
+
+### log4j setting.
+
+########################################################
+logging:
+  config: classpath:log4j2-test.xml
+########################################################
+
+### 服务监控 actuator
+
+########################################################
+management:
+  health:
+    mail:
+      enabled: false
+  server:
+    servlet:
+      context-path: /actuator
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: '*'   #开启所有端点2.0以后默认关闭的
+########################################################
+
+### freemarker resources setting.
+
+########################################################
+---
+spring:
+  freemarker:
+    charset: UTF-8
+    request-context-attribute: request
+    settings:
+      number_format: 0.##########
+    suffix: .ftl
+    templateLoaderPath: classpath:/templates/
+  mvc:
+    servlet:
+      load-on-startup: 0
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/static/
+########################################################
+
+### spring mail
+
+########################################################
+---
+spring:
+  mail:
+    from: 100958841@qq.com
+    host: smtp.qq.com
+    password: 1314dmdm
+    port: 25
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+          starttls:
+            enable: true
+            required: true
+    username: 100958841@qq.com
+########################################################
+
+### xxl-job, access token
+
+########################################################
+### xxl-job, access token
+xxl.job.accessToken:
+
+### xxl-job, i18n (default is zh_CN, and you can choose "zh_CN", "zh_TC" and "en")
+xxl.job.i18n: zh_CN
+## xxl-job, triggerpool max size
+xxl.job.triggerpool.fast.max: 200
+xxl.job.triggerpool.slow.max: 100
+
+### xxl-job, log retention days
+xxl.job.logretentiondays: 30

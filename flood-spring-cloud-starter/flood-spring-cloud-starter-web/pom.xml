@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flood-spring-cloud-starter</artifactId>
+        <groupId>io.github.mmdai</groupId>
+        <version>2.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <properties>
+
+    </properties>
+
+    <artifactId>flood-spring-cloud-starter-web</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-tools-banner</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+
+        <!-- core -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-tools-core</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <!-- base -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-base</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <!-- api -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-api</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <!-- 类型转换 -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-tools-dozer</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <!-- 添加sleuth全链路追踪监控依赖 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+
+        <!-- Spring boot 热部署 : 此热部署会遇到 java.lang.ClassCastException 异常 -->
+        <!-- optional=true,依赖不会传递，该项目依赖devtools；之后依赖myboot项目的项目如果想要使用devtools，需要重新引入 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+
+</project>

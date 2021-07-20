@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.flood.elasticsearch.ElasticSearchClientAutoConfiguration,\
+cn.flood.elasticsearch.auto.autoindex.CreateIndex

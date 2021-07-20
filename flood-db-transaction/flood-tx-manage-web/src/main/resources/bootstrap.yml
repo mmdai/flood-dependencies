@@ -1,0 +1,52 @@
+########################################################
+
+### spring setting.
+
+########################################################
+spring:
+  application:
+    name: tx-manager
+########################################################
+
+### server setting. port
+
+########################################################
+#  servlet:
+#    context-path: /
+########################################################
+
+### nacos 配置中心 setting.
+### Data ID = ${spring.cloud.nacos.config.prefix}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension} 最终拼接出来的就是：manage-server-dev.yaml  （一定要注意约定！）
+### Group = ${spring.cloud.nacos.config.group}
+
+########################################################
+#---
+#spring:
+#  cloud:
+#    nacos:
+#      # 配置中心
+#      config:
+#        #服务器地址
+#        server-addr: 127.0.0.1:8848
+#        #默认为Public命名空间,可以省略不写,注意这里是nacos生成的字符串而不是dev
+#        namespace: 77adc870-2ea7-47de-8663-2e4b721144e4
+#        #指定配置群组 --如果是Public命名空间 则可以省略群组配置
+#        #group: DEFAULT_GROUP
+#        #文件名 -- 如果没有配置则默认为 ${spring.appliction.name}
+#        #prefix: manage-server
+#        # 指定文件后缀,如果是 .properties文件 不需要这个配置
+#        #file-extension: yaml
+#        #第一组配置（tx-manage-system配置是公共属性容器、 数据库配置，dev全局一套）
+#        ext-config[0]:
+#          data-id: tx-manage-system.yaml
+#          group: tx-manage-config
+#         #第一组配置（common配置是公共属性nacos、i18n、log4j2、zipkin、actuator、redis、mq等，dev全局一套）
+#        ext-config[1]:
+#          data-id: common.yaml
+#          group: common-config
+#        #业务模块配置（独立配置属性feign、hystrix、ribbon、等）
+#        ext-config[2]:
+#          data-id: tx-manage-member.yaml
+#          group: tx-manage-config
+#          #动态刷新
+#          refresh: true

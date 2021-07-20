@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.flood.cloud.http.RestTemplateConfiguration,\
+cn.flood.cloud.config.FloodCloudAutoConfiguration,\
+cn.flood.cloud.config.LoadBalancerAutoConfiguration
+

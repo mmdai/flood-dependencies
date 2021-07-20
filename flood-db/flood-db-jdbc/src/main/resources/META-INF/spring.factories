@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.flood.db.DruidDataSourceConfig,\
+cn.flood.db.MybatisConfiguration

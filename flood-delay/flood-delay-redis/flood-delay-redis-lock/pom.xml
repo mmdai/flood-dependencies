@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flood-delay-redis</artifactId>
+        <groupId>io.github.mmdai</groupId>
+        <version>2.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>flood-delay-redis-lock</artifactId>
+
+    <dependencies>
+
+        <!-- starter-web：spring-webmvc + autoconfigure + log4j2 + yaml + undertow -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-spring-cloud-starter-web</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+
+        <!-- lock -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-db-redis-lock</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

@@ -1,0 +1,77 @@
+########################################################
+
+### undertow setting.
+
+########################################################
+server:
+  undertow:
+    accesslog:
+      #Undertow access log directory.
+      dir: /
+      #Whether to enable the access log.
+      enabled: false
+      #Format pattern for access logs.(%t [%I] %a %r %s (%b Byte) (%T ms) )
+      pattern: common
+      #Log file name prefix.
+      prefix: access_log.
+      #Whether to enable access log rotation.
+      rotate: true
+      #Log file name suffix.
+      suffix: log
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    #每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
+    buffer-size: 1024 
+    # Allocate buffers outside the Java heap. The default is derived from the maximum amount of memory that is available to the JVM. 
+    direct-buffers: true
+    # Whether servlet filters should be initialized on startup.
+    eager-filter-init: true
+    # Number of I/O threads to create for the worker. The default is derived from the number of available processors.
+    io-threads: 2
+    # Maximum size in bytes of the HTTP post content. When the value is -1, the default, the size is unlimited.
+    max-http-post-size: -1
+    # Number of worker threads. The default is 8 times the number of I/O threads.默认值是IO线程数*8
+    worker-threads: 16 
+
+########################################################
+
+### i18n setting.
+
+########################################################
+---
+spring:
+  messages:
+    basename: i18n/messages   #指定message的basename，多个以逗号分隔，如果不加包名的话，默认从classpath路径开始，默认: messages
+    cache-duration: 3600  #设定加载的资源文件缓存失效时间，-1的话为永不过期，默认为-1
+    encoding: UTF-8   #设定Message bundles的编码，默认: UTF-8
+########################################################
+
+### log4j setting.
+
+########################################################
+logging:
+  config: classpath:log4j2-dev.xml
+########################################################
+
+### 服务监控
+
+########################################################
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: '*'   #开启所有端点2.0以后默认关闭的
+
+
+########################################################
+
+### lock setting.
+
+########################################################
+---
+spring:
+  lock:
+    address: redis://10.67.31.148:6379
+#spring.lock.cluster-server.node-addresses=127.0.0.1:7000,127.0.0.1:7001，127.0.0.1:7002,127.0.0.1:7003，127.0.0.1:7004,127.0.0.1:7005
