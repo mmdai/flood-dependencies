@@ -9,13 +9,13 @@
 package cn.flood.okhttp.http;
 
 import okhttp3.*;
-import okhttp3.internal.Util;
 import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 /**  
@@ -117,7 +117,7 @@ public enum DebugLoggingInterceptor implements Interceptor {
                     Buffer buffer = new Buffer();
                     requestBody.writeTo(buffer);
                     MediaType mediaType = requestBody.contentType();
-                    logger.info(" |=== The body data is {} ===|", buffer.readString(mediaType.charset(Util.UTF_8)));
+                    logger.info(" |=== The body data is {} ===|", buffer.readString(mediaType.charset(Charset.defaultCharset())));
                     logger.info(" |=== Finish to print request body === |");
                 } else {
                     logger.warn(" |=== The request body may contains 'file' part, ignore to print! ===|");
