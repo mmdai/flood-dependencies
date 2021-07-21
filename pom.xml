@@ -157,7 +157,7 @@
 	</dependency>
   </dependencies>
   
-  <repositories>
+  <!--<repositories>
 	  <repository>
 		  <id>public</id>
 		  <name>aliyun nexus</name>
@@ -171,7 +171,7 @@
 		  <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
 	  </repository>
 
-	</repositories>
+	</repositories>-->
   
   <dependencyManagement>
 	<dependencies>
