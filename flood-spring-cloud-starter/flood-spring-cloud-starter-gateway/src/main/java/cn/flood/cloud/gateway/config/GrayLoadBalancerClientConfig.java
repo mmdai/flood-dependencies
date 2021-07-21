@@ -12,6 +12,7 @@ import org.springframework.cloud.gateway.config.GatewayReactiveLoadBalancerClien
 import org.springframework.cloud.gateway.filter.ReactiveLoadBalancerClientFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * 灰度负载模式自动装配
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GrayLoadBalancerClientConfig {
 
+	@Primary
 	@Bean
 	public ReactiveLoadBalancerClientFilter gatewayLoadBalancerClientFilter(GrayLoadBalancer grayLoadBalancer,
 																			GatewayLoadBalancerProperties properties) {

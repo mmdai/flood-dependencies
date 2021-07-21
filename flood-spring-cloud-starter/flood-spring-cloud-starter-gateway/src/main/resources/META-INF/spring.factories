@@ -1,2 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.flood.cloud.gateway.config.CustomErrorConfig,\
+cn.flood.cloud.gateway.config.GrayLoadBalancerClientConfig,\
+cn.flood.cloud.gateway.config.RateLimiterConfig,\
+cn.flood.cloud.gateway.config.SentinelConfig,\
+cn.flood.cloud.gateway.config.SwaggerResourceConfig,\
 cn.flood.cloud.gateway.autoconfigure.GatewayAutoConfiguration
