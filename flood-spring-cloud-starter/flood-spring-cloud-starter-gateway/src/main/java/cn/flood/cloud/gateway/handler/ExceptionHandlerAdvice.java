@@ -24,8 +24,11 @@ public class ExceptionHandlerAdvice {
 	@ExceptionHandler(value = {ResponseStatusException.class})
 	public Result<?> handle(ResponseStatusException ex) {
 		log.error("response status exception:{}", ex.getMessage());
-		if (ex.getMessage().contains(HttpStatus.NOT_FOUND.toString())) {
+		if (ex.getMessage().contains(HttpStatus.NOT_FOUND.toString()) ) {
 			return ResultWapper.wrap(ResultCode.NOT_FOUND.getCode(), ex.getMessage());
+		} else if(ex.getMessage().contains(HttpStatus.SERVICE_UNAVAILABLE.toString())){
+			return ResultWapper.wrap(String.valueOf(HttpStatus.SERVICE_UNAVAILABLE.value()),
+					HttpStatus.SERVICE_UNAVAILABLE.toString());
 		} else {
 			return ResultWapper.wrap(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
 		}
