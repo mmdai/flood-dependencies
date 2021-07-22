@@ -1,5 +1,7 @@
 package cn.flood.cloud.gateway.result;
 
+import org.springframework.http.HttpStatus;
+
 import java.util.stream.Stream;
 
 /**
@@ -24,16 +26,23 @@ public enum ResultCode {
 	/**
 	 * 服务异常
 	 */
-	ERROR("500", "System Error"),
+	ERROR("500", "Internal Server Error"),
 	/**
 	 * 服务超时
 	 */
-	TIME_ERROR("501", "Service Read Timeout"),
+	TIME_ERROR("504", "Service Connect Timeout"),
 	/**
 	 * Too Many Requests
 	 */
-	TOO_MANY_REQUESTS("429", "Too Many Requests");
-
+	TOO_MANY_REQUESTS("429", "Too Many Requests"),
+	/**
+	 * Service Unavailable
+	 */
+	SERVICE_UNAVAILABLE("503", "Service Unavailable"),
+	/**
+	 * GATEWAY_TIMEOUT
+	 */
+	GATEWAY_TIMEOUT("504",  "Gateway Timeout");
 
 	/**
 	 * 状态码
