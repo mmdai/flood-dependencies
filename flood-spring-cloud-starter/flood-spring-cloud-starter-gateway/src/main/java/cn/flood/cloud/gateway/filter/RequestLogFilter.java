@@ -1,6 +1,8 @@
 package cn.flood.cloud.gateway.filter;
 
+import cn.flood.constants.HeaderConstants;
 import cn.flood.lang.StringUtils;
+import cn.flood.trace.MDCTraceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -79,6 +81,8 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 
 			// 打印请求头
 			HttpHeaders httpHeaders = response.getHeaders();
+			String traceId = exchange.getAttribute(HeaderConstants.REQUEST_ID);
+			httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 			httpHeaders.forEach((headerName, headerValue) -> {
 				responseLog.append(" {}: {}\n");
 				responseArgs.add(headerName);
