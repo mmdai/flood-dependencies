@@ -20,7 +20,7 @@ public class CorsResponseHeaderFilter implements GlobalFilter, Ordered {
     public int getOrder() {
         // 指定此过滤器位于NettyWriteResponseFilter之后
         // 即待处理完响应体后接着处理响应头
-        return NettyWriteResponseFilter.WRITE_RESPONSE_FILTER_ORDER + 1;
+        return Ordered.LOWEST_PRECEDENCE;
     }
 
     @Override

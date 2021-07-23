@@ -93,6 +93,6 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public int getOrder() {
-		return Ordered.LOWEST_PRECEDENCE;
+		return Ordered.LOWEST_PRECEDENCE-1;
 	}
 }
