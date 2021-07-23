@@ -31,12 +31,12 @@ public interface ValidCodeService {
 //     * @param verifyCode 验证码
 //     * @return
      */
-    boolean validCode(String tokenKey, String verifyCode);
+    boolean validCode(String tokenKey, TokenEnum tokenType, String verifyCode);
 
     /**
      * 删除验证码
 //     * @param deviceId 前端唯一标识/手机号
 //     * @return
      */
-    boolean remove(String deviceId);
+    boolean remove(String deviceId, TokenEnum tokenType);
 }

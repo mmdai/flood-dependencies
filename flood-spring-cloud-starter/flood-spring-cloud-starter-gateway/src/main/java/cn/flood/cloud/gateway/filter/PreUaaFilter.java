@@ -96,7 +96,7 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
         resp.setStatusCode(HttpStatus.UNAUTHORIZED);
         resp.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         Result<?> result = ResultWapper.wrap(String.valueOf(HttpStatus.UNAUTHORIZED.value()),
-                HttpStatus.UNAUTHORIZED.toString());
+                HttpStatus.UNAUTHORIZED.getReasonPhrase());
         DataBuffer dataBuffer = resp.bufferFactory().wrap(Func.toJson(result).getBytes());
         return resp.writeWith(Mono.just(dataBuffer));
     }

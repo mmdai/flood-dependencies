@@ -2,6 +2,7 @@ package cn.flood.cloud.service.impl;
 
 import cn.flood.Func;
 import cn.flood.cloud.service.ValidCodeService;
+import cn.flood.lang.StringPool;
 import cn.flood.lang.StringUtils;
 import cn.flood.redis.util.RedisUtil;
 import cn.flood.captcha.Token;
@@ -53,7 +54,7 @@ public class ValidCodeServiceImpl implements ValidCodeService {
             case EMAIL:
                 token = tokenService.getToken(TokenEnum.EMAIL);
         }
-        saveToken(deviceId, token);
+        saveToken(deviceId, tokenType, token);
         return token;
     }
 
@@ -63,9 +64,9 @@ public class ValidCodeServiceImpl implements ValidCodeService {
      * @param token
      * @return
      */
-    private void saveToken(String driverId, Token token) {
+    private void saveToken(String driverId,TokenEnum tokenType, Token token) {
         StringBuilder tokenKey = new StringBuilder(KEY_TOKEN);
-        tokenKey.append(driverId);
+        tokenKey.append(tokenType.getName()).append(StringPool.COLON).append(driverId);
         RedisUtil.getStringHandler().setAsObj(tokenKey.toString(), token, BEING_TIME, TimeUnit.SECONDS);
     }
 
@@ -86,9 +87,9 @@ public class ValidCodeServiceImpl implements ValidCodeService {
     }
 
     @Override
-    public boolean validCode(String tokenKey, String verifyCode) {
+    public boolean validCode(String tokenKey, TokenEnum tokenType, String verifyCode) {
         StringBuilder key = new StringBuilder(KEY_TOKEN);
-        key.append(tokenKey);
+        key.append(tokenType.getName()).append(StringPool.COLON).append(tokenKey);
         Token token = RedisUtil.getStringHandler().getAsObj(key.toString());
         if(Func.isEmpty(token)){
             return false;
@@ -97,9 +98,9 @@ public class ValidCodeServiceImpl implements ValidCodeService {
     }
 
     @Override
-    public boolean remove(String deviceId) {
+    public boolean remove(String deviceId, TokenEnum tokenType) {
         StringBuilder tokenKey = new StringBuilder(KEY_TOKEN);
-        tokenKey.append(deviceId);
+        tokenKey.append(tokenType.getName()).append(StringPool.COLON).append(deviceId);
         return RedisUtil.getStringHandler().remove(tokenKey.toString()) > 0;
     }
 }
