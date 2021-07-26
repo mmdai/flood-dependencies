@@ -1,5 +1,5 @@
 /**  
-* <p>Title: MasterSlaveRuleConfig.java</p>  
+* <p>Title: MasterSlaveRuleProperties.java</p>
 * <p>Description: </p>  
 * <p>Copyright: Copyright (c) 2018</p>   
 * @author mmdai  
@@ -15,13 +15,13 @@ import lombok.Data;
 import org.apache.shardingsphere.underlying.common.config.RuleConfiguration;
 
 /**  
-* <p>Title: MasterSlaveRuleConfig</p>  
+* <p>Title: MasterSlaveRuleProperties</p>
 * <p>Description: </p>  
 * @author mmdai  
 * @date 2020年3月2日  
 */
 @Data
-public class MasterSlaveRuleConfig implements RuleConfiguration {
+public class MasterSlaveRuleProperties implements RuleConfiguration {
     
     private String name;
     

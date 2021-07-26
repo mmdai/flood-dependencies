@@ -1,5 +1,5 @@
 /**  
-* <p>Title: ShardingMasterSlaveConfig.java</p>  
+* <p>Title: ShardingMasterSlaveProperties.java</p>
 * <p>Description: </p>  
 * <p>Copyright: Copyright (c) 2018</p>   
 * @author mmdai  
@@ -18,7 +18,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import lombok.Data;
 
 /**  
-* <p>Title: ShardingMasterSlaveConfig</p>  
+* <p>Title: ShardingMasterSlaveProperties</p>
 * <p>Description: </p>  
 * @author mmdai  
 * @date 2019年7月9日  
@@ -26,10 +26,10 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "sharding.jdbc")
-public class ShardingMasterSlaveConfig {
+public class ShardingMasterSlaveProperties {
 
 	private Map<String, DruidDataSource> dataSources = new HashMap<>();
 	 
-    private MasterSlaveRuleConfig masterSlaveRule;
+    private MasterSlaveRuleProperties masterSlaveRule;
     
 }

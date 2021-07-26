@@ -10,7 +10,7 @@ floodCloud是一款基于Spring Cloud Alibaba的微服务架构。旨在为大�
 
 核心中间件 |  | 2.0.0
 ---|---|---
-Spring Boot |  | <img src="https://img.shields.io/badge/Spring%20Boot-2.5.2-blue" alt="SpringBoot"/>
+Spring Boot |  | <img src="https://img.shields.io/badge/Spring%20Boot-2.5.3-blue" alt="SpringBoot"/>
 Spring Cloud |  | <img src="https://img.shields.io/badge/Spring%20Cloud-2020.0.3-blue" alt="SpringCloud"/>
 Spring Cloud Alibaba | | <img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2021.1-blue" alt="SpringCloudAlibaba"/>
 Nacos |  | <img src="https://img.shields.io/badge/Nacos-2.0.2-blue" alt="nacos"/>

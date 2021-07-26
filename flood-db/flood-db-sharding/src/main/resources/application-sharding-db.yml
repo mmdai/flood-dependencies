@@ -22,9 +22,9 @@ sharding:
       ###配置从库选择策略，提供轮询与随机(ROUND_ROBIN，RANDOM)，这里选择用轮询 如果从做了集群 查询时候做轮训查询
       load-balance-algorithm-type: ROUND_ROBIN
       ####指定主数据库
-      masterDataSourceName: ds_master
+      master-data-source-name: ds_master
       ####指定从数据库
-      slaveDataSourceNames: 
+      slave-data-source-names:
         - ds_slave0
     props:
       sql.show: true
@@ -51,12 +51,28 @@ sharding:
       max-pool-prepared-statement-per-connection-size: 20
       #监控统计拦截的filters
       filters: stat,wall
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录 
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
       connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=10
       # 合并多个DruidDataSource的监控数据
       use-global-data-source-stat: true
----
-spring:      
-  pagehelper:
-    # 分页注册别名默认mysql（hsqldb、h2、postgresql、phoenix、mysql、mariadb、sqlite、oracle、db2、informix、sqlserver、sqlserver2012、derby、dm-达梦）
-    helperDialect: mysql
+pagehelper:
+  # dialect: ①
+  # 分页插件会自动检测当前的数据库链接，自动选择合适的分页方式（可以不设置）
+  helper-dialect: mysql
+  # 上面数据库设置后，下面的设置为true不会改变上面的结果（默认为true）
+  auto-dialect: true
+  page-size-zero: false # ②
+  reasonable: true # ③
+  # 默认值为 false，该参数对使用 RowBounds 作为分页参数时有效。（一般用不着）
+  offset-as-page-num: false
+  # 默认值为 false，RowBounds是否进行count查询（一般用不着）
+  row-bounds-with-count: false
+  #params: ④
+  #support-methods-arguments: 和params配合使用，具体可以看下面的讲解
+  ############ 默认值为 false。设置为 true 时，允许在运行时根据多数据源自动识别对应方言的分页（主要设置该值）
+  auto-runtime-dialect: false # ⑤
+  # 与auto-runtime-dialect配合使用
+  close-conn: true
+  # 用于控制默认不带 count 查询的方法中，是否执行 count 查询，这里设置为true后，total会为-1
+  default-count: false
+  #dialect-alias: ⑥
