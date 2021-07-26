@@ -1,7 +1,6 @@
 package cn.flood.job.admin.core.util;
 
 import cn.flood.job.admin.core.conf.XxlJobAdminConfig;
-import cn.flood.job.admin.core.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;

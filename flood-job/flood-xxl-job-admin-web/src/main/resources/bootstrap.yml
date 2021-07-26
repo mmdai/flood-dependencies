@@ -6,6 +6,8 @@
 spring:
   application:
     name: xxl-job-admin
+  profiles:
+    active: dev
 ########################################################
 
 ### server setting. port

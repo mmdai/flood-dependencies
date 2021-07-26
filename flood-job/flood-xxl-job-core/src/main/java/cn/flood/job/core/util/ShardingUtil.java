@@ -1,4 +1,4 @@
-package cn.flood.job.core.util;//package cn.flood.job.core.util;
+package cn.flood.job.core.util;//package com.xxl.job.core.util;
 //
 ///**
 // * sharding vo

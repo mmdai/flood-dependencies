@@ -38,7 +38,7 @@
         <!-- 控制台打印sql语句方便调试sql语句执行错误
         #org.apache.ibatis.logging.stdout.StdOutImpl
         #org.apache.ibatis.logging.log4j2.Log4j2Impl:这个不在控制台打印查询结果,但是在log4j中打印-->
-        <setting name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl" />
+        <!--<setting name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl" />-->
     </settings>  
       
 </configuration> 

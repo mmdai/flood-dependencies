@@ -2,19 +2,25 @@ package cn.flood.db;
 
 import javax.sql.DataSource;
 
+import cn.flood.db.config.DataSourceProperties;
+import cn.flood.db.config.DruidDbProperties;
+import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.SQLException;
+import java.util.Properties;
+
 /**
  * 
 * <p>Title: DruidDataSourceConfig</p>  
@@ -25,13 +31,58 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @ConditionalOnClass(com.alibaba.druid.pool.DruidDataSource.class)
 @ConditionalOnProperty(name = "spring.datasource.type", havingValue = "com.alibaba.druid.pool.DruidDataSource", matchIfMissing = true)
+@EnableConfigurationProperties({
+        DataSourceProperties.class,
+        DruidDbProperties.class
+})
 @Slf4j
 public class DruidDataSourceConfig {
 
+    @Autowired
+    private DataSourceProperties dataSourceProperties;
+
+    @Autowired
+    private DruidDbProperties druidDbProperties;
+
 	@Bean
-    @ConfigurationProperties("spring.datasource.druid")
     public DataSource dataSource(){
-        return DruidDataSourceBuilder.create().build();
+
+        DruidDataSource datasource = new DruidDataSource();
+        datasource.setUrl(dataSourceProperties.getUrl());
+        datasource.setUsername(dataSourceProperties.getUsername());
+        datasource.setPassword(dataSourceProperties.getPassword());
+        datasource.setDriverClassName(dataSourceProperties.getDriverClassName());
+        //初始化时建立物理连接的个数
+        datasource.setInitialSize(druidDbProperties.getInitialSize());
+        datasource.setMinIdle(druidDbProperties.getMinIdle());
+        datasource.setMaxActive(druidDbProperties.getMaxActive());
+        datasource.setMaxWait(druidDbProperties.getMaxWait());
+        datasource.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
+        datasource.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
+        datasource.setValidationQuery(druidDbProperties.getValidationQuery());
+        datasource.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
+        datasource.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
+        datasource.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
+        datasource.setTestOnReturn(druidDbProperties.isTestOnReturn());
+        datasource.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
+        datasource.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
+        datasource.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
+        datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
+        try {
+            datasource.setFilters(druidDbProperties.getFilters());
+        } catch (SQLException throwables) {
+            log.error("datasource Filters is error: {}", throwables);
+        }
+        Properties properties = new Properties();
+        String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
+        for(String proper : dataProperties){
+            properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
+        }
+        datasource.setConnectProperties(properties);
+        datasource.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
+        // 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
+        datasource.setUseUnfairLock(true);
+	    return datasource;
     }
     
     /**

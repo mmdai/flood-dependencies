@@ -1,6 +1,5 @@
 package cn.flood.job.admin.controller;
 
-import cn.flood.job.admin.controller.JobInfoController;
 import cn.flood.job.admin.core.exception.XxlJobException;
 import cn.flood.job.admin.core.complete.XxlJobCompleter;
 import cn.flood.job.admin.core.model.XxlJobGroup;

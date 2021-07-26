@@ -1,7 +1,7 @@
 package cn.flood.job.admin.core.old;//package com.xxl.job.admin.core.jobbean;
 //
-//import cn.flood.job.admin.core.thread.JobTriggerPoolHelper;
-//import cn.flood.job.admin.core.trigger.TriggerTypeEnum;
+//import com.xxl.job.admin.core.thread.JobTriggerPoolHelper;
+//import com.xxl.job.admin.core.trigger.TriggerTypeEnum;
 //import org.quartz.JobExecutionContext;
 //import org.quartz.JobExecutionException;
 //import org.quartz.JobKey;

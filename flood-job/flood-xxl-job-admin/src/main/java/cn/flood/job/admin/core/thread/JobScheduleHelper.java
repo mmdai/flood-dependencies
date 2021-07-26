@@ -49,7 +49,7 @@ public class JobScheduleHelper {
                         logger.error(e.getMessage(), e);
                     }
                 }
-                logger.info(">>>>>>>>> init flood-job admin scheduler success.");
+                logger.info(">>>>>>>>> init xxl-job admin scheduler success.");
 
                 // pre-read count: treadpool-size * trigger-qps (each trigger cost 50ms, qps = 1000/50 = 20)
                 int preReadCount = (XxlJobAdminConfig.getAdminConfig().getTriggerPoolFastMax() + XxlJobAdminConfig.getAdminConfig().getTriggerPoolSlowMax()) * 20;
@@ -85,14 +85,14 @@ public class JobScheduleHelper {
                                 // time-ring jump
                                 if (nowTime > jobInfo.getTriggerNextTime() + PRE_READ_MS) {
                                     // 2.1、trigger-expire > 5s：pass && make next-trigger-time
-                                    logger.warn(">>>>>>>>>>> flood-job, schedule misfire, jobId = " + jobInfo.getId());
+                                    logger.warn(">>>>>>>>>>> xxl-job, schedule misfire, jobId = " + jobInfo.getId());
 
                                     // 1、misfire match
                                     MisfireStrategyEnum misfireStrategyEnum = MisfireStrategyEnum.match(jobInfo.getMisfireStrategy(), MisfireStrategyEnum.DO_NOTHING);
                                     if (MisfireStrategyEnum.FIRE_ONCE_NOW == misfireStrategyEnum) {
                                         // FIRE_ONCE_NOW 》 trigger
                                         JobTriggerPoolHelper.trigger(jobInfo.getId(), TriggerTypeEnum.MISFIRE, -1, null, null, null);
-                                        logger.debug(">>>>>>>>>>> flood-job, schedule push trigger : jobId = " + jobInfo.getId() );
+                                        logger.debug(">>>>>>>>>>> xxl-job, schedule push trigger : jobId = " + jobInfo.getId() );
                                     }
 
                                     // 2、fresh next
@@ -103,7 +103,7 @@ public class JobScheduleHelper {
 
                                     // 1、trigger
                                     JobTriggerPoolHelper.trigger(jobInfo.getId(), TriggerTypeEnum.CRON, -1, null, null, null);
-                                    logger.debug(">>>>>>>>>>> flood-job, schedule push trigger : jobId = " + jobInfo.getId() );
+                                    logger.debug(">>>>>>>>>>> xxl-job, schedule push trigger : jobId = " + jobInfo.getId() );
 
                                     // 2、fresh next
                                     refreshNextValidTime(jobInfo, new Date());
@@ -209,11 +209,11 @@ public class JobScheduleHelper {
 
                 }
 
-                logger.info(">>>>>>>>>>> flood-job, JobScheduleHelper#scheduleThread stop");
+                logger.info(">>>>>>>>>>> xxl-job, JobScheduleHelper#scheduleThread stop");
             }
         });
         scheduleThread.setDaemon(true);
-        scheduleThread.setName("flood-job, admin JobScheduleHelper#scheduleThread");
+        scheduleThread.setName("xxl-job, admin JobScheduleHelper#scheduleThread");
         scheduleThread.start();
 
 
@@ -245,7 +245,7 @@ public class JobScheduleHelper {
                         }
 
                         // ring trigger
-                        logger.debug(">>>>>>>>>>> flood-job, time-ring beat : " + nowSecond + " = " + Arrays.asList(ringItemData) );
+                        logger.debug(">>>>>>>>>>> xxl-job, time-ring beat : " + nowSecond + " = " + Arrays.asList(ringItemData) );
                         if (ringItemData.size() > 0) {
                             // do trigger
                             for (int jobId: ringItemData) {
@@ -261,11 +261,11 @@ public class JobScheduleHelper {
                         }
                     }
                 }
-                logger.info(">>>>>>>>>>> flood-job, JobScheduleHelper#ringThread stop");
+                logger.info(">>>>>>>>>>> xxl-job, JobScheduleHelper#ringThread stop");
             }
         });
         ringThread.setDaemon(true);
-        ringThread.setName("flood-job, admin JobScheduleHelper#ringThread");
+        ringThread.setName("xxl-job, admin JobScheduleHelper#ringThread");
         ringThread.start();
     }
 
@@ -278,7 +278,7 @@ public class JobScheduleHelper {
             jobInfo.setTriggerStatus(0);
             jobInfo.setTriggerLastTime(0);
             jobInfo.setTriggerNextTime(0);
-            logger.warn(">>>>>>>>>>> flood-job, refreshNextValidTime fail for job: jobId={}, scheduleType={}, scheduleConf={}",
+            logger.warn(">>>>>>>>>>> xxl-job, refreshNextValidTime fail for job: jobId={}, scheduleType={}, scheduleConf={}",
                     jobInfo.getId(), jobInfo.getScheduleType(), jobInfo.getScheduleConf());
         }
     }
@@ -292,7 +292,7 @@ public class JobScheduleHelper {
         }
         ringItemData.add(jobId);
 
-        logger.debug(">>>>>>>>>>> flood-job, schedule push time-ring : " + ringSecond + " = " + Arrays.asList(ringItemData) );
+        logger.debug(">>>>>>>>>>> xxl-job, schedule push time-ring : " + ringSecond + " = " + Arrays.asList(ringItemData) );
     }
 
     public void toStop(){
@@ -350,7 +350,7 @@ public class JobScheduleHelper {
             }
         }
 
-        logger.info(">>>>>>>>>>> flood-job, JobScheduleHelper stop");
+        logger.info(">>>>>>>>>>> xxl-job, JobScheduleHelper stop");
     }
 
 

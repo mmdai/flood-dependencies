@@ -1,6 +1,5 @@
 package cn.flood.job.admin.controller;
 
-import cn.flood.job.admin.controller.JobInfoController;
 import cn.flood.job.admin.core.model.XxlJobInfo;
 import cn.flood.job.admin.core.model.XxlJobLogGlue;
 import cn.flood.job.admin.core.util.I18nUtil;
