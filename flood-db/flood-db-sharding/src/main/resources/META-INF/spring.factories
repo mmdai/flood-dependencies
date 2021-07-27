@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 cn.flood.config.ShardingDataSourceConfig,\
-cn.flood.config.MybatisConfiguration
+cn.flood.config.MybatisConfiguration,\
+cn.flood.config.DataSourceHealthConfig

@@ -12,13 +12,6 @@
     <artifactId>flood-db-sharding</artifactId>
 
     <dependencies>
-        <!-- Druid 数据连接池依赖 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>sharding-jdbc-core</artifactId>
@@ -31,6 +24,13 @@
             </exclusions>
         </dependency>
 
+        <!-- Druid 数据连接池依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -41,6 +41,10 @@
             <groupId>io.github.mmdai</groupId>
             <artifactId>flood-db-mybatis</artifactId>
             <version>${flood.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-actuator-autoconfigure</artifactId>
         </dependency>
     </dependencies>
 </project>
