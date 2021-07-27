@@ -58,7 +58,7 @@ sharding:
 pagehelper:
   # dialect: ①
   # 分页插件会自动检测当前的数据库链接，自动选择合适的分页方式（可以不设置）
-  helper-dialect: mysql
+  #helper-dialect: mysql
   # 上面数据库设置后，下面的设置为true不会改变上面的结果（默认为true）
   auto-dialect: true
   page-size-zero: false # ②
@@ -70,9 +70,8 @@ pagehelper:
   #params: ④
   #support-methods-arguments: 和params配合使用，具体可以看下面的讲解
   ############ 默认值为 false。设置为 true 时，允许在运行时根据多数据源自动识别对应方言的分页（主要设置该值）
-  auto-runtime-dialect: false # ⑤
+  auto-runtime-dialect: true # ⑤
   # 与auto-runtime-dialect配合使用
   close-conn: true
   # 用于控制默认不带 count 查询的方法中，是否执行 count 查询，这里设置为true后，total会为-1
   default-count: false
-  #dialect-alias: ⑥

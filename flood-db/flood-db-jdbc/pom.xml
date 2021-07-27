@@ -12,6 +12,10 @@
     <artifactId>flood-db-jdbc</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
         <!-- Druid 数据连接池依赖 -->
         <dependency>
             <groupId>com.alibaba</groupId>

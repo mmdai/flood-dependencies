@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import javax.sql.DataSource;
 
+import cn.flood.mybatis.interceptor.SqlLogInterceptor;
+import cn.flood.mybatis.plus.plugins.page.PaginationInterceptor;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -27,7 +30,7 @@ public class MybatisConfiguration implements TransactionManagementConfigurer{
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
   
     //  配置类型别名  
-    @Value("${mybatis.typeAliasesPackage}")  
+    @Value("${mybatis.typeAliasesPackage:}")
     private String typeAliasesPackage;  
   
     //  配置mapper的扫描，找到所有的mapper.xml映射文件  
@@ -56,8 +59,11 @@ public class MybatisConfiguration implements TransactionManagementConfigurer{
 	        Resource[] resources = new PathMatchingResourcePatternResolver().getResources(mapperLocations);  
 	        sessionFactoryBean.setMapperLocations(resources);  
 	        //设置mybatis-config.xml配置文件位置  
-	        sessionFactoryBean.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));  
-	        return sessionFactoryBean.getObject();  
+	        sessionFactoryBean.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
+            //添加分页
+            sessionFactoryBean.setPlugins(new Interceptor[]{new SqlLogInterceptor(),new PaginationInterceptor()});
+            sessionFactoryBean.afterPropertiesSet();
+	        return sessionFactoryBean.getObject();
 	    } catch (IOException e) {  
 	        logger.error("mybatis resolver mapper*xml is error",e);  
 	        return null;  
