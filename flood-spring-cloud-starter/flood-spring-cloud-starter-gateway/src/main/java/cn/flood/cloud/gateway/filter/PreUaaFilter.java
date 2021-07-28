@@ -36,6 +36,7 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
     @Autowired
     private FloodApiProperties floodApiProperties;
 
+
     /**
      * 索引自1开头检索，跳过第一个字符就是检索的字符的问题
      */
@@ -81,10 +82,7 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
      * @return String
      */
     private String replacePrefix(String path) {
-        if (floodApiProperties.getExcludeServer().stream().anyMatch(path:: startsWith)) {
-            return path.substring(path.indexOf(StringPool.SLASH, FROM_INDEX));
-        }
-        return path;
+        return path.substring(path.indexOf(StringPool.SLASH, FROM_INDEX));
     }
 
     private Mono<Void> unauthorized(ServerHttpResponse resp, String msg) {

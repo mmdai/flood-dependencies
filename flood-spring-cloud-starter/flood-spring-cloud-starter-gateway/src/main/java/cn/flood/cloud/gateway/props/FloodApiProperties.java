@@ -43,11 +43,6 @@ public class FloodApiProperties {
     private List<String> excludePath = new ArrayList<>();
 
     /**
-     * 忽略Server，List列表形式
-     */
-    private List<String> excludeServer = new ArrayList<>();
-
-    /**
      * 是否启用网关鉴权模式
      */
     private Boolean enable = false;
