@@ -51,8 +51,8 @@ public class ShardingDataSourceConfig {
 
     @Autowired
     private DruidDbProperties druidDbProperties;
-	 
-    @Bean("dataSource")
+
+    @Bean(name="dataSource") // 只需要纳入动态数据源到spring容器
     public DataSource masterSlaveDataSource() throws SQLException {
     	shardingMasterSlaveProperties.getDataSources().forEach((k, v) -> configDataSource(v));
         Map<String, DataSource> dataSourceMap = Maps.newHashMap();

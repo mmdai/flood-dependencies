@@ -44,7 +44,7 @@ public class DruidDataSourceConfig {
     @Autowired
     private DruidDbProperties druidDbProperties;
 
-	@Bean
+	@Bean(name="dataSource") // 只需要纳入动态数据源到spring容器
     public DataSource dataSource(){
 
         DruidDataSource datasource = new DruidDataSource();
