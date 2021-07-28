@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
@@ -99,6 +100,7 @@ public class DbAuditServiceImpl implements IAuditService {
     }
 
     @Async
+    @Transactional
     @Override
     public void save(Audit audit) {
         this.jdbcTemplate.update(INSERT_SQL
