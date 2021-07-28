@@ -37,11 +37,6 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
     private FloodApiProperties floodApiProperties;
 
     /**
-     * 路径前缀以/flood开头，如flood-system
-     */
-    public static final String PATH_PREFIX = "/flood";
-
-    /**
      * 索引自1开头检索，跳过第一个字符就是检索的字符的问题
      */
     public static final int FROM_INDEX = 1;
@@ -86,7 +81,7 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
      * @return String
      */
     private String replacePrefix(String path) {
-        if (path.startsWith(PATH_PREFIX)) {
+        if (floodApiProperties.getExcludeServer().stream().anyMatch(path:: startsWith)) {
             return path.substring(path.indexOf(StringPool.SLASH, FROM_INDEX));
         }
         return path;
