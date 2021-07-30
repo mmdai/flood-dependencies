@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.pool.DruidDataSource;
 
 import cn.flood.datasource.config.DruidDbProperties;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.util.Properties;
 
@@ -36,6 +37,10 @@ public class SingleDataSourceRegister implements InitializingBean {
 	private String driverClassName;
 	
 	private DataSource datasource;
+	/**
+	 * 是否需要复用druid线程池， 因为Kylin不使用druid
+	 */
+	private boolean threadPool = true;
 	
 
 	public String getUrl() {
@@ -75,38 +80,47 @@ public class SingleDataSourceRegister implements InitializingBean {
 	public void afterPropertiesSet() throws Exception {
 		if(url != null ){
 			log.info("DruidPool-Single {} - Starting...", url);
-			DruidDataSource datasource = new DruidDataSource();
-			datasource.setUrl(url);
-			datasource.setUsername(username);
-			datasource.setPassword(password);
-			datasource.setDriverClassName(driverClassName);
 			//初始化时建立物理连接的个数
-			datasource.setInitialSize(druidDbProperties.getInitialSize());
-			datasource.setMinIdle(druidDbProperties.getMinIdle());
-			datasource.setMaxActive(druidDbProperties.getMaxActive());
-			datasource.setMaxWait(druidDbProperties.getMaxWait());
-			datasource.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
-			datasource.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
-			datasource.setValidationQuery(druidDbProperties.getValidationQuery());
-			datasource.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
-			datasource.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
-			datasource.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
-			datasource.setTestOnReturn(druidDbProperties.isTestOnReturn());
-			datasource.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
-			datasource.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
-			datasource.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
-			datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
-			datasource.setFilters(druidDbProperties.getFilters());
-			Properties properties = new Properties();
-			String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
-			for(String proper : dataProperties){
-				properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
+			if(threadPool){
+				DruidDataSource datasource = new DruidDataSource();
+				datasource.setUrl(url);
+				datasource.setUsername(username);
+				datasource.setPassword(password);
+				datasource.setDriverClassName(driverClassName);
+				datasource.setInitialSize(druidDbProperties.getInitialSize());
+				datasource.setMinIdle(druidDbProperties.getMinIdle());
+				datasource.setMaxActive(druidDbProperties.getMaxActive());
+				datasource.setMaxWait(druidDbProperties.getMaxWait());
+				datasource.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
+				datasource.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
+				datasource.setValidationQuery(druidDbProperties.getValidationQuery());
+				datasource.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
+				datasource.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
+				datasource.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
+				datasource.setTestOnReturn(druidDbProperties.isTestOnReturn());
+				datasource.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
+				datasource.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
+				datasource.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
+				datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
+				datasource.setFilters(druidDbProperties.getFilters());
+				Properties properties = new Properties();
+				String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
+				for(String proper : dataProperties){
+					properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
+				}
+				datasource.setConnectProperties(properties);
+				datasource.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
+				// 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
+				datasource.setUseUnfairLock(true);
+				this.datasource = datasource;
+			} else {
+				DriverManagerDataSource dataSource = new DriverManagerDataSource();
+				dataSource.setDriverClassName(driverClassName);
+				dataSource.setUrl(url);
+				dataSource.setUsername(username);
+				dataSource.setPassword(password);
+				this.datasource = dataSource;
 			}
-			datasource.setConnectProperties(properties);
-			datasource.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
-			// 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
-			datasource.setUseUnfairLock(true);
-			this.datasource = datasource;
 			log.info("DruidPool-Single {} - Start completed...", url);
 		}
 	}
@@ -118,7 +132,13 @@ public class SingleDataSourceRegister implements InitializingBean {
 	public void setDatasource(DataSource datasource) {
 		this.datasource = datasource;
 	}
-	
-	
+
+	public boolean isThreadPool() {
+		return threadPool;
+	}
+
+	public void setThreadPool(boolean threadPool) {
+		this.threadPool = threadPool;
+	}
 
 }

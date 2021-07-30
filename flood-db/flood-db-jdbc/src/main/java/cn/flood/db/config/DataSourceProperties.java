@@ -1,11 +1,13 @@
 package cn.flood.db.config;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import javax.sql.DataSource;
 
-@Data
+@Getter
+@Setter
 @ConfigurationProperties(prefix = "spring.datasource")
 public class DataSourceProperties {
 
@@ -18,4 +20,9 @@ public class DataSourceProperties {
     private String driverClassName;
 
     private DataSource datasource;
+
+    /**
+     * 是否需要复用druid线程池， 因为Kylin不使用druid
+     */
+    private boolean threadPool = true;
 }

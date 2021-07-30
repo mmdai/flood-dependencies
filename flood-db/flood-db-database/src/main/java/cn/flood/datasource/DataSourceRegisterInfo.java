@@ -17,6 +17,10 @@ public class DataSourceRegisterInfo {
 	private String password;
 	
 	private String driverClassName;
+	/**
+	 * 是否需要复用druid线程池， 因为Kylin不使用druid
+	 */
+	private boolean threadPool = true;
 
 	public boolean isPrimary() {
 		return primary;
@@ -57,7 +61,12 @@ public class DataSourceRegisterInfo {
 	public void setDriverClassName(String driverClassName) {
 		this.driverClassName = driverClassName;
 	}
-	
-	
 
+	public boolean isThreadPool() {
+		return threadPool;
+	}
+
+	public void setThreadPool(boolean threadPool) {
+		this.threadPool = threadPool;
+	}
 }

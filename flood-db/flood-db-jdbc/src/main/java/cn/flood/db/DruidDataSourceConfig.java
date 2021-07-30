@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.SQLException;
 import java.util.Properties;
@@ -46,43 +47,51 @@ public class DruidDataSourceConfig {
 
 	@Bean(name="dataSource") // 只需要纳入动态数据源到spring容器
     public DataSource dataSource(){
-
-        DruidDataSource datasource = new DruidDataSource();
-        datasource.setUrl(dataSourceProperties.getUrl());
-        datasource.setUsername(dataSourceProperties.getUsername());
-        datasource.setPassword(dataSourceProperties.getPassword());
-        datasource.setDriverClassName(dataSourceProperties.getDriverClassName());
-        //初始化时建立物理连接的个数
-        datasource.setInitialSize(druidDbProperties.getInitialSize());
-        datasource.setMinIdle(druidDbProperties.getMinIdle());
-        datasource.setMaxActive(druidDbProperties.getMaxActive());
-        datasource.setMaxWait(druidDbProperties.getMaxWait());
-        datasource.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
-        datasource.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
-        datasource.setValidationQuery(druidDbProperties.getValidationQuery());
-        datasource.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
-        datasource.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
-        datasource.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
-        datasource.setTestOnReturn(druidDbProperties.isTestOnReturn());
-        datasource.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
-        datasource.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
-        datasource.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
-        datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
-        try {
-            datasource.setFilters(druidDbProperties.getFilters());
-        } catch (SQLException throwables) {
-            log.error("datasource Filters is error: {}", throwables);
+        if(dataSourceProperties.isThreadPool()) {
+            DruidDataSource datasource = new DruidDataSource();
+            datasource.setUrl(dataSourceProperties.getUrl());
+            datasource.setUsername(dataSourceProperties.getUsername());
+            datasource.setPassword(dataSourceProperties.getPassword());
+            datasource.setDriverClassName(dataSourceProperties.getDriverClassName());
+            //初始化时建立物理连接的个数
+            datasource.setInitialSize(druidDbProperties.getInitialSize());
+            datasource.setMinIdle(druidDbProperties.getMinIdle());
+            datasource.setMaxActive(druidDbProperties.getMaxActive());
+            datasource.setMaxWait(druidDbProperties.getMaxWait());
+            datasource.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
+            datasource.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
+            datasource.setValidationQuery(druidDbProperties.getValidationQuery());
+            datasource.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
+            datasource.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
+            datasource.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
+            datasource.setTestOnReturn(druidDbProperties.isTestOnReturn());
+            datasource.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
+            datasource.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
+            datasource.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
+            datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
+            try {
+                datasource.setFilters(druidDbProperties.getFilters());
+            } catch (SQLException throwables) {
+                log.error("datasource Filters is error: {}", throwables);
+            }
+            Properties properties = new Properties();
+            String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
+            for (String proper : dataProperties) {
+                properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
+            }
+            datasource.setConnectProperties(properties);
+            datasource.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
+            // 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
+            datasource.setUseUnfairLock(true);
+            return datasource;
+        }else{
+            DriverManagerDataSource datasource = new DriverManagerDataSource();
+            datasource.setUrl(dataSourceProperties.getUrl());
+            datasource.setUsername(dataSourceProperties.getUsername());
+            datasource.setPassword(dataSourceProperties.getPassword());
+            datasource.setDriverClassName(dataSourceProperties.getDriverClassName());
+            return datasource;
         }
-        Properties properties = new Properties();
-        String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
-        for(String proper : dataProperties){
-            properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
-        }
-        datasource.setConnectProperties(properties);
-        datasource.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
-        // 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
-        datasource.setUseUnfairLock(true);
-	    return datasource;
     }
     
     /**
