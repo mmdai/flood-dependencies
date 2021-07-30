@@ -43,7 +43,7 @@
 	  <fastjson.version>1.2.76</fastjson.version>
 	  <poi.version>4.1.2</poi.version>
 	  <easypoi.version>2.2.10</easypoi.version>
-	  <mica.version>2.1.1</mica.version>
+	  <mica.version>2.1.2</mica.version>
 	  <okhttp3.version>4.9.1</okhttp3.version>
 	  <dozer.version>6.5.2</dozer.version>
 	  <zookeeper.version>3.7.0</zookeeper.version>
@@ -51,12 +51,12 @@
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->
 	  <druid.version>1.2.6</druid.version>
-	  <mybatis.pagehelper-starter.vesion>1.3.0</mybatis.pagehelper-starter.vesion>
+	  <mybatis.pagehelper-starter.vesion>1.3.1</mybatis.pagehelper-starter.vesion>
 	  <mybatis.spring.boot.starter.version>2.2.0</mybatis.spring.boot.starter.version>
 	  <!--mybatis 3.5.x与jdk1.8的(DefaultReflectorFactory==反射的computeIfAbsent 存在相同key锁问题)，解决升级3.5.7已修改-->
 	  <mybatis.version>3.5.7</mybatis.version>
 	  <sharding.jdbc.version>4.1.1</sharding.jdbc.version>
-	  <redisson.version>3.14.0</redisson.version>
+	  <redisson.version>3.16.1</redisson.version>
 	  <joda-time.version>2.10.9</joda-time.version>
 	  <persistence.version>1.0</persistence.version>
 	  <hutool-json.version>4.6.10</hutool-json.version>
@@ -437,15 +437,15 @@
 	</licenses>
 	<scm>
 		<tag>master</tag>
-		<url>https://gitee.com/benming110/flood-dependencies</url>
-		<connection>https://gitee.com/benming110/flood-dependencies.git</connection>
-		<developerConnection>https://gitee.com/benming110</developerConnection>
+		<url>https://github.com/mmdai/flood-dependencies</url>
+		<connection>https://github.com/mmdai/flood-dependencies.git</connection>
+		<developerConnection>https://github.com/mmdai</developerConnection>
 	</scm>
 	<developers>
 		<developer>
 			<name>mingmingdai</name>
 			<email>daiming123.happy@163.com</email>
-			<url>https://gitee.com/benming110</url>
+			<url>https://github.com/mmdai</url>
 		</developer>
 	</developers>
 </project>
