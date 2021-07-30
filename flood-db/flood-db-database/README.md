@@ -130,6 +130,28 @@ pagehelper:
   default-count: false
   #dialect-alias: ⑥
 
+** 支持kylin配置数据库驱动(kylin 走的是http协议)
+加入 配置文件：
+<dependency>
+    <groupId>org.apache.kylin</groupId>
+    <artifactId>kylin-jdbc</artifactId>
+    <version>${kylin.version}</version>
+</dependency>
+配置如下
+application.yml
+spring:
+  datasource:
+    #数据源single,multi
+    isSingle: false
+    # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
+    #多数据源
+    sourceConfig[0]:
+      thread-pool: false #该参数是不配置druid连接池
+      url: jdbc:kylin://10.67.31.137:7070/yum_report
+      username: ADMIN
+      password: KYLIN
+      driver-class-name: org.apache.kylin.jdbc.Driver
+
 
 Mapper或者Service方法加入(对应多数据源下标)
 @DataSourceAnnotation(name = "DB0")
