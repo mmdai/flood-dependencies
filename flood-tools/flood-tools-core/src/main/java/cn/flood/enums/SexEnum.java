@@ -22,11 +22,11 @@ public enum SexEnum {
 
     private final String code;
 
-    private final String message;
+    private final String name;
 
-    SexEnum(String code, String message) {
+    SexEnum(String code, String name) {
         this.code = code;
-        this.message = message;
+        this.name = name;
     }
 
     /**
@@ -46,11 +46,11 @@ public enum SexEnum {
     /**
      * 编码转化成中文含义
      */
-    public static String codeToMessage(String code) {
+    public static String codeToName(String code) {
         if (null != code) {
             for (SexEnum e : SexEnum.values()) {
                 if (e.getCode().equals(code)) {
-                    return e.getMessage();
+                    return e.name();
                 }
             }
         }

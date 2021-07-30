@@ -106,6 +106,6 @@ public class DbAuditServiceImpl implements IAuditService {
         this.jdbcTemplate.update(INSERT_SQL
                 , audit.getApplicationName(), audit.getClassName(), audit.getMethodName()
                 , audit.getUserId(), audit.getUserName(), audit.getClientId()
-                , audit.getActionType().getIndex(), audit.getRequestIP(), audit.getHostIP(), audit.getParam(), audit.getOperation(), audit.getTimestamp());
+                , audit.getActionType().getCode(), audit.getRequestIP(), audit.getHostIP(), audit.getParam(), audit.getOperation(), audit.getTimestamp());
     }
 }

@@ -32,13 +32,13 @@ public enum DbTypeEnum {
      */
     MS_SQL("mssql", "sqlserver");
 
-    private final String code;
+    private final String key;
 
-    private final String name;
+    private final String value;
 
-    DbTypeEnum(String code, String name) {
-        this.code = code;
-        this.name = name;
+    DbTypeEnum(String key, String value) {
+        this.key = key;
+        this.value = value;
     }
 
 }

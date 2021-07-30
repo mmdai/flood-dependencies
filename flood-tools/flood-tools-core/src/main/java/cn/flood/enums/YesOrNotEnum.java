@@ -22,11 +22,11 @@ public enum YesOrNotEnum {
 
     private final String code;
 
-    private final String message;
+    private final String name;
 
-    YesOrNotEnum(String code, String message) {
+    YesOrNotEnum(String code, String name) {
         this.code = code;
-        this.message = message;
+        this.name = name;
     }
 
 }

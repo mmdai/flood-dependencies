@@ -27,5 +27,5 @@ public enum EnvType {
 	PROD("prod"),
 	DOCKER("docker");
 
-	private final String value;
+	private final String code;
 }

@@ -27,6 +27,6 @@ public enum MethodType {
 	HEAD(false),
 	OPTIONS(false);
 
-	private final boolean hasContent;
+	private final boolean code;
 
 }

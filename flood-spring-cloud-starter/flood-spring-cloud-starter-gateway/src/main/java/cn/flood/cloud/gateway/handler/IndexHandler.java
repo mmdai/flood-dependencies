@@ -25,7 +25,7 @@ public class IndexHandler {
 	private String desc() {
 		StringBuilder sb = new StringBuilder(100);
 		sb.append("<div style='color: blue'>FloodCloud gateway has been started!</div>");
-		if (!EnvType.PROD.getValue().equals(env)) {
+		if (!EnvType.PROD.getCode().equals(env)) {
 			sb.append("<br/>");
 			sb.append("<div><ul><li>文档地址：<a href='doc.html'>doc.html</a></li></ul></div>");
 		}

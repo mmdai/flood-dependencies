@@ -3,6 +3,7 @@ package cn.flood.datasource.spring;
 import javax.sql.DataSource;
 
 import cn.flood.mybatis.interceptor.SqlLogInterceptor;
+import cn.flood.mybatis.plus.EnumConfigurationHelper;
 import cn.flood.mybatis.plus.plugins.page.PaginationInterceptor;
 import cn.flood.mybatis.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.plugin.Interceptor;
@@ -52,7 +53,10 @@ public class SqlSessionFactorySpring {
         	//添加分页
 			sessionFactoryBean.setPlugins(new Interceptor[]{new SqlLogInterceptor(),new PaginationInterceptor()});
 			sessionFactoryBean.afterPropertiesSet();
-            return sessionFactoryBean.getObject();
+			//添加通用枚举类型
+			SqlSessionFactory sessionFactory = sessionFactoryBean.getObject();
+			EnumConfigurationHelper.loadEnumHandler(sessionFactory);
+			return sessionFactory;
         } catch (Exception e) {
         	 log.error("mybatis sqlSessionFactoryBean create error",e);  
              return null;
