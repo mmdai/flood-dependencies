@@ -2,6 +2,7 @@ package cn.flood.db;
 
 import javax.sql.DataSource;
 
+import cn.flood.Func;
 import cn.flood.db.config.DataSourceProperties;
 import cn.flood.db.config.DruidDbProperties;
 import com.alibaba.druid.pool.DruidDataSource;
@@ -70,7 +71,12 @@ public class DruidDataSourceConfig {
             datasource.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
             datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
             try {
-                datasource.setFilters(druidDbProperties.getFilters());
+                if(Func.isNotEmpty(dataSourceProperties.getDriverClassName())
+                        && dataSourceProperties.getDriverClassName().equalsIgnoreCase("org.apache.kylin.jdbc.Driver")){
+                    datasource.setFilters("config");
+                }else{
+                    datasource.setFilters(druidDbProperties.getFilters());
+                }
             } catch (SQLException throwables) {
                 log.error("datasource Filters is error: {}", throwables);
             }

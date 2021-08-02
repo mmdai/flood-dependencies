@@ -2,6 +2,7 @@ package cn.flood.datasource;
 
 import javax.sql.DataSource;
 
+import cn.flood.Func;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import cn.flood.datasource.config.DruidDbProperties;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import java.sql.SQLException;
 import java.util.Properties;
 
 @Configuration
@@ -77,7 +79,7 @@ public class SingleDataSourceRegister implements InitializingBean {
 
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		if(url != null ){
 			log.info("DruidPool-Single {} - Starting...", url);
 			//初始化时建立物理连接的个数
@@ -102,7 +104,16 @@ public class SingleDataSourceRegister implements InitializingBean {
 				datasource.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
 				datasource.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
 				datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
-				datasource.setFilters(druidDbProperties.getFilters());
+				try {
+					if(Func.isNotEmpty(driverClassName)
+							&& driverClassName.equalsIgnoreCase("org.apache.kylin.jdbc.Driver")){
+						datasource.setFilters(druidDbProperties.getKylinFilters());
+					}else{
+						datasource.setFilters(druidDbProperties.getFilters());
+					}
+				} catch (SQLException throwables) {
+					log.error("datasource Filters is error: {}", throwables);
+				}
 				Properties properties = new Properties();
 				String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
 				for(String proper : dataProperties){

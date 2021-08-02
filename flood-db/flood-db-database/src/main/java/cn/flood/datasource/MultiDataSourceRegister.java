@@ -1,5 +1,6 @@
 package cn.flood.datasource;
 
+import cn.flood.Func;
 import cn.flood.datasource.config.DruidDbProperties;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,7 @@ public class MultiDataSourceRegister implements InitializingBean {
 	
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 
 		for(DataSourceRegisterInfo dsource: sourceConfig) {
 			//初始化时建立物理连接的个数
@@ -53,37 +54,41 @@ public class MultiDataSourceRegister implements InitializingBean {
 				ds.setUsername(dsource.getUsername());
 				ds.setPassword(dsource.getPassword());
 				ds.setDriverClassName(dsource.getDriverClassName());
-				ds.setInitialSize(druidDbProperties.getInitialSize());
-				ds.setMinIdle(druidDbProperties.getMinIdle());
-				ds.setMaxActive(druidDbProperties.getMaxActive());
-				ds.setMaxWait(druidDbProperties.getMaxWait());
-				ds.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
-				ds.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
-				ds.setValidationQuery(druidDbProperties.getValidationQuery());
-				ds.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
-				ds.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
-				ds.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
-				ds.setTestOnReturn(druidDbProperties.isTestOnReturn());
-				ds.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
-				ds.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
-				ds.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
-				ds.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
-				ds.setFilters(druidDbProperties.getFilters());
+				ds.setInitialSize(Func.isNotEmpty(dsource.getInitialSize()) ? dsource.getInitialSize() : druidDbProperties.getInitialSize());
+				ds.setMinIdle(Func.isNotEmpty(dsource.getMinIdle()) ? dsource.getMinIdle() :druidDbProperties.getMinIdle());
+				ds.setMaxActive(Func.isNotEmpty(dsource.getMaxActive()) ? dsource.getMaxActive() :druidDbProperties.getMaxActive());
+				ds.setMaxWait(Func.isNotEmpty(dsource.getMaxWait()) ? dsource.getMaxWait() :druidDbProperties.getMaxWait());
+				ds.setTimeBetweenEvictionRunsMillis(Func.isNotEmpty(dsource.getTimeBetweenEvictionRunsMillis()) ? dsource.getTimeBetweenEvictionRunsMillis() :druidDbProperties.getTimeBetweenEvictionRunsMillis());
+				ds.setMinEvictableIdleTimeMillis(Func.isNotEmpty(dsource.getMinEvictableIdleTimeMillis()) ? dsource.getMinEvictableIdleTimeMillis() :druidDbProperties.getMinEvictableIdleTimeMillis());
+				ds.setValidationQuery(Func.isNotEmpty(dsource.getValidationQuery()) ? dsource.getValidationQuery() :druidDbProperties.getValidationQuery());
+				ds.setQueryTimeout(Func.isNotEmpty(dsource.getValidationQueryTimeout()) ? dsource.getValidationQueryTimeout() :druidDbProperties.getValidationQueryTimeout());
+				ds.setTestWhileIdle(Func.isNotEmpty(dsource.getTestWhileIdle()) ? dsource.getTestWhileIdle() :druidDbProperties.isTestWhileIdle());
+				ds.setTestOnBorrow(Func.isNotEmpty(dsource.getTestOnBorrow()) ? dsource.getTestOnBorrow() :druidDbProperties.isTestOnBorrow());
+				ds.setTestOnReturn(Func.isNotEmpty(dsource.getTestOnReturn()) ? dsource.getTestOnReturn() :druidDbProperties.isTestOnReturn());
+				ds.setRemoveAbandoned(Func.isNotEmpty(dsource.getRemoveAbandoned()) ? dsource.getRemoveAbandoned() :druidDbProperties.isRemoveAbandoned());
+				ds.setRemoveAbandonedTimeout(Func.isNotEmpty(dsource.getRemoveAbandonedTimeout()) ? dsource.getRemoveAbandonedTimeout() :druidDbProperties.getRemoveAbandonedTimeout());
+				ds.setPoolPreparedStatements(Func.isNotEmpty(dsource.getPoolPreparedStatements()) ? dsource.getPoolPreparedStatements() :druidDbProperties.isPoolPreparedStatements());
+				ds.setMaxPoolPreparedStatementPerConnectionSize(Func.isNotEmpty(dsource.getMaxPoolPreparedStatementPerConnectionSize()) ? dsource.getMaxPoolPreparedStatementPerConnectionSize() :druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
+				try {
+					if(Func.isNotEmpty(dsource.getDriverClassName())
+							&& dsource.getDriverClassName().equalsIgnoreCase("org.apache.kylin.jdbc.Driver")){
+						ds.setFilters(druidDbProperties.getKylinFilters());
+					}else{
+						ds.setFilters(Func.isNotEmpty(dsource.getFilters()) ? dsource.getFilters() :druidDbProperties.getFilters());
+					}
+				} catch (SQLException throwables) {
+					log.error("datasource Filters is error: {}", throwables);
+				}
 				Properties properties = new Properties();
 				String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
 				for(String proper : dataProperties){
 					properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
 				}
 				ds.setConnectProperties(properties);
-				ds.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
+				ds.setUseGlobalDataSourceStat(Func.isNotEmpty(dsource.getUseGlobalDataSourceStat()) ? dsource.getUseGlobalDataSourceStat() :druidDbProperties.isUseGlobalDataSourceStat());
 
 				// 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
 				ds.setUseUnfairLock(true);
-				try {
-					ds.setFilters(druidDbProperties.getFilters());
-				} catch (SQLException e) {
-					log.error("DruidDataSource class Filters error:{}", e.getLocalizedMessage());
-				}
 				dataSourceList.add(ds);
 			}else{
 				DriverManagerDataSource ds = new DriverManagerDataSource();

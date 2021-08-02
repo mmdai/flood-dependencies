@@ -81,6 +81,13 @@ spring:
       username: 'root'
       password: '123456'
       driver-class-name:  com.mysql.cj.jdbc.Driver
+      #支持个数据源自定义数据库连接池
+      initial-size: 10
+      min-idle: 20
+      max-active: 120
+      #获取连接等待超时时间
+      max-wait: 30000
+      validation-query: select 1
     druid:
       #配置初始化大小/最小/最大
       initial-size: 10
@@ -146,11 +153,23 @@ spring:
     # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
     #多数据源
     sourceConfig[0]:
-      thread-pool: false #该参数是不配置druid连接池
       url: jdbc:kylin://10.67.31.137:7070/yum_report
       username: ADMIN
       password: KYLIN
       driver-class-name: org.apache.kylin.jdbc.Driver
+      
+      
+常用数据库 validationQuery 检查语句
+
+数据库	        validationQuery
+Oracle	        select 1 from dual
+MySQL	        select 1
+DB2	            select 1 from sysibm.sysdummy1
+MS SQL Server	select 1
+HSQLDB	        select 1 from INFORMATION_SCHEMA.SYSTEM_USERS
+PostgreSQL	    select version()
+Derby	        select 1
+H2	            select 1
 
 
 Mapper或者Service方法加入(对应多数据源下标)
