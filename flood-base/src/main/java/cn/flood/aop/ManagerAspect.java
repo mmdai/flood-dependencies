@@ -28,7 +28,10 @@ public class ManagerAspect implements LogAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Pointcut("execution(* cn..*.*.manager..*.*(..))")
+//	@Pointcut("execution(* cn..*.*.manager..*.*(..))")
+	@Pointcut(
+			"@within(org.springframework.stereotype.Component))"
+	)
 	public void log() {
 		
 	}

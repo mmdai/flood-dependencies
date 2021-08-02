@@ -25,7 +25,10 @@ public class ServiceAspect implements LogAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Pointcut("execution(* cn..*.*.service..*.*(..))")
+//	@Pointcut("execution(* cn..*.*.service..*.*(..))")
+	@Pointcut(
+			"@within(org.springframework.stereotype.Service))"
+	)
 	public void log() {
 		
 	}
