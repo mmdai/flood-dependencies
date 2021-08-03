@@ -25,11 +25,6 @@ public class DaoAspect implements LogAspect {
 
 
 //	@Pointcut("execution(* cn..*.*.mapper..*.*(..))")
-	@Pointcut(
-			"execution(static cn.flood.rpc.response.Result *(..)) || " +
-					"(@within(org.springframework.stereotype.Controller) || " +
-					"@within(org.springframework.web.bind.annotation.RestController))"
-	)
 	public void log() {
 		
 	}
