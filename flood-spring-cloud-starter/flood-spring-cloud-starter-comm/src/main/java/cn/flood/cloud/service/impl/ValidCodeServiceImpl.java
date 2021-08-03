@@ -72,22 +72,13 @@ public class ValidCodeServiceImpl implements ValidCodeService {
 
     /**
      *
-     * @param deviceId 前端唯一标识/手机号
+     * @param tokenKey
+     * @param tokenType
+     * @param verifyCode
      * @return
      */
     @Override
-    public String getCode(String deviceId) {
-        StringBuilder tokenKey = new StringBuilder(KEY_TOKEN);
-        tokenKey.append(deviceId);
-        Token token = RedisUtil.getStringHandler().getAsObj(tokenKey.toString());
-        if(Func.isNotEmpty(token)){
-            return token.getToken();
-        }
-        return null;
-    }
-
-    @Override
-    public boolean validCode(String tokenKey, TokenEnum tokenType, String verifyCode) {
+    public boolean validToken(String tokenKey, TokenEnum tokenType, String verifyCode) {
         StringBuilder key = new StringBuilder(KEY_TOKEN);
         key.append(tokenType.getName()).append(StringPool.COLON).append(tokenKey);
         Token token = RedisUtil.getStringHandler().getAsObj(key.toString());
@@ -97,6 +88,12 @@ public class ValidCodeServiceImpl implements ValidCodeService {
         return token.isValid(verifyCode);
     }
 
+    /**
+     *
+     * @param deviceId
+     * @param tokenType
+     * @return
+     */
     @Override
     public boolean remove(String deviceId, TokenEnum tokenType) {
         StringBuilder tokenKey = new StringBuilder(KEY_TOKEN);

@@ -18,12 +18,6 @@ public interface ValidCodeService {
      * @return
      */
     Token getToken(String deviceId, TokenEnum tokenType);
-    /**
-     * 获取验证码
-//     * @param deviceId 前端唯一标识/手机号
-//     * @return
-     */
-    String getCode(String deviceId);
 
     /**
      *
@@ -31,7 +25,7 @@ public interface ValidCodeService {
 //     * @param verifyCode 验证码
 //     * @return
      */
-    boolean validCode(String tokenKey, TokenEnum tokenType, String verifyCode);
+    boolean validToken(String tokenKey, TokenEnum tokenType, String verifyCode);
 
     /**
      * 删除验证码
