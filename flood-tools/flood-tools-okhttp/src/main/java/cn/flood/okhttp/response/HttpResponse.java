@@ -1,13 +1,29 @@
-/**  
-* <p>Title: HttpResponse.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.response;
 
+import cn.flood.io.IOUtils;
+import cn.flood.lang.Assert;
+import cn.flood.okhttp.exception.HttpClientException;
+import cn.flood.okhttp.exception.HttpStatusCodeException;
+import cn.flood.okhttp.response.handle.DataHandler;
+import cn.flood.okhttp.response.handle.FileDataHandler;
+import cn.flood.okhttp.response.handle.JsonDataHandler;
+import cn.flood.okhttp.response.handle.StringDataHandler;
+import cn.flood.okhttp.utils.TypeRef;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -16,22 +32,21 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-import cn.flood.io.IOUtils;
-import cn.flood.lang.Assert;
-import cn.flood.okhttp.exception.HttpClientException;
-import cn.flood.okhttp.exception.HttpStatusCodeException;
-import cn.flood.okhttp.response.handle.DataHandler;
-import cn.flood.okhttp.response.handle.FileDataHandler;
-import cn.flood.okhttp.response.handle.StringDataHandler;
-/**  
-* <p>Title: HttpResponse</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
+/**
+ * <p>
+ * Http响应结果处理类，通过{@linkplain #isSuccess()}可以得知服务器是否是200返回。
+ * 并且该类提供了将结果转为其它对象的便捷方法，该类不再支持重复调用，重复会跑出异常。
+ * </p>
+ * 当响应结果状态码不是200时，而强制调用某个数据转换方法则会跑出异常{@linkplain HttpStatusCodeException}，
+ * 如果项目需要判断Http Status Code来做一些特殊处理，可以捕获这个异常实现自己的逻辑。
+ *
+ * @author mzlion on 2016/4/17
+ * @see DataHandler
+ * @see HttpStatusCodeException
+ */
 public class HttpResponse implements Serializable {
-	
-	private transient final Response rawResponse;
+
+    private transient final Response rawResponse;
 
     /**
      * 请求是否成功
@@ -117,6 +132,32 @@ public class HttpResponse implements Serializable {
         return this.custom(StringDataHandler.create());
     }
 
+    /**
+     * 将响应结果转为JavaBean对象
+     *
+     * @param targetClass 目标类型
+     * @param <E>         泛型类型
+     * @return JavaBean对象
+     * @throws HttpClientException 如果服务器返回非200则抛出此异常
+     */
+    public <E> E asBean(Class<E> targetClass) {
+        return this.custom(new JsonDataHandler<>(targetClass));
+    }
+
+    /**
+     * 将响应结果转为JavaBean对象
+     * <p>
+     * 用法如下：Map&lt;String,String&gt; data = httpResponse.asBean(new TypeRef&lt;Map&lt;String,String&gt;&gt;);
+     * </p>
+     *
+     * @param typeRef 带有泛型类的封装类
+     * @param <E>     泛型类型
+     * @return JavaBean对象
+     * @throws HttpClientException 如果服务器返回非200则抛出此异常
+     */
+    public <E> E asBean(TypeRef<E> typeRef) {
+        return this.custom(new JsonDataHandler<>(typeRef));
+    }
 
     /**
      * 将响应结果转为字节数组
@@ -143,13 +184,16 @@ public class HttpResponse implements Serializable {
      * 将响应结果输出到输出流,并不会主动关闭输出流{@code out}
      *
      * @param out 输出流,非空
-     * @throws IOException 
      */
-    public void asStream(OutputStream out) throws IOException {
+    public void asStream(OutputStream out) {
         Assert.notNull(out, "OutputStream is null.");
         this.assertSuccess();
         try {
-            IOUtils.copy(this.rawResponse.body().byteStream(), out);
+            try {
+                IOUtils.copy(this.rawResponse.body().byteStream(), out);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } finally {
             IOUtils.closeQuietly(this.rawResponse);
         }
@@ -193,5 +237,4 @@ public class HttpResponse implements Serializable {
                     this.httpCode, this.errorMessage);
         }
     }
-
 }

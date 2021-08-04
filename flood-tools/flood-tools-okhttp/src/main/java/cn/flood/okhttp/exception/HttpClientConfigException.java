@@ -1,30 +1,34 @@
-/**  
-* <p>Title: HttpClientConfigException.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月22日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.exception;
 
-/**  
-* <p>Title: HttpClientConfigException</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月22日  
-*/
+/**
+ * 配置HttpClient异常
+ *
+ * @author mzlion on 2016/5/24.
+ */
 public class HttpClientConfigException extends RuntimeException {
 
-	/** serialVersionUID*/  
-	private static final long serialVersionUID = -1841476371294845609L;
-	
-	public HttpClientConfigException(Throwable cause) {
+    private static final long serialVersionUID = 1788789757077983056L;
+
+    public HttpClientConfigException(Throwable cause) {
         super(cause);
     }
 
     public HttpClientConfigException(String message) {
         super(message);
     }
-
 }

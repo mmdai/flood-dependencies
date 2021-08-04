@@ -1,13 +1,21 @@
-/**  
-* <p>Title: DebugLoggingInterceptor.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月23日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.http;
 
+import cn.flood.lang.StringPool;
 import okhttp3.*;
 import okhttp3.internal.http.HttpHeaders;
 import okio.Buffer;
@@ -18,15 +26,13 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
-/**  
-* <p>Title: DebugLoggingInterceptor</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月23日  
-*/
+/**
+ * 日志打印
+ *
+ * @author mzlion on 2017/1/24.
+ */
 public enum DebugLoggingInterceptor implements Interceptor {
-
-	INSTANCE;
+    INSTANCE;
 
     private final Logger logger = LoggerFactory.getLogger(DebugLoggingInterceptor.class);
 
@@ -117,7 +123,7 @@ public enum DebugLoggingInterceptor implements Interceptor {
                     Buffer buffer = new Buffer();
                     requestBody.writeTo(buffer);
                     MediaType mediaType = requestBody.contentType();
-                    logger.info(" |=== The body data is {} ===|", buffer.readString(mediaType.charset(Charset.defaultCharset())));
+                    logger.info(" |=== The body data is {} ===|", buffer.readString(mediaType.charset(Charset.forName(StringPool.UTF_8))));
                     logger.info(" |=== Finish to print request body === |");
                 } else {
                     logger.warn(" |=== The request body may contains 'file' part, ignore to print! ===|");
@@ -189,5 +195,6 @@ public enum DebugLoggingInterceptor implements Interceptor {
          */
         ALL,
     }
+
 
 }

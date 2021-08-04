@@ -5,7 +5,7 @@ import cn.flood.UserToken;
 import cn.flood.context.SpringContextManager;
 import cn.flood.http.WebUtil;
 import cn.flood.json.JsonUtils;
-import cn.flood.lang.StringUtils;
+import cn.flood.lang.ReflectBeans;
 import cn.flood.okhttp.HttpClient;
 import cn.flood.rpc.response.Result;
 import org.slf4j.Logger;
@@ -22,6 +22,10 @@ import cn.flood.jwtp.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -104,18 +108,24 @@ public class ClientInterceptor implements HandlerInterceptor {
     public UserToken getRestUrlToken(String access_token) throws ExpiredTokenException, ErrorTokenException {
         String url = authCenterUrl + "/authentication";
         logger.info("========userToken start");
-        String result = HttpClient.get(url).queryString("access_token", access_token).asString();
+        Result result = HttpClient.get(url).
+                queryString("access_token", access_token).asBean(Result.class);
         logger.info("========userToken end: {}", result);
         if(result == null){
             throw new RuntimeException("'" + authCenterUrl + "/authentication' return null");
         }
-        Result authResult = JsonUtils.toJavaObject(result, Result.class);
-        if (Result.ERROR_CODE.equals(authResult.get_code())) {
+        if (Result.ERROR_CODE.equals(result.get_code())) {
             throw new ExpiredTokenException();
-        } else if (!Result.SUCCESS_CODE.equals(authResult.get_code())) {
+        } else if (!Result.SUCCESS_CODE.equals(result.get_code())) {
             throw new ErrorTokenException();
         }
-        return (UserToken) authResult.get_data();
+        Map<String, Object> dataMap = (Map)result.get_data();
+        List<String> roles = Func.isNotEmpty(dataMap.get("roles")) ? (List) dataMap.get("roles") : Collections.EMPTY_LIST;
+        dataMap.put("roles", roles.stream().toArray(String[]::new));
+        List<String> permissions = Func.isNotEmpty(dataMap.get("permissions")) ? (List) dataMap.get("permissions") : Collections.EMPTY_LIST;
+        dataMap.put("permissions", permissions.stream().toArray(String[]::new));
+        UserToken userToken = ReflectBeans.convert(UserToken.class,dataMap);
+        return userToken;
     }
 
 

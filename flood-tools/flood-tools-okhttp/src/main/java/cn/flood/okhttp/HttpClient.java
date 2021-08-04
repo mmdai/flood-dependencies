@@ -1,13 +1,21 @@
-/**  
-* <p>Title: HttpClient.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp;
 
+import cn.flood.Func;
 import cn.flood.lang.Assert;
 import cn.flood.okhttp.cookie.CookieStore;
 import cn.flood.okhttp.cookie.DefaultCookieJar;
@@ -26,12 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.util.CollectionUtils;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
@@ -40,15 +46,21 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-/**  
-* <p>Title: HttpClient</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
+/**
+ * <p>
+ * {@linkplain HttpClient}是对{@code OkHttpClient}封装，提供更便捷的网络操作。
+ * </p>
+ * 修订历史：
+ * <ul>
+ * <li>2016-05-12   项目创建</li>
+ * <li>2016-12-28   项目改版及其优化</li>
+ * </ul>
+ *
+ * @author mzlion(https://git.oschina.net/mzllon/easy-okhttp)
+ * @version 1.0
+ */
 public enum HttpClient {
-    
-	Instance;
+    Instance;
 
     public static final int DEFAULT_TIMEOUT = 10;//10seconds
     //logger
@@ -61,14 +73,14 @@ public enum HttpClient {
 
     /* 默认的Header存储 */
     private Map<String, Map<String, String>> defaultHeaders;
+//    private Map<String, String> defaultParameters;
 
+    private static final ConnectionPool CONNECTION_POOL = new ConnectionPool(256, 5L, TimeUnit.MINUTES);
     /* default constructor */
-    private HttpClient() {
+    HttpClient() {
         //default init
         this.cookieStore = new MemoryCookieStore();
         this.builder = new OkHttpClient.Builder()
-        		//设置连接池默认空闲20个，闲置时间5分钟
-        		.connectionPool(new ConnectionPool(20, 5, TimeUnit.MINUTES))
                 //设置cookie自动管理
                 .cookieJar(new DefaultCookieJar(this.cookieStore))
                 //设置默认主机验证规则
@@ -79,13 +91,14 @@ public enum HttpClient {
                     }
                 });
 
+
         //读取默认配置文件
         Properties ret = null;
-		try {
-			ret = PropertiesLoaderUtils
-			        .loadProperties(new ClassPathResource("flood-okhttp.properties"));
-		} catch (IOException e) {
-		}
+        try {
+            ret = PropertiesLoaderUtils
+                    .loadProperties(new ClassPathResource("flood-okhttp.properties"));
+        } catch (IOException e) {
+        }
         //连接超时时间
         int timeout = Integer.parseInt(ret.getProperty("connectTimeout"));
         if (timeout <= 0) {
@@ -108,7 +121,23 @@ public enum HttpClient {
         this.builder.writeTimeout(timeout, TimeUnit.SECONDS);
 
         this.defaultHeaders = new ConcurrentHashMap<>(10);
+//        this.defaultParameters = new ConcurrentHashMap<>();
 
+//        String key, value;
+//        String[] valueArray;
+//        for (Map.Entry<String, String> entry : propertyResolver.getAllProperties().entrySet()) {
+//            key = entry.getKey();
+//            value = entry.getValue();
+//            if (value == null) continue;
+//            if (StringUtils.startsWithIgnoreCase(key, "header")) {
+//                valueArray = StringUtils.splitAtFirst(key, ".");
+//                this.defaultHeaders.put(valueArray[1], value);
+//            }
+//            else if (StringUtils.startsWithIgnoreCase(key, "param")) {
+//                valueArray = StringUtils.splitAtFirst(key, ".");
+//                this.defaultParameters.put(valueArray[1], value);
+//            }
+//        }
     }
 
 
@@ -271,7 +300,7 @@ public enum HttpClient {
             throw new IllegalArgumentException("Host [" + host + "] is invalid.");
         }
         Map<String, String> headers = defaultHeaders.get(httpUrl.host());
-        if (CollectionUtils.isEmpty(headers)) {
+        if (Func.isEmpty(headers)) {
             headers = new ConcurrentHashMap<>();
             defaultHeaders.put(httpUrl.host(), headers);
         }

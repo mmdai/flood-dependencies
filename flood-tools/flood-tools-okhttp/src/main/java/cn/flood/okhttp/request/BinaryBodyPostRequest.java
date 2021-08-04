@@ -1,28 +1,36 @@
-/**  
-* <p>Title: BinaryBodyPostRequest.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.request;
-
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-
-import java.io.*;
 
 import cn.flood.http.ContentType;
 import cn.flood.io.IOUtils;
 import cn.flood.lang.Assert;
 import cn.flood.okhttp.utils.Utils;
-/**  
-* <p>Title: BinaryBodyPostRequest</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+
+import java.io.*;
+
+/**
+ * <p>
+ * 2016-05-15 22:33 POST提交二进制流，服务端应该从Request请求体获取二进制流。
+ * </p>
+ *
+ * @author mzlion
+ */
 public class BinaryBodyPostRequest extends BaseBodyHttpRequest<BinaryBodyPostRequest> {
 
     /**
@@ -114,6 +122,5 @@ public class BinaryBodyPostRequest extends BaseBodyHttpRequest<BinaryBodyPostReq
     protected RequestBody generateRequestBody() {
         return RequestBody.create(this.mediaType, this.content);
     }
-
 
 }

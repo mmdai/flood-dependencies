@@ -1,14 +1,23 @@
-/**  
-* <p>Title: Utils.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月23日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.utils;
 
-
+import cn.flood.Func;
+import cn.flood.lang.StringUtils;
+import cn.flood.okhttp.http.Header;
 import okhttp3.MediaType;
 import okhttp3.Response;
 
@@ -18,17 +27,14 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Locale;
 
-import cn.flood.lang.StringUtils;
-import cn.flood.okhttp.http.Header;
-/**  
-* <p>Title: Utils</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月23日  
-*/
+/**
+ * 项目的工具类
+ *
+ * @author mzlion on 2016/12/9.
+ */
 public class Utils {
-	
-	private static String acceptLanguage;
+
+    private static String acceptLanguage;
     private static String userAgent;
 
     /**
@@ -46,7 +52,7 @@ public class Utils {
      * @return 客户端语言
      */
     public static String getAcceptLanguage() {
-        if (StringUtils.isEmpty(acceptLanguage)) {
+        if (Func.isEmpty(acceptLanguage)) {
             Locale locale = Locale.getDefault();
             String language = locale.getLanguage();
             String country = locale.getCountry();
@@ -65,7 +71,7 @@ public class Utils {
      * @return UA
      */
     public static String getUserAgent() {
-        if (StringUtils.isEmpty(userAgent)) {
+        if (Func.isEmpty(userAgent)) {
             userAgent = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36";
         }
         return userAgent;
@@ -106,7 +112,7 @@ public class Utils {
     }
 
     /**
-     * 根据响应头或url获取文件名，当都无法获取时则返回null
+     * 根据响应头或url获取文件名，当都无法获取时则根据url生成MD5值
      *
      * @param response HTTP响应对象
      * @return 文件名
@@ -137,7 +143,8 @@ public class Utils {
                 return filename;
             }
         }
-        return null;
-    }
 
+        //通过URL生成一个随机文件名
+        return Func.md5Hex(url);
+    }
 }

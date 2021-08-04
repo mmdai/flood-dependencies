@@ -1,13 +1,22 @@
-/**  
-* <p>Title: PostRequest.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.request;
 
+import cn.flood.Func;
+import cn.flood.okhttp.http.FileWrapper;
 import okhttp3.FormBody;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -19,16 +28,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.CollectionUtils;
-
-import cn.flood.lang.StringUtils;
-import cn.flood.okhttp.http.FileWrapper;
-/**  
-* <p>Title: PostRequest</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
+/**
+ * 实现表单提交
+ *
+ * @author mzlion on 2016/12/8.
+ */
 public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
 
     private boolean isMultipart;
@@ -49,11 +53,11 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
      */
     @Override
     protected RequestBody generateRequestBody() {
-        if (CollectionUtils.isEmpty(this.fileParams) && !this.isMultipart) {
+        if (Func.isEmpty(this.fileParams) && !this.isMultipart) {
             FormBody.Builder builder = new FormBody.Builder();
-            if (!CollectionUtils.isEmpty(this.formParams)) {
+            if (Func.isNotEmpty(this.formParams)) {
                 for (Map.Entry<String, List<String>> entry : this.formParams.entrySet()) {
-//                    if (CollectionUtil.isEmpty())
+//                    if (CollectionUtils.isEmpty())
                     for (String value : entry.getValue()) {
                         builder.add(entry.getKey(), value);
                     }
@@ -64,14 +68,14 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
 
         MultipartBody.Builder builder = new MultipartBody.Builder();
         builder.setType(MultipartBody.FORM);
-        if (!CollectionUtils.isEmpty(this.formParams)) {
+        if (Func.isNotEmpty(this.formParams)) {
             for (Map.Entry<String, List<String>> entry : this.formParams.entrySet()) {
                 for (String value : entry.getValue()) {
                     builder.addFormDataPart(entry.getKey(), value);
                 }
             }
         }
-        if (!CollectionUtils.isEmpty(this.fileParams)) {
+        if (Func.isNotEmpty(this.fileParams)) {
             for (Map.Entry<String, List<FileWrapper>> entry : this.fileParams.entrySet()) {
                 for (FileWrapper fileWrapper : entry.getValue()) {
                     builder.addFormDataPart(entry.getKey(), fileWrapper.getFilename(), fileWrapper.requestBody());
@@ -114,7 +118,7 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
      */
     public PostRequest param(String name, String value, boolean replace) {
         //Assert.hasLength(name, "Name may not be null or empty.");
-        if (StringUtils.isEmpty(name)) {
+        if (Func.isEmpty(name)) {
             logger.debug(" ===> The parameter[name] is null or empty.");
             return this;
         }
@@ -143,7 +147,7 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
      */
     public PostRequest param(Map<String, String> parameters) {
         //Assert.notEmpty(parameters, "Parameters may not be null.");
-        if (CollectionUtils.isEmpty(parameters)) {
+        if (Func.isEmpty(parameters)) {
             logger.debug(" ===> The parameter[parameters] is null or empty.");
             return this;
         }
@@ -177,7 +181,7 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
         //Assert.notNull(uploadFile, "UploadFile may not be null.");
         //Assert.hasLength(filename, "Filename may not be null or empty.");
 
-        if (StringUtils.isEmpty(name)) {
+        if (Func.isEmpty(name)) {
             logger.debug(" ===> The parameter[name] is null or empty.");
             return this;
         }
@@ -185,7 +189,7 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
             logger.warn(" ===> The parameter[uploadFile] is null,ignore:name={}.", name);
             return this;
         }
-        if (StringUtils.isEmpty(filename)) {
+        if (Func.isEmpty(filename)) {
             logger.warn(" ===> The parameter[filename] is null,ignore:name={},uploadFile={}.", name, uploadFile);
             return this;
         }
@@ -210,7 +214,7 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
         //Assert.hasLength(name, "Name may not be null.");
         //Assert.notNull(inputStream, "InputStream may not be null.");
         //Assert.hasLength(streamName, "StreamName may not be null.");
-        if (StringUtils.isEmpty(name)) {
+        if (Func.isEmpty(name)) {
             logger.debug(" ===> The parameter[name] is null or empty.");
             return this;
         }
@@ -218,7 +222,7 @@ public class PostRequest extends BaseBodyHttpRequest<PostRequest> {
             logger.warn(" ===> The parameter[inputStream] is null,ignore:name={}.", name);
             return this;
         }
-        if (StringUtils.isEmpty(streamName)) {
+        if (Func.isEmpty(streamName)) {
             logger.warn(" ===> The parameter[streamName] is null,ignore:name={},inputStream={}.", name, inputStream);
             return this;
         }

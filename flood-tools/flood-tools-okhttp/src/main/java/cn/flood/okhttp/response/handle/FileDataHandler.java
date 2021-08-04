@@ -1,28 +1,35 @@
-/**  
-* <p>Title: FileDataHandler.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.response.handle;
+
+import cn.flood.Func;
+import cn.flood.io.FileUtils;
+import cn.flood.lang.Assert;
+import cn.flood.okhttp.utils.Utils;
+import okhttp3.Response;
 
 import java.io.File;
 import java.io.IOException;
 
-import cn.flood.io.FileUtils;
-import cn.flood.lang.Assert;
-import cn.flood.lang.StringUtils;
-import cn.flood.okhttp.utils.Utils;
-import okhttp3.Response;
-
-/**  
-* <p>Title: FileDataHandler</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
+/**
+ * 文件处理器,一般用于从远程下载资源(如图片、报表等)
+ * 支持自动获取文件名，也支持自定义文件名
+ *
+ * @author mzlion on 2016/12/14.
+ */
 public class FileDataHandler implements DataHandler<File> {
 
     /**
@@ -80,16 +87,15 @@ public class FileDataHandler implements DataHandler<File> {
      * @throws IOException 出现异常
      */
     @Override
-    public File handle(final Response response) throws IOException {
+    public File handle(final Response response) {
         String name = this.filename;
-        if (StringUtils.isEmpty(name)) name = Utils.getFilename(response);
+        if (Func.isEmpty(name)) name = Utils.getFilename(response);
         File saveFile = new File(this.dirPath, name);
         try {
-			FileUtils.copyStream(response.body().byteStream(), saveFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            FileUtils.copyStream(response.body().byteStream(), saveFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return saveFile;
     }
-
 }

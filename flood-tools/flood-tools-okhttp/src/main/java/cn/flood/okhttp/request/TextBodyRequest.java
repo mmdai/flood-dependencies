@@ -1,28 +1,36 @@
-/**  
-* <p>Title: TextBodyRequest.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.request;
 
+import cn.flood.lang.Assert;
+import cn.flood.okhttp.utils.JsonUtil;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import cn.flood.json.JsonUtils;
-import cn.flood.lang.Assert;
-/**  
-* <p>Title: TextBodyRequest</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
-public class TextBodyRequest  extends BaseBodyHttpRequest<TextBodyRequest> {
+/**
+ * <p>
+ * 提交文本字符串，服务端应该从Request请求体获取文本字符串。
+ * </p>
+ *
+ * @author mzlion
+ */
+public class TextBodyRequest extends BaseBodyHttpRequest<TextBodyRequest> {
 
     private String content;
     private String _type;
@@ -71,7 +79,7 @@ public class TextBodyRequest  extends BaseBodyHttpRequest<TextBodyRequest> {
      */
     public TextBodyRequest json(Object value) {
         Assert.notNull(value, "Value may not be null.");
-        this.content = JsonUtils.toJSONString(value);
+        this.content = JsonUtil.toJson(value);
         this._type = "application/json";
         return this;
     }
@@ -135,6 +143,5 @@ public class TextBodyRequest  extends BaseBodyHttpRequest<TextBodyRequest> {
         MediaType contentType = MediaType.parse(String.format("%s; charset=%s", this._type, this.charset));
         return RequestBody.create(contentType, this.content);
     }
-
 
 }

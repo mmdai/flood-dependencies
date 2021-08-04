@@ -1,18 +1,21 @@
-/**  
-* <p>Title: AbsHttpRequest.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.request;
 
-import okhttp3.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
-
+import cn.flood.Func;
 import cn.flood.io.IOUtils;
 import cn.flood.lang.Assert;
 import cn.flood.lang.StringUtils;
@@ -22,10 +25,14 @@ import cn.flood.okhttp.exception.HttpClientException;
 import cn.flood.okhttp.exception.HttpStatusCodeException;
 import cn.flood.okhttp.http.Header;
 import cn.flood.okhttp.http.ProcessRequestBody;
-import cn.flood.okhttp.response.callback.Callback;
 import cn.flood.okhttp.response.HttpResponse;
+import cn.flood.okhttp.response.callback.Callback;
 import cn.flood.okhttp.utils.SSLContexts;
+import cn.flood.okhttp.utils.TypeRef;
 import cn.flood.okhttp.utils.Utils;
+import okhttp3.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.X509TrustManager;
 import java.io.File;
@@ -37,12 +44,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-/**  
-* <p>Title: AbsHttpRequest</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
+
+/**
+ * <p>
+ * 2016-04-16 {@linkplain HttpRequest}的抽象实现，实现了大部分方法.
+ * </p>
+ *
+ * @author mzlion on 2016-04-16
+ */
+@SuppressWarnings("unchecked")
 public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements HttpRequest<Req> {
     protected Logger logger = LoggerFactory.getLogger(AbsHttpRequest.class);
     protected String url;
@@ -137,7 +147,7 @@ public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements Ht
     @Override
     public Req queryString(String name, String value, boolean replace) {
         //Assert.hasLength(name, "Name must not be null.");
-        if (StringUtils.isEmpty(name)) {
+        if (Func.isEmpty(name)) {
             return (Req) this;
         }
         if (!replace && value == null) {
@@ -165,7 +175,7 @@ public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements Ht
     @Override
     public Req queryString(Map<String, String> parameters) {
         //Assert.notEmpty(parameters, "Parameters may not be null or empty.");
-        if (CollectionUtils.isEmpty(parameters)) {
+        if (Func.isEmpty(parameters)) {
             return (Req) this;
         }
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
@@ -368,6 +378,32 @@ public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements Ht
         return execute().asString();
     }
 
+    /**
+     * 将响应结果转为JavaBean对象
+     *
+     * @param targetClass 目标类型
+     * @param <E>         泛型类型
+     * @return JavaBean对象
+     * @throws HttpClientException 如果服务器返回非200则抛出此异常
+     */
+    public <E> E asBean(Class<E> targetClass) {
+        return this.execute().asBean(targetClass);
+    }
+
+    /**
+     * 将响应结果转为JavaBean对象
+     * <p>
+     * 用法如下：Map&lt;String,String&gt; data = httpResponse.asBean(new TypeRef&lt;Map&lt;String,String&gt;&gt;);
+     * </p>
+     *
+     * @param typeRef 带有泛型类的封装类
+     * @param <E>     泛型类型
+     * @return JavaBean对象
+     * @throws HttpClientException 如果服务器返回非200则抛出此异常
+     */
+    public <E> E asBean(TypeRef<E> typeRef) {
+        return this.execute().asBean(typeRef);
+    }
 
     /**
      * 将响应结果转为字节数组
@@ -392,9 +428,8 @@ public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements Ht
      * 将响应结果输出到输出流,并不会主动关闭输出流{@code out}
      *
      * @param out 输出流,非空
-     * @throws IOException 
      */
-    public void asStream(OutputStream out) throws IOException {
+    public void asStream(OutputStream out) {
         this.execute().asStream(out);
     }
     //endregion
@@ -539,12 +574,12 @@ public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements Ht
     void collectHeader(Request.Builder builder, HttpUrl httpUrl) {
         //加载默认Header
         Map<String, String> defaultHeaders = HttpClient.Instance.getDefaultHeaders(httpUrl);
-        if (!CollectionUtils.isEmpty(defaultHeaders)) {
+        if (Func.isNotEmpty(defaultHeaders)) {
             for (Map.Entry<String, String> entry : defaultHeaders.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
             }
         }
-        if (!CollectionUtils.isEmpty(headers)) {
+        if (Func.isNotEmpty(headers)) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
                 builder.header(entry.getKey(), entry.getValue());
             }
@@ -562,7 +597,7 @@ public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements Ht
         } else {
             sb.append("?");
         }
-        if (!CollectionUtils.isEmpty(queryParams)) {
+        if (Func.isNotEmpty(queryParams)) {
             for (Map.Entry<String, List<String>> entry : queryParams.entrySet()) {
                 for (String value : entry.getValue()) {
                     sb.append(entry.getKey()).append("=")
@@ -599,5 +634,4 @@ public abstract class AbsHttpRequest<Req extends HttpRequest<Req>> implements Ht
             this.timeUnit = timeUnit;
         }
     }
-
 }

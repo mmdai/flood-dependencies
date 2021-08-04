@@ -1,11 +1,18 @@
-/**  
-* <p>Title: FileRequestBody.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月23日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.http;
 
 import okhttp3.MediaType;
@@ -18,15 +25,14 @@ import okio.Source;
 import java.io.File;
 import java.io.IOException;
 
-/**  
-* <p>Title: FileRequestBody</p>  
-* <p>Description: 文件请求对象</p>  
-* @author mmdai  
-* @date 2019年7月23日  
-*/
+/**
+ * 文件请求对象
+ *
+ * @author mzlion on 2016/12/9.
+ */
 public class FileRequestBody extends RequestBody {
-	
-	private final File file;
+
+    private final File file;
     private final MediaType mediaType;
 
     public FileRequestBody(File file, MediaType mediaType) {
@@ -64,5 +70,4 @@ public class FileRequestBody extends RequestBody {
             Util.closeQuietly(source);
         }
     }
-
 }

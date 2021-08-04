@@ -1,62 +1,63 @@
-/**  
-* <p>Title: HttpStatusCodeException.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月22日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.exception;
 
-/**  
-* <p>Title: HttpStatusCodeException</p>  
-* <p>Description: </p>  
-* @author mmdai  
-* @date 2019年7月22日  
-*/
+/**
+ * Http Status Code exception,当code不是200时则会跑出本异常信息
+ *
+ * @author mzlion on 2016/12/15.
+ */
 public class HttpStatusCodeException extends HttpClientException {
 
-	/** serialVersionUID*/  
-	private static final long serialVersionUID = 4089613731154564667L;
-	
-	public HttpStatusCodeException(String url, int statusCode, String statusMessage) {
-		super("Request url[=" + url + "] failed, status code is " + statusCode + ",status message is " + statusMessage);
+    private static final long serialVersionUID = -1584716934177136972L;
+    private final String url;
+    private final int statusCode;
+    private final String statusMessage;
+
+    public HttpStatusCodeException(String url, int statusCode, String statusMessage) {
+        super("Request url[=" + url + "] failed, status code is " + statusCode + ",status message is " + statusMessage);
         this.url = url;
         this.statusCode = statusCode;
         this.statusMessage = statusMessage;
     }
-	
-	private final String url;
-	
-    private final int statusCode;
-    
-    private final String statusMessage;
 
-	/**
-	 * @return the url
-	 * 返回请求地址
-	 */
-	public String getUrl() {
-		return url;
-	}
+    /**
+     * 请求失败时的HTTP Status Code
+     *
+     * @return Http错误码
+     */
+    public int getStatusCode() {
+        return statusCode;
+    }
 
-	/**
-	 * @return the statusCode 
-	 * 请求失败时的HTTP Status Code
-	 */
-	public int getStatusCode() {
-		return statusCode;
-	}
+    /**
+     * 请求失败时错误消息
+     *
+     * @return 失败消息
+     */
+    public String getStatusMessage() {
+        return statusMessage;
+    }
 
-	/**
-	 * @return the statusMessage
-	 * 请求失败时错误消息
-	 */
-	public String getStatusMessage() {
-		return statusMessage;
-	}
-    
-    
-	
-
+    /**
+     * 返回请求地址
+     *
+     * @return 请求地址
+     */
+    public String getUrl() {
+        return url;
+    }
 }

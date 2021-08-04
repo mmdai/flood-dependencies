@@ -1,13 +1,22 @@
-/**  
-* <p>Title: InputStreamRequestBody.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月23日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.http;
 
+
+import cn.flood.io.IOUtils;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
@@ -16,29 +25,26 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import cn.flood.io.IOUtils;
-/**  
-* <p>Title: InputStreamRequestBody</p>  
-* <p>Description: Request body封装</p>  
-* @author mmdai  
-* @date 2019年7月23日  
-*/
+/**
+ * Request body封装
+ *
+ * @author tony on 2016-12-09
+ */
 public class InputStreamRequestBody extends RequestBody {
 
-    private final byte[] content;
-    private final int byteCount;
+    private byte[] content;
+    private int byteCount;
     private final MediaType mediaType;
 
-    public InputStreamRequestBody(InputStream content, MediaType mediaType){
+    public InputStreamRequestBody(InputStream content, MediaType mediaType) {
         this.mediaType = mediaType;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            try {
-				IOUtils.copy(content, baos);
-			} catch (IOException e) {
-			}
+            IOUtils.copy(content, baos);
             this.content = baos.toByteArray();
             this.byteCount = this.content.length;
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             IOUtils.closeQuietly(content);
         }

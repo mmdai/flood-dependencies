@@ -1,31 +1,37 @@
-/**  
-* <p>Title: FileWrapper.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月23日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.http;
 
+import cn.flood.lang.Assert;
+import cn.flood.okhttp.exception.HttpClientException;
+import cn.flood.okhttp.utils.Utils;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 import java.io.File;
 import java.io.InputStream;
 
-import cn.flood.lang.Assert;
-import cn.flood.okhttp.exception.HttpClientException;
-import cn.flood.okhttp.utils.Utils;
-/**  
-* <p>Title: FileWrapper</p>  
-* <p>Description: 文件包装类</p>  
-* @author mmdai  
-* @date 2019年7月23日  
-*/
+/**
+ * 文件包装类
+ *
+ * @author mzlion on 2016/12/9.
+ */
 public class FileWrapper {
-	
-	private InputStream content;
+
+    private InputStream content;
     private File file;
     private String filename;
 
@@ -115,5 +121,4 @@ public class FileWrapper {
         }
 
     }
-
 }

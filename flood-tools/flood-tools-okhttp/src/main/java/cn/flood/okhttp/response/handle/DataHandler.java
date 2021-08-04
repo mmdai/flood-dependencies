@@ -1,24 +1,32 @@
-/**  
-* <p>Title: DataHandler.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月25日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.response.handle;
 
 import java.io.IOException;
 
-/**  
-* <p>Title: DataHandler</p>  
-* <p>Description: 数据处理定义接口,将得到的响应结果转为所需的数据</p>  
-* @author mmdai  
-* @date 2019年7月25日  
-*/
+/**
+ * 数据处理定义接口,将得到的响应结果转为所需的数据
+ *
+ * @author mzlion on 2016/12/14.
+ * @see JsonDataHandler
+ * @see StringDataHandler
+ */
 public interface DataHandler<T> {
-	
-	/**
+
+    /**
      * 得到相应结果后,将相应数据转为需要的数据格式
      *
      * @param response 需要转换的对象

@@ -1,26 +1,32 @@
-/**  
-* <p>Title: ProcessRequestBody.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2019年7月23日  
-* @version 1.0  
-*/  
+/*
+ * Copyright (C) 2016-2017 mzlion(mzllon@qq.com).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package cn.flood.okhttp.http;
-
-import java.io.IOException;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.*;
 
-/**  
-* <p>Title: ProcessRequestBody</p>  
-* <p>Description: 处理提交进度，一般对有进度展示需求的有用</p>  
-* @author mmdai  
-* @date 2019年7月23日  
-*/
-public class ProcessRequestBody  extends RequestBody {
+import java.io.IOException;
+
+/**
+ * 处理提交进度，一般对有进度展示需求的有用
+ *
+ * @author mzlion on 2016-12-14
+ */
+public class ProcessRequestBody extends RequestBody {
 
     private RequestBody delegate;
     private Listener listener;
@@ -86,5 +92,4 @@ public class ProcessRequestBody  extends RequestBody {
     public interface Listener {
         void onRequestProgress(final long bytesWritten, final long contentLength);
     }
-
 }
