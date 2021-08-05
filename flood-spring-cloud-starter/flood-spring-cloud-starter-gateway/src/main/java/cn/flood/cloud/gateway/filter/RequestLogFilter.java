@@ -1,7 +1,7 @@
 package cn.flood.cloud.gateway.filter;
 
+import cn.flood.Func;
 import cn.flood.constants.HeaderConstants;
-import cn.flood.lang.StringUtils;
 import cn.flood.trace.MDCTraceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +51,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 		headers.forEach((headerName, headerValue) -> {
 			beforeReqLog.append(" {}: {}\n");
 			beforeReqArgs.add(headerName);
-			beforeReqArgs.add(StringUtils.join(headerValue));
+			beforeReqArgs.add(Func.join(headerValue));
 		});
 		beforeReqLog.append("================ flood Gateway Request End =================\n");
 		// 打印执行时间
@@ -86,7 +86,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 			httpHeaders.forEach((headerName, headerValue) -> {
 				responseLog.append(" {}: {}\n");
 				responseArgs.add(headerName);
-				responseArgs.add(StringUtils.join(headerValue));
+				responseArgs.add(Func.join(headerValue));
 			});
 
 			responseLog.append("================  flood Gateway Response End  =================\n");

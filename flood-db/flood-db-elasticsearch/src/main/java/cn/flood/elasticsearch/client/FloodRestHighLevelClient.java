@@ -1,8 +1,8 @@
 package cn.flood.elasticsearch.client;
 
+import cn.flood.Func;
 import cn.flood.elasticsearch.page.Page;
 import cn.flood.elasticsearch.constant.ElasticSearchConstant;
-import cn.flood.json.JsonUtils;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
@@ -47,25 +47,25 @@ public class FloodRestHighLevelClient {
 
     public <T> UpdateResponse update(String index, String type, String id, T entity) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest(index, type, id);
-        updateRequest.doc(JsonUtils.toJSONString(entity), XContentType.JSON);
+        updateRequest.doc(Func.toJson(entity), XContentType.JSON);
         return update(updateRequest, RequestOptions.DEFAULT);
     }
 
     public <T> UpdateResponse update(String index, String type, String id, T entity, RequestOptions options) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest(index, type, id);
-        updateRequest.doc(JsonUtils.toJSONString(entity), XContentType.JSON);
+        updateRequest.doc(Func.toJson(entity), XContentType.JSON);
         return update(updateRequest, options);
     }
 
     public UpdateResponse update(String index, String type, String id, Map<String, Object> document) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest(index, type, id);
-        updateRequest.doc(JsonUtils.toJSONString(document), XContentType.JSON);
+        updateRequest.doc(Func.toJson(document), XContentType.JSON);
         return update(updateRequest, RequestOptions.DEFAULT);
     }
 
     public UpdateResponse update(String index, String type, String id, Map<String, Object> document, RequestOptions options) throws IOException {
         UpdateRequest updateRequest = new UpdateRequest(index, type, id);
-        updateRequest.doc(JsonUtils.toJSONString(document), XContentType.JSON);
+        updateRequest.doc(Func.toJson(document), XContentType.JSON);
         return update(updateRequest, options);
     }
 
@@ -90,7 +90,7 @@ public class FloodRestHighLevelClient {
             } else if (value instanceof String) {
                 appendValue = "'" + value.toString() + "'";
             } else if (value instanceof List){
-                appendValue = JsonUtils.toJSONString(value);
+                appendValue = Func.toJson(value);
             } else {
                 appendValue = value.toString();
             }
@@ -150,7 +150,7 @@ public class FloodRestHighLevelClient {
         SearchHit[] hits = searchResponse.getHits().getHits();
         for (SearchHit hit : hits) {
             String source = hit.getSourceAsString();
-            datas.add(JsonUtils.toJavaObject(source, entityClass));
+            datas.add(Func.parse(source, entityClass));
         }
         return datas;
     }
@@ -171,28 +171,28 @@ public class FloodRestHighLevelClient {
 
     public <T> IndexResponse index(String index, String type, T entity) throws IOException {
         IndexRequest indexRequest = new IndexRequest(index, type);
-        indexRequest.source(JsonUtils.toJSONString(entity), XContentType.JSON);
+        indexRequest.source(Func.toJson(entity), XContentType.JSON);
         IndexResponse indexResponse = index(indexRequest, RequestOptions.DEFAULT);
         return indexResponse;
     }
 
     public <T> IndexResponse index(String index, String type, T entity, RequestOptions options) throws IOException {
         IndexRequest indexRequest = new IndexRequest(index, type);
-        indexRequest.source(JsonUtils.toJSONString(entity), XContentType.JSON);
+        indexRequest.source(Func.toJson(entity), XContentType.JSON);
         IndexResponse indexResponse = index(indexRequest, options);
         return indexResponse;
     }
 
     public <T> IndexResponse index(String index, String type, T entity, String id) throws IOException {
         IndexRequest indexRequest = new IndexRequest(index, type, id);
-        indexRequest.source(JsonUtils.toJSONString(entity), XContentType.JSON);
+        indexRequest.source(Func.toJson(entity), XContentType.JSON);
         IndexResponse indexResponse = index(indexRequest, RequestOptions.DEFAULT);
         return indexResponse;
     }
 
     public <T> IndexResponse index(String index, String type, T entity, String id, RequestOptions options) throws IOException {
         IndexRequest indexRequest = new IndexRequest(index, type, id);
-        indexRequest.source(JsonUtils.toJSONString(entity), XContentType.JSON);
+        indexRequest.source(Func.toJson(entity), XContentType.JSON);
         IndexResponse indexResponse = index(indexRequest, options);
         return indexResponse;
     }

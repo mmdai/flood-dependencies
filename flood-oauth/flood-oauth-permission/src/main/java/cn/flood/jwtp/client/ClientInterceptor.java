@@ -4,7 +4,6 @@ import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.context.SpringContextManager;
 import cn.flood.http.WebUtil;
-import cn.flood.json.JsonUtils;
 import cn.flood.lang.ReflectBeans;
 import cn.flood.okhttp.HttpClient;
 import cn.flood.rpc.response.Result;
@@ -76,11 +75,11 @@ public class ClientInterceptor implements HandlerInterceptor {
             if(Func.isEmpty(userTokenStr)){
                 userToken =  getRestUrlToken(access_token);
                 if(userToken != null){
-                    stringRedisTemplate.opsForValue().set(REDIS_KEY + access_token, JsonUtils.toJSONString(userToken),
+                    stringRedisTemplate.opsForValue().set(REDIS_KEY + access_token, Func.toJson(userToken),
                             REDIS_TIME, TimeUnit.MINUTES);
                 }
             }else{
-                userToken = JsonUtils.toJavaObject(userTokenStr, UserToken.class);
+                userToken = Func.parse(userTokenStr, UserToken.class);
             }
         }else{
             userToken = getRestUrlToken(access_token);

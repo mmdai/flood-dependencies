@@ -1,7 +1,7 @@
 package cn.flood.jwtp.provider;
 
+import cn.flood.Func;
 import cn.flood.UserToken;
-import cn.flood.json.JsonUtils;
 import cn.flood.lang.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -127,13 +127,13 @@ public class JdbcTokenStore extends TokenStoreAbstract {
 
     @Override
     public int updateRolesByUserId(String userId, String[] roles) {
-        String rolesJson = JsonUtils.toJSONString(roles);
+        String rolesJson = Func.toJson(roles);
         return jdbcTemplate.update(SQL_UPDATE_ROLES, rolesJson, userId);
     }
 
     @Override
     public int updatePermissionsByUserId(String userId, String[] permissions) {
-        String permJson = JsonUtils.toJSONString(permissions);
+        String permJson = Func.toJson(permissions);
         return jdbcTemplate.update(SQL_UPDATE_PERMS, permJson, userId);
     }
 
@@ -190,8 +190,8 @@ public class JdbcTokenStore extends TokenStoreAbstract {
         objects.add(userToken.getRefreshToken());  // refresh_token
         objects.add(userToken.getExpireTime());  // expire_time
         objects.add(userToken.getRefreshTokenExpireTime());  // refresh_expire_time
-        objects.add(JsonUtils.toJSONString(userToken.getRoles()));  // roles
-        objects.add(JsonUtils.toJSONString(userToken.getPermissions()));  // permissions
+        objects.add(Func.toJson(userToken.getRoles()));  // roles
+        objects.add(Func.toJson(userToken.getPermissions()));  // permissions
         objects.add(userToken.getUserInfo());  // user_info
         return objects;
     }
@@ -219,8 +219,8 @@ public class JdbcTokenStore extends TokenStoreAbstract {
             userToken.setExpireTime(expire_time);
             userToken.setUserInfo(info);
             userToken.setRefreshTokenExpireTime(refresh_token_expire_time);
-            userToken.setRoles(StringUtils.stringListToArray(JsonUtils.toJavaObjectList(roles, String.class)));
-            userToken.setPermissions(StringUtils.stringListToArray(JsonUtils.toJavaObjectList(permissions, String.class)));
+            userToken.setRoles(StringUtils.stringListToArray(Func.parseList(roles, String.class)));
+            userToken.setPermissions(StringUtils.stringListToArray(Func.parseList(permissions, String.class)));
             return userToken;
         }
 

@@ -3,7 +3,6 @@ package cn.flood.jwtp.provider;
 import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.exception.CoreException;
-import cn.flood.lang.StringUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import cn.flood.jwtp.exception.ErrorTokenException;
 import cn.flood.jwtp.exception.ExpiredTokenException;

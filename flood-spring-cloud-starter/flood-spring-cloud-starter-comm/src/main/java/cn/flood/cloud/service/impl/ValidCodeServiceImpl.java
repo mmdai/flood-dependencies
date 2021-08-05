@@ -3,7 +3,6 @@ package cn.flood.cloud.service.impl;
 import cn.flood.Func;
 import cn.flood.cloud.service.ValidCodeService;
 import cn.flood.lang.StringPool;
-import cn.flood.lang.StringUtils;
 import cn.flood.redis.util.RedisUtil;
 import cn.flood.captcha.Token;
 import cn.flood.captcha.TokenEnum;
