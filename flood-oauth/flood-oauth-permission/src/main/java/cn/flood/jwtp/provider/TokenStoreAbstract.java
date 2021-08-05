@@ -62,7 +62,7 @@ public abstract class TokenStoreAbstract implements TokenStore {
         UserToken userToken = TokenUtil.buildToken(userId, expire, rtExpire, TokenUtil.parseHexKey(tokenKey));
         userToken.setRoles(roles);
         userToken.setPermissions(permissions);
-        if(!Func.isEmpty(userInfo)){
+        if(Func.isNotEmpty(userInfo)){
             userToken.setUserInfo(userInfo);
         }
         if (storeToken(userToken) > 0) {
@@ -107,7 +107,7 @@ public abstract class TokenStoreAbstract implements TokenStore {
             // 生成新的token
             UserToken userToken = TokenUtil.buildToken(userId, expire, null, TokenUtil.parseHexKey(tokenKey), false);
             userToken.setRoles(roles);
-            if(Func.isEmpty(userInfo)){
+            if(Func.isNotEmpty(userInfo)){
                 userToken.setUserInfo(userInfo);
             }
             userToken.setPermissions(permissions);
