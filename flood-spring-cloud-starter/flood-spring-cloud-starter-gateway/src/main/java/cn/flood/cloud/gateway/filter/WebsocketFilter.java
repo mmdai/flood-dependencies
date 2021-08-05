@@ -1,5 +1,8 @@
 package cn.flood.cloud.gateway.filter;
 
+import cn.flood.cloud.gateway.props.WebSocketProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -13,8 +16,11 @@ import java.net.URI;
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 @Component
+@EnableConfigurationProperties({WebSocketProperties.class})
 public class WebsocketFilter implements GlobalFilter, Ordered {
-    private final static String DEFAULT_FILTER_PATH = "/websocket";
+
+    @Autowired
+    private WebSocketProperties webSocketProperties;
 
     /**
      *
@@ -33,9 +39,9 @@ public class WebsocketFilter implements GlobalFilter, Ordered {
 
         if (!"ws".equals(scheme) && !"wss".equals(scheme)) {
             return chain.filter(exchange);
-        } else if ((requestUrl.getPath()).contains(DEFAULT_FILTER_PATH)) {
+        } else if ((requestUrl.getPath()).contains(webSocketProperties.getPath())) {
             String wsScheme = convertWsToHttp(scheme);
-            URI wsRequestUrl = UriComponentsBuilder.fromUri(requestUrl).scheme(wsScheme).port(9080).build().toUri();
+            URI wsRequestUrl = UriComponentsBuilder.fromUri(requestUrl).scheme(wsScheme).port(webSocketProperties.getPort()).build().toUri();
             exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, wsRequestUrl);
         }
         return chain.filter(exchange);

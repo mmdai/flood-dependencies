@@ -22,6 +22,11 @@
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-spring-cloud-starter-rule</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
             <exclusions>
@@ -45,11 +50,6 @@
                     <artifactId>sentinel-zuul-adapter</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-spring-cloud-starter-rule</artifactId>
-            <version>${flood.version}</version>
         </dependency>
         <!-- swagger模块 -->
         <dependency>

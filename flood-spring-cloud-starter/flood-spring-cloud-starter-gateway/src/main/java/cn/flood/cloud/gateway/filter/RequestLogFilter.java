@@ -1,10 +1,13 @@
 package cn.flood.cloud.gateway.filter;
 
 import cn.flood.Func;
+import cn.flood.cloud.gateway.props.WebSocketProperties;
 import cn.flood.constants.HeaderConstants;
 import cn.flood.trace.MDCTraceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -27,9 +30,13 @@ import java.util.List;
 @Slf4j
 @Component
 @AllArgsConstructor
+@EnableConfigurationProperties({WebSocketProperties.class})
 public class RequestLogFilter implements GlobalFilter, Ordered {
 
 	private static final String START_TIME = "startTime";
+
+	@Autowired
+	private WebSocketProperties webSocketProperties;
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -81,8 +88,11 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 
 			// 打印请求头
 			HttpHeaders httpHeaders = response.getHeaders();
-			String traceId = exchange.getAttribute(HeaderConstants.REQUEST_ID);
-			httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
+			//如果是websocket，不需要加入traceId
+			if(!requestUrl.contains(webSocketProperties.getPath())){
+				String traceId = exchange.getAttribute(HeaderConstants.REQUEST_ID);
+				httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
+			}
 			httpHeaders.forEach((headerName, headerValue) -> {
 				responseLog.append(" {}: {}\n");
 				responseArgs.add(headerName);
