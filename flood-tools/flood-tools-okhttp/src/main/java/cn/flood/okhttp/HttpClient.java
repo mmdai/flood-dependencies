@@ -75,7 +75,7 @@ public enum HttpClient {
     private Map<String, Map<String, String>> defaultHeaders;
 //    private Map<String, String> defaultParameters;
 
-    private static final ConnectionPool CONNECTION_POOL = new ConnectionPool(256, 5L, TimeUnit.MINUTES);
+    private ConnectionPool CONNECTION_POOL = new ConnectionPool(256, 5L, TimeUnit.MINUTES);
     /* default constructor */
     HttpClient() {
         //default init
@@ -90,7 +90,7 @@ public enum HttpClient {
                         return true;
                     }
                 });
-
+        this.builder.connectionPool(CONNECTION_POOL);
 
         //读取默认配置文件
         Properties ret = null;
