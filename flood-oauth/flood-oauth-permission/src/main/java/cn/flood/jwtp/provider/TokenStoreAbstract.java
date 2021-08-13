@@ -2,6 +2,7 @@ package cn.flood.jwtp.provider;
 
 import cn.flood.Func;
 import cn.flood.UserToken;
+import cn.flood.exception.CoreException;
 import io.jsonwebtoken.ExpiredJwtException;
 import cn.flood.jwtp.exception.ErrorTokenException;
 import cn.flood.jwtp.exception.ExpiredTokenException;
@@ -71,7 +72,7 @@ public abstract class TokenStoreAbstract implements TokenStore {
     }
 
     @Override
-    public UserToken refreshToken(String refresh_token) throws CoreException  {
+    public UserToken refreshToken(String refresh_token) throws CoreException {
         return refreshToken(refresh_token, null, TokenUtil.DEFAULT_EXPIRE);
     }
 

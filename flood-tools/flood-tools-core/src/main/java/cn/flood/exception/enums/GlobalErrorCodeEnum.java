@@ -38,6 +38,15 @@ public enum GlobalErrorCodeEnum {
     INTERNAL_SERVER_ERROR("500", "系统异常", "INTERNAL_SERVER_ERROR"),
 
     /**
+     *
+     */
+    CONNECTION_TIME_OUT("501","服务连接超时", "CONNECTION_TIME_OUT"),
+
+    /**
+     *
+     */
+    READ_TIME_OUT("502","服务响应超时", "READ_TIME_OUT"),
+    /**
      * 未知错误
      */
     UNKNOWN("999", "未知错误", "UNKNOWN");

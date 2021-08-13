@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.flood.cloud.http;
+package cn.flood.oauth.configuration.client.restTempate;
+
 
 import cn.flood.constants.AppConstant;
 import cn.flood.exception.CoreException;
 import cn.flood.exception.enums.GlobalErrorCodeEnum;
 import cn.flood.proto.config.ProtostuffHttpMessageConverter;
 import cn.flood.utils.Charsets;
-import com.alibaba.fastjson.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +28,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.commons.httpclient.OkHttpClientConnectionPoolFactory;
 import org.springframework.cloud.commons.httpclient.OkHttpClientFactory;
-import org.springframework.cloud.openfeign.support.FeignHttpClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -60,40 +59,46 @@ public class RestTemplateConfiguration {
 
 	/**
 	 * dev, test 环境打印出BODY
-	 * @return HttpLoggingInterceptor
+	 * @return HttpRestLoggingInterceptor
 	 */
-	@Bean("httpLoggingInterceptor")
+	@Bean("httpRestLoggingInterceptor")
 	@Profile({AppConstant.DEV_CODE, AppConstant.TEST_CODE})
-	public HttpLoggingInterceptor testLoggingInterceptor() {
-		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new OkHttpSlf4jLogger());
-		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+	public HttpRestLoggingInterceptor testLoggingInterceptor() {
+		HttpRestLoggingInterceptor interceptor = new HttpRestLoggingInterceptor(new OkHttpSlf4jLogger());
+		interceptor.setLevel(HttpRestLoggingInterceptor.Level.BODY);
 		return interceptor;
 	}
 
 	/**
 	 * uat 环境 打印 请求头
-	 * @return HttpLoggingInterceptor
+	 * @return HttpRestLoggingInterceptor
 	 */
-	@Bean("httpLoggingInterceptor")
+	@Bean("httpRestLoggingInterceptor")
 	@Profile(AppConstant.UAT_CODE)
-	public HttpLoggingInterceptor onTestLoggingInterceptor() {
-		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new OkHttpSlf4jLogger());
-		interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+	public HttpRestLoggingInterceptor onTestLoggingInterceptor() {
+		HttpRestLoggingInterceptor interceptor = new HttpRestLoggingInterceptor(new OkHttpSlf4jLogger());
+		interceptor.setLevel(HttpRestLoggingInterceptor.Level.HEADERS);
 		return interceptor;
 	}
 
 	/**
 	 * prod 环境只打印请求url
-	 * @return HttpLoggingInterceptor
+	 * @return HttpRestLoggingInterceptor
 	 */
-	@Bean("httpLoggingInterceptor")
+	@Bean("httpRestLoggingInterceptor")
 	@Profile(AppConstant.PROD_CODE)
-	public HttpLoggingInterceptor prodLoggingInterceptor() {
-		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor(new OkHttpSlf4jLogger());
-		interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+	public HttpRestLoggingInterceptor prodLoggingInterceptor() {
+		HttpRestLoggingInterceptor interceptor = new HttpRestLoggingInterceptor(new OkHttpSlf4jLogger());
+		interceptor.setLevel(HttpRestLoggingInterceptor.Level.BASIC);
 		return interceptor;
 	}
 
+
+	@Bean
+	@ConditionalOnMissingBean(HttpRestLoggingInterceptor.class)
+	public HttpRestLoggingInterceptor httpRestLoggingInterceptor() {
+		return new HttpRestLoggingInterceptor();
+	}
 	/**
 	 * okhttp3 链接池配置
 	 * @param connectionPoolFactory 链接池配置
@@ -103,7 +108,7 @@ public class RestTemplateConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(okhttp3.ConnectionPool.class)
 	public okhttp3.ConnectionPool httpClientConnectionPool(
-		FeignHttpClientProperties httpClientProperties,
+		HttpClientProperties httpClientProperties,
 		OkHttpClientConnectionPoolFactory connectionPoolFactory) {
 		Integer maxTotalConnections = httpClientProperties.getMaxConnections();
 		Long timeToLive = httpClientProperties.getTimeToLive();
@@ -124,8 +129,8 @@ public class RestTemplateConfiguration {
 	public okhttp3.OkHttpClient httpClient(
 		OkHttpClientFactory httpClientFactory,
 		okhttp3.ConnectionPool connectionPool,
-		FeignHttpClientProperties httpClientProperties,
-		HttpLoggingInterceptor interceptor) {
+		HttpClientProperties httpClientProperties,
+		HttpRestLoggingInterceptor interceptor) {
 		Boolean followRedirects = httpClientProperties.isFollowRedirects();
 		Integer connectTimeout = httpClientProperties.getConnectionTimeout();
 		return httpClientFactory.createBuilder(httpClientProperties.isDisableSslValidation())

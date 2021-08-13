@@ -12,14 +12,16 @@
     <artifactId>flood-oauth-permission</artifactId>
 
     <dependencies>
+        <!-- okhttp3 -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${okhttp3.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.github.mmdai</groupId>
             <artifactId>flood-tools-core</artifactId>
-            <version>${flood.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-tools-okhttp</artifactId>
             <version>${flood.version}</version>
         </dependency>
         <!-- spring jdbc -->

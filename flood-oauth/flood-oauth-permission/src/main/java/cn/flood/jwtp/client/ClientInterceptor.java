@@ -4,12 +4,15 @@ import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.context.SpringContextManager;
 import cn.flood.http.WebUtil;
-import cn.flood.lang.ReflectBeans;
-import cn.flood.okhttp.HttpClient;
 import cn.flood.rpc.response.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import cn.flood.jwtp.exception.ErrorTokenException;
@@ -21,10 +24,6 @@ import cn.flood.jwtp.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,6 +36,8 @@ public class ClientInterceptor implements HandlerInterceptor {
     private UrlPerm urlPerm;
 
     private String authCenterUrl;
+
+    private RestTemplate restTemplate;
 
     private static final String options = "OPTIONS";
     //client key
@@ -105,11 +106,14 @@ public class ClientInterceptor implements HandlerInterceptor {
      * @throws ErrorTokenException
      */
     public UserToken getRestUrlToken(String access_token) throws ExpiredTokenException, ErrorTokenException {
-        String url = authCenterUrl + "/authentication";
-        logger.info("========userToken start");
-        Result result = HttpClient.get(url).
-                queryString("access_token", access_token).asBean(Result.class);
-        logger.info("========userToken end: {}", result);
+        StringBuilder url = new StringBuilder(authCenterUrl);
+        url.append("/authentication");
+        HttpHeaders headers = new HttpHeaders();
+        // 封装参数，千万不要替换为Map与HashMap，否则参数无法传递
+        MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
+        paramMap.add("access_token", access_token);
+        HttpEntity requestEntity = new HttpEntity<>(paramMap, headers);
+        Result result = restTemplate.postForObject(url.toString(), requestEntity, Result.class);
         if(result == null){
             throw new RuntimeException("'" + authCenterUrl + "/authentication' return null");
         }
@@ -118,15 +122,9 @@ public class ClientInterceptor implements HandlerInterceptor {
         } else if (!Result.SUCCESS_CODE.equals(result.get_code())) {
             throw new ErrorTokenException();
         }
-        Map<String, Object> dataMap = (Map)result.get_data();
-        List<String> roles = Func.isNotEmpty(dataMap.get("roles")) ? (List) dataMap.get("roles") : Collections.EMPTY_LIST;
-        dataMap.put("roles", roles.stream().toArray(String[]::new));
-        List<String> permissions = Func.isNotEmpty(dataMap.get("permissions")) ? (List) dataMap.get("permissions") : Collections.EMPTY_LIST;
-        dataMap.put("permissions", permissions.stream().toArray(String[]::new));
-        UserToken userToken = ReflectBeans.convert(UserToken.class,dataMap);
+        UserToken userToken = (UserToken) result.get_data();
         return userToken;
     }
-
 
     public ClientInterceptor() {
     }
@@ -135,9 +133,10 @@ public class ClientInterceptor implements HandlerInterceptor {
         setUrlPerm(urlPerm);
     }
 
-    public ClientInterceptor(String authCenterUrl, UrlPerm urlPerm) {
+    public ClientInterceptor(String authCenterUrl, UrlPerm urlPerm, RestTemplate restTemplate) {
         setAuthCenterUrl(authCenterUrl);
         setUrlPerm(urlPerm);
+        setRestTemplate(restTemplate);
     }
 
     public void setUrlPerm(UrlPerm urlPerm) {
@@ -156,4 +155,11 @@ public class ClientInterceptor implements HandlerInterceptor {
         this.authCenterUrl = authCenterUrl;
     }
 
+    public RestTemplate getRestTemplate() {
+        return restTemplate;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 }

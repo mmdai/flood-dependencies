@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -24,6 +25,9 @@ public class FloodPermissionClientConfiguration implements WebMvcConfigurer, App
 
     @Autowired
     private FloodPermissionProperties properties;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     /**
      * 注入simpleUrlPerm
@@ -51,7 +55,7 @@ public class FloodPermissionClientConfiguration implements WebMvcConfigurer, App
         UrlPerm urlPerm = getBean(UrlPerm.class);  // 获取UrlPerm
         String[] path = properties.getPath();  // 获取拦截路径
         String[] excludePath = properties.getExcludePath();  // 获取排除路径
-        ClientInterceptor interceptor = new ClientInterceptor(properties.getAuthCenterUrl(), urlPerm);
+        ClientInterceptor interceptor = new ClientInterceptor(properties.getAuthCenterUrl(), urlPerm, restTemplate);
         registry.addInterceptor(interceptor).addPathPatterns(path).excludePathPatterns(excludePath);
     }
 

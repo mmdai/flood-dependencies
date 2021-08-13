@@ -1,6 +1,7 @@
 package cn.flood.jwtp.provider;
 
 import cn.flood.UserToken;
+import cn.flood.exception.CoreException;
 
 import java.util.List;
 
