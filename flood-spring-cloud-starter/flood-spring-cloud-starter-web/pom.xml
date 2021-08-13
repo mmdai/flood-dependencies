@@ -21,13 +21,7 @@
             <artifactId>flood-tools-banner</artifactId>
             <version>${flood.version}</version>
         </dependency>
-
-        <!-- core -->
-        <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-tools-core</artifactId>
-            <version>${flood.version}</version>
-        </dependency>
+        
         <!-- base -->
         <dependency>
             <groupId>io.github.mmdai</groupId>
