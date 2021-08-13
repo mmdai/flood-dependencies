@@ -1,9 +1,8 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.flood.aop.response.ResponseMessageKey,\
 cn.flood.proto.config.ProtoSupportConfig,\
 cn.flood.i18n.InternationalConfig,\
 cn.flood.mvc.version.VersionMappingAutoConfiguration,\
 cn.flood.filter.CorsConfig,\
 cn.flood.filter.LogFilter,\
 cn.flood.handle.GlobalDefaultExceptionHandler,\
-cn.flood.undertow.UndertowHttp2Configuration  
+cn.flood.undertow.UndertowHttp2Configuration

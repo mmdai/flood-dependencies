@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import cn.flood.exception.CoreException;
+import cn.flood.exception.enums.GlobalErrorCodeEnum;
 import cn.flood.i18n.LocaleParser;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -24,8 +26,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import cn.flood.aop.response.ResponseMessageKey;
-import cn.flood.exception.CoreException;
 import cn.flood.exception.ErrorMessage;
 
 /**
@@ -48,8 +48,7 @@ public class GlobalDefaultExceptionHandler {
     private static final int KILO = 1024;
 	@Autowired
     private MessageSource messageSource;
-	@Autowired 
-	private ResponseMessageKey responseMessageKey;
+
 	@Autowired
 	private LocaleParser localeParser;
 
@@ -71,7 +70,7 @@ public class GlobalDefaultExceptionHandler {
     public Object handleMaxUploadSizeExceededException(HttpServletRequest req, MaxUploadSizeExceededException ex) {
         logger.error(GLOBAL_HANDLER_TITLE, ex);
         ErrorMessage error = new ErrorMessage();
-		String code = responseMessageKey.getErrorParamKey();
+		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
 		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
 		String message = "上传文件大小超出系统限制 (" + ex.getMaxUploadSize() / KILO / KILO + "MB)";
 		if(!StringUtils.isEmpty(langContent)){
@@ -107,7 +106,7 @@ public class GlobalDefaultExceptionHandler {
 	public ErrorMessage validErrorHandler(HttpServletRequest req, BindException ex) {
 		logger.error(GLOBAL_HANDLER_TITLE, ex);
 		ErrorMessage error = new ErrorMessage();
-		String code = responseMessageKey.getErrorParamKey();
+		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
 		List<FieldError> errorList = ex.getFieldErrors();
 		FieldError f_error = errorList.get(0);
 		//优先获取@Valid Bean定义的message内容信息
@@ -152,7 +151,7 @@ public class GlobalDefaultExceptionHandler {
 	public ErrorMessage validJsonErrorHandler(HttpServletRequest req, MethodArgumentNotValidException ex) {
 		logger.error(GLOBAL_HANDLER_TITLE, ex);
 		ErrorMessage error = new ErrorMessage();
-		String code = responseMessageKey.getErrorParamKey();
+		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
 		BindingResult bindingResult = ex.getBindingResult();
 		FieldError f_error = bindingResult.getFieldError();
 		//优先获取@Valid Bean定义的message内容信息
@@ -196,8 +195,14 @@ public class GlobalDefaultExceptionHandler {
 				message = c.getDefaultMessage();
 			}
 		} else {
-			code = responseMessageKey.getErrorKey();
-			message = responseMessageKey.getErrorMsg();
+			code = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode();
+			message = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getZhName();
+			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+			if(!StringUtils.isEmpty(langContent)){
+				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+					message = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getEnName();
+				}
+			}
 		}
 		if (StringUtils.isEmpty(message)) {
 			message = messageSource.getMessage(code, arguments, getLocaleByLanguage(req));

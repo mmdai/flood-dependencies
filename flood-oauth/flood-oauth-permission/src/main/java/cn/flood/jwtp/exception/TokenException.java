@@ -1,7 +1,6 @@
 package cn.flood.jwtp.exception;
 
 import cn.flood.exception.CoreException;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 
 /**
  * TokenException
