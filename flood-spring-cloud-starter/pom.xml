@@ -27,6 +27,7 @@
         <module>flood-spring-cloud-starter-log</module>
         <module>flood-spring-cloud-starter-zk</module>
         <module>flood-spring-cloud-starter-rule</module>
+        <module>flood-spring-cloud-starter-pulsar</module>
     </modules>
 
     <artifactId>flood-spring-cloud-starter</artifactId>

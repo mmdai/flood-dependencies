@@ -293,6 +293,11 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-spring-cloud-starter-pulsar</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-spring-cloud-starter-uid</artifactId>
 			<version>${flood.version}</version>
 		</dependency>

@@ -30,7 +30,7 @@
 ```java
 <dependency>
     <groupId>cn.flood</groupId>
-    <artifactId>flood-rocketmq</artifactId>
+    <artifactId>flood-spring-cloud-starter-rocketmq</artifactId>
     <version>2.0.0</version>
 </dependency>
 ```
@@ -49,16 +49,6 @@ spring:
       #trace-enabled: false
       # 是否启用VIP通道，默认打开
       #vip-channel-enabled: false
-```
-##### 3. 程序入口添加注解开启自动装配
-
-在springboot应用主入口添加`@EnableMQConfiguration`注解开启自动装配：
-
-```java
-@SpringBootApplication
-@EnableMQConfiguration
-class DemoApplication {
-}
 ```
 
 ##### 4. 构建消息体
