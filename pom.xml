@@ -417,13 +417,13 @@
 			</build>
 			<distributionManagement>
 				<snapshotRepository>
-					<id>flood-dependencies</id>
-					<name>Sonatype Nexus Snapshots</name>
+					<id>snapshot</id>
+					<name>snapshot</name>
 					<url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
 				</snapshotRepository>
 				<repository>
-					<id>flood-dependencies</id>
-					<name>Nexus Release Repository</name>
+					<id>releases</id>
+					<name>releases</name>
 					<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 				</repository>
 			</distributionManagement>
