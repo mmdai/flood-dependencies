@@ -36,17 +36,15 @@ public class ServiceAspect implements LogAspect {
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		long start = Clock.systemDefaultZone().millis();
-//		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//		HttpServletRequest request = attributes.getRequest();
-//		String uri=request.getRequestURI();
-		 
 		String methodName = joinPoint.getSignature().getName();
 		logger.info("【service】【{}】 start", methodName);
-		logger.debug("【service】【{}】【{}】",  methodName, before(joinPoint));
-
+		if (logger.isDebugEnabled()) {
+			logger.debug("【service】【{}】【{}】", methodName, before(joinPoint));
+		}
 		Object result = joinPoint.proceed();
-
-		logger.debug("【service】【{}】【{}】", methodName, after(result));
+		if (logger.isDebugEnabled()) {
+			logger.debug("【service】【{}】【{}】", methodName, after(result));
+		}
 		logger.info("【service】【{}】 end,cost【{}ms】", methodName, (Clock.systemDefaultZone().millis()-start));
 		return result;
 	}

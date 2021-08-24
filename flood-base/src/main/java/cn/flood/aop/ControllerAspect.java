@@ -40,19 +40,21 @@ public class ControllerAspect implements LogAspect {
 	
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		 long start = Clock.systemDefaultZone().millis();
-		 ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		 HttpServletRequest request = attributes.getRequest();
-		 String uri = request.getRequestURI();
-		 String methodName = joinPoint.getSignature().getName();
-		 logger.info("【controller】【{}】【{}】 start", uri, methodName);
-		 logger.debug("【controller】【{}】【{}】【{}】", uri, methodName, before(joinPoint));
-
-		 Object result=joinPoint.proceed();
-
-		 logger.debug("【controller】【{}】【{}】【{}】", uri, methodName, after(result));
-		 logger.info("【controller】【{}】【{}】 end, cost【{}ms】", uri, methodName, (Clock.systemDefaultZone().millis()-start));
-		 return result;
+		long start = Clock.systemDefaultZone().millis();
+		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+		HttpServletRequest request = attributes.getRequest();
+		String uri = request.getRequestURI();
+		String methodName = joinPoint.getSignature().getName();
+		logger.info("【controller】【{}】【{}】 start", uri, methodName);
+		if (logger.isDebugEnabled()) {
+			logger.debug("【controller】【{}】【{}】【{}】", uri, methodName, before(joinPoint));
+		}
+		Object result=joinPoint.proceed();
+		if (logger.isDebugEnabled()) {
+		 	logger.debug("【controller】【{}】【{}】【{}】", uri, methodName, after(result));
+		}
+		logger.info("【controller】【{}】【{}】 end, cost【{}ms】", uri, methodName, (Clock.systemDefaultZone().millis()-start));
+		return result;
 	}
 
 

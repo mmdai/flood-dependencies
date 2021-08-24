@@ -32,17 +32,15 @@ public class DaoAspect implements LogAspect {
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		long start = Clock.systemDefaultZone().millis();
-		/*ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpServletRequest request = attributes.getRequest();
-		String uri=request.getRequestURI();*/
 		String methodName = joinPoint.getSignature().getName();
 		logger.info("【dao】【{}】 start", methodName);
-		logger.debug("【dao】【{}】【{}】",  methodName, before(joinPoint));
-
+		if (logger.isDebugEnabled()) {
+			logger.debug("【dao】【{}】【{}】", methodName, before(joinPoint));
+		}
 		Object result = joinPoint.proceed();
-
-		logger.debug("【dao】【{}】【{}】", methodName, after(result));
-		long end = Clock.systemDefaultZone().millis();
+		if (logger.isDebugEnabled()) {
+			logger.debug("【dao】【{}】【{}】", methodName, after(result));
+		}
 		logger.info("【dao】【{}】 end,cost【{}ms】", methodName, (Clock.systemDefaultZone().millis()-start));
 		return result;
 	}

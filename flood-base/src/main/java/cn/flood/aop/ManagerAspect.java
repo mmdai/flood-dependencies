@@ -39,16 +39,16 @@ public class ManagerAspect implements LogAspect {
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		long start=Clock.systemDefaultZone().millis();
-		/*ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-		HttpServletRequest request = attributes.getRequest();
-		String uri=request.getRequestURI();*/
 		String methodName = joinPoint.getSignature().getName();
 		logger.info("【manager】【{}】 start", methodName);
-		logger.debug("【manager】【{}】【{}】",  methodName, before(joinPoint));
+		if (logger.isDebugEnabled()) {
+			logger.debug("【manager】【{}】【{}】", methodName, before(joinPoint));
+		}
 
 		Object result = joinPoint.proceed();
-
-		logger.debug("【manager】【{}】【{}】", methodName, after(result));
+		if (logger.isDebugEnabled()) {
+			logger.debug("【manager】【{}】【{}】", methodName, after(result));
+		}
 		logger.info("【manager】【{}】 end,cost【{}ms】", methodName, (Clock.systemDefaultZone().millis()-start));
 		return result;
 	}
