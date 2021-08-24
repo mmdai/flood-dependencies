@@ -7,7 +7,6 @@ import cn.flood.websocket.redis.action.ActionConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,6 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 
-@ConditionalOnProperty(prefix = "server.websocket" , name = "isJq" ,havingValue = "true")
 @Configuration
 @Import({ActionConfig.class})
 public class RedisWebSocketConfig implements ApplicationContextAware{
