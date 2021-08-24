@@ -1,5 +1,6 @@
 package cn.flood.cloud.gateway.filter;
 
+import cn.flood.Func;
 import cn.flood.cloud.gateway.props.WebSocketProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -41,7 +42,10 @@ public class WebsocketFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         } else if ((requestUrl.getPath()).contains(webSocketProperties.getPath())) {
             String wsScheme = convertWsToHttp(scheme);
-            URI wsRequestUrl = UriComponentsBuilder.fromUri(requestUrl).scheme(wsScheme).port(webSocketProperties.getPort()).build().toUri();
+            URI wsRequestUrl = UriComponentsBuilder.fromUri(requestUrl).scheme(wsScheme).build().toUri();
+            if(Func.isNotEmpty(webSocketProperties.getPort())){
+                wsRequestUrl = UriComponentsBuilder.fromUri(requestUrl).scheme(wsScheme).port(webSocketProperties.getPort()).build().toUri();
+            }
             exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, wsRequestUrl);
         }
         return chain.filter(exchange);

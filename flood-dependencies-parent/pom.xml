@@ -215,7 +215,7 @@
 		<!-- websocket -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-websocket</artifactId>
+			<artifactId>flood-websocket-redis</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 		<!-- xxl-job -->

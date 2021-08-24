@@ -298,7 +298,7 @@
     <!-- flood对外依赖包 -->
     <module>flood-dependencies-parent</module>
 	<!-- socket -->
-	<module>flood-websocket</module>
+	<module>flood-websocket-redis</module>
 	<!-- 动态线程池 -->
 	<module>flood-dynamic-thread-pool</module>
 	<!-- flood-delay 延时消息队列中心 -->
