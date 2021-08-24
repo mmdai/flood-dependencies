@@ -6,7 +6,6 @@ import cn.flood.constants.HeaderConstants;
 import cn.flood.trace.MDCTraceUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -17,8 +16,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 /**
  * 打印请求和响应简要日志
@@ -34,9 +36,6 @@ import java.util.List;
 public class RequestLogFilter implements GlobalFilter, Ordered {
 
 	private static final String START_TIME = "startTime";
-
-	@Autowired
-	private WebSocketProperties webSocketProperties;
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -89,7 +88,10 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 			// 打印请求头
 			HttpHeaders httpHeaders = response.getHeaders();
 			//如果是websocket，不需要加入traceId
-			if(!requestUrl.contains(webSocketProperties.getPath())){
+			URI requestUri = exchange.getRequiredAttribute(GATEWAY_REQUEST_URL_ATTR);
+			String scheme = requestUri.getScheme();
+
+			if (!"ws".equals(scheme) && !"wss".equals(scheme)) {
 				String traceId = exchange.getAttribute(HeaderConstants.REQUEST_ID);
 				httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 			}

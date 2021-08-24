@@ -12,9 +12,9 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @ConfigurationProperties(prefix = "websocket")
 public class WebSocketProperties {
 
-    private String path = "/websocket";
+    private String path;
     /**
      * 是否启用网关鉴权模式
      */
-    private int port = 9080;
+    private Integer port;
 }

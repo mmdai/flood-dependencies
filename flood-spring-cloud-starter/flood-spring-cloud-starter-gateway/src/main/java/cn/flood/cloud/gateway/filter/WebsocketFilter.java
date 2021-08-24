@@ -32,7 +32,7 @@ public class WebsocketFilter implements GlobalFilter, Ordered {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String upgrade = exchange.getRequest().getHeaders().getUpgrade();
+//        String upgrade = exchange.getRequest().getHeaders().getUpgrade();
 
         URI requestUrl = exchange.getRequiredAttribute(GATEWAY_REQUEST_URL_ATTR);
 
@@ -40,7 +40,8 @@ public class WebsocketFilter implements GlobalFilter, Ordered {
 
         if (!"ws".equals(scheme) && !"wss".equals(scheme)) {
             return chain.filter(exchange);
-        } else if ((requestUrl.getPath()).contains(webSocketProperties.getPath())) {
+//        } else if ((requestUrl.getPath()).contains(webSocketProperties.getPath())) {
+        } else {
             String wsScheme = convertWsToHttp(scheme);
             URI wsRequestUrl = UriComponentsBuilder.fromUri(requestUrl).scheme(wsScheme).build().toUri();
             if(Func.isNotEmpty(webSocketProperties.getPort())){
