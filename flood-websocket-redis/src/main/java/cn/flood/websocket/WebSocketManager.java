@@ -58,10 +58,23 @@ public interface WebSocketManager {
     void sendMessage(String userAccount, String message);
 
     /**
+     * 给某人发送对象
+     * @param userAccount
+     * @param bytes
+     */
+    void sendMessage(String userAccount, byte[] bytes);
+
+    /**
      * 广播
      * @param message 消息
      */
     void broadcast(String message);
+
+    /**
+     * 广播
+     * @param bytes 消息
+     */
+    void broadcast(byte[] bytes);
 
     /**
      * WebSocket接收到消息的函数调用
@@ -69,6 +82,13 @@ public interface WebSocketManager {
      * @param message 消息内容
      */
     void onMessage(String identifier, String message);
+
+    /**
+     * WebSocket接收到消息的函数调用
+     * @param identifier 标识
+     * @param bytes 消息内容
+     */
+    void onMessage(String identifier, byte[] bytes);
 
     /**
      * 在OnMessage中判断是否是心跳,

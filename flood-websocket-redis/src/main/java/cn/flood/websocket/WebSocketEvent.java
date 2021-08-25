@@ -9,7 +9,7 @@ public class WebSocketEvent extends ApplicationEvent {
 
     private WebSocket webSocket;
     private String eventType;
-    private String message;
+    private Object message;
 
     public WebSocketEvent(WebSocket webSocket, String eventType) {
         super(webSocket);
@@ -17,7 +17,7 @@ public class WebSocketEvent extends ApplicationEvent {
         this.eventType = eventType;
     }
 
-    public WebSocketEvent(WebSocket webSocket, String eventType, String message) {
+    public WebSocketEvent(WebSocket webSocket, String eventType, Object message) {
         super(webSocket);
         this.webSocket = webSocket;
         this.eventType = eventType;
@@ -32,7 +32,7 @@ public class WebSocketEvent extends ApplicationEvent {
         return eventType;
     }
 
-    public String getMessage() {
+    public Object getMessage() {
         return message;
     }
 }

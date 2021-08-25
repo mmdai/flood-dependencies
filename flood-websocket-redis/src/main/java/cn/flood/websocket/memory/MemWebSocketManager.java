@@ -104,10 +104,32 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
     }
 
     @Override
+    public void sendMessage(String userAccount, byte[] bytes) {
+        List<WebSocket> list = getList(userAccount);
+        //本地能找到就直接发
+        if (list != null && list.size() > 0) {
+            for (WebSocket webSocket : list) {
+                WebSocketUtil.sendMessageAsync(webSocket.getSession(), new ResponseData("message", bytes).toString());
+            }
+            return;
+        } else {
+//            不能抛异常,如果用户没有登陆,会在登陆的时候再提示
+//            throw new RuntimeException("userAccount 不存在");
+        }
+    }
+
+    @Override
     public void broadcast(String message) {
         localWebSocketMap().values().forEach(
                 webSocket -> WebSocketUtil.sendMessageAsync(
                         webSocket.getSession(), message));
+    }
+
+    @Override
+    public void broadcast(byte[] bytes) {
+        localWebSocketMap().values().forEach(
+                webSocket -> WebSocketUtil.sendBytesAsync(
+                        webSocket.getSession(), bytes));
     }
 
     @Override
@@ -116,6 +138,15 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
         //发布一下消息事件,让关注该事件的人去处理
         if (null != webSocket) {
             getApplicationContext().publishEvent(new WebSocketEvent(webSocket, WebSocketEvent.EVENT_TYPE_MESSAGE, message));
+        }
+    }
+
+    @Override
+    public void onMessage(String identifier, byte[] bytes) {
+        WebSocket webSocket = connections.get(identifier);
+        //发布一下消息事件,让关注该事件的人去处理
+        if (null != webSocket) {
+            getApplicationContext().publishEvent(new WebSocketEvent(webSocket, WebSocketEvent.EVENT_TYPE_MESSAGE, bytes));
         }
     }
 

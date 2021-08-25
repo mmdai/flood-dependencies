@@ -63,10 +63,32 @@ public class RedisWebSocketManager extends MemWebSocketManager {
     }
 
     @Override
+    public void sendMessage(String userAccount, byte[] bytes) {
+//        super.sendMessage(userAccount, message);
+        Map<String, Object> map = new HashMap<>(3);
+        map.put(Action.ACTION, SendMessageAction.class.getName());
+        map.put(Action.USER_ACCOUNT, userAccount);
+        ResponseData responseData = new ResponseData("message", bytes);
+        map.put(Action.MESSAGE, responseData);
+        // 发布消息到redis频道上 redis转发到订阅的各个socket实例上 收到信息 根据标识 获取到session 发给自己对应的客户端
+        redisTemplate.convertAndSend(getChannel(), Func.toJson(map));
+    }
+
+
+    @Override
     public void broadcast(String message) {
         Map<String , Object> map = new HashMap<>(2);
         map.put(Action.ACTION , BroadCastAction.class.getName());
         map.put(Action.MESSAGE , message);
+        //在websocket频道上发布广播的消息
+        redisTemplate.convertAndSend(getChannel() , Func.toJson(map));
+    }
+
+    @Override
+    public void broadcast(byte[] bytes) {
+        Map<String , Object> map = new HashMap<>(2);
+        map.put(Action.ACTION , BroadCastAction.class.getName());
+        map.put(Action.MESSAGE , bytes);
         //在websocket频道上发布广播的消息
         redisTemplate.convertAndSend(getChannel() , Func.toJson(map));
     }
@@ -87,15 +109,12 @@ public class RedisWebSocketManager extends MemWebSocketManager {
      */
     private void countChange(int delta){
         ValueOperations<String, Object> value = redisTemplate.opsForValue();
-
-        //获取在线当前数量
-        int count = getCount(value);
-
-        count = count + delta;
-        count = count > 0 ? count : 0;
-
-        //设置新的数量
-        value.set(COUNT_KEY , "" + count);
+        int count = getCount();
+        if(count != 0){
+            value.increment(getChannel() +":"+COUNT_KEY, delta);
+        }else{
+            value.set(getChannel() +":"+COUNT_KEY, count+delta);
+        }
     }
 
     /**
@@ -103,10 +122,7 @@ public class RedisWebSocketManager extends MemWebSocketManager {
      */
     private int getCount(){
         ValueOperations<String, Object> value = redisTemplate.opsForValue();
-        return getCount(value);
-    }
-    private int getCount(ValueOperations<String, Object> value) {
-        Object countStr = value.get(COUNT_KEY);
+        Object countStr = value.get(getChannel() +":"+COUNT_KEY);
         int count = 0;
         if(null != countStr){
             count = Integer.parseInt(countStr.toString());
