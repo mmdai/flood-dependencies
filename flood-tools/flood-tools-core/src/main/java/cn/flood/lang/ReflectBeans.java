@@ -74,7 +74,7 @@ public class ReflectBeans {
                     Class fieldType = types[0];
                     //如果除对象类型的其他类如常量类型传入的是空值就不参与反射
                     if (value instanceof Map) {
-                        System.out.println();
+//                        System.out.println();
                     }
                     if (!(value instanceof Collection) && !(value instanceof Map)) {
                         if (StringUtils.isEmpty(value) && !fieldType.getName().startsWith("java")) {
@@ -84,8 +84,8 @@ public class ReflectBeans {
                     value = exchangeProperty(fieldType, value);
                     method.invoke(dest, new Object[]{value});
                 } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                    System.err.println("error:" + dest.getClass().getName() + "." + methodName + " value:" + value);
+//                    System.err.println(e.getMessage());
+//                    System.err.println("error:" + dest.getClass().getName() + "." + methodName + " value:" + value);
                 }
             }
         }

@@ -3,6 +3,7 @@ package cn.flood.jwtp.util;
 import cn.flood.UserToken;
 import cn.flood.http.WebUtil;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -17,6 +18,7 @@ import java.util.Collection;
  * 权限检查工具类
  * <p>
  */
+@Slf4j
 public class SecureUtil {
 
     /**
@@ -184,9 +186,9 @@ public class SecureUtil {
                         userToken.setPermissions(tokenStore.findPermissionsByUserId(userId, userToken));
                     }
                 } catch (ExpiredJwtException e) {
-                    System.out.println("token已过期");
+                    log.error("token已过期");
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    log.error(e.getMessage());
                 }
             }
         }

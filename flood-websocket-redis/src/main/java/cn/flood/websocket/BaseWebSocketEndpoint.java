@@ -2,6 +2,7 @@ package cn.flood.websocket;
 
 
 
+import cn.flood.Func;
 import cn.flood.context.SpringContextManager;
 import cn.flood.websocket.utils.WebSocketUtil;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ public abstract class BaseWebSocketEndpoint {
 
     public void connect(String userAccount, String identifier, Session session) {
         try {
-            if (null == identifier || "".equals(identifier)) {
+            if (Func.isBlank(identifier)) {
                 return;
             }
 

@@ -1,5 +1,7 @@
 package cn.flood.websocket.utils;
 
+import cn.flood.http.UrlUtils;
+
 import javax.websocket.Session;
 import java.io.IOException;
 import java.nio.ByteBuffer;

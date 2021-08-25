@@ -7,6 +7,7 @@ import cn.flood.websocket.WebSocketEvent;
 import cn.flood.websocket.WebSocketManager;
 import cn.flood.websocket.utils.ResponseData;
 import cn.flood.websocket.utils.WebSocketUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -14,7 +15,7 @@ import org.springframework.context.ApplicationContextAware;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+@Slf4j
 public class MemWebSocketManager implements WebSocketManager, ApplicationContextAware {
     private ApplicationContext applicationContext;
 
@@ -55,7 +56,7 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
     public void put(String identifier, WebSocket webSocket) {
         connections.put(identifier, webSocket);
         Set<String> set = account2identifys.get(webSocket.getUserAccount());
-        if (set == null) {
+        if (Func.isEmpty(set)) {
             set = Collections.synchronizedSet(new HashSet<>());
             account2identifys.put(webSocket.getUserAccount(), set);
         }
@@ -68,7 +69,7 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
     public void remove(String identifier) {
         WebSocket removedWebSocket = connections.remove(identifier);
         //发送关闭事件
-        if (null != removedWebSocket) {
+        if (Func.isNotEmpty(removedWebSocket)) {
             account2identifys.get(removedWebSocket.getUserAccount()).remove(identifier);
             getApplicationContext().publishEvent(new WebSocketEvent(removedWebSocket, WebSocketEvent.EVENT_TYPE_CLOSE));
             removedWebSocket.closeSession();
@@ -92,7 +93,7 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
     public void sendMessage(String userAccount, String message) {
         List<WebSocket> list = getList(userAccount);
         //本地能找到就直接发
-        if (list != null && list.size() > 0) {
+        if (Func.isNotEmpty(list)) {
             for (WebSocket webSocket : list) {
                 WebSocketUtil.sendMessageAsync(webSocket.getSession(), new ResponseData("message", message).toString());
             }
@@ -107,7 +108,7 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
     public void sendMessage(String userAccount, byte[] bytes) {
         List<WebSocket> list = getList(userAccount);
         //本地能找到就直接发
-        if (list != null && list.size() > 0) {
+        if (Func.isNotEmpty(list)) {
             for (WebSocket webSocket : list) {
                 WebSocketUtil.sendMessageAsync(webSocket.getSession(), new ResponseData("message", bytes).toString());
             }
@@ -170,7 +171,7 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
             if (System.currentTimeMillis() - con.getLastHeart().getTime() > 30000) {
                 //timeout
                 remove(identify);
-                System.out.println("remove websocket by time out:" + identify);
+                log.info("remove websocket by time out:{}", identify);
             }
         });
     }
