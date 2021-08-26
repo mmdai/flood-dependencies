@@ -9,6 +9,7 @@ import cn.flood.websocket.utils.ResponseData;
 import cn.flood.websocket.utils.WebSocketUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
@@ -27,6 +28,17 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
     public ApplicationContext getApplicationContext() {
         return applicationContext;
     }
+
+    /**
+     *      @param timeSpan 检查到心跳更新时间大于这么毫秒就认为断开了（心跳时间）
+     */
+    @Value("${webSocket.heartCheck.timeSpan:30000}")
+    private long timeSpan;
+    /**
+     *      @param errorTolerant 容忍没有心跳次数
+     */
+    @Value("${webSocket.heartCheck.errorToleration:5}")
+    private int errorToleration;
 
     /**
      * 因为全局只有一个 WebSocketManager ，所以才敢定义为非static
@@ -167,8 +179,10 @@ public class MemWebSocketManager implements WebSocketManager, ApplicationContext
 
     protected void checkConnection() {
         Map<String, WebSocket> cons = localWebSocketMap();
+        final long timeSpans = timeSpan * errorToleration;
+        final long newTime = System.currentTimeMillis();
         cons.forEach((identify, con) -> {
-            if (System.currentTimeMillis() - con.getLastHeart().getTime() > 30000) {
+            if (newTime - con.getLastHeart().getTime() > timeSpans) {
                 //timeout
                 remove(identify);
                 log.info("remove websocket by time out:{}", identify);
