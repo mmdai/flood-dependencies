@@ -19,7 +19,6 @@ import static io.undertow.UndertowOptions.ENABLE_HTTP2;
  * @author pangu
  */
 @Configuration(proxyBeanMethods = false)
-@ComponentScan(basePackages = {"cn.flood.aop"})
 @ConditionalOnClass(Undertow.class)
 @AutoConfigureBefore(ServletWebServerFactoryAutoConfiguration.class)
 public class UndertowHttp2Configuration {
