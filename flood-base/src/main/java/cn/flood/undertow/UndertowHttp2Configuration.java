@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactor
 import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import static io.undertow.UndertowOptions.ENABLE_HTTP2;
@@ -18,6 +19,7 @@ import static io.undertow.UndertowOptions.ENABLE_HTTP2;
  * @author pangu
  */
 @Configuration(proxyBeanMethods = false)
+@ComponentScan(basePackages = {"cn.flood.aop"})
 @ConditionalOnClass(Undertow.class)
 @AutoConfigureBefore(ServletWebServerFactoryAutoConfiguration.class)
 public class UndertowHttp2Configuration {
