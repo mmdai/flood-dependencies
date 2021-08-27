@@ -1,5 +1,6 @@
 package cn.flood.lock.autoconfigure;
 
+import cn.flood.Func;
 import io.netty.channel.nio.NioEventLoopGroup;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
@@ -42,12 +43,16 @@ public class RlockAutoConfiguration {
     RedissonClient redisson() throws Exception {
         Config config = new Config();
         if(rlockConfig.getClusterServer()!=null){
-            config.useClusterServers().setPassword(rlockConfig.getPassword())
-                    .addNodeAddress(rlockConfig.getClusterServer().getNodeAddresses());
+            config.useClusterServers().addNodeAddress(rlockConfig.getClusterServer().getNodeAddresses());
+            if(Func.isNotEmpty(rlockConfig.getPassword())){
+                config.useClusterServers().setPassword(rlockConfig.getPassword());
+            }
         }else {
             config.useSingleServer().setAddress(rlockConfig.getAddress())
-                    .setDatabase(rlockConfig.getDatabase())
-                    .setPassword(rlockConfig.getPassword());
+                    .setDatabase(rlockConfig.getDatabase());
+            if(Func.isNotEmpty(rlockConfig.getPassword())){
+                config.useSingleServer().setPassword(rlockConfig.getPassword());
+            }
         }
         Codec codec=(Codec) ClassUtils.forName(rlockConfig.getCodec(),ClassUtils.getDefaultClassLoader()).newInstance();
         config.setCodec(codec);
