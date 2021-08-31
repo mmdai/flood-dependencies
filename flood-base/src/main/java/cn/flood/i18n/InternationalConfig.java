@@ -2,12 +2,8 @@ package cn.flood.i18n;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 /**
@@ -20,9 +16,8 @@ public class InternationalConfig {
 //    @Value("${spring.messages.basename}")
     private String basename = "i18n/messages";
 
-
-    @Bean(name = "messageSource")
     @Primary
+    @Bean(name = "floodMessageSource")
     public ResourceBundleMessageSource getMessageResource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename(basename);
@@ -30,7 +25,7 @@ public class InternationalConfig {
     }
 
     @Bean(name = "localeParser")
-    public LocaleParser getLocaleParser(@Autowired MessageSource messageSource){
+    public LocaleParser getLocaleParser(@Autowired @Qualifier("floodMessageSource") MessageSource messageSource){
         LocaleParser localeParser = new LocaleParser(messageSource);
         return localeParser;
     }

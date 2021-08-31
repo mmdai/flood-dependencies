@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 
 import java.util.Locale;
@@ -19,6 +20,7 @@ public class LocaleParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(LocaleParser.class);
 
     @Autowired
+    @Qualifier("floodMessageSource")
     private MessageSource messageSource;
 
     public LocaleParser(MessageSource messageSource){

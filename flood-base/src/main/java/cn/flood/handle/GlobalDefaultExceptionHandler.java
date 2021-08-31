@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
@@ -47,6 +48,7 @@ public class GlobalDefaultExceptionHandler {
 
     private static final int KILO = 1024;
 	@Autowired
+	@Qualifier("floodMessageSource")
     private MessageSource messageSource;
 
 	@Autowired
