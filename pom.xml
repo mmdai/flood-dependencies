@@ -9,7 +9,7 @@
 
   <name>flood-dependencies</name>
   <url>http://maven.apache.org</url>
-	<description>flood cloud dependencies</description>
+  <description>Flood Cloud - 基于Spring Cloud Alibaba实现的微服务架构</description>
 
   <properties>
 	  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -33,7 +33,6 @@
 	  <ui.version>1.9.3</ui.version>
 	  <guava.version>30.1.1-jre</guava.version>
 	  <bootstrap.version>3.0.3</bootstrap.version>
-      <mockito.version>3.11.2</mockito.version>
 	  <!-- base -->
 	  <commons.collections4.version>4.4</commons.collections4.version>
 	  <jackson.datatype.version>2.13.0-rc1</jackson.datatype.version>
@@ -138,23 +137,10 @@
         <artifactId>lombok</artifactId>
     </dependency>
 	<!-- test -->
-	<!--junit单元测试-->
-	<dependency>
-		<groupId>junit</groupId>
-		<artifactId>junit</artifactId>
-		<scope>test</scope>
-	</dependency>
-	<!--spring-boot单元测试-->
+	<!--spring-boot单元测试 mockito扩展-->
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-test</artifactId>
-		<scope>test</scope>
-	</dependency>
-	<!--mockito扩展，主要是需要mock final类-->
-	<dependency>
-		<groupId>org.mockito</groupId>
-		<artifactId>mockito-inline</artifactId>
-		<version>${mockito.version}</version>
 		<scope>test</scope>
 	</dependency>
   </dependencies>
