@@ -13,9 +13,13 @@ public enum GlobalErrorCodeEnum {
     BAD_REQUEST("400", "请求参数错误", "BAD_REQUEST"),
 
     /**
-     * 没有该操作权限
+     * 账号未登录
      */
     UNAUTHORIZED("401", "账号未登录", "UNAUTHORIZED"),
+    /**
+     * 登录过期
+     */
+    EXPIRE("402", "登录已过期", "EXPIRE"),
 
     /**
      * 没有该操作权限
