@@ -5,12 +5,12 @@ import cn.flood.rocketmq.base.AbstractMQProducer;
 import cn.flood.rocketmq.config.MQBaseAutoConfiguration;
 import cn.flood.rocketmq.config.MQProducerAutoConfiguration;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.junit.After;
-import org.junit.Test;
+//import org.junit.After;
+//import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
 public class MQProducerAutoConfigurationTest {
 

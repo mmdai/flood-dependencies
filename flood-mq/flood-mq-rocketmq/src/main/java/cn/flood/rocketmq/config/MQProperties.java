@@ -8,6 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "spring.rocketmq")
 public class MQProperties {
+
     /**
      * config name server address
      */
@@ -19,7 +20,9 @@ public class MQProperties {
     /**
      * config send message timeout
      */
-    private Integer sendMsgTimeout = 3000;
+    private Integer sendMsgTimeout = 5000;
+    //去重存储类型(redis)
+    private String dedupType = "redis";
     /**
      * switch of trace message consumer: send message consumer info to topic: rmq_sys_TRACE_DATA
      */
@@ -81,5 +84,13 @@ public class MQProperties {
 
     public void setExistProducer(Boolean existProducer) {
         this.existProducer = existProducer;
+    }
+
+    public String getDedupType() {
+        return dedupType;
+    }
+
+    public void setDedupType(String dedupType) {
+        this.dedupType = dedupType;
     }
 }

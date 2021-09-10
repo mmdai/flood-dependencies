@@ -16,6 +16,12 @@ public class MessageExtConst {
      */
     public static final String CONSUME_MODE_CONCURRENTLY = "CONCURRENTLY";
     public static final String CONSUME_MODE_ORDERLY = "ORDERLY";
+    /**
+     * 去重策略 不启用去重 ， 开启去重（发现有处理中的消息，后面再重试）
+     */
+    public static final int DEDUP_DISABLE = 0;
+
+    public static final int DEDUP_CONSUME_LATER = 1;
 
     public static final String PROPERTY_TOPIC = "TOPIC";
 

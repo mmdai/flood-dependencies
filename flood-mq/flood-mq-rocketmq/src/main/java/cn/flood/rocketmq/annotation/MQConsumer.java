@@ -30,5 +30,14 @@ public @interface MQConsumer {
      * @return 消费模式
      */
     String consumeMode() default MessageExtConst.CONSUME_MODE_CONCURRENTLY;
+
+    /**
+     * 是否去重，默认DEDUP_DISABLE 不开启
+     * 不开启去重， DEDUP_DISABLE
+     * 开启去重 DEDUP_CONSUME_LATER
+     * @return
+     */
+    int dedup() default MessageExtConst.DEDUP_DISABLE;
+
     String[] tag() default {"*"};
 }

@@ -117,8 +117,14 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration impleme
             consumer.setVipChannelEnabled(mqProperties.getVipChannelEnabled());
             AbstractMQPushConsumer abstractMQPushConsumer = (AbstractMQPushConsumer) bean;
             if (MessageExtConst.CONSUME_MODE_CONCURRENTLY.equals(mqConsumer.consumeMode())) {
-                consumer.registerMessageListener((List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) ->
-                        abstractMQPushConsumer.dealMessage(list, consumeConcurrentlyContext));
+                if(MessageExtConst.DEDUP_DISABLE == mqConsumer.dedup()){
+                    consumer.registerMessageListener((List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) ->
+                            abstractMQPushConsumer.dealMessage(list, consumeConcurrentlyContext));
+                }else{
+                    //注入幂等逻辑
+                    consumer.registerMessageListener((List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) ->
+                            abstractMQPushConsumer.dealDedupMessage(list, consumeConcurrentlyContext));
+                }
             } else if (MessageExtConst.CONSUME_MODE_ORDERLY.equals(mqConsumer.consumeMode())) {
                 consumer.registerMessageListener((List<MessageExt> list, ConsumeOrderlyContext consumeOrderlyContext) ->
                         abstractMQPushConsumer.dealMessage(list, consumeOrderlyContext));

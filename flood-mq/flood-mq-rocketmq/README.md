@@ -46,9 +46,12 @@ spring:
       # 发送超时配置毫秒数, 可选, 默认3000
       send-msg-timeout: 5000
       # 追溯消息具体消费情况的开关，默认打开
-      #trace-enabled: false
+      trace-enabled: false
       # 是否启用VIP通道，默认打开
-      #vip-channel-enabled: false
+      vip-channel-enabled: false
+      # 去重介质（redis/db）
+      dedup-type: redis 
+
 ```
 ##### 3. 程序入口添加注解开启自动装配
 
@@ -197,5 +200,25 @@ public class DemoTransactionProducer extends AbstractMQTransactionProducer {
         return LocalTransactionState.COMMIT_MESSAGE;
     }
 }
+```
+## MYSQL去重支持
+若希望使用MYSQL存储消息消费记录，同时需要预先建立一张消息去重表，结构如下：
+
+```
+-- ----------------------------
+-- Table structure for t_rocketmq_dedup
+-- ----------------------------
+DROP TABLE IF EXISTS `t_rocketmq_dedup`;
+CREATE TABLE `t_rocketmq_dedup` (
+`application_name` varchar(255) NOT NULL COMMENT '消费的应用名（可以用消费者组名称）',
+`topic` varchar(255) NOT NULL COMMENT '消息来源的topic（不同topic消息不会认为重复）',
+`tag` varchar(16) NOT NULL COMMENT '消息的tag（同一个topic不同的tag，就算去重键一样也不会认为重复），没有tag则存""字符串',
+`msg_uniq_key` varchar(255) NOT NULL COMMENT '消息的唯一键（建议使用业务主键）',
+`status` varchar(16) NOT NULL COMMENT '这条消息的消费状态',
+`expire_time` bigint(20) NOT NULL COMMENT '这个去重记录的过期时间（时间戳）',
+UNIQUE KEY `uniq_key` (`application_name`,`topic`,`tag`,`msg_uniq_key`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+
 ```
 
