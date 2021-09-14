@@ -245,10 +245,10 @@ RESTful模式(请求方式:url)：post:/api/login
 ### 2.5.4、获取当前的用户信息
 ```text
 // 正常可以这样获取
-Token userToken = SubjectUtil.getToken(request);
+Token userToken = TokenUtil.getToken(request);
 
 // 对于排除拦截的接口可以这样获取
-Token userToken = SubjectUtil.parseToken(request);
+Token userToken = TokenUtil.parseToken(request);
 ```   
 
 

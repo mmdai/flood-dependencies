@@ -24,6 +24,7 @@ import cn.flood.jwtp.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -32,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 public class ClientInterceptor implements HandlerInterceptor {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private static final String COMMA = ",";
 
     private UrlPerm urlPerm;
 
@@ -106,7 +109,15 @@ public class ClientInterceptor implements HandlerInterceptor {
      * @throws ErrorTokenException
      */
     public UserToken getRestUrlToken(String access_token) throws ExpiredTokenException, ErrorTokenException {
-        StringBuilder url = new StringBuilder(authCenterUrl);
+        // 多个地址 任意取一个
+        String centerUrl = authCenterUrl;
+        if (authCenterUrl.contains(COMMA)) {
+            String[] split = authCenterUrl.split(COMMA);
+            Random random = new Random();
+            int round = random.nextInt(split.length);
+            centerUrl = split[round];
+        }
+        StringBuilder url = new StringBuilder(centerUrl);
         url.append("/authentication");
         HttpHeaders headers = new HttpHeaders();
         // 封装参数，千万不要替换为Map与HashMap，否则参数无法传递
