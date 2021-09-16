@@ -51,7 +51,7 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
         try {
             return ProtostuffUtils.deserialize(inputMessage.getBody(), aClass);
         } catch (Exception var7) {
-            throw new HttpMessageNotReadableException("Could not read Protobuf message: " + var7.getMessage(), var7);
+            throw new IllegalStateException("Could not read Protobuf message: " + var7.getMessage(), var7);
         }
     }
 
