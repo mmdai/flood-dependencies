@@ -73,11 +73,11 @@ management:
 spring:
   redis:
     database: 1  #Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
-    timeout: 5000ms  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
+    timeout: 6000ms  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
     #单机配置
     host: 127.0.0.1
     port: 6379
-#    password: # 密码（默认为空）
+    password: '123456'
     ssl: false
     # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
     lettuce:
@@ -89,8 +89,8 @@ spring:
         # 最小空闲连接数
         min-idle: 1
         # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
-        max-wait: 35000ms
-      shutdown-timeout: 35000ms
+        max-wait: 15000ms
+      shutdown-timeout: 15000ms
 ########################################################
 
 ### database setting.
@@ -102,10 +102,10 @@ spring:
     #数据源single,multi
     isSingle: true
     # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
-    url: jdbc:mysql://10.67.31.148:3306/yum_report_db?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
-    username: yum
-    password: yum123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/credit_access?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    username: 'root'
+    password: '123456'
+    driver-class-name:  com.mysql.cj.jdbc.Driver
     druid:
       #配置初始化大小/最小/最大
       initial-size: 1
@@ -130,12 +130,29 @@ spring:
       #监控统计拦截的filters
       filters: stat,wall
       # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=10
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       # 合并多个DruidDataSource的监控数据
       use-global-data-source-stat: true
-  pagehelper:
-    # 分页注册别名默认mysql（hsqldb、h2、postgresql、phoenix、mysql、mariadb、sqlite、oracle、db2、informix、sqlserver、sqlserver2012、derby、dm-达梦）
-    helperDialect: mysql
+pagehelper:
+  # dialect: ①
+  # 分页插件会自动检测当前的数据库链接，自动选择合适的分页方式（可以不设置）
+  #helper-dialect: mysql
+  # 上面数据库设置后，下面的设置为true不会改变上面的结果（默认为true）
+  auto-dialect: true
+  page-size-zero: false # ②
+  reasonable: true # ③
+  # 默认值为 false，该参数对使用 RowBounds 作为分页参数时有效。（一般用不着）
+  offset-as-page-num: false
+  # 默认值为 false，RowBounds是否进行count查询（一般用不着）
+  row-bounds-with-count: false
+  #params: ④
+  #support-methods-arguments: 和params配合使用，具体可以看下面的讲解
+  ############ 默认值为 false。设置为 true 时，允许在运行时根据多数据源自动识别对应方言的分页（主要设置该值）
+  auto-runtime-dialect: true # ⑤
+  # 与auto-runtime-dialect配合使用
+  close-conn: true
+  # 用于控制默认不带 count 查询的方法中，是否执行 count 查询，这里设置为true后，total会为-1
+  default-count: false
 ########################################################
 
 ### delay setting.

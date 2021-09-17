@@ -1,5 +1,6 @@
 package cn.flood.redis.config;
 
+import cn.flood.redis.config.jedis.JedisConnectionConfiguration;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -30,6 +31,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @ConditionalOnClass({RedisTemplate.class})
 @Import({
         ApplicationContextUtil.class,
+        JedisConnectionConfiguration.class,
         LettuceConnectionConfiguration.class,
         RedisCacheConfiguration.class
 })

@@ -31,6 +31,10 @@
             <artifactId>lettuce-core</artifactId>
         </dependency>
         <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
             <version>${hutool-json.version}</version>

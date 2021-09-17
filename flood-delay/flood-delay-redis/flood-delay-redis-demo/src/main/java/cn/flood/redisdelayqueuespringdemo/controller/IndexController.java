@@ -64,7 +64,8 @@ public class IndexController {
 
     @GetMapping("/addJob2")
     public void addJob2(Long delayTime,String userId ){
-        delayQueueDemo2.addDemo2DelayQueue(userId,delayTime);
+
+        delayQueueDemo2.addDemo2DelayQueue(userId,30000);
     }
 
     @GetMapping("/delJob2")
