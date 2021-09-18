@@ -6,6 +6,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.JedisClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,6 +33,7 @@ import java.time.Duration;
  * @since 1.8
  */
 @Configuration
+@ConditionalOnProperty(name="spring.redis.client-type",havingValue="jedis", matchIfMissing = false)
 @ConditionalOnClass({GenericObjectPool.class, JedisConnection.class, Jedis.class})
 @AutoConfigureAfter({RedisProperties.class})
 @EnableConfigurationProperties({RedisProperties.class})

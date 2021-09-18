@@ -79,6 +79,13 @@ spring:
     port: 6379
     password: '123456'
     ssl: false
+    client-type: lettuce
+#    jedis:
+#      pool:
+#        min-idle: 1
+#        max-idle: 2
+#        max-wait: -1
+#        max-active: 2
     # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
     lettuce:
       pool:

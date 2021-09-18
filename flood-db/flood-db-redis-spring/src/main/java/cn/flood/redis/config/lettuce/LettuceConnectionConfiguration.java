@@ -9,6 +9,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurationBuilderCustomizer;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -32,6 +33,7 @@ import cn.flood.redis.config.RedisConnectionConfiguration;
  * @since 1.8
  */
 @Configuration
+@ConditionalOnProperty(name="spring.redis.client-type",havingValue="lettuce", matchIfMissing = false)
 @ConditionalOnClass({GenericObjectPool.class, RedisClient.class})
 @AutoConfigureAfter({RedisProperties.class})
 @EnableConfigurationProperties({RedisProperties.class})
