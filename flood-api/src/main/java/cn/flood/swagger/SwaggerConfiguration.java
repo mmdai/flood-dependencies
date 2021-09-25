@@ -15,15 +15,12 @@ import org.springframework.core.env.Environment;
 import com.google.common.collect.Lists;
 
 import io.swagger.annotations.ApiOperation;
+import org.springframework.core.env.Profiles;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.service.SecurityScheme;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -46,57 +43,52 @@ public class SwaggerConfiguration {
 	@Bean
 	public Docket swaggerApi() {
 		logger.info("===============================SwaggerConfig");
-		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
-        .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
-        .paths(PathSelectors.any())
-
-        .build().securityContexts(Lists.newArrayList(securityContext(),securityContext1())).securitySchemes(Lists.<SecurityScheme>newArrayList(apiKey(),apiKey1()));
-
+		//设置要暴漏接口文档的配置环境
+		Profiles profile = Profiles.of("dev", "test");
+		boolean flag = environment.acceptsProfiles(profile);
+		return new Docket(DocumentationType.SWAGGER_2).
+				enable(flag).apiInfo(apiInfo()).
+				select().
+				apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).
+				paths(PathSelectors.any()).
+				build().
+				securitySchemes(securitySchemes()).
+				securityContexts(securityContexts());
 	}
 	
 	private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title(environment.getProperty("spring.application.name")+" .API")
-                .description("Service API v2.0")
+                .description("Flood Cloud API v2.5.4")
+				.contact(new Contact("mmdai", "nothing", "daiming123.happy@163.com"))
                 .termsOfServiceUrl("")
                 .version("2.0")
                 .build();
     }
 
-    private ApiKey apiKey() {
-	        return new ApiKey("Authorization", "Authorization", "header");
-	    }
+	private List<SecurityScheme> securitySchemes() {
+		List<SecurityScheme> securitySchemes = new ArrayList<>();
+		securitySchemes.add(new ApiKey("Authorization", "Authorization", "header"));
+		securitySchemes.add(new ApiKey("access_token", "access_token", "header"));
+		securitySchemes.add(new ApiKey("version", "version", "header"));
+		return securitySchemes;
+	}
 
-	private ApiKey apiKey1() {
-	        return new ApiKey("access_token", "access_token", "header");
-	    }
-
-	private SecurityContext securityContext() {
-		return SecurityContext.builder()
+	private List<SecurityContext> securityContexts() {
+		List<SecurityContext> securityContexts = new ArrayList<>();
+		securityContexts.add(SecurityContext.builder()
 				.securityReferences(defaultAuth())
-				.forPaths(PathSelectors.regex("/.*"))
-				.build();
+				.forPaths(PathSelectors.regex("^(?!(oss|pub)).*$")).build());
+		return securityContexts;
 	}
 
-	private SecurityContext securityContext1() {
-		return SecurityContext.builder()
-				.securityReferences(defaultAuth1())
-				.forPaths(PathSelectors.regex("/.*"))
-				.build();
-	}
-
-	List<SecurityReference> defaultAuth() {
+	private List<SecurityReference> defaultAuth() {
 		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
 		authorizationScopes[0] = authorizationScope;
-		return Lists.newArrayList(new SecurityReference("access_token", authorizationScopes));
-	}
-
-	List<SecurityReference> defaultAuth1() {
-		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-		authorizationScopes[0] = authorizationScope;
-		return Lists.newArrayList(new SecurityReference("access_token", authorizationScopes));
+		List<SecurityReference> securityReferences = new ArrayList<>();
+		securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
+		return securityReferences;
 	}
 
 
