@@ -3,6 +3,7 @@ package cn.flood.swagger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import com.google.common.collect.Lists;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,7 +34,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration
 @EnableSwagger2
-@EnableSwaggerBootstrapUI
+@EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 	
