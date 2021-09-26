@@ -23,6 +23,7 @@
 	  <spring.platform.version>Cairo-SR8</spring.platform.version>
 	  <alibaba.nacos.version>2.0.2</alibaba.nacos.version>
 	  <alibaba.seata.version>1.4.2</alibaba.seata.version>
+	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
 	  <!-- flood 版本 -->
 	  <flood.version>2.5.4.1-SNAPSHOT</flood.version>
 	  <!-- log -->
@@ -193,12 +194,12 @@
 		<dependency>
 			<groupId>org.springframework.plugin</groupId>
 			<artifactId>spring-plugin-core</artifactId>
-			<version>2.0.0.RELEASE</version>
+			<version>${spring.plugin.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.plugin</groupId>
 			<artifactId>spring-plugin-metadata</artifactId>
-			<version>2.0.0.RELEASE</version>
+			<version>${spring.plugin.version}</version>
 		</dependency>
 
 		<dependency>
