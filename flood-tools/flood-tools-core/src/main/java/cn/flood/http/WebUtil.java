@@ -15,13 +15,21 @@
  */
 package cn.flood.http;
 
+import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.json.JsonUtils;
 import cn.flood.lang.ClassUtil;
 import cn.flood.lang.StringUtils;
+import cn.flood.rpc.response.Result;
+import cn.flood.rpc.response.ResultWapper;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.Charsets;
+import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +37,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -172,25 +181,25 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	public static String getIP(HttpServletRequest request) {
 		Assert.notNull(request, "HttpServletRequest is null");
 		String ip = request.getHeader("X-Requested-For");
-		if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+		if (Func.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("X-Forwarded-For");
 		}
-		if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+		if (Func.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 		}
-		if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+		if (Func.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 		}
-		if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+		if (Func.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_CLIENT_IP");
 		}
-		if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+		if (Func.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
 		}
-		if (StringUtils.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
+		if (Func.isEmpty(ip) || UN_KNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
-		return StringUtils.isEmpty(ip) ? null : ip.split(",")[0];
+		return Func.isEmpty(ip) ? null : ip.split(",")[0];
 	}
 
 
@@ -293,6 +302,40 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 			}
 		}
 		return (UserToken) bladeUser;
+	}
+
+	/**
+	 * 设置响应
+	 *
+	 * @param response    HttpServletResponse
+	 * @param contentType content-type
+	 * @param status      http状态码
+	 * @param value       响应内容
+	 * @throws IOException IOException
+	 */
+	public static void responseWriter(HttpServletResponse response, String contentType,
+									  int status, Object value) throws IOException {
+		response.setContentType(contentType);
+		response.setStatus(status);
+		response.getOutputStream().write(JSONObject.toJSONString(value).getBytes());
+	}
+
+	/**
+	 * 设置webflux模型响应
+	 *
+	 * @param response    ServerHttpResponse
+	 * @param contentType content-type
+	 * @param status      http状态码
+	 * @param value       响应内容
+	 * @return Mono<Void>
+	 */
+	public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType,
+												   HttpStatus status, Object value) {
+		response.setStatusCode(status);
+		response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
+		Result<?> result = ResultWapper.wrap(String.valueOf(status.value()), value.toString());
+		DataBuffer dataBuffer = response.bufferFactory().wrap(Func.toJson(result).getBytes());
+		return response.writeWith(Mono.just(dataBuffer));
 	}
 
 

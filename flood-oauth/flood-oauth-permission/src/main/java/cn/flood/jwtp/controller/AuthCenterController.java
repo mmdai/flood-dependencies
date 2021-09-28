@@ -35,7 +35,7 @@ public class AuthCenterController {
             // 检查token是否存在系统中
             UserToken userToken = tokenStore.findToken(userId, access_token);
             if (userToken == null) {
-                logger.debug("ERROR: UserToken Not Found");
+                logger.error("ERROR: UserToken Not Found");
                 return ResultWapper.error("UserToken Not Found");
             }
             // 查询用户的角色和权限
@@ -43,7 +43,7 @@ public class AuthCenterController {
             userToken.setPermissions(tokenStore.findPermissionsByUserId(userId, userToken));
             return ResultWapper.ok(userToken);
         } catch (ExpiredJwtException e) {
-            logger.debug("ERROR: ExpiredJwtException");
+            logger.error("ERROR: ExpiredJwtException");
             return ResultWapper.error("ExpiredJwtException");
         } catch (Exception e) {
             return ResultWapper.error();
