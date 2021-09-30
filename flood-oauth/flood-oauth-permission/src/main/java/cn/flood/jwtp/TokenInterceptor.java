@@ -5,6 +5,7 @@ import cn.flood.http.WebUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.lang.Nullable;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import cn.flood.jwtp.exception.ErrorTokenException;
@@ -83,6 +84,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
         request.setAttribute(WebUtil.REQUEST_TOKEN_NAME, userToken);
         return true;
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
+        request.removeAttribute(WebUtil.REQUEST_TOKEN_NAME);
     }
 
 

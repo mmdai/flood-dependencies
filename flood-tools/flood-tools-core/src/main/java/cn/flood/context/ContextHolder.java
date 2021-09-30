@@ -1,13 +1,10 @@
 package cn.flood.context;
 
 
+import com.alibaba.ttl.TransmittableThreadLocal;
+
 public class ContextHolder {
-    private static final ThreadLocal<RequestContext> contextHolder = new ThreadLocal<RequestContext>() {
-        @Override
-        protected RequestContext initialValue() {
-            return new DefaultContext();
-        }
-    };
+    private static final ThreadLocal<RequestContext> contextHolder = new TransmittableThreadLocal<>();
 
 
     public static RequestContext getCurrentContext() {

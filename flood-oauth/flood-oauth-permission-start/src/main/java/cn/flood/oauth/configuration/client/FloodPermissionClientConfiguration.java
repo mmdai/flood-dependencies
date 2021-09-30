@@ -1,5 +1,7 @@
 package cn.flood.oauth.configuration.client;
 
+import cn.flood.context.SpringContextManager;
+import cn.flood.jwtp.TenantInterceptor;
 import cn.flood.jwtp.client.ClientInterceptor;
 import cn.flood.jwtp.perm.RestUrlPerm;
 import cn.flood.jwtp.perm.SimpleUrlPerm;
@@ -57,6 +59,8 @@ public class FloodPermissionClientConfiguration implements WebMvcConfigurer, App
         String[] excludePath = properties.getExcludePath();  // 获取排除路径
         ClientInterceptor interceptor = new ClientInterceptor(properties.getAuthCenterUrl(), urlPerm, restTemplate);
         registry.addInterceptor(interceptor).addPathPatterns(path).excludePathPatterns(excludePath);
+        TenantInterceptor tenantInterceptor = new TenantInterceptor();
+        registry.addInterceptor(tenantInterceptor);
     }
 
     @Override

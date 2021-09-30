@@ -1,6 +1,6 @@
 package cn.flood.cloud.utils;
 
-import cn.flood.FloodUser;
+import cn.flood.LoginUser;
 import cn.flood.Func;
 import cn.flood.cloud.chat.dto.ChatRequest;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class ChatLoginUtils {
 
-    private static final ThreadLocal<Map<String, FloodUser>> THREAD_LOCAL_UER = new ThreadLocal<>();
+    private static final ThreadLocal<Map<String, LoginUser>> THREAD_LOCAL_UER = new ThreadLocal<>();
 
     @Value("${spring.application.name:default}")
     private String applicationName;
@@ -40,9 +40,9 @@ public class ChatLoginUtils {
         THREAD_LOCAL_UER.remove();
     }
 
-    public void handlerLogin(ChatRequest request, FloodUser userToken) {
+    public void handlerLogin(ChatRequest request, LoginUser userToken) {
         THREAD_LOCAL_UER.remove();
-        Map<String, FloodUser> map = THREAD_LOCAL_UER.get();
+        Map<String, LoginUser> map = THREAD_LOCAL_UER.get();
         if (map == null) {
             map = new HashMap<>();
         }
@@ -69,8 +69,8 @@ public class ChatLoginUtils {
     /**
      * 获取管理员登录信息
      */
-    public FloodUser getAdminLoginInfo() {
-        Map<String, FloodUser> map = THREAD_LOCAL_UER.get();
+    public LoginUser getAdminLoginInfo() {
+        Map<String, LoginUser> map = THREAD_LOCAL_UER.get();
         if (map != null && map.get(ADMIN) != null) {
             return map.get(ADMIN);
         }
@@ -80,8 +80,8 @@ public class ChatLoginUtils {
     /**
      * 获取用户登录信息
      */
-    public FloodUser getUserLoginInfo() {
-        Map<String, FloodUser> map = THREAD_LOCAL_UER.get();
+    public LoginUser getUserLoginInfo() {
+        Map<String, LoginUser> map = THREAD_LOCAL_UER.get();
         if (map != null && map.get(USER) != null) {
             return map.get(USER);
         }
@@ -91,8 +91,8 @@ public class ChatLoginUtils {
     /**
      * 获取成员登录信息
      */
-    public FloodUser getMemberLoginInfo() {
-        Map<String, FloodUser> map = THREAD_LOCAL_UER.get();
+    public LoginUser getMemberLoginInfo() {
+        Map<String, LoginUser> map = THREAD_LOCAL_UER.get();
         if (map != null && map.get(MEMBER) != null) {
             return map.get(MEMBER);
         }

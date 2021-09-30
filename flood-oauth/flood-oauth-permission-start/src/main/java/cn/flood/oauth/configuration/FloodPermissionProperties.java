@@ -1,9 +1,27 @@
 package cn.flood.oauth.configuration;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 
+@RefreshScope
 @ConfigurationProperties(prefix = "fpermission")
 public class FloodPermissionProperties {
+    /**
+     * 监控中心和swagger需要访问的url
+     */
+    private static final String[] ENDPOINTS = {
+            "/actuator/**",
+            "/v2/api-docs/**",
+            "/swagger/api-docs",
+            "/swagger-ui.html",
+            "/doc.html",
+            "/swagger-resources/**",
+            "/webjars/**",
+            "/druid/**",
+            "/error/**",
+            "/assets/**"
+    };
 
     /**
      * token存储方式，0 redis存储，1 数据库存储
@@ -78,7 +96,7 @@ public class FloodPermissionProperties {
     }
 
     public void setExcludePath(String[] excludePath) {
-        this.excludePath = excludePath;
+        this.excludePath = ArrayUtils.addAll(excludePath, ENDPOINTS);
     }
 
     public Integer getMaxToken() {

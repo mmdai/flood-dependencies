@@ -25,7 +25,7 @@ import java.io.Serializable;
  * @author mmdai
  */
 @Data
-public class FloodUser implements Serializable {
+public class LoginUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -54,6 +54,16 @@ public class FloodUser implements Serializable {
 	 */
 //	@ApiModelProperty(hidden = true)
 	private String account;
+	/**
+	 * 部门id
+	 */
+//	@ApiModelProperty(hidden = true)
+	private String deptId;
+	/**
+	 * 岗位id
+	 */
+//	@ApiModelProperty(hidden = true)
+	private String postId;
 	/**
 	 * 角色id
 	 */

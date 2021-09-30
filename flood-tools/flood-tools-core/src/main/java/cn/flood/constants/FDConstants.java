@@ -5,38 +5,38 @@ package cn.flood.constants;
  * @author mmdai
  * @date 2019/11/8 21:34
  */
-public class FDConstants {
+public interface FDConstants {
 
-    public final static Long LONG_NEGATIVE_1 = -1L;
-    public final static Long LONG_0 = 0L;
-    public final static Long LONG_1 = 1L;
-    public final static Long LONG_30 = 30L;
-    public final static Long LONG_1800 = 1800L;
-    public final static String STRING_1 = "1";
-    public final static String STRING_0 = "0";
-    public final static String HYPHEN = "-";
-    public final static String EMPTY_STRING = "";
-    public final static String NULL_STRING = "null";
-    public final static String UNKNOWN = "unknown";
-    public final static Integer INT_NEGATIVE_1 = -1;
-    public final static Integer INT_0 = 0;
-    public final static Integer INT_1 = 1;
-    public final static Integer INT_2 = 2;
-    public final static Integer INT_3 = 3;
-    public final static Integer INT_4 = 4;
-    public final static Integer INT_5 = 5;
-    public final static Integer INT_6 = 6;
-    public final static Integer INT_7 = 7;
-    public final static Integer INT_8 = 8;
-    public final static Integer INT_9 = 9;
-    public final static Integer INT_24 = 24;
-    public final static Integer INT_32 = 32;
-    public final static Integer INT_100 = 100;
-    public final static Integer INT_1024 = 1024;
+    Long LONG_NEGATIVE_1 = -1L;
+    Long LONG_0 = 0L;
+    Long LONG_1 = 1L;
+    Long LONG_30 = 30L;
+    Long LONG_1800 = 1800L;
+    String STRING_1 = "1";
+    String STRING_0 = "0";
+    String HYPHEN = "-";
+    String EMPTY_STRING = "";
+    String NULL_STRING = "null";
+    String UNKNOWN = "unknown";
+    Integer INT_NEGATIVE_1 = -1;
+    Integer INT_0 = 0;
+    Integer INT_1 = 1;
+    Integer INT_2 = 2;
+    Integer INT_3 = 3;
+    Integer INT_4 = 4;
+    Integer INT_5 = 5;
+    Integer INT_6 = 6;
+    Integer INT_7 = 7;
+    Integer INT_8 = 8;
+    Integer INT_9 = 9;
+    Integer INT_24 = 24;
+    Integer INT_32 = 32;
+    Integer INT_100 = 100;
+    Integer INT_1024 = 1024;
 
-    public final static String THREAD_ID = "threadId";
+    String THREAD_ID = "threadId";
 
-    public final static String REQUEST_ID = "requestId";
+    String REQUEST_ID = "requestId";
 
     /**
      * 管理员登陆信息 token：Admin
@@ -49,11 +49,11 @@ public class FDConstants {
     /**
      * 升序
      */
-    public final static String ASC = "ASC";
+    String ASC = "ASC";
     /**
      * 降序
      **/
-    public final static String DESC = "DESC";
+    String DESC = "DESC";
 
     /**
      * 编码

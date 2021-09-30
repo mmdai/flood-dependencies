@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
  */
 @Aspect
 @Component
-@Order(-9)
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class ServiceAspect implements LogAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -37,14 +38,17 @@ public class ServiceAspect implements LogAspect {
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		long start = Clock.systemDefaultZone().millis();
 		String methodName = joinPoint.getSignature().getName();
+		if(methodName.equalsIgnoreCase("create")){
+			return joinPoint.proceed();
+		}
 		logger.info("【service】【{}】 start", methodName);
-		if (logger.isDebugEnabled()) {
-			logger.debug("【service】【{}】【{}】", methodName, before(joinPoint));
-		}
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("【service】【{}】【{}】", methodName, before(joinPoint));
+//		}
 		Object result = joinPoint.proceed();
-		if (logger.isDebugEnabled()) {
-			logger.debug("【service】【{}】【{}】", methodName, after(result));
-		}
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("【service】【{}】【{}】", methodName, after(result));
+//		}
 		logger.info("【service】【{}】 end,cost【{}ms】", methodName, (Clock.systemDefaultZone().millis()-start));
 		return result;
 	}

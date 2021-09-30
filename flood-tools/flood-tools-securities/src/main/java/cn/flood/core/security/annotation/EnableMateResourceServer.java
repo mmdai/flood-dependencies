@@ -1,7 +1,7 @@
 package cn.flood.core.security.annotation;
 
+import cn.flood.core.security.config.FloodResourceServerConfig;
 import org.springframework.context.annotation.Import;
-import vip.mate.core.security.config.MateResourceServerConfig;
 
 import java.lang.annotation.*;
 
@@ -13,6 +13,6 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(MateResourceServerConfig.class)
+@Import(FloodResourceServerConfig.class)
 public @interface EnableMateResourceServer {
 }

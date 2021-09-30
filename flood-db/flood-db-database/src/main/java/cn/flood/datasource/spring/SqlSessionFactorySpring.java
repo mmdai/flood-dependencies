@@ -5,6 +5,8 @@ import javax.sql.DataSource;
 import cn.flood.mybatis.interceptor.SqlLogInterceptor;
 import cn.flood.mybatis.plus.EnumConfigurationHelper;
 import cn.flood.mybatis.plus.plugins.page.PaginationInterceptor;
+import cn.flood.mybatis.plus.plugins.tenant.MultiTenancyProperties;
+import cn.flood.mybatis.plus.plugins.tenant.MultiTenancyQueryInterceptor;
 import cn.flood.mybatis.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -50,8 +52,14 @@ public class SqlSessionFactorySpring {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
         	sessionFactoryBean.setMapperLocations(resolver.getResources(mapperLocations));
+        	//多租户查询设置
+			MultiTenancyQueryInterceptor multiTenancyQueryInterceptor = new MultiTenancyQueryInterceptor();
+			MultiTenancyProperties multiTenancyProperties = new MultiTenancyProperties();
+			// 数据库查询字段（tenant_id为租户id）
+			multiTenancyProperties.setMultiTenancyQueryColumn("tenant_id");
+			multiTenancyQueryInterceptor.setMultiTenancyProperties(multiTenancyProperties);
         	//添加分页
-			sessionFactoryBean.setPlugins(new Interceptor[]{new SqlLogInterceptor(),new PaginationInterceptor()});
+			sessionFactoryBean.setPlugins(new Interceptor[]{multiTenancyQueryInterceptor, new SqlLogInterceptor(),new PaginationInterceptor()});
 			sessionFactoryBean.afterPropertiesSet();
 			//添加通用枚举类型
 			SqlSessionFactory sessionFactory = sessionFactoryBean.getObject();

@@ -12,7 +12,11 @@
     <artifactId>flood-oauth-permission</artifactId>
 
     <dependencies>
-
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-base</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
         <!-- okhttp3 -->
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
@@ -31,6 +35,7 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

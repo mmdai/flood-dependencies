@@ -1,5 +1,7 @@
 package cn.flood.oauth.configuration;
 
+import cn.flood.context.SpringContextManager;
+import cn.flood.jwtp.TenantInterceptor;
 import cn.flood.jwtp.TokenInterceptor;
 import cn.flood.jwtp.perm.RestUrlPerm;
 import cn.flood.jwtp.perm.SimpleUrlPerm;
@@ -21,20 +23,13 @@ import org.springframework.core.Ordered;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.ResourceUtils;
-import org.springframework.validation.MessageCodesResolver;
-import org.springframework.validation.Validator;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import javax.sql.DataSource;
 import java.util.Collection;
-import java.util.List;
 
 /**
  *
@@ -115,6 +110,8 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
         String[] excludePath = properties.getExcludePath();  // 获取排除路径
         TokenInterceptor interceptor = new TokenInterceptor(tokenStore, urlPerm);
         registry.addInterceptor(interceptor).addPathPatterns(path).excludePathPatterns(excludePath);
+        TenantInterceptor tenantInterceptor = new TenantInterceptor();
+        registry.addInterceptor(tenantInterceptor);
     }
 
 

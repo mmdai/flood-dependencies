@@ -20,6 +20,26 @@ public class UserToken implements Serializable {
      */
     private String accessToken;
     /**
+     * 租户ID
+     */
+    private String tenantId;
+    /**
+     * 昵称
+     */
+    private String userName;
+    /**
+     * 账号
+     */
+    private String account;
+    /**
+     * 部门id
+     */
+    private String deptId;
+    /**
+     * 岗位id
+     */
+    private String postId;
+    /**
      * refresh_token
      */
     private String refreshToken;
@@ -115,5 +135,45 @@ public class UserToken implements Serializable {
     
     public void setUserInfo(String userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(String deptId) {
+        this.deptId = deptId;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }
