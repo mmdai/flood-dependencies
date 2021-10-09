@@ -9,15 +9,20 @@ import java.lang.annotation.*;
 @Documented
 public @interface PulsarConsumer {
 
-    String topic();
+    String consumerName() default "";
 
     Class<?> msgClass();
 
-    String consumerName();
+    String msgClassName() default "";
+
+    int receiveThreads() default 10;
 
     String subscriptionName();
 
     SubscriptionType subscriptionType() default SubscriptionType.Exclusive;
 
-    int receiveThreads() default 10;
+    String subscriptionTypeName() default "";
+
+    String topic();
+
 }
