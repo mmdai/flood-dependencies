@@ -160,7 +160,7 @@
 		<!-- 对象转换 -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-tools-dozer</artifactId>
+			<artifactId>flood-tools-mapstruct</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 

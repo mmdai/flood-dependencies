@@ -30,9 +30,9 @@
         <module>flood-tools-async</module>
         <!-- 基础分布式id -->
         <module>flood-tools-id</module>
-        <!-- 对象转换 -->
-        <module>flood-tools-dozer</module>
         <!-- security -->
         <module>flood-tools-securities</module>
+        <!-- 对象转换 -->
+        <module>flood-tools-mapstruct</module>
     </modules>
 </project>

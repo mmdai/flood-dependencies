@@ -37,7 +37,7 @@
         <!-- 类型转换 -->
         <dependency>
             <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-tools-dozer</artifactId>
+            <artifactId>flood-tools-mapstruct</artifactId>
             <version>${flood.version}</version>
         </dependency>
         <!-- 添加sleuth全链路追踪监控依赖 -->
