@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @MapperConfig
-public interface BaseMapping<S, T> {
+public interface BaseConverter<S, T> {
 
     /**
      * 映射同名属性

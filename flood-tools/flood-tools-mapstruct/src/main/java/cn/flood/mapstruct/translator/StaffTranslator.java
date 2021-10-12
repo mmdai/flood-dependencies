@@ -1,6 +1,6 @@
 package cn.flood.mapstruct.translator;
 
-import cn.flood.mapstruct.converter.BaseMapping;
+import cn.flood.mapstruct.converter.BaseConverter;
 import cn.flood.mapstruct.domain.Staff;
 import cn.flood.mapstruct.entity.StaffEntity;
 import cn.flood.mapstruct.enums.StatusEnum;
@@ -11,7 +11,7 @@ import org.mapstruct.Mappings;
 import java.util.Objects;
 
 @Mapper(componentModel = "spring")
-public interface StaffTranslator extends BaseMapping<Staff, StaffEntity> {
+public interface StaffTranslator extends BaseConverter<Staff, StaffEntity> {
 
     @Override
     @Mappings({
