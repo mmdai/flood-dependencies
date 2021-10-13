@@ -25,7 +25,7 @@ import org.slf4j.MDC;
  * @date 2017年6月19日
  */
 
-@WebFilter(filterName = "filterEx", urlPatterns = "/*")
+//@WebFilter(filterName = "filterEx", urlPatterns = "/*")
 public class LogFilter implements Filter {
 
 //	private final Logger logger = LoggerFactory.getLogger(this.getClass());
