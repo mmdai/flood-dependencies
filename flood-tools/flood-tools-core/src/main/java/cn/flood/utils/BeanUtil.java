@@ -28,6 +28,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -168,8 +169,31 @@ public class BeanUtil extends org.springframework.beans.BeanUtils {
 	 * @return {T}
 	 */
 	public static <T> T toBean(Map<String, Object> beanMap, Class<T> valueType) {
-		T bean = BeanUtil.newInstance(valueType);
-		BeanMap.create(bean).putAll(beanMap);
+		// 对象实例化
+		T bean = newInstance(valueType);
+		PropertyDescriptor[] propertyDescriptors = getPropertyDescriptors(valueType);
+		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+			String properName = propertyDescriptor.getName();
+			// 过滤class属性
+			if ("class".equals(properName)) {
+				continue;
+			}
+			if (beanMap.containsKey(properName)) {
+				Method writeMethod = propertyDescriptor.getWriteMethod();
+				if (null == writeMethod) {
+					continue;
+				}
+				Object value = beanMap.get(properName);
+				if (!writeMethod.isAccessible()) {
+					writeMethod.setAccessible(true);
+				}
+				try {
+					writeMethod.invoke(bean, value);
+				} catch (Throwable throwable) {
+					throw new RuntimeException("Could not set property '" + properName + " ' to bean" + throwable);
+				}
+			}
+		}
 		return bean;
 	}
 
