@@ -30,17 +30,13 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.InvalidMediaTypeException;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 支持 flood-boot 的 版本 处理
@@ -138,7 +134,19 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 			}
 			// 在 springMvc 中如果不是 Get并且是protbuf是x-protobuf的是对象 则默认为 Param
 			if (!"GET".equals(methodType) && isProtobufData(data)) {
-				data.queryMapIndex(paramIndex);
+				Class<?>[] classes = data.method().getParameterTypes();
+				for(int i=0; i<=classes.length-1; i++){
+					Field[] fields = classes[i].getDeclaredFields();
+					for(Field field : fields){
+						String name = field.getName();
+						data.formParams().add(name);
+					}
+					fields = classes[i].getSuperclass().getDeclaredFields();
+					for(Field field : fields){
+						String name = field.getName();
+						data.formParams().add(name);
+					}
+				}
 				return true;
 			}
 		}
@@ -173,6 +181,5 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 		annotatedArgumentResolvers.add(new RequestPartParameterProcessor());
 		return annotatedArgumentResolvers;
 	}
-
 
 }

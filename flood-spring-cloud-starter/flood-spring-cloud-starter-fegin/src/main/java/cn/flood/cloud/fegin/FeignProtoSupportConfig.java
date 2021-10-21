@@ -51,6 +51,7 @@ public class FeignProtoSupportConfig {
      * 覆盖FeignClientsConfiguration默认
      */
     @Bean
+    @Primary
     public Contract feignContract() {
         return new FloodSpringMvcContract();
     }

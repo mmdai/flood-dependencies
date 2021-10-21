@@ -18,6 +18,7 @@ package cn.flood.cloud.fegin;
 import cn.flood.Func;
 import cn.flood.cloud.sentinel.FloodSentinelInvocationHandler;
 import cn.flood.constants.HeaderConstants;
+import cn.flood.http.HttpMediaType;
 import cn.flood.trace.MDCTraceUtils;
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import feign.*;
@@ -37,6 +38,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -146,6 +150,16 @@ public class FloodFeignSentinel {
 						String version =  request.getHeader(HeaderConstants.HEADER_VERSION);
 						if (Func.isNotEmpty(version)) {
 							requestTemplate.header(HeaderConstants.HEADER_VERSION, version);
+						}
+						Collection<String> contentType = requestTemplate.headers().get(HttpHeaders.CONTENT_TYPE);
+						if(!requestTemplate.method().equals("GET") && (Func.isNotEmpty(contentType) && contentType.contains(HttpMediaType.APPLICATION_PROTO_VALUE))){
+							requestTemplate.body("");
+							Map<String, Collection<String>> queries = new HashMap<>();
+							Map<String, String[]> requests = request.getParameterMap();
+							for (Map.Entry<String, String[]> entry : requests.entrySet()) {
+								queries.put(entry.getKey(), entry.getValue()!=null?Arrays.asList(entry.getValue()):null);
+							}
+							requestTemplate.queries(queries);
 						}
 					}
 				}
