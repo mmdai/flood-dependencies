@@ -19,9 +19,12 @@ import cn.flood.Func;
 import cn.flood.cloud.sentinel.FloodSentinelInvocationHandler;
 import cn.flood.constants.HeaderConstants;
 import cn.flood.http.HttpMediaType;
+import cn.flood.proto.ProtostuffUtils;
 import cn.flood.trace.MDCTraceUtils;
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import feign.*;
+import feign.codec.Encoder;
+import feign.form.spring.SpringFormEncoder;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.openfeign.FallbackFactory;
@@ -58,6 +61,7 @@ public class FloodFeignSentinel {
 		private Contract contract = new Contract.Default();
 		private ApplicationContext applicationContext;
 		private FeignContext feignContext;
+		private SpringFormEncoder encoder = new SpringFormEncoder();
 
 		@Override
 		public Feign.Builder invocationHandlerFactory(
@@ -151,16 +155,16 @@ public class FloodFeignSentinel {
 						if (Func.isNotEmpty(version)) {
 							requestTemplate.header(HeaderConstants.HEADER_VERSION, version);
 						}
-						Collection<String> contentType = requestTemplate.headers().get(HttpHeaders.CONTENT_TYPE);
-						if(!requestTemplate.method().equals("GET") && (Func.isNotEmpty(contentType) && contentType.contains(HttpMediaType.APPLICATION_PROTO_VALUE))){
-							requestTemplate.body("");
-							Map<String, Collection<String>> queries = new HashMap<>();
-							Map<String, String[]> requests = request.getParameterMap();
-							for (Map.Entry<String, String[]> entry : requests.entrySet()) {
-								queries.put(entry.getKey(), entry.getValue()!=null?Arrays.asList(entry.getValue()):null);
-							}
-							requestTemplate.queries(queries);
-						}
+//						if(requestTemplate.headers().get(HttpHeaders.CONTENT_TYPE).contains(HttpMediaType.APPLICATION_JSON_VALUE)){
+//							// 通过template获取到请求体（已经被转成json）
+//							String jsonBody = new String(requestTemplate.body());
+//							// 构造通用的请求体
+//							Map<String, Object> baseReq = Func.parse(jsonBody, Map.class);
+//							requestTemplate.header(HttpHeaders.CONTENT_TYPE, HttpMediaType.APPLICATION_PROTO_VALUE);
+//							// 通过encoder的encode方法，将我们的数据 改成表单数据，并替换掉原来的template中的body
+//							encoder.encode(baseReq, Encoder.MAP_STRING_WILDCARD, requestTemplate);
+//						}
+
 					}
 				}
 			});

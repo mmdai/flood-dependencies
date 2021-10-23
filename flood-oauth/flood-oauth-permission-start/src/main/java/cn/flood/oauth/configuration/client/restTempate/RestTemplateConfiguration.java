@@ -19,7 +19,7 @@ package cn.flood.oauth.configuration.client.restTempate;
 import cn.flood.constants.AppConstant;
 import cn.flood.exception.CoreException;
 import cn.flood.exception.enums.GlobalErrorCodeEnum;
-import cn.flood.proto.config.ProtostuffHttpMessageConverter;
+import cn.flood.proto.converter.ProtostuffHttpMessageConverter;
 import cn.flood.utils.Charsets;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -134,19 +134,45 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 			}
 			// 在 springMvc 中如果不是 Get并且是protbuf是x-protobuf的是对象 则默认为 Param
 			if (!"GET".equals(methodType) && isProtobufData(data)) {
-				Class<?>[] classes = data.method().getParameterTypes();
-				for(int i=0; i<=classes.length-1; i++){
-					Field[] fields = classes[i].getDeclaredFields();
-					for(Field field : fields){
-						String name = field.getName();
-						data.formParams().add(name);
-					}
-					fields = classes[i].getSuperclass().getDeclaredFields();
-					for(Field field : fields){
-						String name = field.getName();
-						data.formParams().add(name);
-					}
-				}
+				data.queryMapIndex(paramIndex);
+//				Class<?>[] classes = data.method().getParameterTypes();
+//				for(int i=0; i<=classes.length-1; i++){
+//					Field[] fields = classes[i].getDeclaredFields();
+//					for(Field field : fields){
+//						String name = field.getName();
+//						data.formParams().add(name);
+//					}
+//					fields = classes[i].getSuperclass().getDeclaredFields();
+//					for(Field field : fields){
+//						String name = field.getName();
+//						data.formParams().add(name);
+//					}
+//				}
+//				List<String> formParams = data.formParams();
+//				StringBuffer stringBuffer = new StringBuffer("{");
+//				for (int i = 0; i < formParams.size(); i++) {
+//					boolean isList = false;
+//
+//					Set<String> types = getAllInterfaces(data.method().getParameterTypes()[i]);
+//					if (types.contains("java.util.Collection")) {
+//						isList = true;
+//					}
+//
+//					String param = formParams.get(i);
+//					stringBuffer.append("\"" + param + "\"").append(":");
+//					if (isList) {
+//						stringBuffer.append("[");
+//					}
+//					stringBuffer.append("{").append(param).append("}");
+//					if (isList) {
+//						stringBuffer.append("]");
+//					}
+//					if (i < formParams.size() - 1) {
+//						stringBuffer.append(",");
+//					}
+//				}
+//				stringBuffer.append("}");
+//				data.template().bodyTemplate(stringBuffer.toString());
 				return true;
 			}
 		}
@@ -167,6 +193,30 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 		}
 	}
 
+	/**
+	 * 获取该对象的类,类的所有实现接口,类的父类的名称
+	 *
+	 * @param clazz
+	 * @return
+	 */
+	private static Set<String> getAllInterfaces(Class<?> clazz) {
+		Set<String> types = new HashSet<String>();
+		Stack<Class<?>> stack = new Stack<Class<?>>();
+		stack.push(clazz);
+		while (!stack.empty()) {
+			Class<?> c = stack.pop();
+			types.add(c.getName());
+			Class<?> superClass = c.getSuperclass();
+			if (superClass != null) {
+				stack.push(superClass);
+			}
+			Class<?>[] cs = c.getInterfaces();
+			for (Class<?> superClazzs : cs) {
+				stack.push(superClazzs);
+			}
+		}
+		return types;
+	}
 	/**
 	 * 新增的处理复杂对象类型查询参数
 	 * @return

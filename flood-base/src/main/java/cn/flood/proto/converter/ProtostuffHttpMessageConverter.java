@@ -1,4 +1,4 @@
-package cn.flood.proto.config;
+package cn.flood.proto.converter;
 
 import cn.flood.proto.ProtostuffUtils;
 import lombok.extern.slf4j.Slf4j;

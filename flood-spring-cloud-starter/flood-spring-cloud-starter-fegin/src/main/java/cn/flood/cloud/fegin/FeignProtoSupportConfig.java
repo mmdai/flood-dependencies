@@ -5,6 +5,7 @@ import cn.flood.cloud.version.FloodSpringMvcContract;
 import feign.Contract;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
+import feign.form.spring.SpringFormEncoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 
 /**
  * <p>Title: FeignProtoSupportConfig</p>
@@ -30,13 +32,15 @@ import org.springframework.context.annotation.Primary;
 @Slf4j
 public class FeignProtoSupportConfig {
 
+
+    private static final String PROTO_TYPE = "prototype";
     //Autowire the message converters.
     @Autowired
     private ObjectFactory<HttpMessageConverters> messageConverters;
 
     //override the encoder
     @Bean
-    @Primary
+    @Scope(PROTO_TYPE)
     public Encoder springEncoder(){
         return new SpringEncoder(this.messageConverters);
     }
