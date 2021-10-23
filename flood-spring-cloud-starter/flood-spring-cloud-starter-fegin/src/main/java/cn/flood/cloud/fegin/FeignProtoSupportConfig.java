@@ -40,7 +40,7 @@ public class FeignProtoSupportConfig {
 
     //override the encoder
     @Bean
-    @Scope(PROTO_TYPE)
+    @Primary
     public Encoder springEncoder(){
         return new SpringEncoder(this.messageConverters);
     }
