@@ -14,17 +14,16 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.stereotype.Service;
 
 import cn.flood.redis.service.RedisService;
-import lombok.extern.slf4j.Slf4j;
 
 
 /**  
@@ -33,8 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 * @author mmdai  
 * @date 2018年12月8日  
 */
-@Slf4j
 public class RedisServiceImpl implements RedisService {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private RedisTemplate<String, Object> redisTemplate;
 	

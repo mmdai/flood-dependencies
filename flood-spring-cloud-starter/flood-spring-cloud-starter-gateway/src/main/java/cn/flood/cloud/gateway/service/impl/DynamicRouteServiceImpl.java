@@ -1,7 +1,8 @@
 package cn.flood.cloud.gateway.service.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
@@ -16,10 +17,11 @@ import reactor.core.publisher.Mono;
  * 2）提供动态路由的基础方法，可通过获取bean操作该类的方法。该类提供新增路由、更新路由、删除路由，然后实现发布的功能。
  * @author mmdai
  */
-@Slf4j
 @Service
 @AllArgsConstructor
 public class DynamicRouteServiceImpl implements ApplicationEventPublisherAware {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final RouteDefinitionWriter routeDefinitionWriter;
 

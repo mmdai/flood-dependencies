@@ -1,7 +1,8 @@
 package cn.flood.cloud.gateway.filter;
 
 import cn.flood.cloud.gateway.rule.GrayLoadBalancer;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.DefaultResponse;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerUriTools;
@@ -24,8 +25,10 @@ import java.net.URI;
  * @author madi
  * @date 2021-02-24 13:41
  */
-@Slf4j
 public class GrayReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerClientFilter {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	private static final int LOAD_BALANCER_CLIENT_FILTER_ORDER = 10150;
 	private GatewayLoadBalancerProperties properties;
 

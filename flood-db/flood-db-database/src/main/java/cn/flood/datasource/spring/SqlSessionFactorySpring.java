@@ -11,6 +11,8 @@ import cn.flood.mybatis.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -21,13 +23,12 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import lombok.extern.slf4j.Slf4j;
-
 @ComponentScan(basePackages = {"cn.flood.datasource.aop.impl"})
 @Configuration
 @ConditionalOnClass(DataSource.class)
-@Slf4j
 public class SqlSessionFactorySpring {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	/**
 	 * 配置mapper的扫描，找到所有的mapper.xml映射文件 

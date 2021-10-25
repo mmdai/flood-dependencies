@@ -3,7 +3,8 @@ package cn.flood.threadpool;
 import cn.flood.threadpool.config.DynamicThreadPoolProperties;
 import cn.flood.threadpool.enums.QueueTypeEnum;
 import cn.flood.threadpool.enums.RejectedExecutionHandlerEnum;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
@@ -19,8 +20,9 @@ import java.util.concurrent.atomic.AtomicLong;
  * 动态线程池
  *
  */
-@Slf4j
 public class DynamicThreadPoolManager {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DynamicThreadPoolProperties dynamicThreadPoolProperties;

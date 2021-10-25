@@ -12,13 +12,14 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import cn.flood.datasource.aop.DataSourceAnnotation;
 import cn.flood.datasource.dynamic.DataSourceHolder;
 import cn.flood.datasource.enums.DataSourceEnum;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
@@ -30,9 +31,10 @@ import lombok.extern.slf4j.Slf4j;
 @Aspect
 @Order(-10) // 保证该AOP在@Transactional之前执行
 @Component
-@Slf4j
 public class DataSourceAnnotationAspect {
-	
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@Before("@annotation(ds)")
     public void changeDataSource(JoinPoint point, DataSourceAnnotation ds) throws Throwable {
         String dsId = ds.name();

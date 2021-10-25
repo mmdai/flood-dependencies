@@ -1,6 +1,5 @@
 package cn.flood.mybatis.plus.util;
 
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -25,8 +24,9 @@ import java.net.InetAddress;
  *
  * @author mmdai
  */
-@Slf4j
 public class Snowflake {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private static final Logger logger = LoggerFactory.getLogger(Snowflake.class);
 

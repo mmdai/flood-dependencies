@@ -5,8 +5,8 @@ import cn.flood.cloud.version.FloodSpringMvcContract;
 import feign.Contract;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
-import feign.form.spring.SpringFormEncoder;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
@@ -16,7 +16,6 @@ import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Scope;
 
 /**
  * <p>Title: FeignProtoSupportConfig</p>
@@ -29,9 +28,9 @@ import org.springframework.context.annotation.Scope;
  */
 
 @Configuration
-@Slf4j
 public class FeignProtoSupportConfig {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final String PROTO_TYPE = "prototype";
     //Autowire the message converters.

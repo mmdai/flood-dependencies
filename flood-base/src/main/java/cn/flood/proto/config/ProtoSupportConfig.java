@@ -13,7 +13,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -42,9 +43,9 @@ import java.util.List;
  */
 
 @Configuration
-@Slf4j
 public class ProtoSupportConfig implements WebMvcConfigurer {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     /**
      * 默认解析器 其中locale表示默认语言
      */

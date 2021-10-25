@@ -15,15 +15,18 @@
  */
 package cn.flood.oauth.configuration.client.restTempate;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * OkHttp Slf4j logger
  *
  * @author mmdai
  */
-@Slf4j
 public class OkHttpSlf4jLogger implements HttpRestLoggingInterceptor.Logger {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@Override
 	public void log(String message) {
 		log.info(message);

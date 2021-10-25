@@ -10,8 +10,9 @@ import cn.flood.date.DateTimeUtils;
 import cn.flood.http.IPUtils;
 import com.google.common.base.Stopwatch;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
@@ -33,10 +34,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *
  * @author mmdai
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SafeRuleServiceImpl implements SafeRuleService {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 

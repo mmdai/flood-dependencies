@@ -3,7 +3,8 @@ package cn.flood.log.services.impl;
 
 import cn.flood.log.model.Audit;
 import cn.flood.log.services.IAuditService;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.time.format.DateTimeFormatter;
@@ -17,9 +18,11 @@ import java.time.format.DateTimeFormatter;
  * Blog: https://zlt2000.gitee.io
  * Github: https://github.com/zlt2000
  */
-@Slf4j
 @ConditionalOnProperty(name = "spring.audit-log.log-type", havingValue = "logger", matchIfMissing = true)
 public class LoggerAuditServiceImpl implements IAuditService {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     private static final String MSG_PATTERN = "{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}";
 
     /**

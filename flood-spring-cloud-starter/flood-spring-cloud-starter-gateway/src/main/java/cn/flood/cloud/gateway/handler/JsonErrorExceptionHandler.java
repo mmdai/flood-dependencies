@@ -1,6 +1,7 @@
 package cn.flood.cloud.gateway.handler;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
@@ -20,8 +21,9 @@ import java.util.Map;
  * date: 2020-4-20
  * 参考文档：https://www.cnblogs.com/throwable/p/10848879.html
  */
-@Slf4j
 public class JsonErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ExceptionHandlerAdvice exceptionHandlerAdvice;

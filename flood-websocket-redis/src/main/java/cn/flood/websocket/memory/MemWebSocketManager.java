@@ -7,7 +7,8 @@ import cn.flood.websocket.WebSocketEvent;
 import cn.flood.websocket.WebSocketManager;
 import cn.flood.websocket.utils.ResponseData;
 import cn.flood.websocket.utils.WebSocketUtil;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -16,8 +17,10 @@ import org.springframework.context.ApplicationContextAware;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
 public class MemWebSocketManager implements WebSocketManager, ApplicationContextAware {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     private ApplicationContext applicationContext;
 
     @Override

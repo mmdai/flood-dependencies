@@ -6,7 +6,8 @@ import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.listener.AbstractListener;
 import com.alibaba.nacos.api.exception.NacosException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
@@ -15,8 +16,9 @@ import javax.annotation.PostConstruct;
 /**
  * Spring Cloud Alibaba Nacos配置修改监听
  */
-@Slf4j
 public class NacosCloudConfigUpdateListener {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private NacosConfigProperties nacosConfigProperties;

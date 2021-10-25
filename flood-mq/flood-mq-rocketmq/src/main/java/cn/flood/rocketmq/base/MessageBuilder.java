@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import cn.flood.rocketmq.annotation.MQKey;
 import cn.flood.rocketmq.enums.DelayTimeLevel;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.common.message.Message;
 import org.slf4j.Logger;
@@ -13,11 +12,12 @@ import org.slf4j.LoggerFactory;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+
 
 @Data
-@Slf4j
 public class MessageBuilder {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static Gson gson = new Gson();
 

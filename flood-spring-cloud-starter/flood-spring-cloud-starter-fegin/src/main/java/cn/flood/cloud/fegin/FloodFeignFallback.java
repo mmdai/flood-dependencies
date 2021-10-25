@@ -22,7 +22,8 @@ import cn.flood.rpc.response.ResultWapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.lang.Nullable;
@@ -35,9 +36,11 @@ import java.util.Objects;
  *
  * @author mmdai
  */
-@Slf4j
 @AllArgsConstructor
 public class FloodFeignFallback<T> implements MethodInterceptor {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	private final Class<T> targetType;
 	private final String targetName;
 	private final Throwable cause;

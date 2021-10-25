@@ -1,6 +1,7 @@
 package cn.flood.mongodb.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -16,8 +17,9 @@ import java.lang.reflect.*;
  * @author LaoWang
  * @date 2020-10-20
  */
-@Slf4j
 public class ReflectionUtil {
+
+	private static final Logger log = LoggerFactory.getLogger(ReflectionUtil.class);
 
 	/**
 	 * 调用Getter方法.

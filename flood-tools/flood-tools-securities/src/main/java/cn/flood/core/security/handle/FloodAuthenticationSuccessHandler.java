@@ -3,7 +3,8 @@ package cn.flood.core.security.handle;
 import cn.flood.constants.FDConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,8 +28,9 @@ import java.util.HashMap;
  *
  * @author mmdai
  */
-@Slf4j
 public class FloodAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired
 	private @NonNull ClientDetailsService clientDetailsService;

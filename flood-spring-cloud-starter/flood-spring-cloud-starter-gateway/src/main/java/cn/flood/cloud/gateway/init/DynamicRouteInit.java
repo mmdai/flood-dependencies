@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author mmdai
  * @since 2.3.8
  */
-@Slf4j
+//@Slf4j
 //@Configuration
 //@RequiredArgsConstructor
 public class DynamicRouteInit {

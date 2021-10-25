@@ -23,8 +23,9 @@ import cn.flood.lang.StringUtils;
 import cn.flood.rpc.response.Result;
 import cn.flood.rpc.response.ResultWapper;
 import com.alibaba.fastjson.JSONObject;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.Charsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,8 +53,9 @@ import java.util.Enumeration;
  *
  * @author mmdai
  */
-@Slf4j
 public class WebUtil extends org.springframework.web.util.WebUtils {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	public static final String REQUEST_TOKEN_NAME = "flood-token";  // request中存储token的name
 

@@ -3,7 +3,8 @@ package cn.flood.cloud.gateway.filter;
 import cn.flood.constants.HeaderConstants;
 import cn.flood.trace.MDCTraceUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -18,10 +19,11 @@ import reactor.core.publisher.Mono;
  * @author mmdai
  * @since 2020-7-13
  */
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class PreRequestFilter implements GlobalFilter, Ordered {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

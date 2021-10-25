@@ -1,19 +1,14 @@
 package cn.flood.rocketmq.config;
 
-import cn.flood.rocketmq.annotation.MQProducer;
 import cn.flood.rocketmq.annotation.MQTransactionProducer;
-import cn.flood.rocketmq.base.AbstractMQProducer;
 import cn.flood.rocketmq.base.AbstractMQTransactionProducer;
 import cn.flood.rocketmq.base.RocketMQTemplate;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.client.exception.MQClientException;
+
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,10 +24,11 @@ import java.util.concurrent.*;
  * Created by yipin on 2017/6/29.
  * 自动装配消息生产者
  */
-@Slf4j
 @Configuration
 @ConditionalOnBean(MQBaseAutoConfiguration.class)
 public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Setter
     private static DefaultMQProducer producer;

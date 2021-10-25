@@ -3,8 +3,8 @@ package cn.flood.datasource;
 import cn.flood.Func;
 import cn.flood.datasource.config.DruidDbProperties;
 
-import lombok.extern.slf4j.Slf4j;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,9 +32,10 @@ import java.util.Properties;
 @EnableConfigurationProperties(DruidDbProperties.class)
 @ConditionalOnProperty(name="spring.datasource.isSingle",havingValue="false", matchIfMissing = true)
 @ConfigurationProperties(prefix = "spring.datasource")
-@Slf4j
 public class MultiDataSourceRegister implements InitializingBean {
-	
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private DruidDbProperties druidDbProperties;
 	

@@ -6,11 +6,11 @@ import cn.flood.mapstruct.domain.Staff;
 import cn.flood.mapstruct.entity.StaffEntity;
 import cn.flood.mapstruct.enums.StatusEnum;
 import cn.flood.mapstruct.translator.StaffTranslator;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.DecimalFormat;
@@ -23,9 +23,10 @@ import java.util.List;
  * @date 2021-06-20 0:57
  * @description
  */
-@Slf4j
 @SpringBootTest
 public class TestControllerTest {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private StaffTranslator staffTranslator;

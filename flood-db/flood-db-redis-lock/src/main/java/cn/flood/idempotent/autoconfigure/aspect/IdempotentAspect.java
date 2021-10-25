@@ -3,7 +3,6 @@ package cn.flood.idempotent.autoconfigure.aspect;
 import cn.flood.idempotent.autoconfigure.annotation.Idempotent;
 import cn.flood.idempotent.autoconfigure.exception.IdempotentException;
 import cn.flood.idempotent.autoconfigure.expression.KeyResolver;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,10 +33,9 @@ import java.util.concurrent.TimeUnit;
  * @author daimm
  */
 @Aspect
-@Slf4j
 public class IdempotentAspect {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(IdempotentAspect.class);
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal();
 
@@ -104,7 +102,7 @@ public class IdempotentAspect {
 				throw new IdempotentException(ErrorCode, "[idempotent]:" + info);
 			}
 			else {
-				LOGGER.info("[idempotent]:has stored key={},value={},expireTime={}{},now={}", key, value, expireTime,
+				log.info("[idempotent]:has stored key={},value={},expireTime={}{},now={}", key, value, expireTime,
 						timeUnit, LocalDateTime.now().toString());
 			}
 		}
@@ -133,7 +131,7 @@ public class IdempotentAspect {
 
 		if (delKey) {
 			mapCache.fastRemove(key);
-			LOGGER.info("[idempotent]:has removed key={}", key);
+			log.info("[idempotent]:has removed key={}", key);
 		}
 		threadLocal.remove();
 	}

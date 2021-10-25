@@ -10,12 +10,12 @@ import cn.flood.log.annotation.AuditLog;
 import cn.flood.log.model.Audit;
 import cn.flood.log.properties.AuditLogProperties;
 import cn.flood.log.services.IAuditService;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -36,10 +36,12 @@ import java.util.Map;
  * 审计日志切面
  *
  */
-@Slf4j
 @Aspect
 @ConditionalOnClass({HttpServletRequest.class, RequestContextHolder.class})
 public class AuditLogAspect {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Value("${spring.application.name}")
     private String applicationName;
 

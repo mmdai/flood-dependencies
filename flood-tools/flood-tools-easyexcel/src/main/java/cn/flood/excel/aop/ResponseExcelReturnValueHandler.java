@@ -4,7 +4,8 @@ package cn.flood.excel.aop;
 import cn.flood.excel.annotation.ResponseExcel;
 import cn.flood.excel.handler.SheetWriteHandler;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -19,11 +20,11 @@ import java.util.List;
  *
  * @author lengleng
  */
-@Slf4j
 @RequiredArgsConstructor
 public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValueHandler {
 	private final List<SheetWriteHandler> sheetWriteHandlerList;
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 只处理@ResponseExcel 声明的方法

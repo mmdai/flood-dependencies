@@ -3,13 +3,13 @@ package cn.flood.datasource;
 import javax.sql.DataSource;
 
 import cn.flood.Func;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
@@ -24,9 +24,10 @@ import java.util.Properties;
 @EnableConfigurationProperties(DruidDbProperties.class)
 @ConditionalOnProperty(name="spring.datasource.isSingle",havingValue="true", matchIfMissing = true)
 @ConfigurationProperties(prefix="spring.datasource")
-@Slf4j
 public class SingleDataSourceRegister implements InitializingBean {
-	
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@Autowired
 	private DruidDbProperties druidDbProperties;
 	

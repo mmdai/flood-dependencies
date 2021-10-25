@@ -1,7 +1,7 @@
 package cn.flood.rocketmq.dedup.persist;
 
-
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Map;
@@ -9,8 +9,10 @@ import java.util.Map;
 /**
  * Created by mmdai
  */
-@Slf4j
 public class JDBCPersit implements IPersist {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     private final JdbcTemplate jdbcTemplate;
 
     public JDBCPersit(JdbcTemplate jdbcTemplate) {

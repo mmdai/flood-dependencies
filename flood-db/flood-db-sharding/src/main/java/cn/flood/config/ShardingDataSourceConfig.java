@@ -18,6 +18,8 @@ import cn.flood.config.properties.DruidDbProperties;
 import org.apache.shardingsphere.api.config.masterslave.LoadBalanceStrategyConfiguration;
 import org.apache.shardingsphere.api.config.masterslave.MasterSlaveRuleConfiguration;
 import org.apache.shardingsphere.shardingjdbc.api.MasterSlaveDataSourceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,7 +31,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 import cn.flood.config.properties.ShardingMasterSlaveProperties;
-import lombok.extern.slf4j.Slf4j;
 
 /**  
 * <p>Title: ShardingDataSourceConfig</p>  
@@ -37,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 * @author mmdai  
 * @date 2019年7月9日  
 */
-@Slf4j
 @Configuration
 @EnableConfigurationProperties({ShardingMasterSlaveProperties.class,
         DruidDbProperties.class
@@ -45,6 +45,8 @@ import lombok.extern.slf4j.Slf4j;
 @ConditionalOnProperty({"sharding.jdbc.data-sources.ds_master.url", 
 	"sharding.jdbc.master-slave-rule.master-data-source-name"})
 public class ShardingDataSourceConfig {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired(required = false)
     private ShardingMasterSlaveProperties shardingMasterSlaveProperties;

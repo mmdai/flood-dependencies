@@ -4,7 +4,8 @@ import cn.flood.cloud.gateway.result.Result;
 import cn.flood.cloud.gateway.result.ResultCode;
 import cn.flood.cloud.gateway.result.ResultWapper;
 import io.netty.channel.ConnectTimeoutException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -18,9 +19,11 @@ import org.springframework.web.server.ResponseStatusException;
  *
  * @author mmdai
  */
-@Slf4j
 @Component
 public class ExceptionHandlerAdvice {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	@ExceptionHandler(value = {ResponseStatusException.class})
 	public Result<?> handle(ResponseStatusException ex) {
 		log.error("response status exception:{}", ex.getMessage());

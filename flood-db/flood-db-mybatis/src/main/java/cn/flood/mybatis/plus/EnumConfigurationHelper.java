@@ -2,16 +2,18 @@ package cn.flood.mybatis.plus;
 
 import cn.flood.enums.annotation.EnumHandler;
 import cn.flood.mybatis.plus.typehandler.EnumKeyTypeHandler;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.atteo.classindex.ClassIndex;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class EnumConfigurationHelper {
+
+    private static final Logger log = LoggerFactory.getLogger(EnumConfigurationHelper.class);
 
     private static final Class HANDLER_ENUM_CLAZZ = EnumHandler.class;
 

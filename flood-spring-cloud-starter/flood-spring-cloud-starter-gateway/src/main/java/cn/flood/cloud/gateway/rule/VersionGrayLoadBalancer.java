@@ -4,7 +4,8 @@ import cn.flood.Func;
 import cn.flood.constants.HeaderConstants;
 import cn.flood.lang.StringUtils;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.support.NotFoundException;
@@ -20,9 +21,11 @@ import java.util.Map;
  * @author madi
  * @date 2021-02-24 13:41
  */
-@Slf4j
 @AllArgsConstructor
 public class VersionGrayLoadBalancer implements GrayLoadBalancer {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+
 	private DiscoveryClient discoveryClient;
 
 

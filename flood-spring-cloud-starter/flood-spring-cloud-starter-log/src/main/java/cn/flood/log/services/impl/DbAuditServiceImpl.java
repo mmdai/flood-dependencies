@@ -5,8 +5,9 @@ import cn.flood.log.config.LogDbProperties;
 import cn.flood.log.model.Audit;
 import cn.flood.log.services.IAuditService;
 import com.alibaba.druid.pool.DruidDataSource;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -24,11 +25,13 @@ import java.util.Properties;
  * 审计日志实现类-数据库
  *
  */
-@Slf4j
 @ConditionalOnProperty(name = "spring.audit-log.log-type", havingValue = "db")
 @ConditionalOnClass(JdbcTemplate.class)
 @EnableConfigurationProperties({LogDbProperties.class, DruidDbProperties.class})
 public class DbAuditServiceImpl implements IAuditService {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     private static final String INSERT_SQL = " insert into sys_logger " +
             " (application_name, class_name, method_name, user_id, user_name, client_id, action_type, " +
             " request_ip, host_ip, param, operation, timestamp) " +

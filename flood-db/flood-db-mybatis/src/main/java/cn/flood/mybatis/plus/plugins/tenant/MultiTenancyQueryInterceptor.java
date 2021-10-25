@@ -4,7 +4,6 @@ import cn.flood.Func;
 import cn.flood.mybatis.plus.util.Reflections;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
@@ -14,6 +13,8 @@ import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -30,11 +31,12 @@ import java.util.Properties;
  * @Author iloveoverfly
  * @LocalDateTime 2020/6/10 16:57
  **/
-@Slf4j
 @Intercepts({
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class})})
 public class MultiTenancyQueryInterceptor implements Interceptor {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final String WHERE_CONDITION = " where ";
     private static final String AND_CONDITION = " and ";

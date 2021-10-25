@@ -5,7 +5,8 @@ import cn.flood.cloud.gateway.props.WebSocketProperties;
 import cn.flood.constants.HeaderConstants;
 import cn.flood.trace.MDCTraceUtils;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -29,11 +30,12 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
  * @author L.cm
  * @since 2020-7-16
  */
-@Slf4j
 @Component
 @AllArgsConstructor
 @EnableConfigurationProperties({WebSocketProperties.class})
 public class RequestLogFilter implements GlobalFilter, Ordered {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private static final String START_TIME = "startTime";
 

@@ -1,7 +1,6 @@
 package cn.flood.cloud.xxljob.autoconfigure;
 
 import cn.flood.job.core.executor.impl.XxlJobSpringExecutor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
  * @version 1.0
  * @date 2020/12/23
  */
-@Slf4j
 @EnableConfigurationProperties(XxlJobProperties.class)
 @Configuration
 public class XxlJobAutoConfiguration {

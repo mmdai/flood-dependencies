@@ -1,12 +1,13 @@
 package cn.flood.mybatis.interceptor;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.ResultHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
@@ -20,13 +21,14 @@ import java.util.*;
  * @author hubin nieqiurong TaoYu
  * @since 2016-07-07
  */
-@Slf4j
 @Intercepts({
 		@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
 		@Signature(type = StatementHandler.class, method = "update", args = Statement.class),
 		@Signature(type = StatementHandler.class, method = "batch", args = Statement.class)
 })
 public class SqlLogInterceptor implements Interceptor {
+
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private static final String DRUID_POOLED_PREPARED_STATEMENT = "com.alibaba.druid.pool.DruidPooledPreparedStatement";
 	private static final String T4C_PREPARED_STATEMENT = "oracle.jdbc.driver.T4CPreparedStatement";
 	private static final String ORACLE_PREPARED_STATEMENT_WRAPPER = "oracle.jdbc.driver.OraclePreparedStatementWrapper";

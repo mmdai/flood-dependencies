@@ -3,7 +3,8 @@ package cn.flood.jwtp.util;
 import cn.flood.UserToken;
 import cn.flood.http.WebUtil;
 import io.jsonwebtoken.ExpiredJwtException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -18,9 +19,9 @@ import java.util.Collection;
  * 权限检查工具类
  * <p>
  */
-@Slf4j
 public class SecureUtil {
 
+    private static final Logger log = LoggerFactory.getLogger(SecureUtil.class);
     /**
      * 检查是否有指定角色
      *

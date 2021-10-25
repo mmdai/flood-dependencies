@@ -1,8 +1,9 @@
 package cn.flood.cloud.gateway.handler;
 
 import cn.flood.exception.CoreException;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
@@ -18,8 +19,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.HashMap;
 import java.util.Map;
 
-@Slf4j
 public class MateGatewayExceptionHandler extends DefaultErrorWebExceptionHandler {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public MateGatewayExceptionHandler(ErrorAttributes errorAttributes, ResourceProperties resourceProperties,
                                        ErrorProperties errorProperties, ApplicationContext applicationContext) {

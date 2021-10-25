@@ -5,14 +5,17 @@ import cn.flood.lang.Assert;
 import cn.flood.lang.StringPool;
 import cn.flood.lang.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.concurrent.ThreadLocalRandom;
 
-@Slf4j
 public class Sequence {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     /**
      * 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）(2021-01-01)

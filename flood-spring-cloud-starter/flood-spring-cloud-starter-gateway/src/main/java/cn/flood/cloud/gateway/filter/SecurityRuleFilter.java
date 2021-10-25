@@ -3,7 +3,8 @@ package cn.flood.cloud.gateway.filter;
 import cn.flood.cloud.gateway.service.SafeRuleService;
 import cn.flood.lang.StringPool;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -22,11 +23,12 @@ import reactor.core.publisher.Mono;
  * CORS 过滤
  * @author xzf
  */
-@Slf4j
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration(proxyBeanMethods = false)
 public class SecurityRuleFilter implements WebFilter {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final String ACCESS_CONTROL_MAX_AGE = "7200";
 

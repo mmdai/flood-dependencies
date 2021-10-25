@@ -1,7 +1,8 @@
 package cn.flood.proto.converter;
 
 import cn.flood.proto.ProtostuffUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -18,8 +19,9 @@ import java.nio.charset.Charset;
  * @Date 2020/09/01
  * @Description feign调用中protostuff编解码器
  **/
-@Slf4j
 public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
 

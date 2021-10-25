@@ -1,7 +1,8 @@
 package cn.flood.threadpool.config;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.Bindable;
@@ -18,11 +19,11 @@ import java.util.*;
  * 动态线程池配置
  *
  */
-@Slf4j
 @Data
 @ConfigurationProperties(prefix = "flood.threadpools")
 public class DynamicThreadPoolProperties {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     /**
      * Nacos DataId, 监听配置修改用
      */

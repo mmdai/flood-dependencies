@@ -8,12 +8,12 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -27,8 +27,9 @@ import javax.sql.DataSource;
 @Configuration
 @MapperScan(basePackages = "cn.flood.delay.mapper")
 @EnableConfigurationProperties(DelayProperties.class)
-@Slf4j
 public class BeanConfig {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DelayProperties delayProperties;

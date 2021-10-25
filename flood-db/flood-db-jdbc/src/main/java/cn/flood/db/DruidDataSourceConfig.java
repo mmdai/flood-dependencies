@@ -8,6 +8,8 @@ import cn.flood.db.config.DruidDbProperties;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -17,7 +19,6 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.SQLException;
@@ -37,8 +38,9 @@ import java.util.Properties;
         DataSourceProperties.class,
         DruidDbProperties.class
 })
-@Slf4j
 public class DruidDataSourceConfig {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private DataSourceProperties dataSourceProperties;

@@ -5,7 +5,8 @@ import cn.flood.cloud.gateway.props.FloodApiProperties;
 import cn.flood.cloud.gateway.result.Result;
 import cn.flood.cloud.gateway.result.ResultWapper;
 import cn.flood.lang.StringPool;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -23,11 +24,11 @@ import reactor.core.publisher.Mono;
 /**
  * 网关统一的token验证
  */
-@Slf4j
 @Component
 @EnableConfigurationProperties({FloodApiProperties.class})
 public class PreUaaFilter implements GlobalFilter, Ordered {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     /**
      * 权限认证的排序
      */
