@@ -55,7 +55,7 @@ import java.util.Enumeration;
  */
 public class WebUtil extends org.springframework.web.util.WebUtils {
 
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private static final Logger log = LoggerFactory.getLogger(WebUtil.class);
 
 	public static final String REQUEST_TOKEN_NAME = "flood-token";  // request中存储token的name
 
