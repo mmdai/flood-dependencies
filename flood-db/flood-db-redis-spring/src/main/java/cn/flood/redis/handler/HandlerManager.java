@@ -1,5 +1,10 @@
 package cn.flood.redis.handler;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisSentinelConfiguration;
@@ -9,6 +14,9 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import cn.flood.redis.util.ApplicationContextUtil;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
@@ -203,12 +211,37 @@ final class HandlerManager {
         RedisTemplate redisTemplate;
         if (isString) {
             redisTemplate = new StringRedisTemplate(factory);
+            // 设置序列化
+            Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
+                    Object.class);
+            ObjectMapper om = new ObjectMapper();
+            om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//	    om.enableDefaultTyping(DefaultTyping.NON_FINAL);
+            om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
+                    ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+            jackson2JsonRedisSerializer.setObjectMapper(om);
+            RedisSerializer<?> stringSerializer = new StringRedisSerializer();
+            redisTemplate.setKeySerializer(stringSerializer);// key序列化
+            redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);// value序列化
+            redisTemplate.setHashKeySerializer(stringSerializer);// Hash key序列化
+            redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);// Hash value序列化
+            redisTemplate.afterPropertiesSet();
         }else{
             redisTemplate = new RedisTemplate<String, Object>();
-            redisTemplate.setKeySerializer(REDIS_TEMPLATE.getKeySerializer());
-            redisTemplate.setValueSerializer(REDIS_TEMPLATE.getValueSerializer());
-            redisTemplate.setHashKeySerializer(REDIS_TEMPLATE.getHashKeySerializer());
-            redisTemplate.setHashValueSerializer(REDIS_TEMPLATE.getHashValueSerializer());
+            // 设置序列化
+            Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
+                    Object.class);
+            ObjectMapper om = new ObjectMapper();
+            om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//	    om.enableDefaultTyping(DefaultTyping.NON_FINAL);
+            om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
+                    ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+            jackson2JsonRedisSerializer.setObjectMapper(om);
+            RedisSerializer<?> stringSerializer = new StringRedisSerializer();
+            redisTemplate.setKeySerializer(stringSerializer);
+            redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+            redisTemplate.setHashKeySerializer(stringSerializer);
+            redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
             redisTemplate.setEnableDefaultSerializer(REDIS_TEMPLATE.isEnableDefaultSerializer());
             redisTemplate.setConnectionFactory(factory);
             redisTemplate.afterPropertiesSet();

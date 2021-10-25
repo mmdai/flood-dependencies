@@ -61,11 +61,26 @@ public class RedisAutoConfiguration {
         return redisTemplate;
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean({StringRedisTemplate.class})
-//    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-//        StringRedisTemplate template = new StringRedisTemplate();
-//        template.setConnectionFactory(redisConnectionFactory);
-//        return template;
-//    }
+    @Bean
+    @ConditionalOnMissingBean({StringRedisTemplate.class})
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        StringRedisTemplate template = new StringRedisTemplate();
+        // 设置序列化
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
+                Object.class);
+        ObjectMapper om = new ObjectMapper();
+        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//	    om.enableDefaultTyping(DefaultTyping.NON_FINAL);
+        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
+                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        jackson2JsonRedisSerializer.setObjectMapper(om);
+        template.setConnectionFactory(redisConnectionFactory);
+        RedisSerializer<?> stringSerializer = new StringRedisSerializer();
+        template.setKeySerializer(stringSerializer);// key序列化
+        template.setValueSerializer(jackson2JsonRedisSerializer);// value序列化
+        template.setHashKeySerializer(stringSerializer);// Hash key序列化
+        template.setHashValueSerializer(jackson2JsonRedisSerializer);// Hash value序列化
+        template.afterPropertiesSet();
+        return template;
+    }
 }
