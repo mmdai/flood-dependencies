@@ -22,6 +22,7 @@ public class TokenUtil {
     public static final long DEFAULT_EXPIRE = 2 * 60 * 60;  // 默认token过期时长,单位秒
     public static final long DEFAULT_EXPIRE_REFRESH_TOKEN = 60 * 60 * 24 * 30 * 3;  // 默认refresh_token过期时长,单位秒
 
+    public static final String PREFIX = "Bearer ";//默认头
     /**
      * 生成token
      *

@@ -123,7 +123,7 @@ public class CheckPermissionUtil {
     public static String takeToken(HttpServletRequest request) {
         String access_token = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (access_token != null && access_token.length() >= 7) {
-            access_token = access_token.substring(7);
+            access_token = access_token.replaceFirst(TokenUtil.PREFIX, "");
         }else {
             access_token = request.getParameter("access_token");
             if (access_token == null || access_token.trim().isEmpty()) {
@@ -132,7 +132,7 @@ public class CheckPermissionUtil {
 //                log.info("payload:【{}】", payload);
                 if(!Func.isEmpty(payload)){
                     Map<String, Object> map = JsonUtils.toMap(payload);
-                    access_token = (String) map.get("access_token");
+                    access_token = ((String) map.get("access_token")).replaceFirst(TokenUtil.PREFIX, "");
                 }
             }
         }
