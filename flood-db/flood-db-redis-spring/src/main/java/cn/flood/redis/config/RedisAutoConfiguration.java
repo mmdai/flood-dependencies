@@ -77,9 +77,9 @@ public class RedisAutoConfiguration {
         template.setConnectionFactory(redisConnectionFactory);
         RedisSerializer<?> stringSerializer = new StringRedisSerializer();
         template.setKeySerializer(stringSerializer);// key序列化
-        template.setValueSerializer(jackson2JsonRedisSerializer);// value序列化
+        template.setValueSerializer(stringSerializer);// value序列化
         template.setHashKeySerializer(stringSerializer);// Hash key序列化
-        template.setHashValueSerializer(jackson2JsonRedisSerializer);// Hash value序列化
+        template.setHashValueSerializer(stringSerializer);// Hash value序列化
         template.afterPropertiesSet();
         return template;
     }
