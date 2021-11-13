@@ -5,11 +5,11 @@
   <parent>
     <groupId>io.github.mmdai</groupId>
     <artifactId>flood-dependencies</artifactId>
-    <version>2.5.6.1-SNAPSHOT</version>
+    <version>2.5.6.2-SNAPSHOT</version>
   </parent>
   <groupId>io.github.mmdai</groupId>
   <artifactId>flood-base</artifactId>
-  <version>2.5.6.1-SNAPSHOT</version>
+  <version>2.5.6.2-SNAPSHOT</version>
   <name>flood-base</name>
   <url>http://maven.apache.org</url>
 
