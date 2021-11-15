@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -42,7 +43,12 @@ public class MultiDataSourceRegister implements InitializingBean {
 	private List<DataSourceRegisterInfo> sourceConfig = new ArrayList<>();
 	
 	private List<DataSource> dataSourceList = new ArrayList<>();
-	
+
+	@PostConstruct
+	public void setProperties(){
+		System.setProperty("druid.mysql.usePingMethod","false");
+	}
+
 
 	@Override
 	public void afterPropertiesSet() {

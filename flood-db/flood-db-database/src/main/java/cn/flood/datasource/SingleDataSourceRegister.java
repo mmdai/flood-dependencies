@@ -1,5 +1,6 @@
 package cn.flood.datasource;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import cn.flood.Func;
@@ -78,6 +79,11 @@ public class SingleDataSourceRegister implements InitializingBean {
 		this.driverClassName = driverClassName;
 	}
 
+
+	@PostConstruct
+	public void setProperties(){
+		System.setProperty("druid.mysql.usePingMethod","false");
+	}
 
 	@Override
 	public void afterPropertiesSet() {

@@ -1,5 +1,6 @@
 package cn.flood.db;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import cn.flood.Func;
@@ -47,6 +48,11 @@ public class DruidDataSourceConfig {
 
     @Autowired
     private DruidDbProperties druidDbProperties;
+
+    @PostConstruct
+    public void setProperties(){
+        System.setProperty("druid.mysql.usePingMethod","false");
+    }
 
 	@Bean(name="dataSource") // 只需要纳入动态数据源到spring容器
     public DataSource dataSource(){
