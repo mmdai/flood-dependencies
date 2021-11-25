@@ -1,15 +1,10 @@
 package cn.flood.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 方法类型
  *
  * @author pangu
  */
-@Getter
-@AllArgsConstructor
 public enum MethodType {
 
 	/**
@@ -29,4 +24,11 @@ public enum MethodType {
 
 	private final boolean code;
 
+	MethodType(boolean code) {
+		this.code = code;
+	}
+
+	public boolean isCode() {
+		return code;
+	}
 }

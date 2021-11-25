@@ -1,13 +1,13 @@
 package cn.flood.enums;
 
-import lombok.Getter;
+
+import java.util.stream.Stream;
 
 /**
  * 公共状态，一般用来表示开启和关闭
  *
  * @author aaronuu
  */
-@Getter
 public enum StatusEnum {
 
     /**
@@ -32,15 +32,25 @@ public enum StatusEnum {
     /**
      * 根据code获取枚举
      */
-    public static StatusEnum codeToEnum(String code) {
-        if (null != code) {
-            for (StatusEnum e : StatusEnum.values()) {
-                if (e.getCode().equals(code)) {
-                    return e;
-                }
-            }
-        }
-        return null;
+    public static StatusEnum valueOfEnum(String code) {
+        return Stream.of(StatusEnum.values()).
+                filter(eu -> eu.code.equals(code)).
+                findFirst().orElse(null);
     }
 
+    // 普通方法
+    public static String getName(String code) {
+        StatusEnum em = Stream.of(StatusEnum.values()).
+                filter(eu -> eu.code.equals(code)).
+                findFirst().orElse(null);
+        return em == null? "" : em.name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

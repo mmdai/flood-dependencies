@@ -1,6 +1,6 @@
 package cn.flood.enums;
 
-import lombok.Getter;
+import java.util.stream.Stream;
 
 /**
  * 不同数据库类型的枚举
@@ -9,7 +9,6 @@ import lombok.Getter;
  *
  * @author aaronuu
  */
-@Getter
 public enum DbTypeEnum {
 
     /**
@@ -32,13 +31,38 @@ public enum DbTypeEnum {
      */
     MS_SQL("mssql", "sqlserver");
 
-    private final String key;
+    private final String code;
 
-    private final String value;
+    private final String name;
 
-    DbTypeEnum(String key, String value) {
-        this.key = key;
-        this.value = value;
+    DbTypeEnum(String code, String name) {
+        this.code = code;
+        this.name = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 根据code获取枚举
+     */
+    public static DbTypeEnum valueOfEnum(String code) {
+        return Stream.of(DbTypeEnum.values()).
+                filter(eu -> eu.code.equals(code)).
+                findFirst().orElse(null);
+    }
+    /**
+     * 编码转化成中文含义
+     */
+    public static String getName(String code) {
+        DbTypeEnum em = Stream.of(DbTypeEnum.values()).
+                filter(eu -> eu.code.equals(code)).
+                findFirst().orElse(null);
+        return em == null? "" : em.name;
+    }
 }

@@ -1,16 +1,10 @@
 package cn.flood.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 环境常量
  *
  * @author pangu
  */
-
-@Getter
-@AllArgsConstructor
 public enum EnvType {
 
 	/**
@@ -28,4 +22,12 @@ public enum EnvType {
 	DOCKER("docker");
 
 	private final String code;
+
+	EnvType(String code) {
+		this.code = code;
+	}
+
+	public String getCode() {
+		return code;
+	}
 }

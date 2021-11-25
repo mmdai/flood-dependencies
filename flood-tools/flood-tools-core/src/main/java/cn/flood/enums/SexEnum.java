@@ -1,13 +1,12 @@
 package cn.flood.enums;
 
-import lombok.Getter;
+import java.util.stream.Stream;
 
 /**
  * 性别的枚举
  *
  * @author aaronuu
  */
-@Getter
 public enum SexEnum {
 
     /**
@@ -32,29 +31,26 @@ public enum SexEnum {
     /**
      * 根据code获取枚举
      */
-    public static SexEnum codeToEnum(String code) {
-        if (null != code) {
-            for (SexEnum e : SexEnum.values()) {
-                if (e.getCode().equals(code)) {
-                    return e;
-                }
-            }
-        }
-        return null;
+    public static SexEnum valueOfEnum(String code) {
+        return Stream.of(SexEnum.values()).
+                filter(eu -> eu.code.equals(code)).
+                findFirst().orElse(null);
     }
-
     /**
      * 编码转化成中文含义
      */
-    public static String codeToName(String code) {
-        if (null != code) {
-            for (SexEnum e : SexEnum.values()) {
-                if (e.getCode().equals(code)) {
-                    return e.name();
-                }
-            }
-        }
-        return "未知";
+    public static String getName(String code) {
+        SexEnum em = Stream.of(SexEnum.values()).
+                filter(eu -> eu.code.equals(code)).
+                findFirst().orElse(null);
+        return em == null? "" : em.name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
