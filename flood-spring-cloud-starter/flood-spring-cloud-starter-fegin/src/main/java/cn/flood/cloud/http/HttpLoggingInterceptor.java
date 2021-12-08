@@ -235,6 +235,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
 		responseEndMessage.append("<=== ").append(response.code()).append(response.message().isEmpty() ? "" : ' ' + response.message()).
 				append(' ').append(response.request().url()).append(" (").append(tookMs).append("ms").
 				append(!logHeaders ? ", " + bodySize + " body" : "").append(')').append("\n");
+		responseEndMessage.append(" http/").append(response.protocol().toString()).append("\n");
 		if (logHeaders) {
 			Headers headers = response.headers();
 			for (int i = 0, count = headers.size(); i < count; i++) {
@@ -249,7 +250,7 @@ public final class HttpLoggingInterceptor implements Interceptor {
 				BufferedSource source = responseBody.source();
 				// Buffer the entire body.
 				source.request(Long.MAX_VALUE);
-				Buffer buffer = source.buffer();
+				Buffer buffer = source.getBuffer();
 
 				Long gzippedLength = null;
 				if (gzip.equalsIgnoreCase(headers.get(contentEncoding))) {

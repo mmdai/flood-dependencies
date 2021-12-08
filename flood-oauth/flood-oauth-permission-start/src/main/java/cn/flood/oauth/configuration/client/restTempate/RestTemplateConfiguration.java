@@ -22,6 +22,8 @@ import cn.flood.exception.enums.GlobalErrorCodeEnum;
 import cn.flood.proto.converter.ProtostuffHttpMessageConverter;
 import cn.flood.utils.Charsets;
 import lombok.AllArgsConstructor;
+import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +46,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -135,14 +138,17 @@ public class RestTemplateConfiguration {
 		HttpRestLoggingInterceptor interceptor) {
 		Boolean followRedirects = httpClientProperties.isFollowRedirects();
 		Integer connectTimeout = httpClientProperties.getConnectionTimeout();
-		return httpClientFactory.createBuilder(httpClientProperties.isDisableSslValidation())
-			.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
-			.writeTimeout(30, TimeUnit.SECONDS)
-			.readTimeout(30, TimeUnit.SECONDS)
-			.followRedirects(followRedirects)
-			.connectionPool(connectionPool)
-			.addInterceptor(interceptor)
-			.build();
+		List<Protocol> protocols = new ArrayList<>();
+		protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
+		OkHttpClient.Builder builder = httpClientFactory.createBuilder(httpClientProperties.isDisableSslValidation())
+				.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
+				.writeTimeout(30, TimeUnit.SECONDS)
+				.readTimeout(30, TimeUnit.SECONDS)
+				.followRedirects(followRedirects)
+				.connectionPool(connectionPool);
+		builder.protocols(protocols);
+		builder.addInterceptor(interceptor);
+		return builder.build();
 	}
 
 
