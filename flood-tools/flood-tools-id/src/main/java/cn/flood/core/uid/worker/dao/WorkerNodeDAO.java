@@ -47,7 +47,7 @@ public class WorkerNodeDAO {
     public WorkerNode getWorkerNodeByHostPort(String host, String port) {
         final WorkerNode workerNode = new WorkerNode();
         String querySql = "select * from WORKER_NODE where HOST_NAME = ? AND PORT = ? ";
-        this.jdbcTemplate.query(querySql, new String[] {host, port}, new RowCallbackHandler() {
+        this.jdbcTemplate.query(querySql,  new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs)
                 throws SQLException {
@@ -59,7 +59,7 @@ public class WorkerNodeDAO {
                 workerNode.setModified(rs.getDate("MODIFIED"));
                 workerNode.setCreated(rs.getDate("CREATED"));
             }
-        });
+        }, new String[] {host, port});
         return workerNode;
     }
     

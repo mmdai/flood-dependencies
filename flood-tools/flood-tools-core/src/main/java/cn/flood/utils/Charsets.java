@@ -16,7 +16,7 @@
 package cn.flood.utils;
 
 
-import cn.flood.lang.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -54,7 +54,7 @@ public class Charsets {
 	 * @throws UnsupportedCharsetException 编码不支持
 	 */
 	public static Charset charset(String charsetName) throws UnsupportedCharsetException {
-		return StringUtils.isEmpty(charsetName) ? Charset.defaultCharset() : Charset.forName(charsetName);
+		return ObjectUtils.isEmpty(charsetName) ? Charset.defaultCharset() : Charset.forName(charsetName);
 	}
 
 }

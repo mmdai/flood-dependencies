@@ -78,7 +78,9 @@ public class SwaggerConfiguration {
 		List<SecurityContext> securityContexts = new ArrayList<>();
 		securityContexts.add(SecurityContext.builder()
 				.securityReferences(defaultAuth())
-				.forPaths(PathSelectors.regex("^(?!(oss|pub)).*$")).build());
+				.operationSelector(operationContext -> !operationContext.requestMappingPattern().startsWith("oss") &&
+						!operationContext.requestMappingPattern().startsWith("pub"))
+				.build());
 		return securityContexts;
 	}
 

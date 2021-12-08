@@ -12,6 +12,7 @@ import cn.flood.lang.Assert;
 import cn.flood.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -138,7 +139,7 @@ public class IOUtils {
      * @return 转换异常时返回{@code null}，否则返回字节数组
      */
     public static byte[] toByteArray(Reader reader, String encoding) {
-        return toByteArray(reader, StringUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
+        return toByteArray(reader, ObjectUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
     }
 
     /**
@@ -165,7 +166,7 @@ public class IOUtils {
     }
 
     public static String toString(InputStream in, String encoding) {
-        return toString(in, StringUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
+        return toString(in, ObjectUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
     }
 
     public static String toString(InputStream in, Charset encoding) {
@@ -264,7 +265,7 @@ public class IOUtils {
      * @return 拷贝成功则返回{@code true},否则返回{@code false}
      */
     public static boolean copy(InputStream in, Writer writer, String encoding) {
-        return copy(in, writer, StringUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
+        return copy(in, writer, ObjectUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
     }
 
     /**
@@ -354,7 +355,7 @@ public class IOUtils {
      * @return 拷贝成功则返回{@code true},否则返回{@code false}
      */
     public static boolean copy(Reader reader, OutputStream out, String encoding) {
-        return copy(reader, out, StringUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
+        return copy(reader, out, ObjectUtils.isEmpty(encoding) ? Charset.defaultCharset() : Charset.forName(encoding));
     }
 
     /**

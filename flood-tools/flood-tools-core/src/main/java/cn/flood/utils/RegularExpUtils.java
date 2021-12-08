@@ -1,7 +1,7 @@
 package cn.flood.utils;
 
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.regex.Pattern;
 
@@ -18,7 +18,7 @@ public class RegularExpUtils {
 
     //数字、汉字、字母
     public static boolean validOrgCode(String params) {
-        if (StringUtils.isEmpty(params)) {
+        if (ObjectUtils.isEmpty(params)) {
             return false;
         }
         String regix = "^[a-zA-Z0-9_\\u4e00-\\u9fa5]+$";
@@ -35,7 +35,7 @@ public class RegularExpUtils {
 
     //手机号码
     public static boolean checkTelephone(String phone) {
-        if (StringUtils.isEmpty(phone)) {
+        if (ObjectUtils.isEmpty(phone)) {
             return false;
         }
         //String regex = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9]))\\d{8}$";
@@ -46,7 +46,7 @@ public class RegularExpUtils {
 
     //验证邮箱 存在@，且最大长度为25个字符！
     public static boolean checkEmail(String email) {
-        if (StringUtils.isEmpty(email)) {
+        if (ObjectUtils.isEmpty(email)) {
             return false;
         }
         boolean contains = email.contains("@");
@@ -72,7 +72,7 @@ public class RegularExpUtils {
      * @return
      */
     public static boolean validName(String params) {
-        if (StringUtils.isEmpty(params)) {
+        if (ObjectUtils.isEmpty(params)) {
             return true;
         }
         String regStrs = "∏¥§℅€℃£℉№℡‰$¢∮※？?<>[]'&";
@@ -91,7 +91,7 @@ public class RegularExpUtils {
      * @return
      */
     public static boolean validCode(String params) {
-        if (StringUtils.isEmpty(params)) {
+        if (ObjectUtils.isEmpty(params)) {
             return false;
         }
         String regix = "^[a-z0-9A-Z]+$";
@@ -106,7 +106,7 @@ public class RegularExpUtils {
      * @return
      */
     public static boolean isFixedPhone(String fixedPhone) {
-        if (StringUtils.isEmpty(fixedPhone)) {
+        if (ObjectUtils.isEmpty(fixedPhone)) {
             return false;
         }
         String reg = "^[0-9-]{5,15}$";

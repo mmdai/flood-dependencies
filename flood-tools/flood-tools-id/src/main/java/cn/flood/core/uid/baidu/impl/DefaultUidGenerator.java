@@ -21,13 +21,14 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.StringUtils;
+
 
 import cn.flood.core.uid.baidu.BitsAllocator;
 import cn.flood.core.uid.baidu.UidGenerator;
 import cn.flood.core.uid.baidu.exception.UidGenerateException;
 import cn.flood.core.uid.baidu.utils.DateUtils;
 import cn.flood.core.uid.worker.WorkerIdAssigner;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Represents an implementation of {@link UidGenerator}
@@ -214,7 +215,7 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
     }
 
     public void setEpochStr(String epochStr) {
-        if (!StringUtils.isEmpty(epochStr)) {
+        if (!ObjectUtils.isEmpty(epochStr)) {
             this.epochStr = epochStr;
             this.epochSeconds = TimeUnit.MILLISECONDS.toSeconds(DateUtils.parseByDayPattern(epochStr).getTime());
         }

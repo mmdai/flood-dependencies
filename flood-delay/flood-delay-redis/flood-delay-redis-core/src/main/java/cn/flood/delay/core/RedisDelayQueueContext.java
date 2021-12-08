@@ -19,7 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -255,7 +256,7 @@ public  class RedisDelayQueueContext   {
                             //获取许可
                             semaphore.acquire(topicIds.size());
                             for(int i =0; i<topicIds.size(); i++){
-                                if(StringUtils.isEmpty(topicIds.get(i)))continue;
+                                if(ObjectUtils.isEmpty(topicIds.get(i)))continue;
                                 String topicId = topicIds.get(i).replaceAll("\"","");
                                 register.getTOPIC_THREADS().execute(()->{
                                     boolean isfail = false;
@@ -415,7 +416,7 @@ public  class RedisDelayQueueContext   {
     }
     private  void killThisMachineAllRedisBlpopClients(RedisOperation redisOperation) {
         String ip = ipInRedisServer;
-        if(StringUtils.isEmpty(ip)){
+        if(ObjectUtils.isEmpty(ip)){
             ip = NetUtil.getLocalHostLANAddress();
         }
         logger.info("ipInRedisServer;{}",ip);

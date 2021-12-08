@@ -5,10 +5,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.StringUtils;
+
 
 import cn.flood.core.uid.baidu.UidGenerator;
 import cn.flood.core.uid.baidu.impl.CachedUidGenerator;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -124,7 +125,7 @@ public class CachedUidGeneratorTest {
 
         // Check UID is positive, and can be parsed
         Assert.assertTrue(uid > 0L);
-        Assert.assertTrue(!StringUtils.isEmpty(parsedInfo));
+        Assert.assertTrue(!ObjectUtils.isEmpty(parsedInfo));
 
         if (VERBOSE) {
             System.out.println(Thread.currentThread().getName() + " No." + index + " >>> " + parsedInfo);

@@ -40,6 +40,7 @@ import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
@@ -211,7 +212,7 @@ public class RestTemplateConfiguration {
 					throw new CoreException(code, message);
 				}
 
-				if(StringUtils.isEmpty(errorMesssge)) {
+				if(ObjectUtils.isEmpty(errorMesssge)) {
 					// 如果异常体为空，错误码取httpCode
 					code = String.valueOf(rawStatusCode);
 					throw new CoreException(code, message);

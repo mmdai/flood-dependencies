@@ -4,6 +4,7 @@ package cn.flood.support;
 import cn.flood.lang.StringPool;
 import cn.flood.lang.StringUtils;
 import cn.flood.Func;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,7 +150,7 @@ public class StrSpliter {
 	 * @since 3.2.1
 	 */
 	public static List<String> split(String str, char separator, int limit, boolean isTrim, boolean ignoreEmpty, boolean ignoreCase) {
-		if (StringUtils.isEmpty(str)) {
+		if (ObjectUtils.isEmpty(str)) {
 			return new ArrayList<String>(0);
 		}
 		if (limit == 1) {
@@ -288,14 +289,14 @@ public class StrSpliter {
 	 * @since 3.2.1
 	 */
 	public static List<String> split(String str, String separator, int limit, boolean isTrim, boolean ignoreEmpty, boolean ignoreCase) {
-		if (StringUtils.isEmpty(str)) {
+		if (ObjectUtils.isEmpty(str)) {
 			return new ArrayList<String>(0);
 		}
 		if (limit == 1) {
 			return addToList(new ArrayList<String>(1), str, isTrim, ignoreEmpty);
 		}
 
-		if (StringUtils.isEmpty(separator)) {
+		if (ObjectUtils.isEmpty(separator)) {
 			return split(str, limit);
 		} else if (separator.length() == 1) {
 			return split(str, separator.charAt(0), limit, isTrim, ignoreEmpty, ignoreCase);
@@ -350,7 +351,7 @@ public class StrSpliter {
 	 * @since 3.0.8
 	 */
 	public static List<String> split(String str, int limit) {
-		if (StringUtils.isEmpty(str)) {
+		if (ObjectUtils.isEmpty(str)) {
 			return new ArrayList<String>(0);
 		}
 		if (limit == 1) {
@@ -398,7 +399,7 @@ public class StrSpliter {
 	 * @since 3.0.8
 	 */
 	public static List<String> split(String str, Pattern separatorPattern, int limit, boolean isTrim, boolean ignoreEmpty) {
-		if (StringUtils.isEmpty(str)) {
+		if (ObjectUtils.isEmpty(str)) {
 			return new ArrayList<String>(0);
 		}
 		if (limit == 1) {

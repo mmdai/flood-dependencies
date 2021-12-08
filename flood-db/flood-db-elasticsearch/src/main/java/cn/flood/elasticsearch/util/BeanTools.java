@@ -3,7 +3,8 @@ package cn.flood.elasticsearch.util;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -25,7 +26,7 @@ public class BeanTools {
 
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if(map.get(field.getName()) == null || StringUtils.isEmpty(map.get(field.getName()) )){
+            if(map.get(field.getName()) == null || ObjectUtils.isEmpty(map.get(field.getName()) )){
                 continue;
             }
             int mod = field.getModifiers();
@@ -60,7 +61,7 @@ public class BeanTools {
         Set<String> noValuePropertySet = new HashSet<>();
         Arrays.stream(pds).forEach(pd -> {
             Object propertyValue = beanWrapper.getPropertyValue(pd.getName());
-            if (StringUtils.isEmpty(propertyValue)) {
+            if (ObjectUtils.isEmpty(propertyValue)) {
                 noValuePropertySet.add(pd.getName());
             } else {
                 if (Iterable.class.isAssignableFrom(propertyValue.getClass())) {

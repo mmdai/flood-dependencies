@@ -23,7 +23,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 /**
  * Named thread in ThreadFactory. If there is no specified name for thread, it
@@ -81,7 +82,7 @@ public class NamingThreadFactory implements ThreadFactory {
         // If there is no specified name for thread, it will auto detect using the invoker classname instead.
         // Notice that auto detect may cause some performance overhead
         String prefix = this.name;
-        if (StringUtils.isEmpty(prefix)) {
+        if (ObjectUtils.isEmpty(prefix)) {
             prefix = getInvoker(2);
         }
         thread.setName(prefix + "-" + getSequence(prefix));

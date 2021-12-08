@@ -6,6 +6,7 @@ import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.types.Expiration;
+import org.springframework.util.ObjectUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -66,7 +67,7 @@ public class RedisPersist implements IPersist {
     }
 
     private  String buildDedupMessageRedisKey(String applicationName, String topic, String tag, String msgUniqKey) {
-        if (StringUtils.isEmpty(msgUniqKey)) {
+        if (ObjectUtils.isEmpty(msgUniqKey)) {
             return null;
         } else {
             //示例：MSGDEDUP:APPNAME:TOPIC:TAG:APP_DEDUP_KEY

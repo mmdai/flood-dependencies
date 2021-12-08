@@ -21,11 +21,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+
 import cn.flood.elasticsearch.util.IndexTools;
 import cn.flood.elasticsearch.util.MappingData;
 import cn.flood.elasticsearch.util.MetaData;
 import cn.flood.elasticsearch.util.Tools;
+import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -175,7 +176,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             if(Tools.arrayISNULL(metaData.getAliasIndex())){
                 throw new RuntimeException("aliasIndex must not be null");
             }
-            if(StringUtils.isEmpty(writeIndex)){
+            if(ObjectUtils.isEmpty(writeIndex)){
                 //如果WriteIndex为空则默认为最后一个AliasIndex为WriteIndex
                 metaData.setWriteIndex(metaData.getAliasIndex()[metaData.getAliasIndex().length-1]);
             }else if(!Stream.of(metaData.getAliasIndex()).collect(Collectors.toList()).contains(metaData.getWriteIndex())){
@@ -205,7 +206,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             if(Tools.arrayISNULL(metaData.getAliasIndex())){
                 throw new RuntimeException("aliasIndex must not be null");
             }
-            if(StringUtils.isEmpty(metaData.getWriteIndex())){
+            if(ObjectUtils.isEmpty(metaData.getWriteIndex())){
                 //如果WriteIndex为空则默认为最后一个AliasIndex为WriteIndex
                 metaData.setWriteIndex(metaData.getAliasIndex()[metaData.getAliasIndex().length-1]);
             }else if(!Stream.of(metaData.getAliasIndex()).collect(Collectors.toList()).contains(metaData.getWriteIndex())){
@@ -265,10 +266,10 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
      */
     private String oneField(MappingData mappingData) {
         StringBuilder source = new StringBuilder();
-        if (!StringUtils.isEmpty(mappingData.getCopy_to())) {
+        if (!ObjectUtils.isEmpty(mappingData.getCopy_to())) {
             source.append(" ,\"copy_to\": \"" + mappingData.getCopy_to() + "\"\n");
         }
-        if (!StringUtils.isEmpty(mappingData.getNull_value())) {
+        if (!ObjectUtils.isEmpty(mappingData.getNull_value())) {
             source.append(" ,\"null_value\": \"" + mappingData.getNull_value() + "\"\n");
         }
         if (!mappingData.isAllow_search()) {

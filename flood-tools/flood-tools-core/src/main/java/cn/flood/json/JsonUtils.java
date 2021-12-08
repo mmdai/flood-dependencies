@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,7 +84,7 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static <T> T toJavaObject(String value, Class<T> tClass) {
-		return !StringUtils.isEmpty(value) ? toJavaObject(value, tClass, () -> null) : null;
+		return !ObjectUtils.isEmpty(value) ? toJavaObject(value, tClass, () -> null) : null;
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class JsonUtils {
 	 */
 	public static <T> T toJavaObject(String value, Class<T> tClass, Supplier<T> defaultSupplier) {
 		try {
-			if (StringUtils.isEmpty(value)) {
+			if (ObjectUtils.isEmpty(value)) {
 				return defaultSupplier.get();
 			}
 			return defaultMapper.readValue(value, tClass);
@@ -136,7 +137,7 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static <T> List<T> toJavaObjectList(String value, Class<T> tClass) {
-		return !StringUtils.isEmpty(value) ? toJavaObjectList(value, tClass, () -> null) : null;
+		return !ObjectUtils.isEmpty(value) ? toJavaObjectList(value, tClass, () -> null) : null;
 	}
 
 	/**
@@ -160,7 +161,7 @@ public class JsonUtils {
 	 */
 	public static <T> List<T> toJavaObjectList(String value, Class<T> tClass, Supplier<List<T>> defaultSupplier) {
 		try {
-			if (StringUtils.isEmpty(value)) {
+			if (ObjectUtils.isEmpty(value)) {
 				return defaultSupplier.get();
 			}
 			JavaType javaType = defaultMapper.getTypeFactory().constructParametricType(List.class, tClass);
@@ -188,7 +189,7 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static Map<String, Object> toMap(String value) {
-		return !StringUtils.isEmpty(value) ? toMap(value, () -> null) : null;
+		return !ObjectUtils.isEmpty(value) ? toMap(value, () -> null) : null;
 	}
 
 	/**
@@ -227,7 +228,7 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static Map<String, Object> toMap(String value, Supplier<Map<String, Object>> defaultSupplier) {
-		if (StringUtils.isEmpty(value)) {
+		if (ObjectUtils.isEmpty(value)) {
 			return defaultSupplier.get();
 		}
 		try {
@@ -244,7 +245,7 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static List<Object> toList(String value) {
-		return !StringUtils.isEmpty(value) ? toList(value, () -> null) : null;
+		return !ObjectUtils.isEmpty(value) ? toList(value, () -> null) : null;
 	}
 
 	/**
@@ -263,7 +264,7 @@ public class JsonUtils {
 	 * @return
 	 */
 	public static List<Object> toList(String value, Supplier<List<Object>> defaultSuppler) {
-		if (StringUtils.isEmpty(value)) {
+		if (ObjectUtils.isEmpty(value)) {
 			return defaultSuppler.get();
 		}
 		try {

@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -80,7 +81,7 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration impleme
 
     private void publishConsumer(String beanName, Object bean) throws Exception {
         MQConsumer mqConsumer = applicationContext.findAnnotationOnBean(beanName, MQConsumer.class);
-        if (StringUtils.isEmpty(mqProperties.getNameServerAddress())) {
+        if (ObjectUtils.isEmpty(mqProperties.getNameServerAddress())) {
             throw new RuntimeException("name server address must be defined");
         }
         Assert.notNull(mqConsumer.consumerGroup(), "consumer's consumerGroup must be defined");
@@ -100,7 +101,7 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration impleme
         }
 
         // 检查consumerGroup
-        if (!StringUtils.isEmpty(validConsumerMap.get(consumerGroup))) {
+        if (!ObjectUtils.isEmpty(validConsumerMap.get(consumerGroup))) {
             String exist = validConsumerMap.get(consumerGroup);
             throw new RuntimeException("消费组重复订阅，请新增消费组用于新的topic和tag组合: " + consumerGroup + "已经订阅了" + exist);
         } else {

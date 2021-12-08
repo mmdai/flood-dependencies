@@ -9,7 +9,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 import java.util.stream.Collectors;
 
@@ -58,7 +59,7 @@ public class XxlJobAutoConfiguration {
         xxlJobSpringExecutor.setLogPath(xxlJobProperties.getLogpath());
         xxlJobSpringExecutor.setLogRetentionDays(xxlJobProperties.getLogretentiondays());
         // 如果配置为空则获取注册中心的服务列表 "http://ip:port/xxl-job-admin"
-        if (StringUtils.isEmpty(xxlJobProperties.getAddresses())) {
+        if (ObjectUtils.isEmpty(xxlJobProperties.getAddresses())) {
             String serverList = discoveryClient.getServices().stream().filter(s -> s.contains(XXL_JOB_ADMIN))
                     .flatMap(s -> discoveryClient.getInstances(s).stream()).map(instance -> String
                             .format("http://%s:%s/%s", instance.getHost(), instance.getPort(), XXL_JOB_ADMIN))

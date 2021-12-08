@@ -17,7 +17,8 @@ import cn.flood.lock.autoconfigure.lock.LockFactory;
 import cn.flood.lock.autoconfigure.model.LockInfo;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -59,7 +60,7 @@ public class RlockAspectHandler {
                 logger.warn("Timeout while acquiring Lock({})", lockInfo.getName());
             }
             //如果自定义了获取锁失败的处理策略，则执行自定义的降级处理策略
-            if(!StringUtils.isEmpty(rlock.customLockTimeoutStrategy())) {
+            if(!ObjectUtils.isEmpty(rlock.customLockTimeoutStrategy())) {
 
                 return handleCustomLockTimeout(rlock.customLockTimeoutStrategy(), joinPoint);
 
@@ -165,7 +166,7 @@ public class RlockAspectHandler {
             logger.warn("Timeout while release Lock({})", lockInfo.getName());
         }
 
-        if(!StringUtils.isEmpty(rlock.customReleaseTimeoutStrategy())) {
+        if(!ObjectUtils.isEmpty(rlock.customReleaseTimeoutStrategy())) {
 
             handleCustomReleaseTimeout(rlock.customReleaseTimeoutStrategy(), joinPoint);
 

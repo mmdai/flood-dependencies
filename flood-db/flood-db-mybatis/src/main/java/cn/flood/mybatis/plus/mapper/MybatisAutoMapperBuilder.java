@@ -36,7 +36,7 @@ public class MybatisAutoMapperBuilder   {
 
     public MybatisAutoMapperBuilder(MybatisConfiguration mybatisConfiguration) {
         this.mybatisConfiguration = mybatisConfiguration;
-        this.languageDriver = mybatisConfiguration.getDefaultScriptingLanuageInstance();
+        this.languageDriver = mybatisConfiguration.getDefaultScriptingLanguageInstance();
         this.conditionsLanguageDriver = mybatisConfiguration.getLanguageRegistry().getDriver(ConditionsLanguageDriver.class);
     }
 

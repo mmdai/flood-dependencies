@@ -9,6 +9,7 @@
 package cn.flood.http;
 
 import cn.flood.lang.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -126,7 +127,7 @@ public class ContentType {
      * @return {@link ContentType}
      */
     public static ContentType create(final String mimeType, final Charset charset) {
-        return StringUtils.isEmpty(mimeType) ? ContentType.DEFAULT_BINARY :
+        return ObjectUtils.isEmpty(mimeType) ? ContentType.DEFAULT_BINARY :
                 new ContentType(mimeType.toLowerCase(Locale.CHINESE), charset);
     }
 
@@ -138,7 +139,7 @@ public class ContentType {
      * @return {@link ContentType}
      */
     public static ContentType create(final String mimeType, final String charset) {
-        return create(mimeType, StringUtils.isEmpty(charset) ? null : Charset.forName(charset));
+        return create(mimeType, ObjectUtils.isEmpty(charset) ? null : Charset.forName(charset));
     }
 
     /**
@@ -158,7 +159,7 @@ public class ContentType {
      * @return {@link ContentType}
      */
     public static ContentType parseByFileExt(String fileExt) {
-        if (StringUtils.isEmpty(fileExt)) return DEFAULT_BINARY;
+        if (ObjectUtils.isEmpty(fileExt)) return DEFAULT_BINARY;
         fileExt = fileExt.toLowerCase();
         ContentType contentType = supportFileExts.get(fileExt);
         return (contentType == null) ? DEFAULT_BINARY : contentType;

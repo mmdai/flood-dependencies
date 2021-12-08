@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.common.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ObjectUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -63,7 +64,7 @@ public class MessageBuilder {
     }
 
     public Message build() {
-        StringBuilder messageKey = new StringBuilder(StringUtils.isEmpty(key) ? "" : key);
+        StringBuilder messageKey = new StringBuilder(ObjectUtils.isEmpty(key) ? "" : key);
         try {
             Annotation[] annotations = message.getClass().getAnnotations();
 //            for (Field field : fields) {
@@ -73,7 +74,7 @@ public class MessageBuilder {
 //                        if(allFAnnos[i].annotationType().equals(MQKey.class)) {
 //                            field.setAccessible(true);
 //                            MQKey mqKey = MQKey.class.cast(allFAnnos[i]);
-//                            messageKey.append(StringUtils.SPACE).append(StringUtils.isEmpty(mqKey.prefix()) ? field.get(message).toString() : (mqKey.prefix() + ":" + field.get(message).toString()));
+//                            messageKey.append(StringUtils.SPACE).append(ObjectUtils.isEmpty(mqKey.prefix()) ? field.get(message).toString() : (mqKey.prefix() + ":" + field.get(message).toString()));
 //                        }
 //                    }
 //                }
@@ -86,7 +87,7 @@ public class MessageBuilder {
                         for (Field field : fields) {
                             field.setAccessible(true);
                             if (field.getName().equals(mqKey.field())) {
-                                messageKey.append(StringUtils.isEmpty(mqKey.prefix()) ? field.get(message).toString() : (mqKey.prefix() + ":" + field.get(message).toString()));
+                                messageKey.append(ObjectUtils.isEmpty(mqKey.prefix()) ? field.get(message).toString() : (mqKey.prefix() + ":" + field.get(message).toString()));
                                 break;
                             }
                         }
@@ -98,13 +99,13 @@ public class MessageBuilder {
             log.error("parse key error : {}", e.getMessage());
         }
         String str = gson.toJson(message);
-        if (StringUtils.isEmpty(topic)) {
-            if (StringUtils.isEmpty(getTopic())) {
+        if (ObjectUtils.isEmpty(topic)) {
+            if (ObjectUtils.isEmpty(getTopic())) {
                 throw new RuntimeException("no topic defined to send this message");
             }
         }
         Message message = new Message(topic, str.getBytes(Charset.forName("utf-8")));
-        if (!StringUtils.isEmpty(tag)) {
+        if (!ObjectUtils.isEmpty(tag)) {
             message.setTags(tag);
         }
         if (StringUtils.isNotEmpty(messageKey.toString())) {

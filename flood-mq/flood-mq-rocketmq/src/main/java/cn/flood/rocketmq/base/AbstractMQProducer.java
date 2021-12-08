@@ -11,6 +11,7 @@ import org.apache.rocketmq.common.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Created by yipin on 2017/6/27.
@@ -62,7 +63,7 @@ public abstract class AbstractMQProducer {
      * @throws MQException 消息异常
      */
     public void syncSendOrderly(Message message, String hashKey) throws MQException {
-        if (StringUtils.isEmpty(hashKey)) {
+        if (ObjectUtils.isEmpty(hashKey)) {
             // fall back to normal
             syncSend(message);
         }

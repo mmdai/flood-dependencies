@@ -397,7 +397,7 @@ public class MybatisMapperAnnotationBuilder extends MapperAnnotationBuilder {
                 return buildSqlSourceFromStrings(strings, parameterType, languageDriver);
             } else if (sqlProviderAnnotationType != null) {
                 Annotation sqlProviderAnnotation = method.getAnnotation(sqlProviderAnnotationType);
-                return new ProviderSqlSource(assistant.getConfiguration(), sqlProviderAnnotation);
+                return new ProviderSqlSource(assistant.getConfiguration(), sqlProviderAnnotation, null, null);
             }
             return null;
         } catch (Exception e) {

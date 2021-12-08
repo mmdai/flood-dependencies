@@ -10,6 +10,7 @@ package cn.flood.binary;
 
 import cn.flood.lang.ArrayUtils;
 import cn.flood.lang.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;
@@ -87,7 +88,7 @@ public class Base64 {
      * @return BASE64之后的字符串
      */
     public static String encode(final String data, final Charset encoding) {
-        if (StringUtils.isEmpty(data)) {
+        if (ObjectUtils.isEmpty(data)) {
             return data;
         }
         if (encoding == null) {
@@ -106,13 +107,13 @@ public class Base64 {
      * @return BASE64之后的字符串
      */
     public static String encode(final String data, final Charset encoding, final boolean isUrlSafe) {
-        if (StringUtils.isEmpty(data)) {
+        if (ObjectUtils.isEmpty(data)) {
             return data;
         }
         if (encoding == null) {
             return null;
         }
-        //        Charset charset = StringUtils.isEmpty(encoding) ? StandardCharsets.UTF_8 : Charset.forName(encoding);
+        //        Charset charset = ObjectUtils.isEmpty(encoding) ? StandardCharsets.UTF_8 : Charset.forName(encoding);
 //	        return DatatypeConverter.printBase64Binary(data.getBytes(charset));
         return encode(data.getBytes(encoding), isUrlSafe);
     }
@@ -137,7 +138,7 @@ public class Base64 {
      * @return 返回原始数据的字节数组形式
      */
     public static byte[] decode(final String base64Data, final boolean isUrlSafe) {
-        if (StringUtils.isEmpty(base64Data)) {
+        if (ObjectUtils.isEmpty(base64Data)) {
             return null;
         }
         return isUrlSafe ? getUrlDecoder().decode(base64Data) : getDecoder().decode(base64Data);
@@ -161,7 +162,7 @@ public class Base64 {
      * @return 原始数据
      */
     public static String decode2String(final String base64Data, final boolean isUrlSafe) {
-        if (StringUtils.isEmpty(base64Data)) {
+        if (ObjectUtils.isEmpty(base64Data)) {
             return base64Data;
         }
         byte[] decodeData = decode(base64Data, isUrlSafe);

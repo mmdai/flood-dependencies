@@ -10,6 +10,7 @@ package cn.flood.io;
 
 import cn.flood.lang.Assert;
 import cn.flood.lang.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
@@ -574,7 +575,7 @@ public class FileUtils {
      * @return 格式化的大小
      */
     public static String formatSizeAsString(String fileSize) {
-        if (StringUtils.isEmpty(fileSize)) return StringUtils.EMPTY_STRING;
+        if (ObjectUtils.isEmpty(fileSize)) return StringUtils.EMPTY_STRING;
         double size = Double.parseDouble(fileSize);
         return formatSize(size);
     }

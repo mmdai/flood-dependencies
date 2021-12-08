@@ -25,7 +25,7 @@ import org.springframework.cglib.beans.BeanGenerator;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.cglib.core.CodeGenerationException;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -248,7 +248,7 @@ public class BeanUtil extends org.springframework.beans.BeanUtils {
 		Set<String> noValuePropertySet = new HashSet<>();
 		Arrays.stream(pds).forEach(pd -> {
 			Object propertyValue = beanWrapper.getPropertyValue(pd.getName());
-			if (StringUtils.isEmpty(propertyValue)) {
+			if (ObjectUtils.isEmpty(propertyValue)) {
 				noValuePropertySet.add(pd.getName());
 			} else {
 				if (Iterable.class.isAssignableFrom(propertyValue.getClass())) {

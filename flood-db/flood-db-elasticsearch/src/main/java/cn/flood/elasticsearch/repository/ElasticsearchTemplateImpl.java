@@ -68,7 +68,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+
 import cn.flood.elasticsearch.annotation.ESID;
 import cn.flood.elasticsearch.annotation.ESMapping;
 import cn.flood.elasticsearch.enums.AggsType;
@@ -76,6 +76,7 @@ import cn.flood.elasticsearch.enums.DataType;
 import cn.flood.elasticsearch.enums.SqlFormat;
 import cn.flood.elasticsearch.repository.response.ScrollResponse;
 import cn.flood.elasticsearch.repository.response.UriResponse;
+import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -117,14 +118,14 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         String indextype = metaData.getIndextype();
         String id = Tools.getESId(t);
         IndexRequest indexRequest = null;
-        if (StringUtils.isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             indexRequest = new IndexRequest(indexname, indextype);
         } else {
             indexRequest = new IndexRequest(indexname, indextype, id);
         }
         String source = Func.toJson(t);
         indexRequest.source(source, XContentType.JSON);
-        if(!StringUtils.isEmpty(routing)){
+        if(!ObjectUtils.isEmpty(routing)){
             indexRequest.routing(routing);
         }
         IndexResponse indexResponse = null;
@@ -241,7 +242,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         String indexname = metaData.getIndexname();
         String indextype = metaData.getIndextype();
         String id = Tools.getESId(t);
-        if (StringUtils.isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             throw new Exception("ID cannot be empty");
         }
         if(Tools.checkNested(t)){
@@ -326,11 +327,11 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         String indexname = metaData.getIndexname();
         String indextype = metaData.getIndextype();
         String id = Tools.getESId(t);
-        if (StringUtils.isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             throw new Exception("ID cannot be empty");
         }
         DeleteRequest deleteRequest = new DeleteRequest(indexname, indextype, id);
-        if(!StringUtils.isEmpty(routing)){
+        if(!ObjectUtils.isEmpty(routing)){
             deleteRequest.routing(routing);
         }
         DeleteResponse deleteResponse = null;
@@ -445,7 +446,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public String queryBySQL(String sql, SqlFormat sqlFormat) throws Exception {
         String host = elasticsearchProperties.getHostNames();
-        if(StringUtils.isEmpty(host)){
+        if(ObjectUtils.isEmpty(host)){
             host = Constant.DEFAULT_ES_HOST;
         }
         String ipport = "";
@@ -462,7 +463,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
 
         String username = elasticsearchProperties.getUsername();
         String password = elasticsearchProperties.getPassword();
-        if(!StringUtils.isEmpty(username)) {
+        if(!ObjectUtils.isEmpty(username)) {
             return HttpClientTool.execute(ipport+"/_sql?format="+sqlFormat.getFormat(),"{\"query\":\""+sql+"\"}",username,password);
         }
         return HttpClientTool.execute(ipport+"/_sql?format="+sqlFormat.getFormat(),"{\"query\":\""+sql+"\"}");
@@ -493,7 +494,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         MetaData metaData = elasticsearchIndex.getMetaData(clazz);
         String indexname = metaData.getIndexname();
         String indextype = metaData.getIndextype();
-        if (StringUtils.isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             throw new Exception("ID cannot be empty");
         }
         GetRequest getRequest = new GetRequest(indexname, indextype, id.toString());
@@ -530,7 +531,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         MetaData metaData = elasticsearchIndex.getMetaData(clazz);
         String indexname = metaData.getIndexname();
         String indextype = metaData.getIndextype();
-        if (StringUtils.isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             throw new Exception("ID cannot be empty");
         }
         GetRequest getRequest = new GetRequest(indexname, indextype, id.toString());
@@ -1294,7 +1295,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         MetaData metaData = elasticsearchIndex.getMetaData(clazz);
         String indexname = metaData.getIndexname();
         String indextype = metaData.getIndextype();
-        if (StringUtils.isEmpty(id)) {
+        if (ObjectUtils.isEmpty(id)) {
             throw new Exception("ID cannot be empty");
         }
         DeleteRequest deleteRequest = new DeleteRequest(indexname, indextype, id.toString());
@@ -1384,7 +1385,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
             }
             else if (highLight != null && highLight.getHighLightList() != null && highLight.getHighLightList().size() != 0) {
                 HighlightBuilder highlightBuilder = new HighlightBuilder();
-                if (!StringUtils.isEmpty(highLight.getPreTag()) && !StringUtils.isEmpty(highLight.getPostTag())) {
+                if (!ObjectUtils.isEmpty(highLight.getPreTag()) && !ObjectUtils.isEmpty(highLight.getPostTag())) {
                     highlightBuilder.preTags(highLight.getPreTag());
                     highlightBuilder.postTags(highLight.getPostTag());
                 }
@@ -1425,7 +1426,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         }
         searchRequest.source(searchSourceBuilder);
         //设定routing
-        if(!StringUtils.isEmpty(attach.getRouting())){
+        if(!ObjectUtils.isEmpty(attach.getRouting())){
             searchRequest.routing(attach.getRouting());
         }
         if (metaData.isPrintLog()) {
@@ -1475,7 +1476,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
      */
     private void correctID(Class clazz, T t, M _id){
         try{
-            if(StringUtils.isEmpty(_id)){
+            if(ObjectUtils.isEmpty(_id)){
                 return;
             }
             if(classIDMap.containsKey(clazz)){
@@ -1510,7 +1511,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         Object obj = beanClass.newInstance();
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if (map.get(field.getName()) != null && !StringUtils.isEmpty(map.get(field.getName()))) {
+            if (map.get(field.getName()) != null && !ObjectUtils.isEmpty(map.get(field.getName()))) {
                 int mod = field.getModifiers();
                 if (Modifier.isStatic(mod) || Modifier.isFinal(mod)) {
                     continue;

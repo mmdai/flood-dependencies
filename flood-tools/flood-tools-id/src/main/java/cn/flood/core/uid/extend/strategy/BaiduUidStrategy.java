@@ -6,10 +6,10 @@ import java.util.Map;
 import cn.flood.context.SpringContextManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
-import org.springframework.util.StringUtils;
 
 import cn.flood.core.uid.baidu.UidGenerator;
 import cn.flood.core.uid.extend.annotation.UidModel;
+import org.springframework.util.ObjectUtils;
 
 /**
  * baidu uid生成策略
@@ -47,7 +47,7 @@ public class BaiduUidStrategy implements IUidStrategy {
      * @return uid生成器
      */
     public UidGenerator getUidGenerator(String prefix) {
-        if (StringUtils.isEmpty(prefix)) {
+        if (ObjectUtils.isEmpty(prefix)) {
             return uidGenerator;
         }
         UidGenerator generator = generatorMap.get(prefix);

@@ -56,7 +56,7 @@ public class ESIndexProcessor {//implements BeanFactoryPostProcessor, Applicatio
 //
 //                    List<String> pathList = new ArrayList<>();
 //                    for (int i = 0; i < eps.length; i++) {
-//                        if(!StringUtils.isEmpty(eps[i])){
+//                        if(!ObjectUtils.isEmpty(eps[i])){
 //                            pathList.add(eps[i]);
 //                        }
 //                    }

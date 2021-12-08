@@ -17,7 +17,8 @@ package cn.flood.core.uid.baidu.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 /**
  * DockerUtils
@@ -79,12 +80,12 @@ public class DockerUtils {
         DOCKER_PORT = System.getenv(ENV_KEY_PORT);
 
         // not found from 'JPAAS_HTTP_PORT', then try to find from 'JPAAS_HOST_PORT_8080'
-        if (StringUtils.isEmpty(DOCKER_PORT)) {
+        if (ObjectUtils.isEmpty(DOCKER_PORT)) {
             DOCKER_PORT = System.getenv(ENV_KEY_PORT_ORIGINAL);
         }
 
-        boolean hasEnvHost = !StringUtils.isEmpty(DOCKER_HOST);
-        boolean hasEnvPort = !StringUtils.isEmpty(DOCKER_PORT);
+        boolean hasEnvHost = !ObjectUtils.isEmpty(DOCKER_HOST);
+        boolean hasEnvPort = !ObjectUtils.isEmpty(DOCKER_PORT);
 
         // docker can find both host & port from environment
         if (hasEnvHost && hasEnvPort) {

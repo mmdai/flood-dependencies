@@ -8,6 +8,8 @@
 */  
 package cn.flood.lang;
 
+import org.springframework.util.ObjectUtils;
+
 import java.util.regex.Pattern;
 
 /**  
@@ -95,7 +97,7 @@ public class ValidationUtils {
      */
     private static boolean isMatchRegex(Pattern pattern, String value) {
         //空字符串则直接返回{@code false}
-        if (pattern == null || StringUtils.isEmpty(value)) {
+        if (pattern == null || ObjectUtils.isEmpty(value)) {
             return false;
         }
         //正则表达式为{@code null}则全匹配

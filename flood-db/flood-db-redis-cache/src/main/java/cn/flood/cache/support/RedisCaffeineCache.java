@@ -11,11 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.StringUtils;
+
 
 import com.github.benmanes.caffeine.cache.Cache;
 
 import cn.flood.cache.CacheRedisCaffeineProperties;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 
@@ -184,7 +185,7 @@ public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	}
 
 	private Object getKey(Object key) {
-		return this.name.concat(":").concat(StringUtils.isEmpty(cachePrefix) ? key.toString() : cachePrefix.concat(":").concat(key.toString()));
+		return this.name.concat(":").concat(ObjectUtils.isEmpty(cachePrefix) ? key.toString() : cachePrefix.concat(":").concat(key.toString()));
 	}
 	
 	private long getExpire() {

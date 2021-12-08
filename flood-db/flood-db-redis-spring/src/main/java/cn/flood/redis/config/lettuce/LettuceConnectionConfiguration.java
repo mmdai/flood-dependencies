@@ -22,8 +22,9 @@ import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
-import org.springframework.util.StringUtils;
+
 import cn.flood.redis.config.RedisConnectionConfiguration;
+import org.springframework.util.StringUtils;
 
 /**
  * lettuce连接配置

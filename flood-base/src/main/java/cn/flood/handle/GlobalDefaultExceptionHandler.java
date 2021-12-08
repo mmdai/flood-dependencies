@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -75,7 +76,7 @@ public class GlobalDefaultExceptionHandler {
 		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
 		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
 		String message = "上传文件大小超出系统限制 (" + ex.getMaxUploadSize() / KILO / KILO + "MB)";
-		if(!StringUtils.isEmpty(langContent)){
+		if(!ObjectUtils.isEmpty(langContent)){
 			if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
 				message = "upload file size exceeds system limit (" + ex.getMaxUploadSize() / KILO / KILO + "MB)";
 			}
@@ -122,7 +123,7 @@ public class GlobalDefaultExceptionHandler {
 
 	private ErrorMessage getErrorMessage(HttpServletRequest req, ErrorMessage error, String code, String message) {
 		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
-		if(StringUtils.isEmpty(langContent)){
+		if(ObjectUtils.isEmpty(langContent)){
 			langContent = localeContent;
 		}
 		message = localeParser.replacePlaceHolderByLocale(message, langContent);
@@ -158,7 +159,7 @@ public class GlobalDefaultExceptionHandler {
 		FieldError f_error = bindingResult.getFieldError();
 		//优先获取@Valid Bean定义的message内容信息
 		String message = f_error.getDefaultMessage();
-		if(StringUtils.isEmpty(message)) {
+		if(ObjectUtils.isEmpty(message)) {
 			String field_err_code = f_error.getObjectName() + "." +f_error.getField();
 			message = messageSource.getMessage(field_err_code, null, getLocaleByLanguage(req));
 		}
@@ -200,17 +201,17 @@ public class GlobalDefaultExceptionHandler {
 			code = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode();
 			message = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getZhName();
 			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
-			if(!StringUtils.isEmpty(langContent)){
+			if(!ObjectUtils.isEmpty(langContent)){
 				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
 					message = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getEnName();
 				}
 			}
 		}
-		if (StringUtils.isEmpty(message)) {
+		if (ObjectUtils.isEmpty(message)) {
 			message = messageSource.getMessage(code, arguments, getLocaleByLanguage(req));
 		}else{
 			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
-			if(StringUtils.isEmpty(langContent)){
+			if(ObjectUtils.isEmpty(langContent)){
 				langContent = localeContent;
 			}
 			message = localeParser.replacePlaceHolderByLocale(message, langContent);

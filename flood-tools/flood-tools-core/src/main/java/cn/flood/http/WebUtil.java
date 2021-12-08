@@ -33,6 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -45,6 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 
 
@@ -229,7 +231,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	public static String getRequestStr(HttpServletRequest request) throws IOException {
 		String queryString = request.getQueryString();
 		if (StringUtils.isNotNull(queryString)) {
-			return new String(queryString.getBytes(Charsets.ISO_8859_1), Charsets.UTF_8).replaceAll("&amp;", "&").replaceAll("%22", "\"");
+			return new String(queryString.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8).replaceAll("&amp;", "&").replaceAll("%22", "\"");
 		}
 		return getRequestStr(request, getRequestBytes(request));
 	}
@@ -272,7 +274,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 			charEncoding = "utf-8";
 		}
 		String str = new String(buffer, charEncoding).trim();
-		if (StringUtils.isEmpty(str)) {
+		if (ObjectUtils.isEmpty(str)) {
 			StringBuilder sb = new StringBuilder();
 			Enumeration<String> parameterNames = request.getParameterNames();
 			while (parameterNames.hasMoreElements()) {

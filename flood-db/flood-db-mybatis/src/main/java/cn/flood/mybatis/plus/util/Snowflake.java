@@ -2,7 +2,8 @@ package cn.flood.mybatis.plus.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 import java.net.InetAddress;
 
@@ -106,7 +107,7 @@ public class Snowflake {
 				logger.error("get local ip error:" + e);
 			}
 			logger.info("ip:【{}】", ip);
-			if (!StringUtils.isEmpty(ip)) {
+			if (!ObjectUtils.isEmpty(ip)) {
 				long local = Long.parseLong(ip.substring(ip.lastIndexOf(".") + 1));
 				if (local > 31) {
 					dataCenterId = local / 10;

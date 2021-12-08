@@ -3,7 +3,7 @@ package cn.flood.trace;
 import cn.flood.Func;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.annotation.Order;
-import org.springframework.util.StringUtils;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

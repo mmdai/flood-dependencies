@@ -36,6 +36,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -608,7 +609,7 @@ public class Func {
 	 * @return 结果
 	 */
 	public static Integer[] toIntArray(String split, String str) {
-		if (StringUtils.isEmpty(str)) {
+		if (ObjectUtils.isEmpty(str)) {
 			return new Integer[]{};
 		}
 		String[] arr = str.split(split);
@@ -659,7 +660,7 @@ public class Func {
 	 * @return 结果
 	 */
 	public static Long[] toLongArray(String split, String str) {
-		if (StringUtils.isEmpty(str)) {
+		if (ObjectUtils.isEmpty(str)) {
 			return new Long[]{};
 		}
 		String[] arr = str.split(split);
@@ -1039,7 +1040,7 @@ public class Func {
 	 * @return the encoded String
 	 */
 	public static String encode(String source) {
-		return UrlUtils.getURLEncoderString(source, Charsets.UTF_8.name());
+		return UrlUtils.getURLEncoderString(source, StandardCharsets.UTF_8.name());
 	}
 
 	/**
@@ -1068,7 +1069,7 @@ public class Func {
 	 * @see java.net.URLDecoder#decode(String, String)
 	 */
 	public static String decode(String source) {
-		return StringUtils.uriDecode(source, Charsets.UTF_8);
+		return StringUtils.uriDecode(source, StandardCharsets.UTF_8);
 	}
 
 	/**

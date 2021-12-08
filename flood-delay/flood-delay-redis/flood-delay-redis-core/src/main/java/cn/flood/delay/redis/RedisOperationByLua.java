@@ -11,7 +11,8 @@ import org.springframework.data.redis.RedisSystemException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.scripting.support.ResourceScriptSource;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
+
 
 import java.time.Clock;
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class RedisOperationByLua extends RedisOperationByNormal{
         String newTime = (String) redisTemplate.execute(redisScript,redisTemplate.getValueSerializer(),
                 redisTemplate.getStringSerializer(),keys, Clock.systemDefaultZone().millis());
         //logger.info("执行一次移动操作用时:{} ",Clock.systemDefaultZone().millis()-before);
-        if(StringUtils.isEmpty(newTime))return Long.MAX_VALUE;
+        if(ObjectUtils.isEmpty(newTime))return Long.MAX_VALUE;
         return Long.parseLong(newTime);
     }
 

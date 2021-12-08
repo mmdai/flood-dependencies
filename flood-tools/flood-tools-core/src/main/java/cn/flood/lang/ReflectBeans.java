@@ -1,6 +1,8 @@
 package cn.flood.lang;
 
-import org.springframework.util.StringUtils;
+
+
+import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -77,7 +79,7 @@ public class ReflectBeans {
 //                        System.out.println();
                     }
                     if (!(value instanceof Collection) && !(value instanceof Map)) {
-                        if (StringUtils.isEmpty(value) && !fieldType.getName().startsWith("java")) {
+                        if (ObjectUtils.isEmpty(value) && !fieldType.getName().startsWith("java")) {
                             continue;
                         }
                     }
@@ -254,7 +256,7 @@ public class ReflectBeans {
      * @return 返回值转成@param fieldType 类型
      */
     private static Object exchangeProperty(Class fieldType, Object fieldValue) {
-        if (fieldType == null || StringUtils.isEmpty(fieldValue)) {
+        if (fieldType == null || ObjectUtils.isEmpty(fieldValue)) {
             if (fieldValue instanceof Collection
                     || fieldValue instanceof Map) {
                 return fieldValue;

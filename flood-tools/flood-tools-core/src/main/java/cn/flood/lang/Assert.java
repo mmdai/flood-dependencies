@@ -9,6 +9,7 @@
 package cn.flood.lang;
 
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Collection;
 import java.util.Map;
@@ -76,7 +77,7 @@ public class Assert {
      * @throws IllegalArgumentException An invalid parameter exception.
      */
     public static void hasLength(String text, String message) {
-        if (StringUtils.isEmpty(text)) {
+        if (ObjectUtils.isEmpty(text)) {
             throw new IllegalArgumentException(message);
         }
     }

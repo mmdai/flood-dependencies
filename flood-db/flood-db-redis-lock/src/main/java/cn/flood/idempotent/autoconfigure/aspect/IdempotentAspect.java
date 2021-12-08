@@ -15,7 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -73,7 +74,7 @@ public class IdempotentAspect {
 		String key;
 
 		// 若没有配置 幂等 标识编号，则使用 url + 参数列表作为区分
-		if (StringUtils.isEmpty(idempotent.key())) {
+		if (ObjectUtils.isEmpty(idempotent.key())) {
 			String url = request.getRequestURL().toString();
 			String argString = Arrays.asList(joinPoint.getArgs()).toString();
 			key = url + argString;

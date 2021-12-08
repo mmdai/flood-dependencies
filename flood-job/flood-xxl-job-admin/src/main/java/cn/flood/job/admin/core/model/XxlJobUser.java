@@ -1,5 +1,6 @@
 package cn.flood.job.admin.core.model;
 
+
 import org.springframework.util.StringUtils;
 
 /**

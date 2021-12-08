@@ -5,7 +5,7 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
+
 
 import com.github.pagehelper.PageHelper;
 /**
@@ -25,7 +25,7 @@ public class PageHelperConfig {
 //	public PageHelper pageHelper() {
 //		PageHelper pageHelper=new PageHelper();
 //		Properties properties=new Properties();
-//		if(StringUtils.isEmpty(helperDialect)){
+//		if(ObjectUtils.isEmpty(helperDialect)){
 //			properties.setProperty("helperDialect","mysql");
 //		}
 //		properties.setProperty("reasonable","true");

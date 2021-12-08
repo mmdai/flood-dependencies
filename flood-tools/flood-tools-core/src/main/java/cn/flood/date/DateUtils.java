@@ -1,6 +1,8 @@
 package cn.flood.date;
 
-import org.springframework.util.StringUtils;
+
+
+import org.springframework.util.ObjectUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -164,7 +166,7 @@ public final class DateUtils {
      */
     public static final String getDate2String(String format, LocalDate date) {
         if (date != null) {
-            if (StringUtils.isEmpty(format)) {
+            if (ObjectUtils.isEmpty(format)) {
                 format = YYYY_MM_DD;
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);

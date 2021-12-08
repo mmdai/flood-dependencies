@@ -4,11 +4,12 @@ import cn.flood.elasticsearch.properties.ElasticsearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+
 import cn.flood.elasticsearch.annotation.ESID;
 import cn.flood.elasticsearch.annotation.ESMapping;
 import cn.flood.elasticsearch.annotation.ESMetaData;
 import cn.flood.elasticsearch.enums.DataType;
+import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -147,7 +148,7 @@ public class IndexTools {
             mappingData.setAllow_search(esMapping.allow_search());
             mappingData.setCopy_to(esMapping.copy_to());
             mappingData.setNested_class(esMapping.nested_class());
-            if(!StringUtils.isEmpty(esMapping.null_value())){
+            if(!ObjectUtils.isEmpty(esMapping.null_value())){
                 mappingData.setNull_value(esMapping.null_value());
             }
         }else{

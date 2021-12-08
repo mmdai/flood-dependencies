@@ -63,11 +63,11 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 如果字符串是{@code}或空字符串则返回{@code true}，否则返回{@code false}
      */
     public static boolean isBlank(String str) {
-        return isEmpty((CharSequence) str);
+        return ObjectUtils.isEmpty((CharSequence) str);
     }
 
     public static boolean isNotBlank(String str) {
-        return !isEmpty((CharSequence) str);
+        return !ObjectUtils.isEmpty((CharSequence) str);
     }
 
     /**
@@ -116,7 +116,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @see Character#isWhitespace(char)
      */
     public static boolean hasText(CharSequence str) {
-        if (isEmpty(str)) {
+        if (ObjectUtils.isEmpty(str)) {
             return false;
         }
         for (int len = str.length(), i = 0; i < len; i++) {
@@ -505,10 +505,10 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 返回分割后的字符串数组
      */
     public static String[] splitAtFirst(String toSplit, String delimiter) {
-        if (StringUtils.isEmpty(toSplit)) {
+        if (ObjectUtils.isEmpty(toSplit)) {
             return new String[0];
         }
-        if (StringUtils.isEmpty(delimiter)) {
+        if (ObjectUtils.isEmpty(delimiter)) {
             return new String[0];
         }
         int offset = toSplit.indexOf(delimiter);
@@ -538,10 +538,10 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @see StringTokenizer
      */
     public static String[] split(String toSplit, String delimiter) {
-        if (StringUtils.isEmpty(toSplit)) {
+        if (ObjectUtils.isEmpty(toSplit)) {
             return new String[0];
         }
-        if (StringUtils.isEmpty(delimiter)) {
+        if (ObjectUtils.isEmpty(delimiter)) {
             return new String[0];
         }
         StringTokenizer st = new StringTokenizer(toSplit, delimiter);
@@ -1223,7 +1223,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @since 3.2.0
      */
     public static String getContainsStr(CharSequence str, CharSequence... testStrs) {
-        if (isEmpty(str) || Func.isEmpty(testStrs)) {
+        if (ObjectUtils.isEmpty(str) || ObjectUtils.isEmpty(testStrs)) {
             return null;
         }
         for (CharSequence checkStr : testStrs) {
@@ -1272,7 +1272,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @since 3.2.0
      */
     public static String getContainsStrIgnoreCase(CharSequence str, CharSequence... testStrs) {
-        if (isEmpty(str) || Func.isEmpty(testStrs)) {
+        if (ObjectUtils.isEmpty(str) || ObjectUtils.isEmpty(testStrs)) {
             return null;
         }
         for (CharSequence testStr : testStrs) {
@@ -1298,7 +1298,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 字串
      */
     public static String sub(CharSequence str, int fromIndex, int toIndex) {
-        if (isEmpty(str)) {
+        if (ObjectUtils.isEmpty(str)) {
             return StringPool.EMPTY;
         }
         int len = str.length();
@@ -1360,7 +1360,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @since 3.1.1
      */
     public static String subBefore(CharSequence string, CharSequence separator, boolean isLastSeparator) {
-        if (isEmpty(string) || separator == null) {
+        if (ObjectUtils.isEmpty(string) || separator == null) {
             return null == string ? null : string.toString();
         }
 
@@ -1401,7 +1401,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @since 3.1.1
      */
     public static String subAfter(CharSequence string, CharSequence separator, boolean isLastSeparator) {
-        if (isEmpty(string)) {
+        if (ObjectUtils.isEmpty(string)) {
             return null == string ? null : string.toString();
         }
         if (separator == null) {
@@ -1490,7 +1490,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 切掉后的字符串，若前缀不是 preffix， 返回原字符串
      */
     public static String removePrefix(CharSequence str, CharSequence prefix) {
-        if (isEmpty(str) || isEmpty(prefix)) {
+        if (ObjectUtils.isEmpty(str) || ObjectUtils.isEmpty(prefix)) {
             return StringPool.EMPTY;
         }
 
@@ -1509,7 +1509,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 切掉后的字符串，若前缀不是 prefix， 返回原字符串
      */
     public static String removePrefixIgnoreCase(CharSequence str, CharSequence prefix) {
-        if (isEmpty(str) || isEmpty(prefix)) {
+        if (ObjectUtils.isEmpty(str) || ObjectUtils.isEmpty(prefix)) {
             return StringPool.EMPTY;
         }
 
@@ -1528,7 +1528,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 切掉后的字符串，若后缀不是 suffix， 返回原字符串
      */
     public static String removeSuffix(CharSequence str, CharSequence suffix) {
-        if (isEmpty(str) || isEmpty(suffix)) {
+        if (ObjectUtils.isEmpty(str) || ObjectUtils.isEmpty(suffix)) {
             return StringPool.EMPTY;
         }
 
@@ -1558,7 +1558,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 切掉后的字符串，若后缀不是 suffix， 返回原字符串
      */
     public static String removeSuffixIgnoreCase(CharSequence str, CharSequence suffix) {
-        if (isEmpty(str) || isEmpty(suffix)) {
+        if (ObjectUtils.isEmpty(str) || ObjectUtils.isEmpty(suffix)) {
             return StringPool.EMPTY;
         }
 
@@ -1620,7 +1620,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      * @return 切割后后剩余的后半部分字符串
      */
     public static String subSuf(CharSequence string, int fromIndex) {
-        if (isEmpty(string)) {
+        if (ObjectUtils.isEmpty(string)) {
             return null;
         }
         return sub(string, fromIndex, string.length());
@@ -2073,7 +2073,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
      */
     public static int count(CharSequence content, char charForSearch) {
         int count = 0;
-        if (isEmpty(content)) {
+        if (ObjectUtils.isEmpty(content)) {
             return 0;
         }
         int contentLength = content.length();

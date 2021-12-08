@@ -14,9 +14,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.StringUtils;
+
 
 import cn.flood.core.uid.baidu.impl.DefaultUidGenerator;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Test for {@link DefaultUidGenerator}
@@ -118,7 +119,7 @@ public class DefaultUidGeneratorTest {
 
         // Check UID is positive, and can be parsed
         Assert.assertTrue(uid > 0L);
-        Assert.assertTrue(!StringUtils.isEmpty(parsedInfo));
+        Assert.assertTrue(!ObjectUtils.isEmpty(parsedInfo));
 
         if (VERBOSE) {
             System.out.println(Thread.currentThread().getName() + " No." + index + " >>> " + parsedInfo);

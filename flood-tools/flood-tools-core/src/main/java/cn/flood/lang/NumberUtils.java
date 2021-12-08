@@ -21,7 +21,7 @@ import org.springframework.lang.Nullable;
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
-import static org.springframework.util.StringUtils.isEmpty;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * 数字类型工具类

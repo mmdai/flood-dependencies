@@ -17,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Scope;
 import org.springframework.util.StringUtils;
 
+
 /**
  * ES 自动配置
  *
