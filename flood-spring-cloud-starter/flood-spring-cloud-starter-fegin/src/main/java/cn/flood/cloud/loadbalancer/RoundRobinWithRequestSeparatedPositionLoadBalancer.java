@@ -52,7 +52,7 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
 
     private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> serviceInstances, String requestVersion) {
         if (serviceInstances.isEmpty()) {
-            log.warn("No servers available for service: " + this.serviceId);
+            log.warn("No servers available for service: {}", this.serviceId);
             return new EmptyResponse();
         }
         return getInstanceResponseByRoundRobin(serviceInstances, requestVersion);
@@ -60,7 +60,7 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
 
     private Response<ServiceInstance> getInstanceResponseByRoundRobin(List<ServiceInstance> serviceInstances, String requestVersion) {
         if (serviceInstances.isEmpty()) {
-            log.warn("No servers available for service: " + this.serviceId);
+            log.warn("No servers available for service: {}", this.serviceId);
             return new EmptyResponse();
         }
         //为了解决原始算法不同调用并发可能导致一个请求重试相同的实例
