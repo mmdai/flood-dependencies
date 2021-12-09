@@ -27,9 +27,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.lang.Nullable;
+import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * blade fallBack 代理处理
@@ -61,11 +64,12 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
 			return ResultWapper.error(errorMessage);
 		}
 		FeignException exception = (FeignException) cause;
-		byte[] content = exception.content();
+		Optional<ByteBuffer> contentOptional = exception.responseBody();
 		// 如果返回的数据为空
-		if (Func.isEmpty(content)) {
+		if (ObjectUtils.isEmpty(contentOptional.empty())) {
 			return ResultWapper.error(errorMessage);
 		}
+		byte[] content = contentOptional.get().array();
 		// 转换成 jsonNode 读取，因为直接转换，可能 对方放回的并 不是 R 的格式。
 		JsonNode resultNode = JsonUtils.readTree(content);
 		// 判断是否 R 格式 返回体

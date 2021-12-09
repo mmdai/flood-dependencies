@@ -67,7 +67,7 @@ public class RedisCacheConfiguration {
             config = config.entryTtl(redisProperties.getTimeToLive());
         }
         if (redisProperties.getKeyPrefix() != null) {
-            config = config.prefixKeysWith(redisProperties.getKeyPrefix());
+            config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
         }
         if (!redisProperties.isCacheNullValues()) {
             config = config.disableCachingNullValues();

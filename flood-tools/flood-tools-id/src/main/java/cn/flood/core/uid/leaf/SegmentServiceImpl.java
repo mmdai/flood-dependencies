@@ -211,7 +211,7 @@ public class SegmentServiceImpl implements ISegmentService {
         String querySql = "select step, max_id, last_update_time, current_update_time from id_segment where biz_tag=?";
         String updateSql = "update id_segment set max_id=?, last_update_time=?, current_update_time=? where biz_tag=? and max_id=?";
         final IdSegment currentSegment = new IdSegment();
-        this.jdbcTemplate.query(querySql, new String[] {bizTag}, new RowCallbackHandler() {
+        this.jdbcTemplate.query(querySql, new RowCallbackHandler() {
             @Override
             public void processRow(ResultSet rs)
                 throws SQLException {
@@ -232,7 +232,7 @@ public class SegmentServiceImpl implements ISegmentService {
                 currentSegment.setLastUpdateTime(lastUpdateTime);
                 currentSegment.setCurrentUpdateTime(currentUpdateTime);
             }
-        });
+        }, new String[] {bizTag});
         //不存在插入
         if(currentSegment.getMaxId() == null){
             String insertSql = "insert into id_segment (biz_tag, step, max_id, last_update_time, current_update_time) VALUES (?, ?, ?, ?, ?)";

@@ -88,7 +88,7 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
 
     private Mono<Void> unauthorized(ServerHttpResponse resp, String msg) {
         resp.setStatusCode(HttpStatus.UNAUTHORIZED);
-        resp.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        resp.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         Result<?> result = ResultWapper.wrap(String.valueOf(HttpStatus.UNAUTHORIZED.value()),
                 HttpStatus.UNAUTHORIZED.getReasonPhrase());
         DataBuffer dataBuffer = resp.bufferFactory().wrap(Func.toJson(result).getBytes());
