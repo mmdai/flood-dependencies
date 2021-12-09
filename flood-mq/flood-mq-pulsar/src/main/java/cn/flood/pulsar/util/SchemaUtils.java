@@ -4,6 +4,7 @@ import org.apache.pulsar.client.api.Schema;
 import org.apache.pulsar.client.impl.schema.JSONSchema;
 import org.apache.pulsar.client.impl.schema.StringSchema;
 
+@SuppressWarnings("unchecked")
 public class SchemaUtils {
 
     private static final String STRING_CLASS_NAME = String.class.getName();

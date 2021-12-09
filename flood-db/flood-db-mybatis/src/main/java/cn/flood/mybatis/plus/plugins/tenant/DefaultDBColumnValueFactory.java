@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
  * @Author iloveoverfly
  * @LocalDateTime 2020/6/11 15:05
  **/
+@SuppressWarnings("unchecked")
 public class DefaultDBColumnValueFactory implements DBColumnValueFactory {
     @Override
     public String buildColumnValue(Object queryValue) {

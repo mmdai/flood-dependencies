@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+@SuppressWarnings("unchecked")
 @Configuration(proxyBeanMethods = false)
 public class DefaultLoadBalancerConfiguration {
     @Autowired

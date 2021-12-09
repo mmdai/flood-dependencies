@@ -24,8 +24,6 @@
         <module>flood-tools-easyexcel</module>
         <!-- 基础mail -->
         <module>flood-tools-email</module>
-        <!-- okhttp -->
-        <module>flood-tools-okhttp</module>
         <!-- 基础async -->
         <module>flood-tools-async</module>
         <!-- 基础分布式id -->

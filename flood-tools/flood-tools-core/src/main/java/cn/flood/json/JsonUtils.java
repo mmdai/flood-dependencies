@@ -25,6 +25,7 @@ import java.util.function.Supplier;
 * @author mmdai  
 * @date 2018年10月23日
  */
+@SuppressWarnings("unchecked")
 public class JsonUtils {
 
 	/**

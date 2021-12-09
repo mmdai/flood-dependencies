@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * 动态线程池
  *
  */
+@SuppressWarnings("unchecked")
 public class DynamicThreadPoolManager {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());

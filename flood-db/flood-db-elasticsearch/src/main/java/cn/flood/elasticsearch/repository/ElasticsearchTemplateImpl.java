@@ -92,6 +92,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * author: X-Pacific zhang
  * create: 2019-01-18 16:04
  **/
+@SuppressWarnings("unchecked")
 @Component
 public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T, M> {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

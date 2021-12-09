@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @Author daimi
  * @Date 2019/8/1 3:12 PM
  **/
+@SuppressWarnings("unchecked")
 public class RedisOperationByNormal implements RedisOperation {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisOperationByNormal.class);
