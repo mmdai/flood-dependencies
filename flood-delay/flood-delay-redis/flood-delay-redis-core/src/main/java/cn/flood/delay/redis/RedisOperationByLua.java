@@ -23,6 +23,7 @@ import java.util.List;
  * @Author daimi
  * @Date 2019/8/1 3:20 PM
  **/
+@SuppressWarnings("unchecked")
 public class RedisOperationByLua extends RedisOperationByNormal{
 
     private static final Logger logger = LoggerFactory.getLogger(RedisOperationByLua.class);

@@ -19,6 +19,7 @@ import lombok.Data;
 * @author mmdai  
 * @date 2019年3月12日  
 */
+@SuppressWarnings("unchecked")
 @Builder
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)

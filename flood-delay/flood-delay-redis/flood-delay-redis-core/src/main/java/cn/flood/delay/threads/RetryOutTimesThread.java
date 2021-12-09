@@ -14,6 +14,7 @@ import java.util.concurrent.*;
  * @Author daimi
  * @Date 2019/8/4 10:02 AM
  **/
+@SuppressWarnings("unchecked")
 public class RetryOutTimesThread {
     private static final Logger logger = LoggerFactory.getLogger(RetryOutTimesThread.class);
 

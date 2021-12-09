@@ -45,6 +45,7 @@ import java.util.*;
  * @see cn.flood.mvc.annotation.ApiVersion
  * @author mmdai
  */
+@SuppressWarnings("unchecked")
 public class FloodSpringMvcContract extends SpringMvcContract {
 
 
@@ -200,8 +201,8 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 	 * @return
 	 */
 	private static Set<String> getAllInterfaces(Class<?> clazz) {
-		Set<String> types = new HashSet<String>();
-		Stack<Class<?>> stack = new Stack<Class<?>>();
+		Set<String> types = new HashSet<>();
+		Stack<Class<?>> stack = new Stack<>();
 		stack.push(clazz);
 		while (!stack.empty()) {
 			Class<?> c = stack.pop();

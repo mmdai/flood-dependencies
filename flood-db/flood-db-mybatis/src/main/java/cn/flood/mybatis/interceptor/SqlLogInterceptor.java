@@ -21,6 +21,7 @@ import java.util.*;
  * @author hubin nieqiurong TaoYu
  * @since 2016-07-07
  */
+@SuppressWarnings("unchecked")
 @Intercepts({
 		@Signature(type = StatementHandler.class, method = "query", args = {Statement.class, ResultHandler.class}),
 		@Signature(type = StatementHandler.class, method = "update", args = Statement.class),

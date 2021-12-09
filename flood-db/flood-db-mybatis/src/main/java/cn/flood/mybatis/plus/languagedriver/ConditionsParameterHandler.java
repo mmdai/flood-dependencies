@@ -24,6 +24,7 @@ import java.util.List;
  *
  * @author mmdai
  */
+@SuppressWarnings("unchecked")
 public class ConditionsParameterHandler extends DefaultParameterHandler{
 
     private final TypeHandlerRegistry typeHandlerRegistry;

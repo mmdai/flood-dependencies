@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * jdbc存储token的实现
  */
+@SuppressWarnings("unchecked")
 public class JdbcTokenStore extends TokenStoreAbstract {
     private final JdbcTemplate jdbcTemplate;
     private RowMapper<UserToken> rowMapper = new TokenRowMapper();

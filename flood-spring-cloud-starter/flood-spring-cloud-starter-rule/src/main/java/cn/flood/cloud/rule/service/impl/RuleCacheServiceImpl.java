@@ -14,6 +14,7 @@ import java.util.Set;
  * 规则缓存实现业务类
  * @author pangu
  */
+@SuppressWarnings("unchecked")
 public class RuleCacheServiceImpl implements RuleCacheService {
 
 

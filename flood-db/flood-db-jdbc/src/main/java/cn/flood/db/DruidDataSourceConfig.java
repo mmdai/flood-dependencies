@@ -39,6 +39,7 @@ import java.util.Properties;
         DataSourceProperties.class,
         DruidDbProperties.class
 })
+@SuppressWarnings("unchecked")
 public class DruidDataSourceConfig {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());

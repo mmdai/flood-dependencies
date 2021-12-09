@@ -23,6 +23,7 @@ import cn.flood.datasource.enums.DataSourceEnum;
 
 @Configuration
 @EnableConfigurationProperties(value= {MultiDataSourceRegister.class,SingleDataSourceRegister.class})
+@SuppressWarnings("unchecked")
 public class DataSourceSpring {
 	
 	@Autowired

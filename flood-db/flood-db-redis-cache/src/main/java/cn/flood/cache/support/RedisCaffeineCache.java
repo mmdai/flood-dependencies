@@ -25,6 +25,7 @@ import org.springframework.util.ObjectUtils;
 * @author mmdai  
 * @date 2018年12月5日
  */
+@SuppressWarnings("unchecked")
 public class RedisCaffeineCache extends AbstractValueAdaptingCache {
 	
 	private final Logger logger = LoggerFactory.getLogger(RedisCaffeineCache.class);

@@ -19,6 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @version 创建时间：2020年9月1日
  * Protostuff序列化工具
  */
+@SuppressWarnings("unchecked")
 public class ProtostuffUtils {
 
     private static Logger logger = LoggerFactory.getLogger(ProtostuffUtils.class);
