@@ -8,6 +8,9 @@ import cn.flood.jwtp.provider.TokenStore;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.util.StringUtils;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 
 import javax.crypto.SecretKey;
@@ -162,6 +165,16 @@ public class TokenUtil {
     public static UserToken getToken(HttpServletRequest request) {
         Object token = request.getAttribute(WebUtil.REQUEST_TOKEN_NAME);
         return token == null ? null : (UserToken) token;
+    }
+
+    /**
+     * 获取登录用户信息
+     */
+    public static UserToken getLoginToken() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        return (UserToken) request.getAttribute(WebUtil.REQUEST_TOKEN_NAME);
+
     }
 
     /**

@@ -26,6 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 批量插入注解工具类
  */
+@SuppressWarnings("unchecked")
 public class BatchInsertUtil {
 
   /**
