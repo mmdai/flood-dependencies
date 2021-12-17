@@ -13,6 +13,7 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @Author daimm
@@ -23,12 +24,10 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
-
     public static final MediaType PROTOBUF;
 
     static {
-        PROTOBUF = new MediaType("application", "x-protobuf", DEFAULT_CHARSET);
+        PROTOBUF = new MediaType("application", "x-protobuf", StandardCharsets.UTF_8);
     }
 
     public ProtostuffHttpMessageConverter() {
@@ -66,7 +65,7 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
 
         Charset charset = contentType.getCharset();
         if (charset == null) {
-            charset = DEFAULT_CHARSET;
+            charset = StandardCharsets.UTF_8;
         }
 
         if (!PROTOBUF.isCompatibleWith(contentType)) {
