@@ -12,7 +12,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 
 @Data
@@ -104,7 +104,7 @@ public class MessageBuilder {
                 throw new RuntimeException("no topic defined to send this message");
             }
         }
-        Message message = new Message(topic, str.getBytes(Charset.forName("utf-8")));
+        Message message = new Message(topic, str.getBytes(StandardCharsets.UTF_8));
         if (!ObjectUtils.isEmpty(tag)) {
             message.setTags(tag);
         }

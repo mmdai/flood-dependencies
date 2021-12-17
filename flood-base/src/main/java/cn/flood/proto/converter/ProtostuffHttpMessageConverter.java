@@ -23,7 +23,7 @@ public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+    public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
     public static final MediaType PROTOBUF;
 

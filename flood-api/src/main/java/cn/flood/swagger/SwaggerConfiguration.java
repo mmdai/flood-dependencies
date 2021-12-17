@@ -1,6 +1,7 @@
 package cn.flood.swagger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
-import com.google.common.collect.Lists;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.core.env.Profiles;
@@ -20,6 +20,7 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -43,10 +44,13 @@ public class SwaggerConfiguration {
 	@Bean
 	public Docket swaggerApi() {
 		logger.info("===============================SwaggerConfig");
+		//添加全局响应状态码
+		List<Response> responseMessageList = new ArrayList<>();
+
 		//设置要暴漏接口文档的配置环境
 		Profiles profile = Profiles.of("dev", "test");
 		boolean flag = environment.acceptsProfiles(profile);
-		return new Docket(DocumentationType.SWAGGER_2).
+		return new Docket(DocumentationType.OAS_30).
 				enable(flag).apiInfo(apiInfo()).
 				select().
 				apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).

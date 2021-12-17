@@ -14,7 +14,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
 * <p>Title: RequestWrapper</p>  
@@ -30,7 +30,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     public RequestWrapper(HttpServletRequest request) {
         super(request);
         String sessionStream = getBodyString(request);
-        body = sessionStream.getBytes(Charset.forName("UTF-8"));
+        body = sessionStream.getBytes(StandardCharsets.UTF_8);
     }
     
     /**
@@ -45,7 +45,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         BufferedReader reader = null;
         try {
             inputStream = cloneInputStream(request.getInputStream());
-            reader = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
+            reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             String line = "";
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
