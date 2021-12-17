@@ -37,13 +37,23 @@ public @interface ESMapping {
      */
     boolean suggest() default false;
     /**
-     * 索引分词器设置（研究类型）
+     * 索引分词器设置
      */
     Analyzer analyzer() default Analyzer.standard;
+
+    /**
+     * 自定义索引分词器设置
+     */
+    String custom_analyzer() default "";
     /**
      * 搜索内容分词器设置
      */
     Analyzer search_analyzer() default Analyzer.standard;
+
+    /**
+     * 自定义索引分词器设置
+     */
+    String custom_search_analyzer() default "";
     //6+版本已经改变方式
 //    /**
 //     * 是否分析字段
@@ -79,4 +89,17 @@ public @interface ESMapping {
      * @return
      */
     Class nested_class() default Object.class;
+
+
+    /***
+     * 时间格式，当字段类型为DataType.date_type时,可以指定其时间格式
+     * @return
+     */
+    String[] dateFormat() default "";
+
+    /**
+     * normalizer名称指定，需要配合自定义settings使用
+     */
+    String normalizer() default "";
+
 }

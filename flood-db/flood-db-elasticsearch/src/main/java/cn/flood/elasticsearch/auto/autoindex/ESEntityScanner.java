@@ -1,11 +1,11 @@
 package cn.flood.elasticsearch.auto.autoindex;
 
+import cn.flood.elasticsearch.annotation.ESMetaData;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
-import cn.flood.elasticsearch.annotation.ESMetaData;
 
 import java.util.Set;
 

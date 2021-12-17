@@ -1,12 +1,18 @@
 package cn.flood.elasticsearch.auto.autoindex;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.core.type.AnnotationMetadata;
+import cn.flood.elasticsearch.annotation.EnableESTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.type.AnnotationMetadata;
-import cn.flood.elasticsearch.annotation.EnableESTools;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Configuration;
 import cn.flood.elasticsearch.auto.util.GetBasePackage;
 
 /**
@@ -56,7 +62,7 @@ public class ESIndexProcessor {//implements BeanFactoryPostProcessor, Applicatio
 //
 //                    List<String> pathList = new ArrayList<>();
 //                    for (int i = 0; i < eps.length; i++) {
-//                        if(!ObjectUtils.isEmpty(eps[i])){
+//                        if(!StringUtils.isEmpty(eps[i])){
 //                            pathList.add(eps[i]);
 //                        }
 //                    }

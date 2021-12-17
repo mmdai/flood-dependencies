@@ -1,18 +1,20 @@
 package cn.flood.elasticsearch.auto.autoindex;
 
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.annotation.Order;
+import cn.flood.elasticsearch.annotation.ESMetaData;
+import cn.flood.elasticsearch.auto.util.EnableESTools;
+import cn.flood.elasticsearch.index.ElasticsearchIndex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.annotation.Order;
-import cn.flood.elasticsearch.annotation.ESMetaData;
-import cn.flood.elasticsearch.auto.util.EnableESTools;
-import cn.flood.elasticsearch.index.ElasticsearchIndex;
+import cn.flood.elasticsearch.util.IndexTools;
 import cn.flood.elasticsearch.util.MetaData;
 
 import java.util.Map;
@@ -31,7 +33,6 @@ public class CreateIndex implements ApplicationListener<ContextRefreshedEvent>, 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     ElasticsearchIndex elasticsearchIndex;
-
     private ApplicationContext applicationContext;
 
     /**
@@ -41,7 +42,7 @@ public class CreateIndex implements ApplicationListener<ContextRefreshedEvent>, 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if(event.getApplicationContext().getParent() != null){
-            return;
+//            return;
         }
         Map<String, Object> beansWithAnnotationMap = this.applicationContext.getBeansWithAnnotation(ESMetaData.class);
         logger.info("扫描到@ESMetaData注解bean个数：{}",beansWithAnnotationMap.size());

@@ -31,6 +31,7 @@ public class MetaData{
     private String suffix;
     private boolean autoCreateIndex;
     private long maxResultWindow;
+    private String settingsPath;
 
     public MetaData(String indexname, String indextype) {
         this.indexname = indexname;
@@ -189,5 +190,13 @@ public class MetaData{
 
     public void setAutoCreateIndex(boolean autoCreateIndex) {
         this.autoCreateIndex = autoCreateIndex;
+    }
+
+    public String getSettingsPath() {
+        return settingsPath;
+    }
+
+    public void setSettingsPath(String settingsPath) {
+        this.settingsPath = settingsPath;
     }
 }

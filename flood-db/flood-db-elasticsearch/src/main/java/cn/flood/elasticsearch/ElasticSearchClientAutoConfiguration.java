@@ -1,6 +1,5 @@
 package cn.flood.elasticsearch;
 
-import cn.flood.elasticsearch.client.FloodRestHighLevelClient;
 import cn.flood.elasticsearch.properties.ElasticsearchProperties;
 import cn.flood.elasticsearch.properties.RestClientPoolProperties;
 import org.apache.http.HttpHost;
@@ -42,32 +41,43 @@ public class ElasticSearchClientAutoConfiguration {
         /**
          * 异步httpclient连接延时配置
          */
+        Long strategy = poolProperties.getKeepAliveStrategy();
         restClientBuilder.setRequestConfigCallback(requestConfigBuilder -> {
             requestConfigBuilder.setConnectTimeout(poolProperties.getConnectTimeOut())
                     .setSocketTimeout(poolProperties.getSocketTimeOut())
                     .setConnectionRequestTimeout(poolProperties.getConnectionRequestTimeOut());
             return requestConfigBuilder;
         });
+
         /**
          * 异步httpclient连接数配置
          */
         if (StringUtils.hasText(elasticsearchProperties.getUsername()) && StringUtils.hasText(elasticsearchProperties.getPassword())) {
-            CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+            final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
             credentialsProvider.setCredentials(AuthScope.ANY,
                     new UsernamePasswordCredentials(elasticsearchProperties.getUsername(), elasticsearchProperties.getPassword()));
-            restClientBuilder.setHttpClientConfigCallback(httpAsyncClientBuilder ->
-                    httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider).
-                            setMaxConnTotal(poolProperties.getMaxConnectNum()).
-                            setMaxConnPerRoute(poolProperties.getMaxConnectPerRoute())
-            );
-
+            restClientBuilder.setHttpClientConfigCallback(httpClientBuilder -> {
+                httpClientBuilder.disableAuthCaching();
+                httpClientBuilder.setMaxConnTotal(poolProperties.getMaxConnectNum());
+                httpClientBuilder.setMaxConnPerRoute(poolProperties.getMaxConnectPerRoute());
+                httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                if (strategy > 0){
+                    httpClientBuilder.setKeepAliveStrategy((httpResponse, httpContext) -> strategy);
+                }
+                return httpClientBuilder;
+            });
+        }else{
+            restClientBuilder.setHttpClientConfigCallback(httpClientBuilder -> {
+                httpClientBuilder.disableAuthCaching();
+                httpClientBuilder.setMaxConnTotal(poolProperties.getMaxConnectNum());
+                httpClientBuilder.setMaxConnPerRoute(poolProperties.getMaxConnectPerRoute());
+                if (strategy > 0){
+                    httpClientBuilder.setKeepAliveStrategy((httpResponse, httpContext) -> strategy);
+                }
+                return httpClientBuilder;
+            });
         }
         return new RestHighLevelClient(restClientBuilder);
-    }
-
-    @Bean
-    public FloodRestHighLevelClient floodRestHighLevelClient() {
-        return new FloodRestHighLevelClient();
     }
 
 

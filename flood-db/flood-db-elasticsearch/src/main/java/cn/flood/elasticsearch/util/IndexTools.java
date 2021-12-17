@@ -1,19 +1,20 @@
 package cn.flood.elasticsearch.util;
 
-import cn.flood.elasticsearch.properties.ElasticsearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
-
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import cn.flood.elasticsearch.annotation.ESID;
 import cn.flood.elasticsearch.annotation.ESMapping;
 import cn.flood.elasticsearch.annotation.ESMetaData;
+import cn.flood.elasticsearch.config.ElasticsearchProperties;
 import cn.flood.elasticsearch.enums.DataType;
-import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * program: esdemo
@@ -69,13 +70,24 @@ public class IndexTools {
     //}
 
     /**
+     * 根据枚举类型获得mapping中的类型
+     *
+     * @param dataType
+     * @return
+     */
+    private static String getType(DataType dataType) {
+        return dataType.toString().replaceAll("_type", "");
+    }
+
+    /**
      * 获取索引元数据：indexname、indextype、主分片、备份分片数的配置
+     *
      * @param clazz
      * @return
      */
-    public MetaData getMetaData(Class<?> clazz){
+    public MetaData getMetaData(Class<?> clazz) {
         MetaData metaData = null;
-        if(clazz.getAnnotation(ESMetaData.class) != null){
+        if (clazz.getAnnotation(ESMetaData.class) != null) {
             String indexname = "";
             String indextype = "";
             int number_of_shards = 0;
@@ -83,22 +95,24 @@ public class IndexTools {
             indexname = clazz.getAnnotation(ESMetaData.class).indexName();
             indextype = clazz.getAnnotation(ESMetaData.class).indexType();
             //es7 https://www.elastic.co/guide/en/elasticsearch/reference/7.9/removal-of-types.html
-            if(indextype == null || indextype.equals("")){indextype =  "_doc";}
+            if (indextype == null || indextype.equals("")) {
+                indextype = "_doc";
+            }
             number_of_shards = clazz.getAnnotation(ESMetaData.class).number_of_shards();
             number_of_replicas = clazz.getAnnotation(ESMetaData.class).number_of_replicas();
-            metaData = new MetaData(indexname,indextype,number_of_shards,number_of_replicas);
+            metaData = new MetaData(indexname, indextype, number_of_shards, number_of_replicas);
             //如果配置了Suffix则自动添加后缀到索引名称
-            if(clazz.getAnnotation(ESMetaData.class).suffix()) {
+            if (clazz.getAnnotation(ESMetaData.class).suffix()) {
                 metaData.setSuffix(elasticsearchProperties.getSuffix());
-                if(metaData.getSuffix() != null && !"".equals(metaData.getSuffix())){
-                    metaData.setIndexname(metaData.getIndexname()+"_"+metaData.getSuffix());
+                if (metaData.getSuffix() != null && !"".equals(metaData.getSuffix())) {
+                    metaData.setIndexname(metaData.getIndexname() + "_" + metaData.getSuffix());
                     indexname = metaData.getIndexname();
                 }
             }
             metaData.setPrintLog(clazz.getAnnotation(ESMetaData.class).printLog());
-            if(Tools.arrayISNULL(clazz.getAnnotation(ESMetaData.class).searchIndexNames())) {
+            if (Tools.arrayISNULL(clazz.getAnnotation(ESMetaData.class).searchIndexNames())) {
                 metaData.setSearchIndexNames(new String[]{indexname});
-            }else{
+            } else {
                 //如果配置了searchIndexNames，则以配置为准
                 metaData.setSearchIndexNames((clazz.getAnnotation(ESMetaData.class).searchIndexNames()));
             }
@@ -114,80 +128,94 @@ public class IndexTools {
             metaData.setMaxResultWindow(clazz.getAnnotation(ESMetaData.class).maxResultWindow());
             metaData.setAutoRollover(clazz.getAnnotation(ESMetaData.class).autoRollover());
             metaData.setAutoCreateIndex(clazz.getAnnotation(ESMetaData.class).autoCreateIndex());
+            if(StringUtils.isEmpty(clazz.getAnnotation(ESMetaData.class).settingsPath())){
+                metaData.setSettingsPath(metaData.getIndexname()+".essettings");
+            }else{
+                metaData.setSettingsPath(clazz.getAnnotation(ESMetaData.class).settingsPath());
+            }
             return metaData;
-        }else{
+        } else {
             throw new IllegalArgumentException("未配置@ESMetaData注解");
         }
     }
 
     /**
      * 获取配置于Field上的mapping信息，如果未配置注解，则给出默认信息
+     *
      * @param field
      * @return
      */
-    public MappingData getMappingData(Field field){
-        if(field == null){
+    public MappingData getMappingData(Field field) {
+        if (field == null) {
             return null;
         }
         field.setAccessible(true);
         MappingData mappingData = new MappingData();
         mappingData.setField_name(field.getName());
-        if(field.getAnnotation(ESMapping.class) != null){
+        if (field.getAnnotation(ESMapping.class) != null) {
             ESMapping esMapping = field.getAnnotation(ESMapping.class);
             mappingData.setDatatype(getType(esMapping.datatype()));
             mappingData.setAnalyzer(esMapping.analyzer().toString());
+            if(!StringUtils.isEmpty(esMapping.custom_analyzer())){
+                mappingData.setAnalyzer(esMapping.custom_analyzer().toString());
+            }
+            mappingData.setSearch_analyzer(esMapping.search_analyzer().toString());
+            if(!StringUtils.isEmpty(esMapping.custom_search_analyzer())){
+                mappingData.setSearch_analyzer(esMapping.custom_search_analyzer().toString());
+            }
             mappingData.setNgram(esMapping.ngram());
             mappingData.setIgnore_above(esMapping.ignore_above());
-            mappingData.setSearch_analyzer(esMapping.search_analyzer().toString());
-            if(mappingData.getDatatype().equals("text")) {
+            if (mappingData.getDatatype().equals("text")) {
                 mappingData.setKeyword(esMapping.keyword());
-            }else{
+            } else {
                 mappingData.setKeyword(false);
             }
             mappingData.setSuggest(esMapping.suggest());
             mappingData.setAllow_search(esMapping.allow_search());
             mappingData.setCopy_to(esMapping.copy_to());
             mappingData.setNested_class(esMapping.nested_class());
-            if(!ObjectUtils.isEmpty(esMapping.null_value())){
+            if (!StringUtils.isEmpty(esMapping.null_value())) {
                 mappingData.setNull_value(esMapping.null_value());
             }
-        }else{
+            //add date format
+            if (DataType.date_type.equals(esMapping.datatype())) {
+                String[] formats = esMapping.dateFormat();
+                if (formats != null) {
+                    List<String> list = new CopyOnWriteArrayList<>(formats);
+                    list.forEach(s -> {
+                        if (StringUtils.isEmpty(s)) list.remove(s);
+                    });
+                    if (!CollectionUtils.isEmpty(list)) mappingData.setDateFormat(list);
+                }
+            }
+            mappingData.setNormalizer(esMapping.normalizer());
+        } else {
             mappingData.setKeyword(false);
-            if(field.getAnnotation(ESID.class) != null){
+            if (field.getAnnotation(ESID.class) != null) {
                 mappingData.setDatatype(getType(DataType.keyword_type));
-            }else{
-                if(field.getType() == String.class){
+            } else {
+                if (field.getType() == String.class) {
                     mappingData.setDatatype(getType(DataType.text_type));
                     mappingData.setKeyword(true);
-                }
-                else if(field.getType() == Short.class || field.getType() == short.class){
+                } else if (field.getType() == Short.class || field.getType() == short.class) {
                     mappingData.setDatatype(getType(DataType.short_type));
-                }
-                else if(field.getType() == Integer.class || field.getType() == int.class){
+                } else if (field.getType() == Integer.class || field.getType() == int.class) {
                     mappingData.setDatatype(getType(DataType.integer_type));
-                }
-                else if(field.getType() == Long.class || field.getType() == long.class){
+                } else if (field.getType() == Long.class || field.getType() == long.class) {
                     mappingData.setDatatype(getType(DataType.long_type));
-                }
-                else if(field.getType() == Float.class || field.getType() == float.class){
+                } else if (field.getType() == Float.class || field.getType() == float.class) {
                     mappingData.setDatatype(getType(DataType.float_type));
-                }
-                else if(field.getType() == Double.class || field.getType() == double.class){
+                } else if (field.getType() == Double.class || field.getType() == double.class) {
                     mappingData.setDatatype(getType(DataType.double_type));
-                }
-                else if(field.getType() == BigDecimal.class){
+                } else if (field.getType() == BigDecimal.class) {
                     mappingData.setDatatype(getType(DataType.double_type));
-                }
-                else if(field.getType() == Boolean.class || field.getType() == boolean.class){
+                } else if (field.getType() == Boolean.class || field.getType() == boolean.class) {
                     mappingData.setDatatype(getType(DataType.boolean_type));
-                }
-                else if(field.getType() == Byte.class || field.getType() == byte.class){
+                } else if (field.getType() == Byte.class || field.getType() == byte.class) {
                     mappingData.setDatatype(getType(DataType.byte_type));
-                }
-                else if(field.getType() == Date.class){
+                } else if (field.getType() == Date.class) {
                     mappingData.setDatatype(getType(DataType.date_type));
-                }
-                else{
+                } else {
                     mappingData.setDatatype(getType(DataType.text_type));
                     mappingData.setKeyword(true);
                 }
@@ -205,24 +233,16 @@ public class IndexTools {
     }
 
     /**
-     * 根据枚举类型获得mapping中的类型
-     * @param dataType
-     * @return
-     */
-    private static String getType(DataType dataType){
-        return dataType.toString().replaceAll("_type","");
-    }
-
-    /**
      * 批量获取配置于Field上的mapping信息，如果未配置注解，则给出默认信息
+     *
      * @param clazz
      * @return
      */
-    public MappingData[] getMappingData(Class<?> clazz){
+    public MappingData[] getMappingData(Class<?> clazz) {
         Field[] fields = clazz.getDeclaredFields();
         MappingData[] mappingDataList = new MappingData[fields.length];
         for (int i = 0; i < fields.length; i++) {
-            if(fields[i].getName().equals("serialVersionUID")){
+            if (fields[i].getName().equals("serialVersionUID")) {
                 continue;
             }
             mappingDataList[i] = getMappingData(fields[i]);

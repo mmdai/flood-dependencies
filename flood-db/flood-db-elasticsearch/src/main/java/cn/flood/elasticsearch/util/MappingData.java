@@ -1,5 +1,7 @@
 package cn.flood.elasticsearch.util;
 
+import java.util.List;
+
 /**
  * program: esdemo
  * description: mapping注解对应的数据载体类
@@ -11,45 +13,56 @@ public class MappingData {
     String field_name;
     /**
      * 数据类型（包含 关键字类型）
+     *
      * @return
      */
     String datatype;
     /**
      * 间接关键字
+     *
      * @return
      */
     boolean keyword;
 
     /**
      * 关键字忽略字数
+     *
      * @return
      */
     int ignore_above;
     /**
      * 是否支持ngram，高效全文搜索提示
+     *
      * @return
      */
     boolean ngram;
     /**
      * 是否支持suggest，高效前缀搜索提示
+     *
      * @return
      */
     boolean suggest;
     /**
      * 索引分词器设置
+     *
      * @return
      */
     String analyzer;
     /**
      * 搜索内容分词器设置
+     *
      * @return
      */
     String search_analyzer;
+
 //    /**
 //     * 是否分析字段
 //     * @return
 //     */
 //    String analyzedtype;
+
+
+
 
     private boolean allow_search;
 
@@ -58,6 +71,25 @@ public class MappingData {
     private String null_value;
 
     private Class nested_class;
+
+
+    /**
+     * 时间格式
+     */
+    private List<String> dateFormat;
+
+    /**
+     * normalizer名称指定，需要配合自定义settings使用
+     */
+    private String normalizer;
+
+    public List<String> getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(List<String> dateFormat) {
+        this.dateFormat = dateFormat;
+    }
 
 
     public String getField_name() {
@@ -163,5 +195,13 @@ public class MappingData {
 
     public void setNested_class(Class nested_class) {
         this.nested_class = nested_class;
+    }
+
+    public String getNormalizer() {
+        return normalizer;
+    }
+
+    public void setNormalizer(String normalizer) {
+        this.normalizer = normalizer;
     }
 }

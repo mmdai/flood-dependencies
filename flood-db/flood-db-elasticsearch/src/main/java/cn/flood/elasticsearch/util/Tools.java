@@ -1,10 +1,9 @@
 package cn.flood.elasticsearch.util;
 
-
 import cn.flood.elasticsearch.annotation.ESID;
+import org.springframework.util.StringUtils;
 import cn.flood.elasticsearch.annotation.ESMapping;
 import cn.flood.elasticsearch.enums.DataType;
-import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -92,7 +91,7 @@ public class Tools {
     }
 
     public static String arraytostring(String[] strs){
-        if(ObjectUtils.isEmpty(strs)){
+        if(StringUtils.isEmpty(strs)){
             return "";
         }
         StringBuffer sb = new StringBuffer();
@@ -106,7 +105,7 @@ public class Tools {
         }
         boolean flag = false;
         for (int i = 0; i < objs.length; i++) {
-            if(!ObjectUtils.isEmpty(objs[i])){
+            if(!StringUtils.isEmpty(objs[i])){
                 flag = true;
             }
         }

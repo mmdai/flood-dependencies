@@ -1,6 +1,7 @@
 package cn.flood.elasticsearch.properties;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 
@@ -35,4 +36,10 @@ public class RestClientPoolProperties {
      * 最大路由连接数(某一个/每服务每次能并行接收的请求数量)
      */
     private Integer maxConnectPerRoute = 10;
+
+    /**
+     * keep_alive_strategy
+     */
+    private Long keepAliveStrategy = -1L;
+
 }

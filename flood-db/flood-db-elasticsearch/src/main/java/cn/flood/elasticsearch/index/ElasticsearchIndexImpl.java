@@ -1,34 +1,40 @@
-package cn.flood.elasticsearch.index.impl;
+package cn.flood.elasticsearch.index;
 
-import cn.flood.elasticsearch.index.ElasticsearchIndex;
 import org.elasticsearch.action.admin.indices.alias.Alias;
 import org.elasticsearch.action.admin.indices.alias.IndicesAliasesRequest;
 import org.elasticsearch.action.admin.indices.alias.get.GetAliasesRequest;
+import org.elasticsearch.action.support.master.AcknowledgedResponse;
+import org.elasticsearch.client.indices.rollover.RolloverRequest;
+import org.elasticsearch.client.indices.rollover.RolloverResponse;
+import org.elasticsearch.common.unit.ByteSizeValue;
+import org.elasticsearch.common.unit.TimeValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.CollectionUtils;
+import cn.flood.elasticsearch.enums.DataType;
+import cn.flood.elasticsearch.util.IndexTools;
+import cn.flood.elasticsearch.util.MappingData;
+import cn.flood.elasticsearch.util.MetaData;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
-import org.elasticsearch.action.support.master.AcknowledgedResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.indices.rollover.RolloverRequest;
-import org.elasticsearch.client.indices.rollover.RolloverResponse;
 import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.unit.ByteSizeValue;
-import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import cn.flood.elasticsearch.util.IndexTools;
-import cn.flood.elasticsearch.util.MappingData;
-import cn.flood.elasticsearch.util.MetaData;
+import org.springframework.util.StringUtils;
 import cn.flood.elasticsearch.util.Tools;
-import org.springframework.util.ObjectUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -47,7 +53,6 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
     private static final String NESTED = "nested";
     @Autowired
     private IndexTools indexTools;
-
 
     @Override
     public void createIndex(Class<T> clazz) throws Exception{
@@ -87,7 +92,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
     }
 
 
-    private MappingSetting getMappingSource(Class clazz , MetaData metaData) throws Exception {
+    public MappingSetting getMappingSource(Class clazz , MetaData metaData) throws Exception {
         StringBuffer source = new StringBuffer();
         source.append("  {\n" +
                 "    \""+metaData.getIndextype()+"\": {\n" +
@@ -101,7 +106,14 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             }
             source.append(" \""+mappingData.getField_name()+"\": {\n");
             source.append(" \"type\": \""+mappingData.getDatatype()+"\"\n");
-
+            if(!StringUtils.isEmpty(mappingData.getNormalizer())) {
+                source.append(" ,\"normalizer\": \"" + mappingData.getNormalizer() + "\"\n");
+            }
+            //add date format
+            if(DataType.date_type.toString().replaceAll("_type","").equals(mappingData.getDatatype()) && !CollectionUtils.isEmpty(mappingData.getDateFormat())){
+                String format = String.join(" || ",mappingData.getDateFormat());
+                source.append(" ,\"format\": \""+format+"\"\n");
+            }
             if (!mappingData.getDatatype().equals(NESTED)) {
                 if (mappingData.isNgram() &&
                         (mappingData.getDatatype().equals("text") || mappingData.getDatatype().equals("keyword"))) {
@@ -161,12 +173,35 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
                     .put("index.number_of_replicas", metaData.getNumber_of_replicas())
                     .put("index.max_result_window", metaData.getMaxResultWindow());
         }
-
-
+        ClassPathResource classPathResource = new ClassPathResource(metaData.getSettingsPath());
+        if(classPathResource.exists()){
+            List<String> settings = new BufferedReader(new InputStreamReader(classPathResource.getInputStream()))
+                    .lines().collect(Collectors.toList());
+            Map<String,String> map = resoveSettings(settings);
+            for(String key:map.keySet()){
+                builder.put(key,map.get(key));
+            }
+        }
         MappingSetting mappingSetting = new MappingSetting();
         mappingSetting.mappingSource = source.toString();
         mappingSetting.builder = builder;
         return mappingSetting;
+    }
+
+    /**
+     * 解析settings内容
+     * @param settings
+     * @return
+     */
+    private Map<String,String> resoveSettings(List<String> settings){
+        Map map = new HashMap();
+        if(settings != null && settings.size() > 0){
+            settings.forEach(s -> {
+                String[] split = s.split(":");
+                map.put(split[0],split[1]);
+            });
+        }
+        return map;
     }
 
     @Override
@@ -176,7 +211,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             if(Tools.arrayISNULL(metaData.getAliasIndex())){
                 throw new RuntimeException("aliasIndex must not be null");
             }
-            if(ObjectUtils.isEmpty(writeIndex)){
+            if(StringUtils.isEmpty(writeIndex)){
                 //如果WriteIndex为空则默认为最后一个AliasIndex为WriteIndex
                 metaData.setWriteIndex(metaData.getAliasIndex()[metaData.getAliasIndex().length-1]);
             }else if(!Stream.of(metaData.getAliasIndex()).collect(Collectors.toList()).contains(metaData.getWriteIndex())){
@@ -206,7 +241,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             if(Tools.arrayISNULL(metaData.getAliasIndex())){
                 throw new RuntimeException("aliasIndex must not be null");
             }
-            if(ObjectUtils.isEmpty(metaData.getWriteIndex())){
+            if(StringUtils.isEmpty(metaData.getWriteIndex())){
                 //如果WriteIndex为空则默认为最后一个AliasIndex为WriteIndex
                 metaData.setWriteIndex(metaData.getAliasIndex()[metaData.getAliasIndex().length-1]);
             }else if(!Stream.of(metaData.getAliasIndex()).collect(Collectors.toList()).contains(metaData.getWriteIndex())){
@@ -266,10 +301,10 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
      */
     private String oneField(MappingData mappingData) {
         StringBuilder source = new StringBuilder();
-        if (!ObjectUtils.isEmpty(mappingData.getCopy_to())) {
+        if (!StringUtils.isEmpty(mappingData.getCopy_to())) {
             source.append(" ,\"copy_to\": \"" + mappingData.getCopy_to() + "\"\n");
         }
-        if (!ObjectUtils.isEmpty(mappingData.getNull_value())) {
+        if (!StringUtils.isEmpty(mappingData.getNull_value())) {
             source.append(" ,\"null_value\": \"" + mappingData.getNull_value() + "\"\n");
         }
         if (!mappingData.isAllow_search()) {

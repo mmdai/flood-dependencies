@@ -25,13 +25,11 @@ import java.util.stream.Collectors;
  * @author: X-Pacific zhang
  * @create: 2021-02-04 10:21
  **/
-@SuppressWarnings("unchecked")
 @Configuration
 @Order(2)
 public class ScheduleRollover implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware {
     @Autowired
     ElasticsearchIndex elasticsearchIndex;
-
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     private ApplicationContext applicationContext;
 
