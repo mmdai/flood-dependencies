@@ -1,7 +1,6 @@
 package cn.flood.elasticsearch.annotation;
 
-import org.zxp.esclientrhl.auto.ESCRegistrar;
-import org.zxp.esclientrhl.config.ElasticSearchConfiguration;
+import cn.flood.elasticsearch.auto.ESCRegistrar;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -19,7 +18,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({ElasticSearchConfiguration.class,ESCRegistrar.class})
+@Import({ESCRegistrar.class})
 public @interface EnableESTools {
 
     /**
