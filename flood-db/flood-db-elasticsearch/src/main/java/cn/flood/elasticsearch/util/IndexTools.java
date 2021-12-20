@@ -1,13 +1,14 @@
 package cn.flood.elasticsearch.util;
 
+import cn.flood.elasticsearch.properties.ElasticsearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import cn.flood.elasticsearch.annotation.ESID;
 import cn.flood.elasticsearch.annotation.ESMapping;
 import cn.flood.elasticsearch.annotation.ESMetaData;
-import cn.flood.elasticsearch.config.ElasticsearchProperties;
 import cn.flood.elasticsearch.enums.DataType;
 
 import java.lang.reflect.Field;
@@ -160,7 +161,7 @@ public class IndexTools {
                 mappingData.setAnalyzer(esMapping.custom_analyzer().toString());
             }
             mappingData.setSearch_analyzer(esMapping.search_analyzer().toString());
-            if(!StringUtils.isEmpty(esMapping.custom_search_analyzer())){
+            if(!ObjectUtils.isEmpty(esMapping.custom_search_analyzer())){
                 mappingData.setSearch_analyzer(esMapping.custom_search_analyzer().toString());
             }
             mappingData.setNgram(esMapping.ngram());

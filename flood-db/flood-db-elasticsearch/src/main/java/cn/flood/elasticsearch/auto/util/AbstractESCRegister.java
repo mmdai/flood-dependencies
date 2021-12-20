@@ -41,7 +41,7 @@ public abstract class AbstractESCRegister {
             BeanDefinition bd = beanDefinitionBuilder.getRawBeanDefinition();
             //生成beanname
             String beanName = beanClassName.substring(beanClassName.lastIndexOf(".") + 1);
-            if(cn.flood.elasticsearch.auto.util.EnableESTools.isPrintregmsg()){
+            if(EnableESTools.isPrintregmsg()){
                 logger.info("generate ESCRegistrar beanClassName:" + beanClassName);
                 logger.info("generate ESCRegistrar beanName:" + beanName);
             }

@@ -3,6 +3,7 @@ package cn.flood.elasticsearch.util;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import cn.flood.elasticsearch.enums.DataType;
 
@@ -134,7 +135,7 @@ public class BeanTools {
         Set<String> noValuePropertySet = new HashSet<>();
         Arrays.stream(pds).forEach(pd -> {
             Object propertyValue = beanWrapper.getPropertyValue(pd.getName());
-            if (StringUtils.isEmpty(propertyValue)) {
+            if (ObjectUtils.isEmpty(propertyValue)) {
                 noValuePropertySet.add(pd.getName());
             } else {
                 if (Iterable.class.isAssignableFrom(propertyValue.getClass())) {

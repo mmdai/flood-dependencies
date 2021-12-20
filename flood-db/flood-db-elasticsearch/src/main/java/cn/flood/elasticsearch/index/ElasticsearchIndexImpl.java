@@ -26,7 +26,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 import cn.flood.elasticsearch.util.Tools;
 
 import java.io.BufferedReader;
@@ -106,7 +106,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             }
             source.append(" \""+mappingData.getField_name()+"\": {\n");
             source.append(" \"type\": \""+mappingData.getDatatype()+"\"\n");
-            if(!StringUtils.isEmpty(mappingData.getNormalizer())) {
+            if(!ObjectUtils.isEmpty(mappingData.getNormalizer())) {
                 source.append(" ,\"normalizer\": \"" + mappingData.getNormalizer() + "\"\n");
             }
             //add date format
@@ -211,7 +211,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             if(Tools.arrayISNULL(metaData.getAliasIndex())){
                 throw new RuntimeException("aliasIndex must not be null");
             }
-            if(StringUtils.isEmpty(writeIndex)){
+            if(ObjectUtils.isEmpty(writeIndex)){
                 //如果WriteIndex为空则默认为最后一个AliasIndex为WriteIndex
                 metaData.setWriteIndex(metaData.getAliasIndex()[metaData.getAliasIndex().length-1]);
             }else if(!Stream.of(metaData.getAliasIndex()).collect(Collectors.toList()).contains(metaData.getWriteIndex())){
@@ -241,7 +241,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             if(Tools.arrayISNULL(metaData.getAliasIndex())){
                 throw new RuntimeException("aliasIndex must not be null");
             }
-            if(StringUtils.isEmpty(metaData.getWriteIndex())){
+            if(ObjectUtils.isEmpty(metaData.getWriteIndex())){
                 //如果WriteIndex为空则默认为最后一个AliasIndex为WriteIndex
                 metaData.setWriteIndex(metaData.getAliasIndex()[metaData.getAliasIndex().length-1]);
             }else if(!Stream.of(metaData.getAliasIndex()).collect(Collectors.toList()).contains(metaData.getWriteIndex())){
@@ -301,10 +301,10 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
      */
     private String oneField(MappingData mappingData) {
         StringBuilder source = new StringBuilder();
-        if (!StringUtils.isEmpty(mappingData.getCopy_to())) {
+        if (!ObjectUtils.isEmpty(mappingData.getCopy_to())) {
             source.append(" ,\"copy_to\": \"" + mappingData.getCopy_to() + "\"\n");
         }
-        if (!StringUtils.isEmpty(mappingData.getNull_value())) {
+        if (!ObjectUtils.isEmpty(mappingData.getNull_value())) {
             source.append(" ,\"null_value\": \"" + mappingData.getNull_value() + "\"\n");
         }
         if (!mappingData.isAllow_search()) {

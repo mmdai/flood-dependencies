@@ -13,12 +13,11 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.zxp.esclientrhl.annotation.EnableESTools;
-import org.zxp.esclientrhl.auto.autoindex.ESIndexProcessor;
-import org.zxp.esclientrhl.auto.util.AbstractESCRegister;
-import org.zxp.esclientrhl.auto.util.GetBasePackage;
+import cn.flood.elasticsearch.annotation.EnableESTools;
+import cn.flood.elasticsearch.auto.autoindex.ESIndexProcessor;
+import cn.flood.elasticsearch.auto.util.AbstractESCRegister;
+import cn.flood.elasticsearch.auto.util.GetBasePackage;
 
-import javax.annotation.Nonnull;
 import java.util.stream.Stream;
 
 /**
@@ -31,9 +30,9 @@ import java.util.stream.Stream;
  **/
 @Configuration
 public class ESCRegistrar extends AbstractESCRegister implements BeanFactoryAware,ApplicationContextAware, ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
-    private @SuppressWarnings("null") @Nonnull
+    private @SuppressWarnings("null")
     ResourceLoader resourceLoader;
-    private @SuppressWarnings("null") @Nonnull Environment environment;
+    private @SuppressWarnings("null")  Environment environment;
     private ApplicationContext applicationContext;
     private BeanFactory beanFactory;
 
