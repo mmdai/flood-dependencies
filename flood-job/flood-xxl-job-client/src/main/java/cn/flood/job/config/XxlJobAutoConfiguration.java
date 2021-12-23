@@ -3,13 +3,13 @@ package cn.flood.job.config;
 import cn.flood.job.core.executor.impl.XxlJobSpringExecutor;
 import cn.flood.job.properties.XxlExecutorProperties;
 import cn.flood.job.properties.XxlJobProperties;
-import cn.flood.lang.StringUtils;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.util.StringUtils;
 
 import java.util.stream.Collectors;
 
