@@ -14,6 +14,7 @@
         <module>flood-xxl-job-core</module>
         <module>flood-xxl-job-admin</module>
         <module>flood-xxl-job-admin-web</module>
+        <module>flood-xxl-job-client</module>
     </modules>
     <artifactId>flood-job</artifactId>
 
