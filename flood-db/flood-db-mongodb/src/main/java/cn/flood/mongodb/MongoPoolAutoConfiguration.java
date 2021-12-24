@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 * @author mmdai  
 * @date 2020年8月23日
  */
+@SuppressWarnings("unchecked")
 @Configuration
 @Component
 @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})

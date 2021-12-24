@@ -31,6 +31,7 @@ import java.util.*;
  * Created by suclogger on 2017/6/28.
  * 自动装配消息消费者
  */
+@SuppressWarnings("unchecked")
 @Configuration
 @ConditionalOnBean(MQBaseAutoConfiguration.class)
 public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration implements InitializingBean {

@@ -21,6 +21,7 @@ import org.springframework.core.env.Environment;
 import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("unchecked")
 public class ProducerCollector implements BeanPostProcessor {
 
     private Environment environment;

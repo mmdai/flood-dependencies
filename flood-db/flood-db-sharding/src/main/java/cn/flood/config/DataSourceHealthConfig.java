@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 @Configuration
 @EnableConfigurationProperties(DruidDbProperties.class)
 public class DataSourceHealthConfig extends DataSourceHealthContributorAutoConfiguration {

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class EnumConfigurationHelper {
 
     private static final Logger log = LoggerFactory.getLogger(EnumConfigurationHelper.class);

@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * <p>
  * 幂等插件初始化
  */
+@SuppressWarnings("unchecked")
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(RlockAutoConfiguration.class)
 public class IdempotentAutoConfiguration {

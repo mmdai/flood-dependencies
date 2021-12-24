@@ -50,8 +50,9 @@ import java.util.Map;
 /**
  * feign集成sentinel自动配置
  * 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign} 适配最新API
- *
+ *EnumConfigurationHelper
  */
+@SuppressWarnings("unchecked")
 public class FloodFeignSentinel {
 
 	public static Builder builder() {
