@@ -3,6 +3,8 @@ package cn.flood.job.config;
 import cn.flood.job.core.executor.impl.XxlJobSpringExecutor;
 import cn.flood.job.properties.XxlExecutorProperties;
 import cn.flood.job.properties.XxlJobProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 @EnableConfigurationProperties(XxlJobProperties.class)
 public class XxlJobAutoConfiguration {
 
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     /**
      * 服务名称 包含 XXL_JOB_ADMIN 则说明是 Admin
      */
@@ -60,6 +63,7 @@ public class XxlJobAutoConfiguration {
                     .flatMap(s -> discoveryClient.getInstances(s).stream()).map(instance -> String
                             .format("http://%s:%s/%s", instance.getHost(), instance.getPort(), XXL_JOB_ADMIN))
                     .collect(Collectors.joining(","));
+            log.info("=========xxlJobAdminAddress: {}", serverList);
             xxlJobSpringExecutor.setAdminAddresses(serverList);
         }
         else {

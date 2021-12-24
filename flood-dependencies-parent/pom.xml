@@ -226,7 +226,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-xxl-job-core</artifactId>
+			<artifactId>flood-xxl-job-client</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 

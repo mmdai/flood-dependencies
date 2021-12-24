@@ -1,4 +1,4 @@
-package cn.flood.job.core.handler.annotation;//package com.xxl.job.core.handler.annotation;
+package cn.flood.job.core.handler.annotation;//package cn.flood.job.core.handler.annotation;
 //
 //import java.lang.annotation.ElementType;
 //import java.lang.annotation.Inherited;
@@ -9,7 +9,7 @@ package cn.flood.job.core.handler.annotation;//package com.xxl.job.core.handler.
 ///**
 // * annotation for job handler
 // *
-// * will be replaced by {@link com.xxl.job.core.handler.annotation.XxlJob}
+// * will be replaced by {@link cn.flood.job.core.handler.annotation.XxlJob}
 // *
 // * @author 2016-5-17 21:06:49
 // */

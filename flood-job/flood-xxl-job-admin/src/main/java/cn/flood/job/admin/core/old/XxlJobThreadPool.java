@@ -1,4 +1,4 @@
-package cn.flood.job.admin.core.old;//package com.xxl.job.admin.core.quartz;
+package cn.flood.job.admin.core.old;//package cn.flood.job.admin.core.quartz;
 //
 //import org.quartz.SchedulerConfigException;
 //import org.quartz.spi.ThreadPool;
