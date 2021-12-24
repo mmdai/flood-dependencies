@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  */
 
 @Configuration(proxyBeanMethods = false)
-@EnableAutoConfiguration
 @EnableConfigurationProperties(XxlJobProperties.class)
 public class XxlJobAutoConfiguration {
 
