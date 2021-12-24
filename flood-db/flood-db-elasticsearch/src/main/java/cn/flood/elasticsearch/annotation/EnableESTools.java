@@ -1,5 +1,6 @@
 package cn.flood.elasticsearch.annotation;
 
+import cn.flood.elasticsearch.ElasticSearchClientAutoConfiguration;
 import cn.flood.elasticsearch.auto.ESCRegistrar;
 import org.springframework.context.annotation.Import;
 
@@ -18,7 +19,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({ESCRegistrar.class})
+@Import({ESCRegistrar.class, ElasticSearchClientAutoConfiguration.class})
 public @interface EnableESTools {
 
     /**

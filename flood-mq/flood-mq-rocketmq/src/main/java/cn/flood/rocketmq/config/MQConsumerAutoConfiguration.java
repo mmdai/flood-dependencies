@@ -12,6 +12,7 @@ import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeOrderlyContext;
 import org.apache.rocketmq.client.exception.MQClientException;
+import org.apache.rocketmq.client.impl.consumer.DefaultMQPushConsumerImpl;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.slf4j.Logger;
@@ -133,11 +134,11 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration impleme
                 throw new RuntimeException("unknown consume mode ! only support CONCURRENTLY and ORDERLY");
             }
             abstractMQPushConsumer.setConsumer(consumer);
-
             // 为Consumer增加消息轨迹回发模块
             if (mqProperties.getTraceEnabled()) {
                 try {
-                    consumer.getDefaultMQPushConsumerImpl().registerConsumeMessageHook(
+                    DefaultMQPushConsumerImpl mqPushConsumer = new DefaultMQPushConsumerImpl(consumer, null);
+                    mqPushConsumer.registerConsumeMessageHook(
                             new OnsConsumeMessageHookImpl(asyncTraceDispatcher));
                 } catch (Throwable e) {
                     LOGGER.error("system mqtrace hook init failed ,maybe can't send msg trace data");
