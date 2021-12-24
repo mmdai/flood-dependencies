@@ -7,11 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
@@ -29,8 +26,9 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 * @author mmdai  
 * @date 2018年8月13日
  */
-@EnableAsync // 开启异步任务支持
 @Configuration
+@EnableAsync // 开启异步任务支持
+@AutoConfigureAfter({AsyncProperties.class})
 @EnableConfigurationProperties({AsyncProperties.class})
 public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingConfigurer {
 
@@ -52,28 +50,8 @@ public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingCo
 	@Autowired
 	private AsyncProperties asyncProperties;
 
-//	@Bean
-//	public Executor customAsync() {
-//		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-//		executor.setCorePoolSize(asyncProperties.getCorePoolSize());
-//		executor.setMaxPoolSize(asyncProperties.getMaxPoolSize());
-//		executor.setQueueCapacity(asyncProperties.getQueueCapacity());
-//		executor.setThreadNamePrefix("flood-async-executor-");
-//		executor.setKeepAliveSeconds(asyncProperties.getKeepAliveSeconds());
-//
-//		// rejection-policy：当pool已经达到max size的时候，如何处理新任务
-//		// CALLER_RUNS：不在新线程中执行任务，而是有调用者所在的线程来执行
-//		executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-//		executor.initialize();
-//		return executor;
-//	}
 
-	/**
-	 * 覆盖默认Executor 配置
-	 */
-	@Override
-	public Executor getAsyncExecutor() {
-		logger.debug("Creating Async Task Executor");
+	public Executor customAsync() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(asyncProperties.getCorePoolSize());
 		executor.setMaxPoolSize(asyncProperties.getMaxPoolSize());
@@ -86,7 +64,15 @@ public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingCo
 		executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
 		executor.initialize();
 		return executor;
-//		return this.customAsync();
+	}
+
+	/**
+	 * 覆盖默认Executor 配置
+	 */
+	@Override
+	public Executor getAsyncExecutor() {
+		logger.debug("Creating Async Task Executor");
+		return this.customAsync();
 	}
 
 	@Override
@@ -97,27 +83,21 @@ public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingCo
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
 		// TODO Auto-generated method stub
-//		TaskScheduler scheduler = this.taskScheduler();
+		TaskScheduler scheduler = this.taskScheduler();
+		taskRegistrar.setTaskScheduler(scheduler);
+	}
+
+
+	public ThreadPoolTaskScheduler taskScheduler() {
+
 		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
 		scheduler.setPoolSize(asyncProperties.getMaxPoolSize());
 //		scheduler.set
 		scheduler.setThreadNamePrefix("flood-async-schedule-executor-");
 		scheduler.setAwaitTerminationSeconds(60);//default 0
 		scheduler.setWaitForTasksToCompleteOnShutdown(true);
-		taskRegistrar.setTaskScheduler(scheduler);
+		return scheduler;
+
 	}
-	
-//	@Bean
-//	public ThreadPoolTaskScheduler taskScheduler() {
-//
-//		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-//		scheduler.setPoolSize(asyncProperties.getMaxPoolSize());
-////		scheduler.set
-//		scheduler.setThreadNamePrefix("flood-async-schedule-executor-");
-//		scheduler.setAwaitTerminationSeconds(60);//default 0
-//		scheduler.setWaitForTasksToCompleteOnShutdown(true);
-//		return scheduler;
-//
-//	}
 
 }
