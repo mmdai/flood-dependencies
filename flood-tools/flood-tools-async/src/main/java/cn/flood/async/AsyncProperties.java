@@ -16,7 +16,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 )
 public class AsyncProperties {
 
-    private int corePoolSize = 50;
+    private int corePoolSize = 10;
 
     private int maxPoolSize = 50;
 
