@@ -21,8 +21,6 @@
 	  <spring-cloud-dependencies.version>2020.0.4</spring-cloud-dependencies.version>
 	  <spring-cloud-alibaba-dependencies.version>2021.1</spring-cloud-alibaba-dependencies.version>
 	  <spring.platform.version>Cairo-SR8</spring.platform.version>
-	  <alibaba.nacos.version>2.0.2</alibaba.nacos.version>
-	  <alibaba.seata.version>1.4.2</alibaba.seata.version>
 	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
 	  <!-- flood 版本 -->
 	  <flood.version>2.5.9.0-SNAPSHOT</flood.version>
