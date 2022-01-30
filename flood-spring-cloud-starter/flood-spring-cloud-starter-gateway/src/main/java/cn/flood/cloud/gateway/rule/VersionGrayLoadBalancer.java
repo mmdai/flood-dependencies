@@ -1,7 +1,7 @@
 package cn.flood.cloud.gateway.rule;
 
 import cn.flood.Func;
-import cn.flood.constants.HeaderConstants;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.lang.StringUtils;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -47,7 +47,7 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		}
 
 		// 获取请求version，无则随机返回可用实例
-		String reqVersion = request.getHeaders().getFirst(HeaderConstants.HEADER_VERSION);
+		String reqVersion = request.getHeaders().getFirst(HeaderConstant.HEADER_VERSION);
 		if (Func.isBlank(reqVersion)) {
 			return instances.get(StringUtils.randomInt(instances.size()));
 		}

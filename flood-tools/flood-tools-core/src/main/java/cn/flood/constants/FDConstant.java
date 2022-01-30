@@ -5,7 +5,7 @@ package cn.flood.constants;
  * @author mmdai
  * @date 2019/11/8 21:34
  */
-public interface FDConstants {
+public interface FDConstant {
 
     Long LONG_NEGATIVE_1 = -1L;
     Long LONG_0 = 0L;

@@ -6,6 +6,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -43,6 +44,7 @@ import javax.net.ssl.SSLContext;
  * @create: 2019-10-10 12:53
  **/
 public class HttpClientTool {
+
     private static HttpClient mHttpClient = null;
 
     private static CloseableHttpClient getHttpClient(HttpClientBuilder httpClientBuilder) {
@@ -70,11 +72,22 @@ public class HttpClientTool {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+
         Registry<ConnectionSocketFactory> registry = registryBuilder.build();
         //设置连接管理器
         PoolingHttpClientConnectionManager connManager = new PoolingHttpClientConnectionManager(registry);
+        connManager.setMaxTotal(Constants.MAXTOTAL);//维护的httpclientConnection总数
+        //每一个route的最大连接数，route可以理解为一个主机，如http://www.roadjava.com/2.html
+        //和http://www.roadjava.com/1.html是一个主机
+        connManager.setDefaultMaxPerRoute(Constants.DEFAULTMAXPERROUTE);
+        /*三、为HttpClientBuilder设置从连接池获取连接的超时时间、连接超时时间、获取数据响应超时时间
+         */
+        RequestConfig requestConfig=RequestConfig.custom().
+                setConnectionRequestTimeout(Constants.CONMANTIMEOUT).
+                setConnectTimeout(Constants.CONTIMEOUT).
+                setSocketTimeout(Constants.SOTIMEOUT).build();
         //构建客户端
-        return httpClientBuilder.setConnectionManager(connManager).build();
+        return httpClientBuilder.setConnectionManager(connManager).setDefaultRequestConfig(requestConfig).build();
     }
 
     private synchronized static HttpClient getESHttpClient() {
@@ -191,18 +204,18 @@ public class HttpClientTool {
         return httpPost;
     }
 
-//    static class Constants {
-//        /** 编码*/
-//        public static final String CHARSET = HTTP.UTF_8;
-//        /*从连接池中取连接的超时时间*/
-//        public static final int CONMANTIMEOUT = 2000;
-//        /*连接超时*/
-//        public static final int CONTIMEOUT = 2000;
-//        /*请求超时*/
-//        public static final int SOTIMEOUT = 5000;
-//        /*设置整个连接池最大连接数*/
-//        public static final int MAXTOTAL = 6;
-//        /*根据连接到的主机对MaxTotal的一个细分*/
-//        public static final int DEFAULTMAXPERROUTE = 3;
-//    }
+    static class Constants {
+        /** 编码*/
+        public static final String CHARSET = HTTP.UTF_8;
+        /*从连接池中取连接的超时时间*/
+        public static final int CONMANTIMEOUT = 2000;
+        /*连接超时*/
+        public static final int CONTIMEOUT = 2000;
+        /*请求超时*/
+        public static final int SOTIMEOUT = 5000;
+        /*设置整个连接池最大连接数*/
+        public static final int MAXTOTAL = 64;
+        /*根据连接到的主机对MaxTotal的一个细分*/
+        public static final int DEFAULTMAXPERROUTE = 6;
+    }
 }

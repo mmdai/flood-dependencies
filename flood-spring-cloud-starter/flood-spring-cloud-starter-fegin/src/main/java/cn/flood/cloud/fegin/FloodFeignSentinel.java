@@ -17,13 +17,10 @@ package cn.flood.cloud.fegin;
 
 import cn.flood.Func;
 import cn.flood.cloud.sentinel.FloodSentinelInvocationHandler;
-import cn.flood.constants.HeaderConstants;
-import cn.flood.http.HttpMediaType;
-import cn.flood.proto.ProtostuffUtils;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.trace.MDCTraceUtils;
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import feign.*;
-import feign.codec.Encoder;
 import feign.form.spring.SpringFormEncoder;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeansException;
@@ -42,9 +39,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -153,9 +147,9 @@ public class FloodFeignSentinel {
 							requestTemplate.header(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 						}
 						//传递版本号
-						String version =  request.getHeader(HeaderConstants.HEADER_VERSION);
+						String version =  request.getHeader(HeaderConstant.HEADER_VERSION);
 						if (Func.isNotEmpty(version)) {
-							requestTemplate.header(HeaderConstants.HEADER_VERSION, version);
+							requestTemplate.header(HeaderConstant.HEADER_VERSION, version);
 						}
 //						if(requestTemplate.headers().get(HttpHeaders.CONTENT_TYPE).contains(HttpMediaType.APPLICATION_JSON_VALUE)){
 //							// 通过template获取到请求体（已经被转成json）

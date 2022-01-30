@@ -3,7 +3,7 @@ package cn.flood.constants;
 /**
  *
  */
-public interface HeaderConstants {
+public interface HeaderConstant {
     // 请求id
     String REQUEST_ID = "requestId";
     // 调用ids

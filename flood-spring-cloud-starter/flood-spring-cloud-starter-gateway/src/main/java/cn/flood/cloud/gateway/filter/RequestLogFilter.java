@@ -2,7 +2,7 @@ package cn.flood.cloud.gateway.filter;
 
 import cn.flood.Func;
 import cn.flood.cloud.gateway.props.WebSocketProperties;
-import cn.flood.constants.HeaderConstants;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.trace.MDCTraceUtils;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -94,7 +94,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 			String scheme = requestUri.getScheme();
 
 			if (!"ws".equals(scheme) && !"wss".equals(scheme)) {
-				String traceId = exchange.getAttribute(HeaderConstants.REQUEST_ID);
+				String traceId = exchange.getAttribute(HeaderConstant.REQUEST_ID);
 				httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 			}
 			httpHeaders.forEach((headerName, headerValue) -> {

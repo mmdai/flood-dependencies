@@ -1,6 +1,6 @@
 package cn.flood.core.security.handle;
 
-import cn.flood.constants.FDConstants;
+import cn.flood.constants.FDConstant;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.slf4j.Logger;
@@ -82,7 +82,7 @@ public class FloodAuthenticationSuccessHandler implements AuthenticationSuccessH
 		OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
 		// 直接结束
-		response.setContentType(FDConstants.FILE.MIME_TYPE_JSON);
+		response.setContentType(FDConstant.FILE.MIME_TYPE_JSON);
 		response.getWriter().write(objectMapper.writeValueAsString(accessToken));
 	}
 
