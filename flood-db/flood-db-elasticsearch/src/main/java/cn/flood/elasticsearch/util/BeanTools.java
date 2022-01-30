@@ -27,7 +27,7 @@ public class BeanTools {
 
         Field[] fields = obj.getClass().getDeclaredFields();
         for (Field field : fields) {
-            if(map.get(field.getName()) == null || StringUtils.isEmpty(map.get(field.getName()) )){
+            if(map.get(field.getName()) == null || ObjectUtils.isEmpty(map.get(field.getName()) )){
                 continue;
             }
             int mod = field.getModifiers();
@@ -135,7 +135,7 @@ public class BeanTools {
         Set<String> noValuePropertySet = new HashSet<>();
         Arrays.stream(pds).forEach(pd -> {
             Object propertyValue = beanWrapper.getPropertyValue(pd.getName());
-            if (ObjectUtils.isEmpty(propertyValue)) {
+            if (StringUtils.isEmpty(propertyValue)) {
                 noValuePropertySet.add(pd.getName());
             } else {
                 if (Iterable.class.isAssignableFrom(propertyValue.getClass())) {
