@@ -157,7 +157,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String getMethod(String url, Map<String, Object> map) throws CoreException{
+    public static String getMethod(String url, Map<String, Object> map) throws CoreException{
         return getMethod(url, map, null, null);
     }
 
@@ -170,7 +170,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String getMethod(String url, Map<String, Object> map, String username, String password) throws CoreException{
+    public static String getMethod(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
         HttpUriRequest request = httpUriRequestGet(url, map, true);
         return excute(request, httpClient);
@@ -182,7 +182,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String getMethodUnUnicode(String url, Map<String, Object> map) throws CoreException{
+    public static String getMethodUnUnicode(String url, Map<String, Object> map) throws CoreException{
         return getMethodUnUnicode(url, map, null, null);
     }
 
@@ -195,7 +195,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String getMethodUnUnicode(String url, Map<String, Object> map, String username, String password) throws CoreException{
+    public static String getMethodUnUnicode(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
         HttpUriRequest request = httpUriRequestGet(url, map, false);
         return excute(request, httpClient);
@@ -207,7 +207,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String postMethod(String url, Map<String, Object> map) throws CoreException{
+    public static String postMethod(String url, Map<String, Object> map) throws CoreException{
         return postMethod(url, map, null, null);
     }
 
@@ -220,7 +220,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String postMethod(String url, Map<String, Object> map, String username, String password) throws CoreException{
+    public static String postMethod(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
         HttpUriRequest request = httpUriRequestPost(url, map, true);
         return excute(request, httpClient);
@@ -233,7 +233,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String postMethodUnUnicode(String url, Map<String, Object> map) throws CoreException{
+    public static String postMethodUnUnicode(String url, Map<String, Object> map) throws CoreException{
         return postMethodUnUnicode(url, map, null, null);
     }
     /**
@@ -245,7 +245,7 @@ public class HttpClientTool {
      * @return
      * @throws CoreException
      */
-    public String postMethodUnUnicode(String url, Map<String, Object> map, String username, String password) throws CoreException{
+    public static String postMethodUnUnicode(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
         HttpUriRequest request = httpUriRequestPost(url, map, false);
         return excute(request, httpClient);
