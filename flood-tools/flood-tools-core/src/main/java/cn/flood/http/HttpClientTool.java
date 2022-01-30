@@ -322,22 +322,24 @@ public class HttpClientTool {
     public static HttpUriRequest httpUriRequestGet(String url, Map<String, Object> map, boolean isUnicode){
         StringBuilder getParam = new StringBuilder();
         getParam.append(url).append("?");
-        for(Iterator<String> it = map.keySet().iterator();it.hasNext();){
-            String key = it.next();
-            String value = map.get(key).toString();
-            if(!Func.isEmpty(value)){
-                if(isUnicode){
-                    try {
-                        value = URLEncoder.encode(value, "utf-8");
-                    } catch (UnsupportedEncodingException e) {
-                        log.error("{}", e);
-                        value = "";
+        if(Func.isNotEmpty(map)){
+            for(Iterator<String> it = map.keySet().iterator();it.hasNext();){
+                String key = it.next();
+                String value = map.get(key).toString();
+                if(!Func.isEmpty(value)){
+                    if(isUnicode){
+                        try {
+                            value = URLEncoder.encode(value, "utf-8");
+                        } catch (UnsupportedEncodingException e) {
+                            log.error("{}", e);
+                            value = "";
+                        }
                     }
+                }else{
+                    value = "";
                 }
-            }else{
-                value = "";
+                getParam.append(key).append("=").append(value).append("&");
             }
-            getParam.append(key).append("=").append(value).append("&");
         }
         getParam.deleteCharAt(getParam.length()-1);
         HttpGet httpGet = new HttpGet(getParam.toString());
