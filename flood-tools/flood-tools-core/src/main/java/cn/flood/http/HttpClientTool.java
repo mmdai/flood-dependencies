@@ -300,10 +300,10 @@ public class HttpClientTool {
             return res;
         }catch(Exception e){
             log.info("http error:{}", e);
+            String message = e!=null? e.getMessage(): "";
             if(e instanceof CoreException){
                 throw (CoreException) e;
-            }if(e instanceof SocketTimeoutException){
-                String message=e.getMessage();
+            }else if(e instanceof SocketTimeoutException || e instanceof ConnectTimeoutException){
                 if(message.indexOf("connect timed out")>-1){
                     throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【Connection timed out】");
                 }else if(message.indexOf("Read timed out")>-1){
@@ -311,10 +311,8 @@ public class HttpClientTool {
                 }else{
                     throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【"+message+"】");
                 }
-            }else if(e instanceof ConnectTimeoutException){
-                throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【Connection timed out】");
             }else{
-                throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【"+e.getMessage()+"】");
+                throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【"+message+"】");
             }
         }
     }
