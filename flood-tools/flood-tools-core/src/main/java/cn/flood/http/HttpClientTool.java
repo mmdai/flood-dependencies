@@ -393,14 +393,14 @@ public class HttpClientTool {
 
     static class Constants {
         /*从连接池中取连接的超时时间*/
-        public static final int CONMANTIMEOUT = 2000;
+        public static final int CONMANTIMEOUT = 3000;
         /*连接超时*/
-        public static final int CONTIMEOUT = 2000;
+        public static final int CONTIMEOUT = 3000;
         /*请求超时*/
-        public static final int SOTIMEOUT = 5000;
+        public static final int SOTIMEOUT = 9000;
         /*设置整个连接池最大连接数*/
         public static final int MAXTOTAL = 64;
         /*根据连接到的主机对MaxTotal的一个细分*/
-        public static final int DEFAULTMAXPERROUTE = 6;
+        public static final int DEFAULTMAXPERROUTE = 32;
     }
 }
