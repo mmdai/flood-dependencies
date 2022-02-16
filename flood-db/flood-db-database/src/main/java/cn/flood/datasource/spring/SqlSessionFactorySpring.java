@@ -60,7 +60,7 @@ public class SqlSessionFactorySpring {
 			multiTenancyProperties.setMultiTenancyQueryColumn("tenant_id");
 			multiTenancyQueryInterceptor.setMultiTenancyProperties(multiTenancyProperties);
         	//添加分页
-			sessionFactoryBean.setPlugins(new Interceptor[]{multiTenancyQueryInterceptor, new SqlLogInterceptor(),new PaginationInterceptor()});
+			sessionFactoryBean.setPlugins(new Interceptor[]{ new PaginationInterceptor(), multiTenancyQueryInterceptor, new SqlLogInterceptor()});
 			sessionFactoryBean.afterPropertiesSet();
 			//添加通用枚举类型
 			SqlSessionFactory sessionFactory = sessionFactoryBean.getObject();
