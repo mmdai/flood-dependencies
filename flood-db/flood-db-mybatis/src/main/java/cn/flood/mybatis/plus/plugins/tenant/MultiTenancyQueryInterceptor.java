@@ -414,6 +414,9 @@ public class MultiTenancyQueryInterceptor implements Interceptor {
         builder.cache(ms.getCache());
         builder.flushCacheRequired(ms.isFlushCacheRequired());
         builder.useCache(ms.isUseCache());
+        if(ms.getLang()!=null){
+            builder.lang(ms.getLang());
+        }
         return builder.build();
     }
 

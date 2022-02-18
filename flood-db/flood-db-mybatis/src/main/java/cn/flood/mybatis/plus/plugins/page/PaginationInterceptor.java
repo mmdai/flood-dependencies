@@ -1,5 +1,6 @@
 package cn.flood.mybatis.plus.plugins.page;
 
+import cn.flood.lang.StringUtils;
 import cn.flood.mybatis.plus.MybatisRowBounds;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.CachingExecutor;
@@ -25,9 +26,9 @@ import java.util.Properties;
  * @author chenzhaoju
  * @author yangjian
  */
-@Intercepts({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
-        RowBounds.class, ResultHandler.class, CacheKey.class ,
-        BoundSql.class})})
+@Intercepts({
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class})})
 public class PaginationInterceptor implements Interceptor {
 
     @Override
@@ -39,7 +40,12 @@ public class PaginationInterceptor implements Interceptor {
             MappedStatement mappedStatement = (MappedStatement) args[0];
             Object parameterObject = args[1];
             RowBounds rowBounds = (RowBounds) args[2];
-            BoundSql boundSql = (BoundSql) args[5];
+            BoundSql boundSql = null;
+            if(6 != args.length){
+                boundSql = mappedStatement.getBoundSql(parameterObject);
+            }else{
+                boundSql = (BoundSql) args[5];
+            }
 
             if(null == rowBounds || RowBounds.DEFAULT == rowBounds){
                 return invocation.proceed(); // 不用处理分页
@@ -48,7 +54,9 @@ public class PaginationInterceptor implements Interceptor {
             if(rowBounds instanceof MybatisRowBounds){
                 Page page = ((MybatisRowBounds) rowBounds).getPage();
                 String sql = boundSql.getSql();
-
+                if(sql.contains(" LIMIT ")){
+                    sql = StringUtils.subPre(sql, sql.indexOf(" LIMIT"));
+                }
                 Executor executor = (Executor) target;
                 Connection connection = null;
                 try {

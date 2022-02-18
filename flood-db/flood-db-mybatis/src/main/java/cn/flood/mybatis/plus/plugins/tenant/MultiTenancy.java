@@ -1,5 +1,7 @@
 package cn.flood.mybatis.plus.plugins.tenant;
 
+import cn.flood.mybatis.plus.plugins.tenant.impl.TenancyQueryValue;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -28,5 +30,5 @@ public @interface MultiTenancy {
     /**
      * 过滤条件查询值Factory
      */
-    Class<? extends MultiTenancyQueryValueFactory> multiTenancyQueryValueFactory();
+    Class<? extends MultiTenancyQueryValueFactory> multiTenancyQueryValueFactory() default TenancyQueryValue.class;
 }
