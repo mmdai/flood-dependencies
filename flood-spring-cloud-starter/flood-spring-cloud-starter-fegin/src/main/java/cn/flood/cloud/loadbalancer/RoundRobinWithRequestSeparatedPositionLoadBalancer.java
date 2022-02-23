@@ -3,6 +3,7 @@ package cn.flood.cloud.loadbalancer;
 import brave.Span;
 import brave.Tracer;
 import cn.flood.Func;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.mvc.version.ApiVersionCondition;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
@@ -46,7 +47,7 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
     @Override
     public Mono<Response<ServiceInstance>> choose(Request request) {
         ServiceInstanceListSupplier supplier = serviceInstanceListSupplier.getIfAvailable(NoopServiceInstanceListSupplier::new);
-        final String requestVersion = ((RequestDataContext) request.getContext()).getClientRequest().getHeaders().getFirst(ApiVersionCondition.HEADER_VERSION);
+        final String requestVersion = ((RequestDataContext) request.getContext()).getClientRequest().getHeaders().getFirst(HeaderConstant.HEADER_VERSION);
         return supplier.get(request).next().map(serviceInstances -> getInstanceResponse(serviceInstances, requestVersion));
     }
 

@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.support.NotFoundException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import java.util.List;
@@ -47,11 +48,13 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		}
 
 		// 获取请求version，无则随机返回可用实例
-		String reqVersion = request.getHeaders().getFirst(HeaderConstant.HEADER_VERSION);
-		if (Func.isBlank(reqVersion)) {
+		List<String> headers = request.getHeaders().get(HeaderConstant.HEADER_VERSION);
+
+
+		if (Func.isEmpty(headers)) {
 			return instances.get(StringUtils.randomInt(instances.size()));
 		}
-
+		String reqVersion = headers.get(0);
 		// 遍历可以实例元数据，若匹配则返回此实例
 		for (ServiceInstance instance : instances) {
 			Map<String, String> metadata = instance.getMetadata();

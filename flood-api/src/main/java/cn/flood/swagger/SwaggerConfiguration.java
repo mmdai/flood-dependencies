@@ -74,7 +74,11 @@ public class SwaggerConfiguration {
 		List<SecurityScheme> securitySchemes = new ArrayList<>();
 		securitySchemes.add(new ApiKey("Authorization", "Authorization", "header"));
 		securitySchemes.add(new ApiKey("access_token", "access_token", "header"));
-		securitySchemes.add(new ApiKey("version", "version", "header"));
+		securitySchemes.add(new ApiKey("version", "版本号(v1.0.0)", "header"));
+		securitySchemes.add(new ApiKey("tenant_id", "租户ID", "header"));
+		securitySchemes.add(new ApiKey("user_type", "平台类型(web,app)", "header"));
+		securitySchemes.add(new ApiKey("captcha_key", "验证码KEY", "header"));
+		securitySchemes.add(new ApiKey("captcha_code", "验证码CODE", "header"));
 		return securitySchemes;
 	}
 
@@ -94,6 +98,10 @@ public class SwaggerConfiguration {
 		authorizationScopes[0] = authorizationScope;
 		List<SecurityReference> securityReferences = new ArrayList<>();
 		securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
+		AuthorizationScope versionScope = new AuthorizationScope("global", "v1.0.0");
+		AuthorizationScope[] versionScopes = new AuthorizationScope[1];
+		versionScopes[0] = versionScope;
+		securityReferences.add(new SecurityReference("version", versionScopes));
 		return securityReferences;
 	}
 

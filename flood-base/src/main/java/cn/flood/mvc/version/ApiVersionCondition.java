@@ -1,19 +1,14 @@
 package cn.flood.mvc.version;
 
+import cn.flood.constants.HeaderConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class ApiVersionCondition implements RequestCondition<ApiVersionCondition> {
-    /**
-     * 标准协议指定 请求header头需带上版本号flood-api-version
-     */
-    public static final String HEADER_VERSION = "flood-api-version";
-    /**
-     * 为了兼容旧版本无请求头,默认从1.0版本开始
-     */
-    private static final String DEFAULT_VERSION = "1.0";
+
+
     private String apiVersion;
 
     public ApiVersionCondition(String apiVersion) {
@@ -28,8 +23,8 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
 
     @Override
     public ApiVersionCondition getMatchingCondition(HttpServletRequest request) {
-        String v = request.getHeader(HEADER_VERSION);
-        String version = DEFAULT_VERSION;
+        String v = request.getHeader(HeaderConstant.HEADER_VERSION);
+        String version = HeaderConstant.DEFAULT_VERSION;
         if(StringUtils.isNotBlank(v)) {
             version = String.valueOf(v);
         }

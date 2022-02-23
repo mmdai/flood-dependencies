@@ -27,6 +27,14 @@ public class TokenUtil {
     public static final long DEFAULT_EXPIRE_REFRESH_TOKEN = 60 * 60 * 24 * 30 * 3;  // 默认refresh_token过期时长,单位秒
 
     public static final String PREFIX = "Bearer ";//默认头
+
+    public static final String CAPTCHA_HEADER_KEY = "captcha_key";
+    public static final String CAPTCHA_HEADER_CODE = "captcha_code";
+
+    public static final String TENANT_HEADER_KEY = "tenant_id";
+    public static final String DEFAULT_TENANT_ID = "000000";
+    public static final String USER_TYPE_HEADER_KEY = "user_type";
+    public static final String DEFAULT_USER_TYPE = "web";
     /**
      * 生成token
      *

@@ -16,6 +16,7 @@
 package cn.flood.cloud.version;
 
 import cn.flood.Func;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.http.HttpMediaType;
 import cn.flood.mvc.annotation.ApiVersion;
 import cn.flood.mvc.annotation.UrlVersion;
@@ -89,7 +90,7 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 				apiVersion = AnnotatedElementUtils.findMergedAnnotation(targetType, ApiVersion.class);
 			}
 			if (apiVersion != null && Func.isNotBlank(apiVersion.value())) {
-				data.template().header(ApiVersionCondition.HEADER_VERSION, apiVersion.value());
+				data.template().header(HeaderConstant.HEADER_VERSION, apiVersion.value());
 			}
 		}
 	}
