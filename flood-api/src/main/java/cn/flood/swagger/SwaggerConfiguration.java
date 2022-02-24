@@ -1,7 +1,6 @@
 package cn.flood.swagger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
@@ -20,7 +20,6 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
@@ -74,11 +73,11 @@ public class SwaggerConfiguration {
 		List<SecurityScheme> securitySchemes = new ArrayList<>();
 		securitySchemes.add(new ApiKey("Authorization", "Authorization", "header"));
 		securitySchemes.add(new ApiKey("access_token", "access_token", "header"));
-		securitySchemes.add(new ApiKey("version", "版本号(v1.0.0)", "header"));
-		securitySchemes.add(new ApiKey("tenant_id", "租户ID", "header"));
-		securitySchemes.add(new ApiKey("user_type", "平台类型(web,app)", "header"));
-		securitySchemes.add(new ApiKey("captcha_key", "验证码KEY", "header"));
-		securitySchemes.add(new ApiKey("captcha_code", "验证码CODE", "header"));
+		securitySchemes.add(new ApiKey("版本号(v1.0.0)", "version", "header"));
+		securitySchemes.add(new ApiKey("租户ID", "tenant_id", "header"));
+		securitySchemes.add(new ApiKey("平台类型(web,app)", "user_type", "header"));
+		securitySchemes.add(new ApiKey("验证码KEY", "captcha_key", "header"));
+		securitySchemes.add(new ApiKey("验证码CODE", "captcha_code", "header"));
 		return securitySchemes;
 	}
 
@@ -93,15 +92,9 @@ public class SwaggerConfiguration {
 	}
 
 	private List<SecurityReference> defaultAuth() {
-		AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-		authorizationScopes[0] = authorizationScope;
 		List<SecurityReference> securityReferences = new ArrayList<>();
-		securityReferences.add(new SecurityReference("Authorization", authorizationScopes));
-		AuthorizationScope versionScope = new AuthorizationScope("global", "v1.0.0");
-		AuthorizationScope[] versionScopes = new AuthorizationScope[1];
-		versionScopes[0] = versionScope;
-		securityReferences.add(new SecurityReference("version", versionScopes));
+		securityReferences.add(new SecurityReference("Authorization", new AuthorizationScope[]{new AuthorizationScope("global", "accessEverything")}));
+		securityReferences.add(new SecurityReference("版本号(1.0.0)", new AuthorizationScope[]{new AuthorizationScope("global", "1.0.0")}));
 		return securityReferences;
 	}
 
