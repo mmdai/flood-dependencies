@@ -73,7 +73,7 @@ public class SwaggerConfiguration {
 		List<SecurityScheme> securitySchemes = new ArrayList<>();
 		securitySchemes.add(new ApiKey("Authorization", "Authorization", "header"));
 		securitySchemes.add(new ApiKey("access_token", "access_token", "header"));
-		securitySchemes.add(new ApiKey("版本号(v1.0.0)", "version", "header"));
+		securitySchemes.add(new ApiKey("版本号(1.0.0)", "version", "header"));
 		securitySchemes.add(new ApiKey("租户ID", "tenant_id", "header"));
 		securitySchemes.add(new ApiKey("平台类型(web,app)", "user_type", "header"));
 		securitySchemes.add(new ApiKey("验证码KEY", "captcha_key", "header"));
