@@ -48,7 +48,6 @@ public class ProtostuffUtils {
         WRAPPER_SET.add(LinkedHashMap.class);
         WRAPPER_SET.add(Hashtable.class);
         WRAPPER_SET.add(SortedMap.class);
-        WRAPPER_SET.add(SortedMap.class);
         WRAPPER_SET.add(Result.class);
     }
 
