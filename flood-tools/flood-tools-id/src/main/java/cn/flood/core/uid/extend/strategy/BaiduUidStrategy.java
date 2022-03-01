@@ -30,6 +30,12 @@ import org.springframework.util.ObjectUtils;
 public class BaiduUidStrategy implements IUidStrategy {
     
     private static Map<String, UidGenerator> generatorMap = new HashMap<>();
+
+    public BaiduUidStrategy(){}
+
+    public BaiduUidStrategy(UidGenerator uidGenerator){
+        this.uidGenerator = uidGenerator;
+    }
     
     @Autowired
     private UidGenerator uidGenerator;

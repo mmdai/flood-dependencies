@@ -18,9 +18,9 @@ public class Sequence {
     private static final Logger log = LoggerFactory.getLogger(Sequence.class);
 
     /**
-     * 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）(2021-01-01)
+     * 时间起始标记点，作为基准，一般取系统的最近时间（一旦确定不能变动）(2022-01-01)
      */
-    private final long twepoch = 1609430400000L;
+    private final long twepoch = 1640966400000L;
     /**
      * 机器标识位数
      */

@@ -37,6 +37,10 @@ public class BaiduUidConfiguration {
 
     private IUidStrategy uidStrategy;
 
+    private WorkerNodeDAO workerNodeDAO;
+
+    private UidGenerator uidGenerator;
+
     public BaiduUidConfiguration(@Autowired(required = false) UidDbProperties uidDbProperties,
                                  @Autowired(required = false) DruidDbProperties druidDbProperties,
                                  @Autowired(required = false) DataSource dataSource) throws SQLException {
@@ -76,6 +80,11 @@ public class BaiduUidConfiguration {
             dataSource = druidDataSource;
         }
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.workerNodeDAO =  new WorkerNodeDAO(this.jdbcTemplate);
+        this.disposableWorkerIdAssigner = new DisposableWorkerIdAssigner();
+        this.uidGenerator = new CachedUidGenerator();
+        ((CachedUidGenerator)this.uidGenerator).setWorkerIdAssigner(this.disposableWorkerIdAssigner);
+        this.uidStrategy = new BaiduUidStrategy();
     }
 
     @PostConstruct
@@ -95,31 +104,44 @@ public class BaiduUidConfiguration {
 
     @Bean
     public WorkerNodeDAO getWorkerNodeDAO(){
+        if(this.workerNodeDAO !=null){
+            return this.workerNodeDAO;
+        }
         return new WorkerNodeDAO(this.jdbcTemplate);
     }
 
     @Bean
     @ConditionalOnClass(WorkerNodeDAO.class)
     public WorkerIdAssigner getDisposableWorkerIdAssigner(){
-        disposableWorkerIdAssigner = new DisposableWorkerIdAssigner();
-        return disposableWorkerIdAssigner;
+        if(this.disposableWorkerIdAssigner!=null){
+            return this.disposableWorkerIdAssigner;
+        }
+        this.disposableWorkerIdAssigner = new DisposableWorkerIdAssigner();
+        return this.disposableWorkerIdAssigner;
     }
 
     @Bean
     @Scope("prototype")
-    @ConditionalOnClass(DisposableWorkerIdAssigner.class)
+    @ConditionalOnClass(WorkerIdAssigner.class)
     public UidGenerator getCachedUidGenerator(){
+        if(this.uidGenerator!=null){
+            return this.uidGenerator;
+        }
         CachedUidGenerator uidGenerator = new CachedUidGenerator();
         uidGenerator.setWorkerIdAssigner(disposableWorkerIdAssigner);
         return uidGenerator;
     }
 
     @Bean
-    @ConditionalOnClass(CachedUidGenerator.class)
+    @ConditionalOnClass(UidGenerator.class)
     public IUidStrategy getBaiduUidStrategy(){
+        if(this.uidStrategy!=null){
+            return this.uidStrategy;
+        }
         uidStrategy = new BaiduUidStrategy();
         return uidStrategy;
     }
+
 
     @Bean
     public UidBaidu getUidBaidu(){

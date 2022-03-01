@@ -67,9 +67,9 @@ public class DefaultUidGenerator implements UidGenerator, InitializingBean {
     protected int workerBits = 22;
     protected int seqBits = 13;
 
-    /** Customer epoch, unit as second. For example 2016-05-20 (ms: 1463673600000)*/
-    protected String epochStr = "2016-05-20";
-    protected long epochSeconds = TimeUnit.MILLISECONDS.toSeconds(1463673600000L);
+    /** Customer epoch, unit as second. For example 2022-01-01 (ms: 1640966400000)*/
+    protected String epochStr = "2022-01-01";
+    protected long epochSeconds = TimeUnit.MILLISECONDS.toSeconds(1640966400000L);
 
     /** Stable fields after spring bean initializing */
     protected BitsAllocator bitsAllocator;
