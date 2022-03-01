@@ -1,6 +1,7 @@
 package cn.flood.redis.handler;
 
 import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicDouble;
@@ -9,6 +10,7 @@ import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,17 +21,21 @@ import java.util.concurrent.TimeUnit;
  */
 public final class NumberHandler implements RedisHandler {
     /**
+     * 对象模板
+     */
+    private RedisTemplate<String, Object> redisTemplate;
+    /**
      * 字符串模板
      */
     private StringRedisTemplate stringRedisTemplate;
     /**
-     * 字符串模板
+     * 对象模板
      */
-    private ValueOperations<String, String> stringOperations;
+    private ValueOperations<String, Object> operations;
     /**
-     * 字符串哈希模板
+     * 对象哈希模板
      */
-    private HashOperations<String, String, String> stringHashOperations;
+    private HashOperations<String, String, Object> hashOperations;
     /**
      * 数据库索引
      */
@@ -41,9 +47,11 @@ public final class NumberHandler implements RedisHandler {
      */
     NumberHandler(Integer dbIndex) {
         this.dbIndex = dbIndex;
-        this.stringRedisTemplate = HandlerManager.createStringRedisTemplate(dbIndex);
-        this.stringOperations = this.stringRedisTemplate.opsForValue();
-        this.stringHashOperations = this.stringRedisTemplate.opsForHash();
+        List<RedisTemplate> templateList = HandlerManager.createTemplate(dbIndex);
+        this.redisTemplate = templateList.get(0);
+        this.stringRedisTemplate = (StringRedisTemplate) templateList.get(1);
+        this.operations = redisTemplate.opsForValue();
+        this.hashOperations = redisTemplate.opsForHash();
     }
 
     /**
@@ -52,9 +60,11 @@ public final class NumberHandler implements RedisHandler {
      */
     NumberHandler(TransactionHandler transactionHandler) {
         this.dbIndex = transactionHandler.getDbIndex();
-        this.stringRedisTemplate = transactionHandler.getStringRedisTemplate();
-        this.stringOperations = this.stringRedisTemplate.opsForValue();
-        this.stringHashOperations = this.stringRedisTemplate.opsForHash();
+        List<RedisTemplate> templateList = HandlerManager.createTemplate(dbIndex);
+        this.redisTemplate = templateList.get(0);
+        this.stringRedisTemplate = (StringRedisTemplate) templateList.get(1);
+        this.operations = redisTemplate.opsForValue();
+        this.hashOperations = redisTemplate.opsForHash();
     }
 
     /**
@@ -92,7 +102,7 @@ public final class NumberHandler implements RedisHandler {
      * @param value 值
      */
     public void setDouble(String key, double value) {
-        this.stringOperations.set(key, String.valueOf(value));
+        this.operations.set(key, value);
     }
 
     /**
@@ -104,7 +114,7 @@ public final class NumberHandler implements RedisHandler {
      * @param value 值
      */
     public void setDouble(String key, String hashKey, double value) {
-        this.stringHashOperations.put(key, hashKey, String.valueOf(value));
+        this.hashOperations.put(key, hashKey, value);
     }
 
     /**
@@ -117,7 +127,7 @@ public final class NumberHandler implements RedisHandler {
      * @param unit 时间单位
      */
     public void setDouble(String key, double value, long timeout, TimeUnit unit) {
-        this.stringOperations.set(key, String.valueOf(value), timeout, unit);
+        this.operations.set(key, value, timeout, unit);
     }
 
     /**
@@ -129,7 +139,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回布尔值,成功true,失败false
      */
     public Boolean setDoubleIfAbsent(String key, double value) {
-        return this.stringOperations.setIfAbsent(key, String.valueOf(value));
+        return this.operations.setIfAbsent(key, value);
     }
 
     /**
@@ -142,7 +152,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回布尔值,成功true,失败false
      */
     public Boolean setDoubleIfAbsent(String key, String hashKey, double value) {
-        return this.stringHashOperations.putIfAbsent(key, hashKey, String.valueOf(value));
+        return this.hashOperations.putIfAbsent(key, hashKey, value);
     }
 
     /**
@@ -156,7 +166,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回布尔值,成功true,失败false
      */
     public Boolean setDoubleIfAbsent(String key, double value, long timeout, TimeUnit unit) {
-        return this.stringOperations.setIfAbsent(key, String.valueOf(value), timeout, unit);
+        return this.operations.setIfAbsent(key, value, timeout, unit);
     }
 
     /**
@@ -167,9 +177,9 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回浮点数
      */
     public Double getDouble(String key) {
-        String value = this.stringOperations.get(key);
+        Double value = (Double) this.operations.get(key);
         if (value!=null) {
-            return Double.valueOf(value);
+            return value;
         }
         return null;
     }
@@ -183,9 +193,9 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回浮点数
      */
     public Double getDouble(String key, String hashKey) {
-        String value = this.stringHashOperations.get(key, hashKey);
+        Double value = (Double) this.hashOperations.get(key, hashKey);
         if (value!=null) {
-            return Double.valueOf(value);
+            return value;
         }
         return null;
     }
@@ -199,8 +209,8 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回原值
      */
     public Double getAndSetDouble(String key, double newValue) {
-        String value = this.stringOperations.getAndSet(key, String.valueOf(newValue));
-        return value!=null?Double.valueOf(value):null;
+        Double value = (Double) this.operations.getAndSet(key, newValue);
+        return value!=null?value:null;
     }
 
     /**
@@ -228,7 +238,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回增加后的值
      */
     public Double addDouble(String key, double data) {
-        return this.stringOperations.increment(key, data);
+        return this.operations.increment(key, data);
     }
 
     /**
@@ -257,7 +267,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回增加后的值
      */
     public Double addDouble(String key, String hashKey, double data) {
-        return this.stringHashOperations.increment(key, hashKey, data);
+        return this.hashOperations.increment(key, hashKey, data);
     }
 
     /**
@@ -441,7 +451,7 @@ public final class NumberHandler implements RedisHandler {
      * @param value 值
      */
     public void setLong(String key, long value) {
-        this.stringOperations.set(key, String.valueOf(value));
+        this.operations.set(key, value);
     }
 
     /**
@@ -453,7 +463,7 @@ public final class NumberHandler implements RedisHandler {
      * @param value 值
      */
     public void setLong(String key, String hashKey, long value) {
-        this.stringHashOperations.put(key, hashKey, String.valueOf(value));
+        this.hashOperations.put(key, hashKey, value);
     }
 
     /**
@@ -466,7 +476,7 @@ public final class NumberHandler implements RedisHandler {
      * @param unit 时间单位
      */
     public void setLong(String key, long value, long timeout, TimeUnit unit) {
-        this.stringOperations.set(key, String.valueOf(value), timeout, unit);
+        this.operations.set(key, value, timeout, unit);
     }
 
     /**
@@ -478,7 +488,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回布尔值,成功true,失败false
      */
     public Boolean setLongIfAbsent(String key, long value) {
-        return this.stringOperations.setIfAbsent(key, String.valueOf(value));
+        return this.operations.setIfAbsent(key, value);
     }
 
     /**
@@ -491,7 +501,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回布尔值,成功true,失败false
      */
     public Boolean setLongIfAbsent(String key, String hashKey, long value) {
-        return this.stringHashOperations.putIfAbsent(key, hashKey, String.valueOf(value));
+        return this.hashOperations.putIfAbsent(key, hashKey, value);
     }
 
     /**
@@ -505,7 +515,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回布尔值,成功true,失败false
      */
     public Boolean setLongIfAbsent(String key, long value, long timeout, TimeUnit unit) {
-        return this.stringOperations.setIfAbsent(key, String.valueOf(value), timeout, unit);
+        return this.operations.setIfAbsent(key, value, timeout, unit);
     }
 
     /**
@@ -516,7 +526,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回长整数
      */
     public Long getLong(String key) {
-        String value = this.stringOperations.get(key);
+        Long value = (Long)this.operations.get(key);
         if (value!=null) {
             return Long.valueOf(value);
         }
@@ -532,9 +542,9 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回长整数
      */
     public Long getLong(String key, String hashKey) {
-        String value = this.stringHashOperations.get(key, hashKey);
+        Long value = (Long) this.hashOperations.get(key, hashKey);
         if (value!=null) {
-            return Long.valueOf(value);
+            return value;
         }
         return null;
     }
@@ -548,8 +558,8 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回原值
      */
     public Long getAndSetLong(String key, long newValue) {
-        String value = this.stringOperations.getAndSet(key, String.valueOf(newValue));
-        return value!=null?Long.valueOf(value):null;
+        Long value = (Long) this.operations.getAndSet(key, newValue);
+        return value!=null?value:null;
     }
 
     /**
@@ -577,7 +587,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回增加后的值
      */
     public Long addLong(String key, long data) {
-        return this.stringOperations.increment(key, data);
+        return this.operations.increment(key, data);
     }
 
     /**
@@ -590,7 +600,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回增加后的值
      */
     public Long addLong(String key, String hashKey, long data) {
-        return this.stringHashOperations.increment(key, hashKey, data);
+        return this.hashOperations.increment(key, hashKey, data);
     }
 
     /**
@@ -626,7 +636,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回自增后的值
      */
     public Long incrementLong(String key) {
-        return this.stringOperations.increment(key);
+        return this.operations.increment(key);
     }
 
     /**
@@ -673,7 +683,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回减小后的值
      */
     public Long subtractLong(String key, long data) {
-        return this.stringOperations.decrement(key, data);
+        return this.operations.decrement(key, data);
     }
 
     /**
@@ -686,7 +696,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回减小后的值
      */
     public Long subtractLong(String key, String hashKey, long data) {
-        return this.stringHashOperations.increment(key, hashKey, -data);
+        return this.hashOperations.increment(key, hashKey, -data);
     }
 
     /**
@@ -722,7 +732,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回递减后的值
      */
     public Long decrementLong(String key) {
-        return this.stringOperations.decrement(key);
+        return this.operations.decrement(key);
     }
 
     /**
@@ -768,7 +778,7 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回移除数量
      */
     public Long removeForValue(String ...keys) {
-        return this.stringOperations.getOperations().delete(Arrays.asList(keys));
+        return this.operations.getOperations().delete(Arrays.asList(keys));
     }
 
     /**
@@ -780,7 +790,15 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回移除数量
      */
     public Long removeForHash(String key, String ...hashKeys) {
-        return this.stringHashOperations.delete(key, (Object[]) hashKeys);
+        return this.hashOperations.delete(key, (Object[]) hashKeys);
+    }
+
+    /**
+     * 获取spring redis模板
+     * @return 返回对象模板
+     */
+    public RedisTemplate<String, Object> getRedisTemplate() {
+        return this.redisTemplate;
     }
 
     /**

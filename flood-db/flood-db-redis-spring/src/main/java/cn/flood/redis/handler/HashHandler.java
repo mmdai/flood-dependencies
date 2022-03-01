@@ -22,7 +22,7 @@ public final class HashHandler implements RedisHandler {
      */
     private StringRedisTemplate stringRedisTemplate;
     /**
-     * 对象模板
+     * 对象哈希模板
      */
     private HashOperations<String, String, Object> hashOperations;
     /**
