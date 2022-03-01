@@ -177,9 +177,9 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回浮点数
      */
     public Double getDouble(String key) {
-        Double value = (Double) this.operations.get(key);
+        Object value = this.operations.get(key);
         if (value!=null) {
-            return value;
+            return Double.valueOf(value.toString());
         }
         return null;
     }
@@ -193,9 +193,9 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回浮点数
      */
     public Double getDouble(String key, String hashKey) {
-        Double value = (Double) this.hashOperations.get(key, hashKey);
+        Object value = this.hashOperations.get(key, hashKey);
         if (value!=null) {
-            return value;
+            return Double.valueOf(value.toString());
         }
         return null;
     }
@@ -209,8 +209,11 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回原值
      */
     public Double getAndSetDouble(String key, double newValue) {
-        Double value = (Double) this.operations.getAndSet(key, newValue);
-        return value!=null?value:null;
+        Object value = this.operations.getAndSet(key, newValue);
+        if (value!=null) {
+            return Double.valueOf(value.toString());
+        }
+        return null;
     }
 
     /**
@@ -526,9 +529,9 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回长整数
      */
     public Long getLong(String key) {
-        Long value = (Long)this.operations.get(key);
+        Object value = this.operations.get(key);
         if (value!=null) {
-            return Long.valueOf(value);
+            return Long.valueOf(value.toString());
         }
         return null;
     }
@@ -542,9 +545,9 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回长整数
      */
     public Long getLong(String key, String hashKey) {
-        Long value = (Long) this.hashOperations.get(key, hashKey);
+        Object value = this.hashOperations.get(key, hashKey);
         if (value!=null) {
-            return value;
+            return Long.valueOf(value.toString());
         }
         return null;
     }
@@ -558,8 +561,11 @@ public final class NumberHandler implements RedisHandler {
      * @return 返回原值
      */
     public Long getAndSetLong(String key, long newValue) {
-        Long value = (Long) this.operations.getAndSet(key, newValue);
-        return value!=null?value:null;
+        Object value = this.operations.getAndSet(key, newValue);
+        if (value!=null) {
+            return Long.valueOf(value.toString());
+        }
+        return null;
     }
 
     /**
