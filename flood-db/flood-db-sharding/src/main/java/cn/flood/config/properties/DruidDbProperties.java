@@ -76,7 +76,7 @@ public class DruidDbProperties {
 	 * 当程序存在缺陷时，申请的连接忘记关闭，这时候，就存在连接泄漏了。Druid提供了RemoveAbandanded相关配置，用来关闭长时间不使用的连接。
 	 * 注：配置removeAbandoned对性能会有一些影响，建议怀疑存在泄漏之后再打开。在上面的配置中，如果连接超过30分钟未关闭，就会被强行回收，并且日志记录连接申请时的调用堆栈
 	 */
-    private boolean removeAbandoned = true;
+    private boolean removeAbandoned = false;
 
 	/**
 	 * 连接超时多长时间关闭，单位秒
