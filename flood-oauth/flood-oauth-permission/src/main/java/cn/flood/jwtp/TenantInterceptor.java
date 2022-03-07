@@ -34,7 +34,7 @@ public class TenantInterceptor implements HandlerInterceptor {
             UserToken userToken = (UserToken) request.getAttribute(WebUtil.REQUEST_TOKEN_NAME);
             if (Func.isNotEmpty(userToken)) {
                 //取token中的tenantId值
-                tenantId = String.valueOf(userToken.getTenantId());
+                tenantId = userToken.getTenantId();
             }
         }
         log.info("获取到的租户ID为:{}", tenantId);

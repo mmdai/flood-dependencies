@@ -151,6 +151,9 @@ public class FloodFeignSentinel {
 						if (Func.isNotEmpty(version)) {
 							requestTemplate.header(HeaderConstant.HEADER_VERSION, version);
 						}
+						//传递租户ID
+						requestTemplate.header(HeaderConstant.TENANT_ID, Func.toStr(request.getHeader(HeaderConstant.TENANT_ID), HeaderConstant.DEFAULT_TENANT_ID));
+
 //						if(requestTemplate.headers().get(HttpHeaders.CONTENT_TYPE).contains(HttpMediaType.APPLICATION_JSON_VALUE)){
 //							// 通过template获取到请求体（已经被转成json）
 //							String jsonBody = new String(requestTemplate.body());
