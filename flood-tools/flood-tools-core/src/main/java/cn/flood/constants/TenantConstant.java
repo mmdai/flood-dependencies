@@ -8,7 +8,7 @@ public interface TenantConstant {
     /**
      * header 中租户ID
      */
-    String FLOOD_TENANT_ID = "flood-tenant";
+    String FLOOD_TENANT_ID = "tenant_id";
 
     /**
      * 租户id参数
