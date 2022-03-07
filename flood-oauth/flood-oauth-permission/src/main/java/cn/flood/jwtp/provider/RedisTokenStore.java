@@ -70,7 +70,7 @@ public class RedisTokenStore extends TokenStoreAbstract {
         redisTemplate.opsForList().rightPush(KEY_PRE_TOKEN + platform.getType() + StringPool.COLON + userToken.getUserId(), userToken.getAccessToken());
         // 存储refresh_token
         if (userToken.getRefreshToken() != null && findRefreshToken(platform, userToken.getUserId(), userToken.getRefreshToken()) == null) {
-            redisTemplate.opsForList().rightPush(KEY_PRE_REFRESH_TOKEN + userToken.getUserId(), userToken.getRefreshToken());
+            redisTemplate.opsForList().rightPush(KEY_PRE_REFRESH_TOKEN + platform.getType() + StringPool.COLON + userToken.getUserId(), userToken.getRefreshToken());
         }
         // 存储角色
         updateRolesByUserId(platform, userToken.getUserId(), userToken.getRoles());
