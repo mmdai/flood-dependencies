@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.util.Assert;
 import cn.flood.jwtp.util.TokenUtil;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,26 +27,26 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     private final JdbcTemplate jdbcTemplate;
     private RowMapper<UserToken> rowMapper = new TokenRowMapper();
     // sql
-    private static final String UPDATE_FIELDS = "user_id, access_token, refresh_token, expire_time, refresh_token_expire_time, roles, permissions, info, platform";
+    private static final String UPDATE_FIELDS = "user_id, access_token, refresh_token, expire_time, refresh_token_expire_time, roles, permissions, info, platform, tenant_id";
     private static final String BASE_SELECT = "select token_id, " + UPDATE_FIELDS + " from oauth_token";
     // 查询用户的某个token
-    private static final String SQL_SELECT_BY_TOKEN = BASE_SELECT + " where user_id = ? and access_token = ? and platform = ? ";
+    private static final String SQL_SELECT_BY_TOKEN = BASE_SELECT + " where user_id = ? and access_token = ? and platform = ? and tenant_id = ? ";
     // 查询某个用户的全部token
-    private static final String SQL_SELECT_BY_USER_ID = BASE_SELECT + " where user_id = ? and platform = ? order by create_time";
+    private static final String SQL_SELECT_BY_USER_ID = BASE_SELECT + " where user_id = ? and platform = ? and tenant_id = ? order by create_time";
     // 插入token
-    private static final String SQL_INSERT = "insert into oauth_token (" + UPDATE_FIELDS + ") values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT = "insert into oauth_token (" + UPDATE_FIELDS + ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     // 删除某个用户指定token
-    private static final String SQL_DELETE = "delete from oauth_token where user_id = ? and access_token = ? and platform = ? ";
+    private static final String SQL_DELETE = "delete from oauth_token where user_id = ? and access_token = ? and platform = ?  and tenant_id = ?";
     // 删除某个用户全部token
-    private static final String SQL_DELETE_BY_USER_ID = "delete from oauth_token where user_id = ? and platform = ? ";
+    private static final String SQL_DELETE_BY_USER_ID = "delete from oauth_token where user_id = ? and platform = ?  and tenant_id = ?";
     // 修改某个用户的角色
-    private static final String SQL_UPDATE_ROLES = "update oauth_token set roles = ? where user_id = ? and platform = ? ";
+    private static final String SQL_UPDATE_ROLES = "update oauth_token set roles = ? where user_id = ? and platform = ?  and tenant_id = ?";
     // 修改某个用户的权限
-    private static final String SQL_UPDATE_PERMS = "update oauth_token set permissions = ? where user_id = ? and platform = ? ";
+    private static final String SQL_UPDATE_PERMS = "update oauth_token set permissions = ? where user_id = ? and platform = ?  and tenant_id = ?";
     // 修改某个用户的信息
-    private static final String SQL_UPDATE_INFO = "update oauth_token set info = ? where user_id = ? and platform = ? ";
+    private static final String SQL_UPDATE_INFO = "update oauth_token set info = ? where user_id = ? and platform = ?  and tenant_id = ?";
     // 查询某个用户的refresh_token
-    private static final String SQL_SELECT_REFRESH_TOKEN = BASE_SELECT + " where user_id = ? and refresh_token= ? and platform = ? ";
+    private static final String SQL_SELECT_REFRESH_TOKEN = BASE_SELECT + " where user_id = ? and refresh_token= ? and platform = ?  and tenant_id = ?";
     // 查询tokenKey
     private static final String SQL_SELECT_KEY = "select token_key from oauth_token_key";
     // 插入tokenKey
@@ -72,15 +73,15 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public int storeToken(PlatformEnum platform, UserToken userToken) {
+    public int storeToken(PlatformEnum platform, String tenantId, UserToken userToken) {
         List<Object> objects = getFieldsForUpdate(userToken, platform);
         int rs = jdbcTemplate.update(SQL_INSERT, StringUtils.objectListToArray(objects));
         // 限制用户的最大token数量
         if (getMaxToken() != -1) {
-            List<UserToken> userUserTokens = findTokensByUserId(platform, userToken.getUserId());
+            List<UserToken> userUserTokens = findTokensByUserId(platform, tenantId, userToken.getUserId());
             if (userUserTokens.size() > getMaxToken()) {
                 for (int i = 0; i < userUserTokens.size() - getMaxToken(); i++) {
-                    removeToken(platform, userToken.getUserId(), userUserTokens.get(i).getAccessToken());
+                    removeToken(platform, tenantId, userToken.getUserId(), userUserTokens.get(i).getAccessToken());
                 }
             }
         }
@@ -88,27 +89,27 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public UserToken findToken(PlatformEnum platform, String userId, String access_token) {
+    public UserToken findToken(PlatformEnum platform, String tenantId, String userId, String access_token) {
         try {
-            return jdbcTemplate.queryForObject(SQL_SELECT_BY_TOKEN, rowMapper, userId, access_token);
+            return jdbcTemplate.queryForObject(SQL_SELECT_BY_TOKEN, rowMapper, userId, access_token, platform.getType(),  tenantId);
         } catch (EmptyResultDataAccessException e) {
         }
         return null;
     }
 
     @Override
-    public List<UserToken> findTokensByUserId(PlatformEnum platform, String userId) {
+    public List<UserToken> findTokensByUserId(PlatformEnum platform, String tenantId, String userId) {
         try {
-            return jdbcTemplate.query(SQL_SELECT_BY_USER_ID, rowMapper, userId, platform.getType());
+            return jdbcTemplate.query(SQL_SELECT_BY_USER_ID, rowMapper, userId, platform.getType(), tenantId);
         } catch (EmptyResultDataAccessException e) {
         }
         return null;
     }
 
     @Override
-    public UserToken findRefreshToken(PlatformEnum platform, String userId, String refresh_token) {
+    public UserToken findRefreshToken(PlatformEnum platform, String tenantId, String userId, String refresh_token) {
         try {
-            List<UserToken> list = jdbcTemplate.query(SQL_SELECT_REFRESH_TOKEN, rowMapper, userId, refresh_token, platform.getType());
+            List<UserToken> list = jdbcTemplate.query(SQL_SELECT_REFRESH_TOKEN, rowMapper, userId, refresh_token, platform.getType(), tenantId);
             if (list.size() > 0) {
                 return list.get(0);
             }
@@ -118,34 +119,34 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public int removeToken(PlatformEnum platform, String userId, String access_token) {
-        return jdbcTemplate.update(SQL_DELETE, userId, access_token, platform.getType());
+    public int removeToken(PlatformEnum platform, String tenantId, String userId, String access_token) {
+        return jdbcTemplate.update(SQL_DELETE, userId, access_token, platform.getType(), tenantId);
     }
 
     @Override
-    public int removeTokensByUserId(PlatformEnum platform, String userId) {
-        return jdbcTemplate.update(SQL_DELETE_BY_USER_ID, userId, platform.getType());
+    public int removeTokensByUserId(PlatformEnum platform, String tenantId, String userId) {
+        return jdbcTemplate.update(SQL_DELETE_BY_USER_ID, userId, platform.getType(), tenantId);
     }
 
     @Override
-    public int updateRolesByUserId(PlatformEnum platform, String userId, String[] roles) {
+    public int updateRolesByUserId(PlatformEnum platform, String tenantId, String userId, String[] roles) {
         String rolesJson = Func.toJson(roles);
-        return jdbcTemplate.update(SQL_UPDATE_ROLES, rolesJson, userId, platform.getType());
+        return jdbcTemplate.update(SQL_UPDATE_ROLES, rolesJson, userId, platform.getType(), tenantId);
     }
 
     @Override
-    public int updatePermissionsByUserId(PlatformEnum platform, String userId, String[] permissions) {
+    public int updatePermissionsByUserId(PlatformEnum platform, String tenantId, String userId, String[] permissions) {
         String permJson = Func.toJson(permissions);
-        return jdbcTemplate.update(SQL_UPDATE_PERMS, permJson, userId, platform.getType());
+        return jdbcTemplate.update(SQL_UPDATE_PERMS, permJson, userId, platform.getType(), tenantId);
     }
 
     @Override
-    public int updateUserInfoByUserId(PlatformEnum platform, String userId, String userInfo) {
-        return jdbcTemplate.update(SQL_UPDATE_INFO, userInfo, userId, platform.getType());
+    public int updateUserInfoByUserId(PlatformEnum platform, String tenantId, String userId, String userInfo) {
+        return jdbcTemplate.update(SQL_UPDATE_INFO, userInfo, userId, platform.getType(), tenantId);
     }
 
     @Override
-    public String[] findRolesByUserId(PlatformEnum platform, String userId, UserToken userToken) {
+    public String[] findRolesByUserId(PlatformEnum platform, String tenantId, String userId, UserToken userToken) {
         // 判断是否自定义查询
         if (getFindRolesSql() == null || getFindRolesSql().trim().isEmpty()) {
             return userToken.getRoles();
@@ -156,7 +157,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
                 public String mapRow(ResultSet rs, int rowNum) throws SQLException {
                     return rs.getString(1);
                 }
-            }, userId, platform.getType());
+            }, userId, platform.getType(), tenantId);
             return StringUtils.stringListToArray(roleList);
         } catch (EmptyResultDataAccessException e) {
         }
@@ -164,7 +165,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public String[] findPermissionsByUserId(PlatformEnum platform, String userId, UserToken userToken) {
+    public String[] findPermissionsByUserId(PlatformEnum platform, String tenantId, String userId, UserToken userToken) {
         // 判断是否自定义查询
         if (getFindPermissionsSql() == null || getFindPermissionsSql().trim().isEmpty()) {
             return userToken.getPermissions();
@@ -175,7 +176,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
                 public String mapRow(ResultSet rs, int rowNum) throws SQLException {
                     return rs.getString(1);
                 }
-            }, userId, platform.getType());
+            }, userId, platform.getType(), tenantId);
             return StringUtils.stringListToArray(permList);
         } catch (EmptyResultDataAccessException e) {
         }
@@ -196,6 +197,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
         objects.add(Func.toJson(userToken.getPermissions()));  // permissions
         objects.add(userToken.getUserInfo());  // user_info
         objects.add(platform.getType());  //平台
+        objects.add(userToken.getTenantId());  //租户id
         return objects;
     }
 
@@ -214,6 +216,8 @@ public class JdbcTokenStore extends TokenStoreAbstract {
             String roles = rs.getString("roles");
             String permissions = rs.getString("permissions");
             String info = rs.getString("info");
+            String platform = rs.getString("platform");
+            String tenant_id = rs.getString("tenant_id");
             UserToken userToken = new UserToken();
             userToken.setTokenId(token_id);
             userToken.setUserId(user_id);
@@ -224,6 +228,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
             userToken.setRefreshTokenExpireTime(refresh_token_expire_time);
             userToken.setRoles(StringUtils.stringListToArray(Func.parseList(roles, String.class)));
             userToken.setPermissions(StringUtils.stringListToArray(Func.parseList(permissions, String.class)));
+            userToken.setTenantId(tenant_id);
             return userToken;
         }
 
@@ -233,6 +238,37 @@ public class JdbcTokenStore extends TokenStoreAbstract {
             }
             return null;
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        String sql = "CREATE TABLE IF NOT EXISTS `oauth_token`  (\n" +
+                "  `token_id` int(32) NOT NULL AUTO_INCREMENT COMMENT '自增 id',\n" +
+                "  `platform` int(1) NOT NULL COMMENT '平台类型',\n" +
+                "  `tenant_id` varchar(128) NOT NULL COMMENT '租户id',\n" +
+                "  `user_id` varchar(128) NOT NULL COMMENT '用户id',\n" +
+                "  `access_token` varchar(128) NOT NULL COMMENT '用户token',\n" +
+                "  `refresh_token` varchar(128) DEFAULT NULL COMMENT '刷新token',\n" +
+                "  `expire_time` datetime DEFAULT NULL COMMENT '过期时间',\n" +
+                "  `refresh_token_expire_time` datetime DEFAULT NULL COMMENT '刷新token过期时间',\n" +
+                "  `roles` varchar(512) DEFAULT NULL COMMENT '角色',\n" +
+                "  `permissions` varchar(512) DEFAULT NULL COMMENT '权限',\n" +
+                "  `info` varchar(512) DEFAULT NULL COMMENT '用户信息',\n" +
+                "  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',\n" +
+                "  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
+                "  PRIMARY KEY(token_id)," +
+                "  KEY `index_oauth_platform` (`platform`)," +
+                "  KEY `index_oauth_tenantid` (`tenant_id`)," +
+                "  KEY `index_oauth_userid` (`user_id`)" +
+                ")COMMENT='oauth_token信息表',ENGINE = INNODB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;";
+        this.jdbcTemplate.execute(sql);
+        sql = "CREATE TABLE IF NOT EXISTS `oauth_token_key`  (\n" +
+                "  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增 id',\n" +
+                "  `token_key` varchar(128) NOT NULL COMMENT '生成token时的key',\n" +
+                "  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
+                "  PRIMARY KEY(id)" +
+                ")COMMENT='oauth_key信息表',ENGINE = INNODB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;";
+        this.jdbcTemplate.execute(sql);
     }
 
 }

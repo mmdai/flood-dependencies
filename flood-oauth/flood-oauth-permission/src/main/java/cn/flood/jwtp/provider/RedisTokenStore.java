@@ -2,6 +2,7 @@ package cn.flood.jwtp.provider;
 
 import cn.flood.Func;
 import cn.flood.UserToken;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.jwtp.enums.PlatformEnum;
 import cn.flood.lang.StringPool;
 import cn.flood.lang.StringUtils;
@@ -52,6 +53,10 @@ public class RedisTokenStore extends TokenStoreAbstract {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getTokenKey() {
         if (mTokenKey == null) {
@@ -64,31 +69,48 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return mTokenKey;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userToken
+     * @return
+     */
     @Override
-    public int storeToken(PlatformEnum platform, UserToken userToken) {
+    public int storeToken(PlatformEnum platform, String tenantId, UserToken userToken) {
+        //key = 平台 + 租户 + 用户
+        String key = getKey(platform, tenantId, userToken.getUserId());
         // 存储access_token
-        redisTemplate.opsForList().rightPush(KEY_PRE_TOKEN + platform.getType() + StringPool.COLON + userToken.getUserId(), userToken.getAccessToken());
+        redisTemplate.opsForList().rightPush(KEY_PRE_TOKEN + key, userToken.getAccessToken());
         // 存储refresh_token
-        if (userToken.getRefreshToken() != null && findRefreshToken(platform, userToken.getUserId(), userToken.getRefreshToken()) == null) {
-            redisTemplate.opsForList().rightPush(KEY_PRE_REFRESH_TOKEN + platform.getType() + StringPool.COLON + userToken.getUserId(), userToken.getRefreshToken());
+        if (userToken.getRefreshToken() != null && findRefreshToken(platform, tenantId, userToken.getUserId(), userToken.getRefreshToken()) == null) {
+            redisTemplate.opsForList().rightPush(KEY_PRE_REFRESH_TOKEN + key, userToken.getRefreshToken());
         }
         // 存储角色
-        updateRolesByUserId(platform, userToken.getUserId(), userToken.getRoles());
+        updateRolesByUserId(platform, tenantId, userToken.getUserId(), userToken.getRoles());
         // 存储权限
-        updatePermissionsByUserId(platform, userToken.getUserId(), userToken.getPermissions());
+        updatePermissionsByUserId(platform, tenantId, userToken.getUserId(), userToken.getPermissions());
         //存储用户信息
-        updateUserInfoByUserId(platform, userToken.getUserId(), userToken.getUserInfo());
+        updateUserInfoByUserId(platform, tenantId, userToken.getUserId(), userToken.getUserInfo());
         // 限制用户的最大token数量
         if (getMaxToken() != -1) {
-            listMaxLimit(KEY_PRE_TOKEN + userToken.getUserId(), getMaxToken());
-            listMaxLimit(KEY_PRE_REFRESH_TOKEN + userToken.getUserId(), getMaxToken());
+            listMaxLimit(KEY_PRE_TOKEN + key, getMaxToken());
+            listMaxLimit(KEY_PRE_REFRESH_TOKEN + key, getMaxToken());
         }
         return 1;
     }
 
+    /**
+     *
+     * @param platform     平台类型
+     * @param tenantId     租户id
+     * @param userId       用户id
+     * @param access_token
+     * @return
+     */
     @Override
-    public UserToken findToken(PlatformEnum platform, String userId, String access_token) {
-        List<UserToken> userTokens = findTokensByUserId(platform, userId);
+    public UserToken findToken(PlatformEnum platform, String tenantId, String userId, String access_token) {
+        List<UserToken> userTokens = findTokensByUserId(platform, tenantId, userId);
         if (userTokens != null && access_token != null) {
             for (UserToken userToken : userTokens) {
                 if (access_token.equals(userToken.getAccessToken())) {
@@ -99,24 +121,33 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return null;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userId    用户id
+     * @return
+     */
     @Override
-    public List<UserToken> findTokensByUserId(PlatformEnum platform, String userId) {
+    public List<UserToken> findTokensByUserId(PlatformEnum platform, String tenantId, String userId) {
         if (userId == null || userId.trim().isEmpty()) {
             return null;
         }
         List<UserToken> userTokens = new ArrayList<>();
-        List<String> accessTokens = redisTemplate.opsForList().range(KEY_PRE_TOKEN + platform.getType()+ StringPool.COLON + userId, 0, -1);
+        //key = 平台 + 租户 + 用户
+        String key = getKey(platform, tenantId, userId);
+        List<String> accessTokens = redisTemplate.opsForList().range(KEY_PRE_TOKEN + key, 0, -1);
         if (accessTokens != null && accessTokens.size() > 0) {
             for (String accessToken : accessTokens) {
                 UserToken userToken = new UserToken();
                 userToken.setUserId(userId);
                 userToken.setAccessToken(accessToken);
                 // 查询权限
-                userToken.setPermissions(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_PERM + platform.getType()+ StringPool.COLON + userId)));
+                userToken.setPermissions(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_PERM + key)));
                 // 查询角色
-                userToken.setRoles(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_ROLE + platform.getType()+ StringPool.COLON + userId)));
+                userToken.setRoles(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_ROLE + key)));
                 // 查询信息
-                String info = redisTemplate.opsForValue().get(KEY_PRE_INFO + platform.getType()+ StringPool.COLON + userId);
+                String info = redisTemplate.opsForValue().get(KEY_PRE_INFO + key);
                 if(Func.isNotEmpty(info)){
                     userToken.setUserInfo(info);
                 }
@@ -126,10 +157,20 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return userTokens;
     }
 
+    /**
+     *
+     * @param platform      平台类型
+     * @param tenantId      租户id
+     * @param userId        用户id
+     * @param refresh_token
+     * @return
+     */
     @Override
-    public UserToken findRefreshToken(PlatformEnum platform, String userId, String refresh_token) {
+    public UserToken findRefreshToken(PlatformEnum platform, String tenantId, String userId, String refresh_token) {
         if (userId != null && !userId.trim().isEmpty() && refresh_token != null) {
-            List<String> refreshTokens = redisTemplate.opsForList().range(KEY_PRE_REFRESH_TOKEN + platform.getType()+ StringPool.COLON + userId, 0, -1);
+            //key = 平台 + 租户 + 用户
+            String key = getKey(platform, tenantId, userId);
+            List<String> refreshTokens = redisTemplate.opsForList().range(KEY_PRE_REFRESH_TOKEN + key, 0, -1);
             for (String refreshToken : refreshTokens) {
                 if (refresh_token.equals(refreshToken)) {
                     UserToken userToken = new UserToken();
@@ -142,26 +183,53 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return null;
     }
 
+    /**
+     *
+     * @param platform     平台类型
+     * @param tenantId     租户id
+     * @param userId       用户id
+     * @param access_token
+     * @return
+     */
     @Override
-    public int removeToken(PlatformEnum platform, String userId, String access_token) {
-        redisTemplate.opsForList().remove(KEY_PRE_TOKEN + platform.getType()+ StringPool.COLON + userId, 0, access_token);
+    public int removeToken(PlatformEnum platform, String tenantId, String userId, String access_token) {
+        //key = 平台 + 租户 + 用户
+        String key = getKey(platform, tenantId, userId);
+        redisTemplate.opsForList().remove(KEY_PRE_TOKEN + key, 0, access_token);
         return 1;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userId    用户id
+     * @return
+     */
     @Override
-    public int removeTokensByUserId(PlatformEnum platform, String userId) {
-        redisTemplate.delete(KEY_PRE_TOKEN + platform.getType()+ StringPool.COLON + userId);
+    public int removeTokensByUserId(PlatformEnum platform, String tenantId, String userId) {
+        //key = 平台 + 租户 + 用户
+        String key = getKey(platform, tenantId, userId);
+        redisTemplate.delete(KEY_PRE_TOKEN + key);
         // 删除角色、权限、信息、refresh_token
-        redisTemplate.delete(KEY_PRE_ROLE + platform.getType()+ StringPool.COLON + userId);
-        redisTemplate.delete(KEY_PRE_PERM + platform.getType()+ StringPool.COLON + userId);
-        redisTemplate.delete(KEY_PRE_INFO + platform.getType()+ StringPool.COLON + userId);
-        redisTemplate.delete(KEY_PRE_REFRESH_TOKEN + platform.getType()+ StringPool.COLON + userId);
+        redisTemplate.delete(KEY_PRE_ROLE + key);
+        redisTemplate.delete(KEY_PRE_PERM + key);
+        redisTemplate.delete(KEY_PRE_INFO + key);
+        redisTemplate.delete(KEY_PRE_REFRESH_TOKEN + key);
         return 1;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userId    用户id
+     * @param roles     角色
+     * @return
+     */
     @Override
-    public int updateRolesByUserId(PlatformEnum platform, String userId, String[] roles) {
-        String roleKey = KEY_PRE_ROLE  + platform.getType()+ StringPool.COLON + userId;
+    public int updateRolesByUserId(PlatformEnum platform, String tenantId, String userId, String[] roles) {
+        String roleKey = KEY_PRE_ROLE  + getKey(platform, tenantId, userId);
         redisTemplate.delete(roleKey);
         if (roles != null && roles.length > 0) {
             redisTemplate.opsForSet().add(roleKey, roles);
@@ -169,9 +237,17 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return 1;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userId      用户id
+     * @param permissions 权限
+     * @return
+     */
     @Override
-    public int updatePermissionsByUserId(PlatformEnum platform, String userId, String[] permissions) {
-        String permKey = KEY_PRE_PERM + platform.getType()+ StringPool.COLON + userId;
+    public int updatePermissionsByUserId(PlatformEnum platform, String tenantId, String userId, String[] permissions) {
+        String permKey = KEY_PRE_PERM + getKey(platform, tenantId, userId);
         redisTemplate.delete(permKey);
         if (permissions != null && permissions.length > 0) {
             redisTemplate.opsForSet().add(permKey, permissions);
@@ -179,9 +255,17 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return 1;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userId    用户id
+     * @param userInfo  用户信息
+     * @return
+     */
     @Override
-    public int updateUserInfoByUserId(PlatformEnum platform, String userId, String userInfo) {
-        String infoKey = KEY_PRE_INFO + platform.getType()+ StringPool.COLON + userId;
+    public int updateUserInfoByUserId(PlatformEnum platform, String tenantId, String userId, String userInfo) {
+        String infoKey = KEY_PRE_INFO + getKey(platform, tenantId, userId);
         redisTemplate.delete(infoKey);
         if (!Func.isEmpty(userInfo)) {
             redisTemplate.opsForValue().set(infoKey, userInfo);
@@ -189,8 +273,16 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return 1;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userId    用户id
+     * @param userToken
+     * @return
+     */
     @Override
-    public String[] findRolesByUserId(PlatformEnum platform, String userId, UserToken userToken) {
+    public String[] findRolesByUserId(PlatformEnum platform, String tenantId, String userId, UserToken userToken) {
         // 判断是否自定义查询
         if (getFindRolesSql() == null || getFindRolesSql().trim().isEmpty()) {
             return userToken.getRoles();
@@ -202,7 +294,7 @@ public class RedisTokenStore extends TokenStoreAbstract {
                     public String mapRow(ResultSet rs, int rowNum) throws SQLException {
                         return rs.getString(1);
                     }
-                }, userId);
+                }, platform.getType(), tenantId, userId);
                 return StringUtils.stringListToArray(roleList);
             } catch (EmptyResultDataAccessException e) {
             }
@@ -210,8 +302,16 @@ public class RedisTokenStore extends TokenStoreAbstract {
         return null;
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param tenantId  租户id
+     * @param userId    用户id
+     * @param userToken
+     * @return
+     */
     @Override
-    public String[] findPermissionsByUserId(PlatformEnum platform, String userId, UserToken userToken) {
+    public String[] findPermissionsByUserId(PlatformEnum platform, String tenantId, String userId, UserToken userToken) {
         // 判断是否自定义查询
         if (getFindPermissionsSql() == null || getFindPermissionsSql().trim().isEmpty()) {
             return userToken.getPermissions();
@@ -223,7 +323,7 @@ public class RedisTokenStore extends TokenStoreAbstract {
                     public String mapRow(ResultSet rs, int rowNum) throws SQLException {
                         return rs.getString(1);
                     }
-                }, userId);
+                }, platform.getType(), tenantId, userId);
                 return StringUtils.stringListToArray(permList);
             } catch (EmptyResultDataAccessException e) {
             }
@@ -241,6 +341,17 @@ public class RedisTokenStore extends TokenStoreAbstract {
                 redisTemplate.opsForList().leftPop(key);
             }
         }
+    }
+
+    /**
+     * key = 平台 + 租户 + 用户
+     * @param platform
+     * @param tenantId
+     * @param userId
+     * @return
+     */
+    private String getKey(PlatformEnum platform, String tenantId, String userId){
+        return (platform.getType()+ StringPool.COLON + Func.toStr(tenantId, HeaderConstant.DEFAULT_TENANT_ID)+ StringPool.COLON + userId);
     }
 
 }

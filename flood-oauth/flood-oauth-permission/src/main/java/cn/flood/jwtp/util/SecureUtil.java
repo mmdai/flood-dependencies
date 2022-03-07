@@ -183,13 +183,15 @@ public class SecureUtil {
                 try {
                     String tokenKey = tokenStore.getTokenKey();
                     String subject = TokenUtil.parseToken(access_token, tokenKey);
-                    int type = Integer.parseInt(subject.split(StringPool.COLON)[0]);
-                    String userId = subject.split(StringPool.COLON)[1];
+                    String[] subjects = subject.split(StringPool.COLON);
+                    int type = Integer.parseInt(subjects[0]);
+                    String tenantId = subjects[1];
+                    String userId = subjects[2];
                     // 检查token是否存在系统中
-                    userToken = tokenStore.findToken(PlatformEnum.valueOfEnum(type), userId, access_token);
+                    userToken = tokenStore.findToken(PlatformEnum.valueOfEnum(type), tenantId, userId, access_token);
                     if (userToken != null) {  // 查询用户的角色和权限
-                        userToken.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
-                        userToken.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
+                        userToken.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, userToken));
+                        userToken.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, userToken));
                     }
                 } catch (ExpiredJwtException e) {
                     log.error("token已过期");

@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS `oauth_token`;
 CREATE TABLE `oauth_token` (
   `token_id` int(11) NOT NULL AUTO_INCREMENT,
   `platform` int(1) NOT NULL,
+  `tenant_id` varchar(128) NOT NULL,
   `user_id` varchar(128) NOT NULL,
   `access_token` varchar(128) NOT NULL,
   `refresh_token` varchar(128) DEFAULT NULL,
@@ -16,6 +17,7 @@ CREATE TABLE `oauth_token` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`token_id`),
   KEY `index_oauth_platform` (`platform`),
+  KEY `index_oauth_tenantid` (`tenant_id`),
   KEY `index_oauth_userid` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

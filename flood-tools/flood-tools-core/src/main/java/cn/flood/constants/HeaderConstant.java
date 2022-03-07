@@ -17,6 +17,19 @@ public interface HeaderConstant {
 
     String DEFAULT_USER_TYPE = "all";
 
+    /**
+     * header 中租户ID
+     */
+    String TENANT_ID = "tenant_id";
+
+    /**
+     * 租户id参数
+     */
+    String TENANT_ID_PARAM = "tenantId";
+
+
+    String DEFAULT_TENANT_ID = "0";
+
 
     /**
      * 标准协议指定 请求header头需带上版本号flood-api-version

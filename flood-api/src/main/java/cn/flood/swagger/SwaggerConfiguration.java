@@ -95,7 +95,8 @@ public class SwaggerConfiguration {
 		List<SecurityReference> securityReferences = new ArrayList<>();
 		securityReferences.add(new SecurityReference("Authorization", new AuthorizationScope[]{new AuthorizationScope("global", "accessEverything")}));
 		securityReferences.add(new SecurityReference("版本号(1.0.0)", new AuthorizationScope[]{new AuthorizationScope("global", "1.0.0")}));
-		securityReferences.add(new SecurityReference("平台类型(web,app)", new AuthorizationScope[]{new AuthorizationScope("global", "web")}));
+		securityReferences.add(new SecurityReference("平台类型(web,app)", new AuthorizationScope[]{new AuthorizationScope("global", "all")}));
+		securityReferences.add(new SecurityReference("租户ID", new AuthorizationScope[]{new AuthorizationScope("global", "000000")}));
 		return securityReferences;
 	}
 

@@ -1,6 +1,8 @@
 package cn.flood.jwtp.util;
 
+import cn.flood.Func;
 import cn.flood.UserToken;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.context.SpringContextManager;
 import cn.flood.http.WebUtil;
 import cn.flood.jwtp.enums.PlatformEnum;
@@ -31,64 +33,67 @@ public class TokenUtil {
     public static final String PREFIX = "Bearer ";//默认头
 
     public static final String CAPTCHA_HEADER_KEY = "captcha_key";
-    public static final String CAPTCHA_HEADER_CODE = "captcha_code";
 
-    public static final String TENANT_HEADER_KEY = "tenant_id";
-    public static final String DEFAULT_TENANT_ID = "000000";
+    public static final String CAPTCHA_HEADER_CODE = "captcha_code";
     /**
      * 生成token
      *
      * @param platform 平台
+     * @param tenantId 租户id
      * @param subject  载体
      * @return UserToken
      */
-    public static UserToken buildToken(PlatformEnum platform, String subject) {
-        return buildToken(platform, subject, DEFAULT_EXPIRE);
+    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject) {
+        return buildToken(platform, tenantId, subject, DEFAULT_EXPIRE);
     }
 
     /**
      * 生成token
      *
      * @param platform 平台
+     * @param tenantId 租户id
      * @param subject  载体
      * @param expire   token过期时间，单位秒
      * @return UserToken
      */
-    public static UserToken buildToken(PlatformEnum platform, String subject, long expire) {
-        return buildToken(platform, subject, expire, DEFAULT_EXPIRE_REFRESH_TOKEN);
+    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, long expire) {
+        return buildToken(platform, tenantId, subject, expire, DEFAULT_EXPIRE_REFRESH_TOKEN);
     }
 
     /**
      * 生成token
      *
      * @param platform 平台
+     * @param tenantId 租户id
      * @param subject  载体
      * @param expire   token过期时间，单位秒
      * @param rtExpire refresh_token过期时间，单位秒
      * @return
      */
-    public static UserToken buildToken(PlatformEnum platform, String subject, long expire, long rtExpire) {
-        return buildToken(platform, subject, expire, rtExpire, getKey());
+    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, long expire, long rtExpire) {
+        return buildToken(platform, tenantId, subject, expire, rtExpire, getKey());
     }
 
     /**
      * 生成token
      *
      * @param platform 平台
+     * @param tenantId 租户id
      * @param subject  载体
      * @param expire   token过期时间，单位秒
      * @param rtExpire refresh_token过期时间，单位秒
      * @param key      密钥
      * @return UserToken
      */
-    public static UserToken buildToken(PlatformEnum platform, String subject, Long expire, Long rtExpire, Key key) {
-        return buildToken(platform, subject, expire, rtExpire, key, true);
+    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, Long expire, Long rtExpire, Key key) {
+        return buildToken(platform, tenantId, subject, expire, rtExpire, key, true);
     }
 
     /**
      * 生成token
      *
      * @param platform 平台
+     * @param tenantId 租户id
      * @param subject  载体
      * @param expire   token过期时间，单位秒
      * @param rtExpire refresh_token过期时间，单位秒
@@ -96,13 +101,15 @@ public class TokenUtil {
      * @param needRt   是否生成refresh_token
      * @return UserToken
      */
-    public static UserToken buildToken(PlatformEnum platform, String subject, Long expire, Long rtExpire, Key key, boolean needRt) {
-        String platformSubject = platform.getType() + StringPool.COLON + subject;
+    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, Long expire, Long rtExpire, Key key, boolean needRt) {
+        tenantId = Func.toStr(tenantId, HeaderConstant.DEFAULT_TENANT_ID);
+        String platformSubject = platform.getType() + StringPool.COLON + tenantId + StringPool.COLON+ subject;
         Date expireDate = new Date(new Date().getTime() + 1000 * expire);
         // 生成access_token
         String access_token = Jwts.builder().setSubject(platformSubject).signWith(key).setExpiration(expireDate).compact();
         // 构建Token对象
         UserToken userToken = new UserToken();
+        userToken.setTenantId(tenantId);
         userToken.setUserId(subject);
         userToken.setAccessToken(access_token);
         userToken.setExpireTime(expireDate);
@@ -218,14 +225,16 @@ public class TokenUtil {
                 try {
                     String tokenKey = tokenStore.getTokenKey();
                     String subject = TokenUtil.parseToken(access_token, tokenKey);
-                    int type = Integer.parseInt(subject.split(StringPool.COLON)[0]);
-                    String userId = subject.split(StringPool.COLON)[1];
+                    String[] subjects = subject.split(StringPool.COLON);
+                    int type = Integer.parseInt(subjects[0]);
+                    String tenantId = subjects[1];
+                    String userId = subjects[2];
                     // 检查token是否存在系统中
-                    token = tokenStore.findToken(PlatformEnum.valueOfEnum(type), userId, access_token);
+                    token = tokenStore.findToken(PlatformEnum.valueOfEnum(type), tenantId, userId, access_token);
                     // 查询用户的角色和权限
                     if (token != null) {
-                        token.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), userId, token));
-                        token.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), userId, token));
+                        token.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, token));
+                        token.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, token));
                     }
                 } catch (ExpiredJwtException e) {
                     throw new ExpiredTokenException();

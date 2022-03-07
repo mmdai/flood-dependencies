@@ -2,6 +2,7 @@ package cn.flood.jwtp;
 
 import cn.flood.Func;
 import cn.flood.UserToken;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.constants.TenantConstant;
 import cn.flood.context.TenantContextHolder;
 import cn.flood.http.WebUtil;
@@ -28,7 +29,7 @@ public class TenantInterceptor implements HandlerInterceptor {
             return false;
         }
         //优先取请求参数中的tenantId值
-        String tenantId = request.getHeader(TenantConstant.FLOOD_TENANT_ID);
+        String tenantId = request.getHeader(HeaderConstant.TENANT_ID);
         if (Func.isEmpty(tenantId)) {
             UserToken userToken = (UserToken) request.getAttribute(WebUtil.REQUEST_TOKEN_NAME);
             if (Func.isNotEmpty(userToken)) {
@@ -41,7 +42,7 @@ public class TenantInterceptor implements HandlerInterceptor {
             TenantContextHolder.setTenantId(tenantId);
         } else {
             if (Func.isBlank(TenantContextHolder.getTenantId())) {
-                TenantContextHolder.setTenantId(TenantConstant.TENANT_ID_DEFAULT);
+                TenantContextHolder.setTenantId(HeaderConstant.DEFAULT_TENANT_ID);
             }
         }
         return true;
