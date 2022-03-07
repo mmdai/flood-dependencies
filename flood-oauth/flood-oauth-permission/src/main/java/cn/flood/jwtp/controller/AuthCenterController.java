@@ -2,8 +2,10 @@ package cn.flood.jwtp.controller;
 
 import cn.flood.UserToken;
 import cn.flood.jwtp.annotation.Ignore;
+import cn.flood.jwtp.enums.PlatformEnum;
 import cn.flood.jwtp.provider.TokenStore;
 import cn.flood.jwtp.util.TokenUtil;
+import cn.flood.lang.StringPool;
 import cn.flood.rpc.response.Result;
 import cn.flood.rpc.response.ResultWapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -31,16 +33,18 @@ public class AuthCenterController {
         try {
             String tokenKey = tokenStore.getTokenKey();
             logger.debug("ACCESS_TOKEN: {} ,  TOKEN_KEY: {}", access_token, tokenKey);
-            String userId = TokenUtil.parseToken(access_token, tokenKey);
+            String subject = TokenUtil.parseToken(access_token, tokenKey);
+            int type = Integer.parseInt(subject.split(StringPool.COLON)[0]);
+            String userId = subject.split(StringPool.COLON)[1];
             // 检查token是否存在系统中
-            UserToken userToken = tokenStore.findToken(userId, access_token);
+            UserToken userToken = tokenStore.findToken(PlatformEnum.valueOfEnum(type), userId, access_token);
             if (userToken == null) {
                 logger.error("ERROR: UserToken Not Found");
                 return ResultWapper.error("UserToken Not Found");
             }
             // 查询用户的角色和权限
-            userToken.setRoles(tokenStore.findRolesByUserId(userId, userToken));
-            userToken.setPermissions(tokenStore.findPermissionsByUserId(userId, userToken));
+            userToken.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
+            userToken.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
             return ResultWapper.ok(userToken);
         } catch (ExpiredJwtException e) {
             logger.error("ERROR: ExpiredJwtException");

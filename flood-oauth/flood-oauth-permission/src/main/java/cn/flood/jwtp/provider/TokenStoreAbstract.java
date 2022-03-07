@@ -3,6 +3,8 @@ package cn.flood.jwtp.provider;
 import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.exception.CoreException;
+import cn.flood.jwtp.enums.PlatformEnum;
+import cn.flood.lang.StringPool;
 import io.jsonwebtoken.ExpiredJwtException;
 import cn.flood.jwtp.exception.ErrorTokenException;
 import cn.flood.jwtp.exception.ExpiredTokenException;
@@ -25,69 +27,164 @@ public abstract class TokenStoreAbstract implements TokenStore {
 
     public static String mTokenKey;  // 生成token用的Key
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param userId    用户id
+     * @return
+     */
     @Override
-    public UserToken createNewToken(String userId) {
-        return createNewToken(userId, null, null, null);
+    public UserToken createNewToken(PlatformEnum platform, String userId) {
+        return createNewToken(platform, userId, null, null, null);
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param userId    用户id
+     * @param userInfo  用户信息
+     * @return
+     */
     @Override
-    public UserToken createNewToken(String userId, String userInfo) {
-        return createNewToken(userId, userInfo,null, null);
+    public UserToken createNewToken(PlatformEnum platform, String userId, String userInfo) {
+        return createNewToken(platform, userId, userInfo,null, null);
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param userId    用户id
+     * @param userInfo  用户信息
+     * @param expire    token过期时间,单位秒
+     * @return
+     */
     @Override
-    public UserToken createNewToken(String userId, String userInfo, long expire) {
-        return createNewToken(userId, userInfo, null, null, expire);
+    public UserToken createNewToken(PlatformEnum platform, String userId, String userInfo, long expire) {
+        return createNewToken(platform, userId, userInfo, null, null, expire);
     }
 
+    /**
+     *
+     * @param platform  平台类型
+     * @param userId    用户id
+     * @param userInfo  用户信息
+     * @param expire    token过期时间,单位秒
+     * @param rtExpire  refresh_token过期时间,单位秒
+     * @return
+     */
     @Override
-    public UserToken createNewToken(String userId, String userInfo, long expire, long rtExpire) {
-        return createNewToken(userId, userInfo, null, null, expire, rtExpire);
+    public UserToken createNewToken(PlatformEnum platform, String userId, String userInfo, long expire, long rtExpire) {
+        return createNewToken(platform, userId, userInfo, null, null, expire, rtExpire);
     }
 
+    /**
+     *
+     * @param platform    平台类型
+     * @param userId      用户id
+     * @param userInfo    用户信息
+     * @param permissions 权限
+     * @param roles       角色
+     * @return
+     */
     @Override
-    public UserToken createNewToken(String userId, String userInfo, String[] permissions, String[] roles) {
-        return createNewToken(userId, userInfo, permissions, roles, TokenUtil.DEFAULT_EXPIRE);
+    public UserToken createNewToken(PlatformEnum platform, String userId, String userInfo, String[] permissions, String[] roles) {
+        return createNewToken(platform, userId, userInfo, permissions, roles, TokenUtil.DEFAULT_EXPIRE);
     }
 
+    /**
+     *
+     * @param platform    平台类型
+     * @param userId      用户id
+     * @param userInfo    用户信息
+     * @param permissions 权限
+     * @param roles       角色
+     * @param expire      token过期时间,单位秒
+     * @return
+     */
     @Override
-    public UserToken createNewToken(String userId, String userInfo, String[] permissions, String[] roles, long expire) {
-        return createNewToken(userId, userInfo, permissions, roles, expire, TokenUtil.DEFAULT_EXPIRE_REFRESH_TOKEN);
+    public UserToken createNewToken(PlatformEnum platform, String userId, String userInfo, String[] permissions, String[] roles, long expire) {
+        return createNewToken(platform, userId, userInfo, permissions, roles, expire, TokenUtil.DEFAULT_EXPIRE_REFRESH_TOKEN);
     }
 
+    /**
+     *
+     * @param platform    平台类型
+     * @param userId      用户id
+     * @param userInfo    用户信息
+     * @param permissions 权限
+     * @param roles       角色
+     * @param expire      token过期时间,单位秒
+     * @param rtExpire
+     * @return
+     */
     @Override
-    public UserToken createNewToken(String userId, String userInfo, String[] permissions, String[] roles, long expire, long rtExpire) {
+    public UserToken createNewToken(PlatformEnum platform, String userId, String userInfo, String[] permissions, String[] roles, long expire, long rtExpire) {
         String tokenKey = getTokenKey();
         logger.debug("TOKEN_KEY: " + tokenKey);
-        UserToken userToken = TokenUtil.buildToken(userId, expire, rtExpire, TokenUtil.parseHexKey(tokenKey));
+        UserToken userToken = TokenUtil.buildToken(platform, userId, expire, rtExpire, TokenUtil.parseHexKey(tokenKey));
         userToken.setRoles(roles);
         userToken.setPermissions(permissions);
         if(Func.isNotEmpty(userInfo)){
             userToken.setUserInfo(userInfo);
         }
-        if (storeToken(userToken) > 0) {
+        if (storeToken(platform, userToken) > 0) {
             return userToken;
         }
         return null;
     }
 
+    /**
+     *
+     * @param platform      平台类型
+     * @param refresh_token refresh_token
+     * @return
+     * @throws CoreException
+     */
     @Override
-    public UserToken refreshToken(String refresh_token) throws CoreException {
-        return refreshToken(refresh_token, null, TokenUtil.DEFAULT_EXPIRE);
+    public UserToken refreshToken(PlatformEnum platform, String refresh_token) throws CoreException {
+        return refreshToken(platform, refresh_token, null, TokenUtil.DEFAULT_EXPIRE);
     }
 
+    /**
+     *
+     * @param platform      平台类型
+     * @param refresh_token refresh_token
+     * @param userInfo      用户信息
+     * @return
+     * @throws CoreException
+     */
     @Override
-    public UserToken refreshToken(String refresh_token, String userInfo) throws CoreException  {
-        return refreshToken(refresh_token, userInfo, TokenUtil.DEFAULT_EXPIRE);
+    public UserToken refreshToken(PlatformEnum platform, String refresh_token, String userInfo) throws CoreException  {
+        return refreshToken(platform, refresh_token, userInfo, TokenUtil.DEFAULT_EXPIRE);
     }
 
+    /**
+     *
+     * @param platform      平台类型
+     * @param refresh_token refresh_token
+     * @param userInfo      用户信息
+     * @param expire        token过期时间,单位秒
+     * @return
+     * @throws CoreException
+     */
     @Override
-    public UserToken refreshToken(String refresh_token, String userInfo, long expire) throws CoreException {
-        return refreshToken(refresh_token, userInfo, null, null, expire);
+    public UserToken refreshToken(PlatformEnum platform, String refresh_token, String userInfo, long expire) throws CoreException {
+        return refreshToken(platform, refresh_token, userInfo, null, null, expire);
     }
 
+    /**
+     *
+     * @param platform      平台类型
+     * @param refresh_token refresh_token
+     * @param userInfo      用户信息
+     * @param permissions   权限
+     * @param roles         角色
+     * @param expire        token过期时间,单位秒
+     * @return
+     * @throws CoreException
+     */
     @Override
-    public UserToken refreshToken(String refresh_token, String userInfo, String[] permissions, String[] roles, long expire) throws CoreException {
+    public UserToken refreshToken(PlatformEnum platform, String refresh_token, String userInfo, String[] permissions, String[] roles, long expire) throws CoreException {
         String tokenKey = getTokenKey();
         logger.debug("TOKEN_KEY: " + tokenKey);
         String userId;
@@ -100,12 +197,12 @@ public abstract class TokenStoreAbstract implements TokenStore {
         }
         if (userId != null) {
             // 检查token是否存在系统中
-            UserToken refreshUserToken = findRefreshToken(userId, refresh_token);
+            UserToken refreshUserToken = findRefreshToken(platform, userId, refresh_token);
             if (refreshUserToken == null) {
                 throw new ErrorTokenException();
             }
             // 生成新的token
-            UserToken userToken = TokenUtil.buildToken(userId, expire, null, TokenUtil.parseHexKey(tokenKey), false);
+            UserToken userToken = TokenUtil.buildToken(platform, userId, expire, null, TokenUtil.parseHexKey(tokenKey), false);
             userToken.setRoles(roles);
             if(Func.isNotEmpty(userInfo)){
                 userToken.setUserInfo(userInfo);
@@ -113,38 +210,62 @@ public abstract class TokenStoreAbstract implements TokenStore {
             userToken.setPermissions(permissions);
             userToken.setRefreshToken(refresh_token);
             userToken.setRefreshTokenExpireTime(refreshUserToken.getRefreshTokenExpireTime());
-            if (storeToken(userToken) > 0) {
+            if (storeToken(platform, userToken) > 0) {
                 return userToken;
             }
         }
         return null;
     }
 
+    /**
+     *
+     * @param maxToken
+     */
     @Override
     public void setMaxToken(Integer maxToken) {
         this.maxToken = maxToken;
     }
 
+    /**
+     *
+     * @param findRolesSql
+     */
     @Override
     public void setFindRolesSql(String findRolesSql) {
         this.findRolesSql = findRolesSql;
     }
 
+    /**
+     *
+     * @param findPermissionsSql
+     */
     @Override
     public void setFindPermissionsSql(String findPermissionsSql) {
         this.findPermissionsSql = findPermissionsSql;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Integer getMaxToken() {
         return maxToken;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getFindRolesSql() {
         return findRolesSql;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String getFindPermissionsSql() {
         return findPermissionsSql;

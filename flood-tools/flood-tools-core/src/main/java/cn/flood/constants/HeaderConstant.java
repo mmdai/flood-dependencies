@@ -4,8 +4,18 @@ package cn.flood.constants;
  *
  */
 public interface HeaderConstant {
-    // 请求id
+    /**
+     * 请求id
+     */
     String REQUEST_ID = "requestId";
+
+    /**
+     * 平台类型 WEB,APP
+     */
+    String USER_TYPE = "user_type";
+
+
+    String DEFAULT_USER_TYPE = "web";
 
 
     /**

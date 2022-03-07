@@ -2,6 +2,8 @@ package cn.flood.jwtp;
 
 import cn.flood.UserToken;
 import cn.flood.http.WebUtil;
+import cn.flood.jwtp.enums.PlatformEnum;
+import cn.flood.lang.StringPool;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,26 +55,28 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (access_token == null || access_token.trim().isEmpty()) {
             throw new ErrorTokenException("Token不能为空");
         }
-        String userId;
+        String subject;
         try {
             String tokenKey = tokenStore.getTokenKey();
             logger.debug("ACCESS_TOKEN: {} , TOKEN_KEY: {}", access_token , tokenKey);
-            userId = TokenUtil.parseToken(access_token, tokenKey);
+            subject = TokenUtil.parseToken(access_token, tokenKey);
         } catch (ExpiredJwtException e) {
             logger.debug("ERROR: ExpiredJwtException");
             throw new ExpiredTokenException();
         } catch (Exception e) {
             throw new ErrorTokenException();
         }
+        int type = Integer.parseInt(subject.split(StringPool.COLON)[0]);
+        String userId = subject.split(StringPool.COLON)[1];
         // 检查token是否存在系统中
-        UserToken userToken = tokenStore.findToken(userId, access_token);
+        UserToken userToken = tokenStore.findToken(PlatformEnum.valueOfEnum(type), userId, access_token);
         if (userToken == null) {
             logger.debug("ERROR: UserToken Not Found");
             throw new ErrorTokenException();
         }
         // 查询用户的角色和权限
-        userToken.setRoles(tokenStore.findRolesByUserId(userId, userToken));
-        userToken.setPermissions(tokenStore.findPermissionsByUserId(userId, userToken));
+        userToken.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
+        userToken.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
         // 检查是否直接返回token
         if (CheckPermissionUtil.checkToken(method)) {
             request.setAttribute(WebUtil.REQUEST_TOKEN_NAME, userToken);

@@ -2,6 +2,8 @@ package cn.flood.jwtp.provider;
 
 import cn.flood.Func;
 import cn.flood.UserToken;
+import cn.flood.jwtp.enums.PlatformEnum;
+import cn.flood.lang.StringPool;
 import cn.flood.lang.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -63,19 +65,19 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public int storeToken(UserToken userToken) {
+    public int storeToken(PlatformEnum platform, UserToken userToken) {
         // 存储access_token
-        redisTemplate.opsForList().rightPush(KEY_PRE_TOKEN + userToken.getUserId(), userToken.getAccessToken());
+        redisTemplate.opsForList().rightPush(KEY_PRE_TOKEN + platform.getType() + StringPool.COLON + userToken.getUserId(), userToken.getAccessToken());
         // 存储refresh_token
-        if (userToken.getRefreshToken() != null && findRefreshToken(userToken.getUserId(), userToken.getRefreshToken()) == null) {
+        if (userToken.getRefreshToken() != null && findRefreshToken(platform, userToken.getUserId(), userToken.getRefreshToken()) == null) {
             redisTemplate.opsForList().rightPush(KEY_PRE_REFRESH_TOKEN + userToken.getUserId(), userToken.getRefreshToken());
         }
         // 存储角色
-        updateRolesByUserId(userToken.getUserId(), userToken.getRoles());
+        updateRolesByUserId(platform, userToken.getUserId(), userToken.getRoles());
         // 存储权限
-        updatePermissionsByUserId(userToken.getUserId(), userToken.getPermissions());
+        updatePermissionsByUserId(platform, userToken.getUserId(), userToken.getPermissions());
         //存储用户信息
-        updateUserInfoByUserId(userToken.getUserId(), userToken.getUserInfo());
+        updateUserInfoByUserId(platform, userToken.getUserId(), userToken.getUserInfo());
         // 限制用户的最大token数量
         if (getMaxToken() != -1) {
             listMaxLimit(KEY_PRE_TOKEN + userToken.getUserId(), getMaxToken());
@@ -85,8 +87,8 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public UserToken findToken(String userId, String access_token) {
-        List<UserToken> userTokens = findTokensByUserId(userId);
+    public UserToken findToken(PlatformEnum platform, String userId, String access_token) {
+        List<UserToken> userTokens = findTokensByUserId(platform, userId);
         if (userTokens != null && access_token != null) {
             for (UserToken userToken : userTokens) {
                 if (access_token.equals(userToken.getAccessToken())) {
@@ -98,23 +100,23 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public List<UserToken> findTokensByUserId(String userId) {
+    public List<UserToken> findTokensByUserId(PlatformEnum platform, String userId) {
         if (userId == null || userId.trim().isEmpty()) {
             return null;
         }
         List<UserToken> userTokens = new ArrayList<>();
-        List<String> accessTokens = redisTemplate.opsForList().range(KEY_PRE_TOKEN + userId, 0, -1);
+        List<String> accessTokens = redisTemplate.opsForList().range(KEY_PRE_TOKEN + platform.getType()+ StringPool.COLON + userId, 0, -1);
         if (accessTokens != null && accessTokens.size() > 0) {
             for (String accessToken : accessTokens) {
                 UserToken userToken = new UserToken();
                 userToken.setUserId(userId);
                 userToken.setAccessToken(accessToken);
                 // 查询权限
-                userToken.setPermissions(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_PERM + userId)));
+                userToken.setPermissions(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_PERM + platform.getType()+ StringPool.COLON + userId)));
                 // 查询角色
-                userToken.setRoles(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_ROLE + userId)));
+                userToken.setRoles(StringUtils.stringSetToArray(redisTemplate.opsForSet().members(KEY_PRE_ROLE + platform.getType()+ StringPool.COLON + userId)));
                 // 查询信息
-                String info = redisTemplate.opsForValue().get(KEY_PRE_INFO + userId);
+                String info = redisTemplate.opsForValue().get(KEY_PRE_INFO + platform.getType()+ StringPool.COLON + userId);
                 if(Func.isNotEmpty(info)){
                     userToken.setUserInfo(info);
                 }
@@ -125,9 +127,9 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public UserToken findRefreshToken(String userId, String refresh_token) {
+    public UserToken findRefreshToken(PlatformEnum platform, String userId, String refresh_token) {
         if (userId != null && !userId.trim().isEmpty() && refresh_token != null) {
-            List<String> refreshTokens = redisTemplate.opsForList().range(KEY_PRE_REFRESH_TOKEN + userId, 0, -1);
+            List<String> refreshTokens = redisTemplate.opsForList().range(KEY_PRE_REFRESH_TOKEN + platform.getType()+ StringPool.COLON + userId, 0, -1);
             for (String refreshToken : refreshTokens) {
                 if (refresh_token.equals(refreshToken)) {
                     UserToken userToken = new UserToken();
@@ -141,25 +143,25 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public int removeToken(String userId, String access_token) {
-        redisTemplate.opsForList().remove(KEY_PRE_TOKEN + userId, 0, access_token);
+    public int removeToken(PlatformEnum platform, String userId, String access_token) {
+        redisTemplate.opsForList().remove(KEY_PRE_TOKEN + platform.getType()+ StringPool.COLON + userId, 0, access_token);
         return 1;
     }
 
     @Override
-    public int removeTokensByUserId(String userId) {
-        redisTemplate.delete(KEY_PRE_TOKEN + userId);
+    public int removeTokensByUserId(PlatformEnum platform, String userId) {
+        redisTemplate.delete(KEY_PRE_TOKEN + platform.getType()+ StringPool.COLON + userId);
         // 删除角色、权限、信息、refresh_token
-        redisTemplate.delete(KEY_PRE_ROLE + userId);
-        redisTemplate.delete(KEY_PRE_PERM + userId);
-        redisTemplate.delete(KEY_PRE_INFO + userId);
-        redisTemplate.delete(KEY_PRE_REFRESH_TOKEN + userId);
+        redisTemplate.delete(KEY_PRE_ROLE + platform.getType()+ StringPool.COLON + userId);
+        redisTemplate.delete(KEY_PRE_PERM + platform.getType()+ StringPool.COLON + userId);
+        redisTemplate.delete(KEY_PRE_INFO + platform.getType()+ StringPool.COLON + userId);
+        redisTemplate.delete(KEY_PRE_REFRESH_TOKEN + platform.getType()+ StringPool.COLON + userId);
         return 1;
     }
 
     @Override
-    public int updateRolesByUserId(String userId, String[] roles) {
-        String roleKey = KEY_PRE_ROLE + userId;
+    public int updateRolesByUserId(PlatformEnum platform, String userId, String[] roles) {
+        String roleKey = KEY_PRE_ROLE  + platform.getType()+ StringPool.COLON + userId;
         redisTemplate.delete(roleKey);
         if (roles != null && roles.length > 0) {
             redisTemplate.opsForSet().add(roleKey, roles);
@@ -168,8 +170,8 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public int updatePermissionsByUserId(String userId, String[] permissions) {
-        String permKey = KEY_PRE_PERM + userId;
+    public int updatePermissionsByUserId(PlatformEnum platform, String userId, String[] permissions) {
+        String permKey = KEY_PRE_PERM + platform.getType()+ StringPool.COLON + userId;
         redisTemplate.delete(permKey);
         if (permissions != null && permissions.length > 0) {
             redisTemplate.opsForSet().add(permKey, permissions);
@@ -178,8 +180,8 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public int updateUserInfoByUserId(String userId, String userInfo) {
-        String infoKey = KEY_PRE_INFO + userId;
+    public int updateUserInfoByUserId(PlatformEnum platform, String userId, String userInfo) {
+        String infoKey = KEY_PRE_INFO + platform.getType()+ StringPool.COLON + userId;
         redisTemplate.delete(infoKey);
         if (!Func.isEmpty(userInfo)) {
             redisTemplate.opsForValue().set(infoKey, userInfo);
@@ -188,7 +190,7 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public String[] findRolesByUserId(String userId, UserToken userToken) {
+    public String[] findRolesByUserId(PlatformEnum platform, String userId, UserToken userToken) {
         // 判断是否自定义查询
         if (getFindRolesSql() == null || getFindRolesSql().trim().isEmpty()) {
             return userToken.getRoles();
@@ -209,7 +211,7 @@ public class RedisTokenStore extends TokenStoreAbstract {
     }
 
     @Override
-    public String[] findPermissionsByUserId(String userId, UserToken userToken) {
+    public String[] findPermissionsByUserId(PlatformEnum platform, String userId, UserToken userToken) {
         // 判断是否自定义查询
         if (getFindPermissionsSql() == null || getFindPermissionsSql().trim().isEmpty()) {
             return userToken.getPermissions();

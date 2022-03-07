@@ -2,6 +2,8 @@ package cn.flood.jwtp.util;
 
 import cn.flood.UserToken;
 import cn.flood.http.WebUtil;
+import cn.flood.jwtp.enums.PlatformEnum;
+import cn.flood.lang.StringPool;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,11 +182,14 @@ public class SecureUtil {
             if (access_token != null && !access_token.trim().isEmpty()) {
                 try {
                     String tokenKey = tokenStore.getTokenKey();
-                    String userId = TokenUtil.parseToken(access_token, tokenKey);
-                    userToken = tokenStore.findToken(userId, access_token);  // 检查token是否存在系统中
+                    String subject = TokenUtil.parseToken(access_token, tokenKey);
+                    int type = Integer.parseInt(subject.split(StringPool.COLON)[0]);
+                    String userId = subject.split(StringPool.COLON)[1];
+                    // 检查token是否存在系统中
+                    userToken = tokenStore.findToken(PlatformEnum.valueOfEnum(type), userId, access_token);
                     if (userToken != null) {  // 查询用户的角色和权限
-                        userToken.setRoles(tokenStore.findRolesByUserId(userId, userToken));
-                        userToken.setPermissions(tokenStore.findPermissionsByUserId(userId, userToken));
+                        userToken.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
+                        userToken.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), userId, userToken));
                     }
                 } catch (ExpiredJwtException e) {
                     log.error("token已过期");

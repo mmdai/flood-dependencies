@@ -3,8 +3,10 @@ package cn.flood.jwtp.util;
 import cn.flood.UserToken;
 import cn.flood.context.SpringContextManager;
 import cn.flood.http.WebUtil;
+import cn.flood.jwtp.enums.PlatformEnum;
 import cn.flood.jwtp.exception.ExpiredTokenException;
 import cn.flood.jwtp.provider.TokenStore;
+import cn.flood.lang.StringPool;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.util.StringUtils;
@@ -33,57 +35,60 @@ public class TokenUtil {
 
     public static final String TENANT_HEADER_KEY = "tenant_id";
     public static final String DEFAULT_TENANT_ID = "000000";
-    public static final String USER_TYPE_HEADER_KEY = "user_type";
-    public static final String DEFAULT_USER_TYPE = "web";
     /**
      * 生成token
      *
-     * @param subject 载体
+     * @param platform 平台
+     * @param subject  载体
      * @return UserToken
      */
-    public static UserToken buildToken(String subject) {
-        return buildToken(subject, DEFAULT_EXPIRE);
+    public static UserToken buildToken(PlatformEnum platform, String subject) {
+        return buildToken(platform, subject, DEFAULT_EXPIRE);
     }
 
     /**
      * 生成token
      *
-     * @param subject 载体
-     * @param expire  token过期时间，单位秒
+     * @param platform 平台
+     * @param subject  载体
+     * @param expire   token过期时间，单位秒
      * @return UserToken
      */
-    public static UserToken buildToken(String subject, long expire) {
-        return buildToken(subject, expire, DEFAULT_EXPIRE_REFRESH_TOKEN);
+    public static UserToken buildToken(PlatformEnum platform, String subject, long expire) {
+        return buildToken(platform, subject, expire, DEFAULT_EXPIRE_REFRESH_TOKEN);
     }
 
     /**
      * 生成token
      *
+     * @param platform 平台
      * @param subject  载体
      * @param expire   token过期时间，单位秒
      * @param rtExpire refresh_token过期时间，单位秒
      * @return
      */
-    public static UserToken buildToken(String subject, long expire, long rtExpire) {
-        return buildToken(subject, expire, rtExpire, getKey());
+    public static UserToken buildToken(PlatformEnum platform, String subject, long expire, long rtExpire) {
+        return buildToken(platform, subject, expire, rtExpire, getKey());
     }
 
     /**
      * 生成token
      *
+     * @param platform 平台
      * @param subject  载体
      * @param expire   token过期时间，单位秒
      * @param rtExpire refresh_token过期时间，单位秒
      * @param key      密钥
      * @return UserToken
      */
-    public static UserToken buildToken(String subject, Long expire, Long rtExpire, Key key) {
-        return buildToken(subject, expire, rtExpire, key, true);
+    public static UserToken buildToken(PlatformEnum platform, String subject, Long expire, Long rtExpire, Key key) {
+        return buildToken(platform, subject, expire, rtExpire, key, true);
     }
 
     /**
      * 生成token
      *
+     * @param platform 平台
      * @param subject  载体
      * @param expire   token过期时间，单位秒
      * @param rtExpire refresh_token过期时间，单位秒
@@ -91,10 +96,11 @@ public class TokenUtil {
      * @param needRt   是否生成refresh_token
      * @return UserToken
      */
-    public static UserToken buildToken(String subject, Long expire, Long rtExpire, Key key, boolean needRt) {
+    public static UserToken buildToken(PlatformEnum platform, String subject, Long expire, Long rtExpire, Key key, boolean needRt) {
+        String platformSubject = platform.getType() + StringPool.COLON + subject;
         Date expireDate = new Date(new Date().getTime() + 1000 * expire);
         // 生成access_token
-        String access_token = Jwts.builder().setSubject(subject).signWith(key).setExpiration(expireDate).compact();
+        String access_token = Jwts.builder().setSubject(platformSubject).signWith(key).setExpiration(expireDate).compact();
         // 构建Token对象
         UserToken userToken = new UserToken();
         userToken.setUserId(subject);
@@ -103,7 +109,7 @@ public class TokenUtil {
         // 生成refresh_token
         if (needRt) {
             Date refreshExpireDate = new Date(new Date().getTime() + 1000 * rtExpire);
-            String refresh_token = Jwts.builder().setSubject(subject).signWith(key).setExpiration(refreshExpireDate).compact();
+            String refresh_token = Jwts.builder().setSubject(platformSubject).signWith(key).setExpiration(refreshExpireDate).compact();
             userToken.setRefreshToken(refresh_token);
             userToken.setRefreshTokenExpireTime(refreshExpireDate);
         }
@@ -211,13 +217,15 @@ public class TokenUtil {
             if (access_token != null && !access_token.trim().isEmpty()) {
                 try {
                     String tokenKey = tokenStore.getTokenKey();
-                    String userId = TokenUtil.parseToken(access_token, tokenKey);
+                    String subject = TokenUtil.parseToken(access_token, tokenKey);
+                    int type = Integer.parseInt(subject.split(StringPool.COLON)[0]);
+                    String userId = subject.split(StringPool.COLON)[1];
                     // 检查token是否存在系统中
-                    token = tokenStore.findToken(userId, access_token);
+                    token = tokenStore.findToken(PlatformEnum.valueOfEnum(type), userId, access_token);
                     // 查询用户的角色和权限
                     if (token != null) {
-                        token.setRoles(tokenStore.findRolesByUserId(userId, token));
-                        token.setPermissions(tokenStore.findPermissionsByUserId(userId, token));
+                        token.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), userId, token));
+                        token.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), userId, token));
                     }
                 } catch (ExpiredJwtException e) {
                     throw new ExpiredTokenException();
