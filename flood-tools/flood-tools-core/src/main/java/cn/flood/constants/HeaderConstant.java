@@ -15,7 +15,7 @@ public interface HeaderConstant {
     String USER_TYPE = "user_type";
 
 
-    String DEFAULT_USER_TYPE = "web";
+    String DEFAULT_USER_TYPE = "all";
 
 
     /**
