@@ -34,7 +34,7 @@ import org.springframework.util.StringUtils;
  * @since 1.8
  */
 @Configuration
-@ConditionalOnProperty(name="spring.redis.client-type",havingValue="lettuce", matchIfMissing = false)
+@ConditionalOnProperty(name="spring.redis.client-type",havingValue="lettuce", matchIfMissing = true)
 @ConditionalOnClass({GenericObjectPool.class, RedisClient.class})
 @AutoConfigureAfter({RedisProperties.class})
 @EnableConfigurationProperties({RedisProperties.class})
