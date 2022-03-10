@@ -157,7 +157,7 @@ spring:
       username: ADMIN
       password: KYLIN
       driver-class-name: org.apache.kylin.jdbc.Driver
-      
+      thread-pool: false
       
 常用数据库 validationQuery 检查语句
 
