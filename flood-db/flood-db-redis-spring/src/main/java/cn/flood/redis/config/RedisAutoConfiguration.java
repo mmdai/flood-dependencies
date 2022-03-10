@@ -1,5 +1,6 @@
 package cn.flood.redis.config;
 
+import cn.flood.redis.config.impl.RedisServiceImpl;
 import cn.flood.redis.config.jedis.JedisConnectionConfiguration;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -86,5 +87,10 @@ public class RedisAutoConfiguration {
         template.setHashValueSerializer(stringSerializer);// Hash value序列化
         template.afterPropertiesSet();
         return template;
+    }
+
+    @Bean
+    public RedisService getRedisService(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisServiceImpl(redisTemplate);
     }
 }

@@ -1,21 +1,7 @@
 # redis-spring-boot-starter
 
-<p align="center">
-    <img src="https://img.shields.io/badge/JDK-1.8+-green.svg" />
-    <img src="https://img.shields.io/maven-central/v/wiki.xsx/redis-spring-boot-starter.svg?label=Maven%20Central" />
-    <img src="https://img.shields.io/:license-apache-blue.svg" />
-    <a href='https://gitee.com/xsxgit/redis-spring-boot-starter/stargazers'>
-        <img src='https://gitee.com/xsxgit/redis-spring-boot-starter/badge/star.svg?theme=dark' alt='star' />
-    </a>
-    <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=32947ea46f9f67f9de4ecf02e09b359ef89b02c56470272810c9776a15626518">
-<img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Redis通用包组件讨论组" title="Redis通用包组件讨论组">
-    </a>
-</p>
-
-
-
 #### 介绍
-整合RedisTemplate与StringRedisTemplate，开箱即用，提供更友好更完善的API，更方便的调用，支持Jedis、Lettuce、Redisson等主流客户端，并且在非集群模式下支持分片操作
+整合RedisTemplate与StringRedisTemplate，开箱即用，提供更友好更完善的API，更方便的调用Lettuce，并且在非集群模式下支持分片操作
 
 #### 软件架构
 依赖spring-boot-starter-data-redis
@@ -32,18 +18,11 @@ mvn clean install
 ```
 
 #### 文档地址
-https://apidoc.gitee.com/xsxgit/redis-spring-boot-starter
 
 #### 使用说明
 ##### 一、准备工作
 1. 添加依赖：
 
-```
-<dependency>
-    <groupId>wiki.xsx</groupId>
-    <artifactId>redis-spring-boot-starter</artifactId>
-    <version>X.X.X</version>
-</dependency>
 ```
 2. redis配置：
 
@@ -65,6 +44,35 @@ spring:
         max-idle: 8
         min-idle: 0
 ```
+#集群配置    
+---
+spring:
+  redis:
+    password: 
+    encode: utf-8
+    database: 0   #Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
+    timeout: 10s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
+    cluster:
+        max-redirects: 3
+        nodes: 
+          - 47.94.7.243:6001
+          - 47.94.7.243:6002
+          - 47.94.7.243:6003
+          - 47.94.7.243:6004
+          - 47.94.7.243:6005
+          - 47.94.7.243:6006
+    # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
+    lettuce:
+      pool:
+       # 连接池最大活跃连接数（使用负值表示没有限制） 默认 8,负数为不限制
+       max-active: 20
+       # 连接池中的最大空闲连接 默认 8
+       max-idle: 20
+       # 最小空闲连接数
+       min-idle: 15
+       # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+       max-wait: 30000
+
 
 properties方式：
 ```properties
@@ -137,58 +145,4 @@ List execute = RedisUtil.getTransactionHandler(2).execute(handler -> {
     // 提交事务返回结果
     return handler.commit();
 });
-```
-
-#### 特别说明
-
-1. @since 为redis最低版本所支持的方法，例如@since redis 1.0.0表示1.0.0的redis版本即可使用该方法
-2. XXXAsObj为对象类型序列化相关方法，XXX为字符串类型序列化相关方法
-3. 默认使用 **JsonRedisSerializer**(自定义的json序列化器) 作为对象序列化工具
-4. 分布式锁需依赖 **redisson** ，如需使用，请添加对应依赖
-
-**注**：如**只使用分布式锁**，则**只需引入依赖**即可；如需**使用redisson客户端**，请先**排除Lettuce客户端**，然后可参照以下配置
-
-redisson依赖：
-```
-<dependency>
-     <groupId>org.redisson</groupId>
-     <artifactId>redisson-spring-data-21</artifactId>
-     <version>X.X.X</version>
-</dependency>
-```
-
-[redisson配置参考（点击查看请详配置）](https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95)：
-
-yml方式：
-```yaml
-# common spring boot settings
-spring:
-  redis:
-    database: 0
-    host: localhost
-    password:
-    port: 6379
-    timeout: 0
-    ssl: false
-
-    # Redisson settings
-    #path to redisson.yaml or redisson.json
-    redisson:
-      config: classpath:redisson.yaml
-```
-
-properties方式：
-```properties
-# 默认配置
-# common spring boot settings
-spring.redis.database=0
-spring.redis.host=localhost
-spring.redis.password=
-spring.redis.port=6379
-spring.redis.timeout=0
-spring.redis.ssl=false
-
-# Redisson settings
-#path to redisson.yaml or redisson.json
-spring.redis.redisson.config=classpath:redisson.yaml
 ```

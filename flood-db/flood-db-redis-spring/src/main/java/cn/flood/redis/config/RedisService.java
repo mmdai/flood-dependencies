@@ -6,7 +6,7 @@
 * @date 2018年12月8日  
 * @version 1.0  
 */  
-package cn.flood.redis.service;
+package cn.flood.redis.config;
 
 import org.springframework.data.redis.core.RedisTemplate;
 

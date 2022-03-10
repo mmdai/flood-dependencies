@@ -17,8 +17,6 @@
         <module>flood-db-jdbc</module>
         <!-- 基础mongodb -->
         <module>flood-db-mongodb</module>
-        <!-- 基础cache基于redis工具类 -->
-        <module>flood-db-redis-cache</module>
         <!-- 基础sharding-jdbc -->
         <module>flood-db-sharding</module>
         <!-- redis -->
@@ -27,6 +25,7 @@
         <module>flood-db-redis-lock</module>
         <!-- elasticsearch -->
         <module>flood-db-elasticsearch</module>
+
         <module>flood-db-mybatis</module>
 
     </modules>

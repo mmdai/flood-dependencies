@@ -6,7 +6,7 @@
 * @date 2018年12月8日  
 * @version 1.0  
 */  
-package cn.flood.redis.service.impl;
+package cn.flood.redis.config.impl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
-import cn.flood.redis.service.RedisService;
+import cn.flood.redis.config.RedisService;
 
 
 /**  
