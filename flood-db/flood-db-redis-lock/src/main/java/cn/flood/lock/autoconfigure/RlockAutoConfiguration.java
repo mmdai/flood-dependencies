@@ -53,10 +53,14 @@ public class RlockAutoConfiguration {
             if(Func.isNotEmpty(rlockConfig.getPassword())){
                 config.useSingleServer().setPassword(rlockConfig.getPassword());
             }
+            config.useSingleServer().setConnectionMinimumIdleSize(15);
+            config.useSingleServer().setConnectionPoolSize(20);
         }
         Codec codec=(Codec) ClassUtils.forName(rlockConfig.getCodec(),ClassUtils.getDefaultClassLoader()).newInstance();
         config.setCodec(codec);
         config.setEventLoopGroup(new NioEventLoopGroup());
+        config.setThreads(rlockConfig.getThreads());
+        config.setNettyThreads(rlockConfig.getThreads());
         return Redisson.create(config);
     }
 

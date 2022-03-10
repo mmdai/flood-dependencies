@@ -15,6 +15,8 @@ public class RlockConfig {
     private int database = 15;
     private ClusterServer clusterServer;
     private String codec = "org.redisson.codec.JsonJacksonCodec";
+
+    private int threads = 5;
     //lock
     private long waitTime = 60;
     private long leaseTime = 60;
@@ -86,5 +88,13 @@ public class RlockConfig {
         public void setNodeAddresses(String[] nodeAddresses) {
             this.nodeAddresses = nodeAddresses;
         }
+    }
+
+    public int getThreads() {
+        return threads;
+    }
+
+    public void setThreads(int threads) {
+        this.threads = threads;
     }
 }

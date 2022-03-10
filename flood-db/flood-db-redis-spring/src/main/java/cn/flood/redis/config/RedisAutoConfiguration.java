@@ -6,17 +6,17 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import cn.flood.redis.config.cache.RedisCacheConfiguration;
 import cn.flood.redis.config.lettuce.LettuceConnectionConfiguration;
 import cn.flood.redis.util.ApplicationContextUtil;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -28,18 +28,22 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @since 1.8
  */
 @Configuration
-@ConditionalOnClass({RedisTemplate.class})
+@AutoConfigureBefore(org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration.class)
 @Import({
         ApplicationContextUtil.class,
         JedisConnectionConfiguration.class,
-        LettuceConnectionConfiguration.class,
-        RedisCacheConfiguration.class
+        LettuceConnectionConfiguration.class
 })
 public class RedisAutoConfiguration {
 
+    @Primary
     @Bean
     @ConditionalOnMissingBean({RedisTemplate.class})
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+      return getRedisTemplate(redisConnectionFactory);
+    }
+
+    public RedisTemplate<String, Object> getRedisTemplate(RedisConnectionFactory redisConnectionFactory){
         // 设置序列化
         Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
                 Object.class);
