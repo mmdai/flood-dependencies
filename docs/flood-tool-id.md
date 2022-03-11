@@ -1,15 +1,9 @@
-# ecp-uid
+# flood-tool-id
 居于美团leaf、百度UidGenerator、原生snowflake 进行整合的 唯一ID生成器
 
 一、介绍
 -------------------
-   1、本项目为uid生成器，支持segment、snowflake、UidGenerator、spring四种策略生成id
-   
-   2、本项目可生成混淆id，目前混淆策略为：gene(基因法)
-
-   3、项目地址：
-      github ： https://github.com/linhuaichuan/ecp-uid
-      码云： https://gitee.com/zmds/ecp-uid
+   本项目为uid生成器，支持segment、snowflake、UidGenerator、spring四种策略生成id
    
 二、策略说明
 -------------------
@@ -133,14 +127,3 @@
                     
    4、spring 增量ID
       是 基于 segment策略提供给spring 增量实现。非直接使用的策略
-   
-   5、混淆算法
-      是 基于 基因分库法这个理论扩展出来的混淆算法
-      
-三 、使用
--------------------
-     <bean class="**.UidContext">
-         <property name="uidStrategy" ref="上述任何策略" />
-         <property name="factor" value="可选：基因因子，如设置则启用混淆" />
-         <property name="fixed" value="可选：除余底数，建议使用固定值，不可更改" />
-     </bean>
