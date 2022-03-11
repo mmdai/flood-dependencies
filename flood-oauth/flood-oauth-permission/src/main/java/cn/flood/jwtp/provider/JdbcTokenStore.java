@@ -3,6 +3,7 @@ package cn.flood.jwtp.provider;
 import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.jwtp.enums.PlatformEnum;
+import cn.flood.lang.CollectionUtil;
 import cn.flood.lang.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,7 +31,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     private static final String UPDATE_FIELDS = "user_id, access_token, refresh_token, expire_time, refresh_token_expire_time, roles, permissions, info, platform, tenant_id";
     private static final String BASE_SELECT = "select token_id, " + UPDATE_FIELDS + " from oauth_token";
     // 查询用户的某个token
-    private static final String SQL_SELECT_BY_TOKEN = BASE_SELECT + " where user_id = ? and access_token = ? and platform = ? and tenant_id = ? ";
+    private static final String SQL_SELECT_BY_TOKEN = BASE_SELECT + " where user_id = ?  and platform = ? and tenant_id = ? ";
     // 查询某个用户的全部token
     private static final String SQL_SELECT_BY_USER_ID = BASE_SELECT + " where user_id = ? and platform = ? and tenant_id = ? order by create_time";
     // 插入token
@@ -46,7 +47,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     // 修改某个用户的信息
     private static final String SQL_UPDATE_INFO = "update oauth_token set info = ? where user_id = ? and platform = ?  and tenant_id = ?";
     // 查询某个用户的refresh_token
-    private static final String SQL_SELECT_REFRESH_TOKEN = BASE_SELECT + " where user_id = ? and refresh_token= ? and platform = ?  and tenant_id = ?";
+    private static final String SQL_SELECT_REFRESH_TOKEN = BASE_SELECT + " where user_id = ? and platform = ?  and tenant_id = ?";
     // 查询tokenKey
     private static final String SQL_SELECT_KEY = "select token_key from oauth_token_key";
     // 插入tokenKey
@@ -91,7 +92,10 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     @Override
     public UserToken findToken(PlatformEnum platform, String tenantId, String userId, String access_token) {
         try {
-            return jdbcTemplate.queryForObject(SQL_SELECT_BY_TOKEN, rowMapper, userId, access_token, platform.getType(),  tenantId);
+            List<UserToken> list = (List)jdbcTemplate.queryForList(SQL_SELECT_BY_TOKEN, rowMapper, userId, platform.getType(),  tenantId);
+            if(CollectionUtil.isNotEmpty(list)){
+                return list.stream().filter(u -> access_token.equals(u.getAccessToken())).findFirst().orElse(null);
+            }
         } catch (EmptyResultDataAccessException e) {
         }
         return null;
@@ -109,9 +113,10 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     @Override
     public UserToken findRefreshToken(PlatformEnum platform, String tenantId, String userId, String refresh_token) {
         try {
-            List<UserToken> list = jdbcTemplate.query(SQL_SELECT_REFRESH_TOKEN, rowMapper, userId, refresh_token, platform.getType(), tenantId);
-            if (list.size() > 0) {
-                return list.get(0);
+            List<UserToken> list = jdbcTemplate.query(SQL_SELECT_REFRESH_TOKEN, rowMapper, userId, platform.getType(), tenantId);
+
+            if (CollectionUtil.isNotEmpty(list)) {
+                return list.stream().filter(u -> refresh_token.equals(u.getRefreshToken())).findFirst().orElse(null);
             }
         } catch (EmptyResultDataAccessException e) {
         }
@@ -216,7 +221,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
             String roles = rs.getString("roles");
             String permissions = rs.getString("permissions");
             String info = rs.getString("info");
-            String platform = rs.getString("platform");
+//            String platform = rs.getString("platform");
             String tenant_id = rs.getString("tenant_id");
             UserToken userToken = new UserToken();
             userToken.setTokenId(token_id);
@@ -259,7 +264,8 @@ public class JdbcTokenStore extends TokenStoreAbstract {
                 "  PRIMARY KEY(token_id)," +
                 "  KEY `index_oauth_platform` (`platform`)," +
                 "  KEY `index_oauth_tenantid` (`tenant_id`)," +
-                "  KEY `index_oauth_userid` (`user_id`)" +
+                "  KEY `index_oauth_userid` (`user_id`)," +
+                "  KEY `index_oauth_access` (`access_token`)" +
                 ")COMMENT='oauth_token信息表',ENGINE = INNODB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;";
         this.jdbcTemplate.execute(sql);
         sql = "CREATE TABLE IF NOT EXISTS `oauth_token_key`  (\n" +
