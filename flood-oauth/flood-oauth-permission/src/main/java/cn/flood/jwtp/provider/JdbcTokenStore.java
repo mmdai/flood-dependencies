@@ -92,7 +92,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     @Override
     public UserToken findToken(PlatformEnum platform, String tenantId, String userId, String access_token) {
         try {
-            List<UserToken> list = (List)jdbcTemplate.queryForList(SQL_SELECT_BY_TOKEN, rowMapper, userId, platform.getType(),  tenantId);
+            List<UserToken> list = jdbcTemplate.query(SQL_SELECT_BY_TOKEN, rowMapper, userId, platform.getType(),  tenantId);
             if(CollectionUtil.isNotEmpty(list)){
                 return list.stream().filter(u -> access_token.equals(u.getAccessToken())).findFirst().orElse(null);
             }
