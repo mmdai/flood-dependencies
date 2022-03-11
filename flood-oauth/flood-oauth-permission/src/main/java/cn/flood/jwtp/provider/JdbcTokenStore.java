@@ -31,7 +31,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     private static final String UPDATE_FIELDS = "user_id, access_token, refresh_token, expire_time, refresh_token_expire_time, roles, permissions, info, platform, tenant_id";
     private static final String BASE_SELECT = "select token_id, " + UPDATE_FIELDS + " from oauth_token";
     // 查询用户的某个token
-    private static final String SQL_SELECT_BY_TOKEN = BASE_SELECT + " where user_id = ?  and platform = ? and tenant_id = ? ";
+    private static final String SQL_SELECT_BY_TOKEN = BASE_SELECT + " where user_id = ?  and platform = ? and tenant_id = ? order by create_time desc";
     // 查询某个用户的全部token
     private static final String SQL_SELECT_BY_USER_ID = BASE_SELECT + " where user_id = ? and platform = ? and tenant_id = ? order by create_time";
     // 插入token
@@ -47,7 +47,7 @@ public class JdbcTokenStore extends TokenStoreAbstract {
     // 修改某个用户的信息
     private static final String SQL_UPDATE_INFO = "update oauth_token set info = ? where user_id = ? and platform = ?  and tenant_id = ?";
     // 查询某个用户的refresh_token
-    private static final String SQL_SELECT_REFRESH_TOKEN = BASE_SELECT + " where user_id = ? and platform = ?  and tenant_id = ?";
+    private static final String SQL_SELECT_REFRESH_TOKEN = BASE_SELECT + " where user_id = ? and platform = ?  and tenant_id = ? order by create_time desc";
     // 查询tokenKey
     private static final String SQL_SELECT_KEY = "select token_key from oauth_token_key";
     // 插入tokenKey
