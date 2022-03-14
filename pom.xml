@@ -4,7 +4,7 @@
 
   <groupId>io.github.mmdai</groupId>
   <artifactId>flood-dependencies</artifactId>
-  <version> 2.5.10.0</version>
+  <version> 2.5.10.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>flood-dependencies</name>
@@ -23,7 +23,7 @@
 	  <spring.platform.version>Cairo-SR8</spring.platform.version>
 	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
 	  <!-- flood 版本 -->
-	  <flood.version>2.5.10.0</flood.version>
+	  <flood.version>2.5.10.2-SNAPSHOT</flood.version>
 	  <!-- log -->
 	  <commons.io.version>2.11.0</commons.io.version>
 	  <disruptor.version>3.4.4</disruptor.version>
@@ -354,7 +354,7 @@
 							<include>**/static.*</include>
 						</includes>
 						<!--重要 如果不设置resource 会导致application.yaml中的@@找不到pom文件中的配置-->
-						<!--<filtering>true</filtering>-->
+						<filtering>true</filtering>
 					</resource>
 					<resource>
 						<directory>src/main/java</directory>
@@ -413,10 +413,11 @@
 							</execution>
 						</executions>
 					</plugin>
+					<!-- GPG -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.5</version>
+						<version>1.6</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -426,6 +427,18 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+					<!--自动发布-->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.8</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>sonatype</serverId>
+							<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
