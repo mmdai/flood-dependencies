@@ -65,7 +65,15 @@
 		
 		<resources>
 			<resource>
+				<directory>src/main/view</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+			<resource>
 				<directory>src/main/resources</directory>
+				<!--重要 如果不设置resource 会导致application.yaml中的@@找不到pom文件中的配置-->
+				<filtering>true</filtering>
 				<includes>
 					<include>**/*.properties</include>
 					<include>**/*.yml</include>
@@ -82,26 +90,6 @@
                 	<include>**/*.factories</include>
                 	<include>**/static.*</include>
 				</includes>
-				<!--重要 如果不设置resource 会导致application.yaml中的@@找不到pom文件中的配置-->
-				<!--<filtering>true</filtering>-->
-			</resource>
-			<resource>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**/*.properties</include>
-					<include>**/*.tld</include>
-	                <include>**/*.xml</include>
-	                <include>**/*.lic</include>
-	                <include>**/*.store</include>
-				</includes>
-				<filtering>false</filtering>
-			</resource>
-			<resource>
-				<directory>src/main/view</directory>
-				<includes>
-					<include>**/*.*</include>
-				</includes>
-				<filtering>false</filtering>
 			</resource>
 		</resources>
 	</build>
@@ -180,12 +168,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-db-mongodb</artifactId>
-			<version>${flood.version}</version>
-		</dependency>
-		<!-- 基础cache基于redis工具类 -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-db-redis-cache</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 		<!-- 基础sharding-jdbc -->
