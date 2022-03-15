@@ -48,9 +48,17 @@ public class UserToken implements Serializable {
      */
     private Date expireTime;
     /**
+     * 过期时间（秒）
+     */
+    private Long expireSecond;
+    /**
      * refresh_token过期时间
      */
     private Date refreshTokenExpireTime;
+    /**
+     * refresh_token过期时间（秒）
+     */
+    private Long refreshTokenExpireSecond;
     /**
      * 用户角色
      */
@@ -175,5 +183,21 @@ public class UserToken implements Serializable {
 
     public void setPostId(String postId) {
         this.postId = postId;
+    }
+
+    public Long getExpireSecond() {
+        return expireSecond;
+    }
+
+    public void setExpireSecond(Long expireSecond) {
+        this.expireSecond = expireSecond;
+    }
+
+    public Long getRefreshTokenExpireSecond() {
+        return refreshTokenExpireSecond;
+    }
+
+    public void setRefreshTokenExpireSecond(Long refreshTokenExpireSecond) {
+        this.refreshTokenExpireSecond = refreshTokenExpireSecond;
     }
 }

@@ -113,12 +113,14 @@ public class TokenUtil {
         userToken.setUserId(subject);
         userToken.setAccessToken(access_token);
         userToken.setExpireTime(expireDate);
+        userToken.setExpireSecond(expire);
         // 生成refresh_token
         if (needRt) {
             Date refreshExpireDate = new Date(new Date().getTime() + 1000 * rtExpire);
             String refresh_token = Jwts.builder().setSubject(platformSubject).signWith(key).setExpiration(refreshExpireDate).compact();
             userToken.setRefreshToken(refresh_token);
             userToken.setRefreshTokenExpireTime(refreshExpireDate);
+            userToken.setRefreshTokenExpireSecond(rtExpire);
         }
         return userToken;
     }

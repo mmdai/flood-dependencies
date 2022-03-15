@@ -80,20 +80,20 @@ public enum PlatformEnum {
     /**
      * 名称
      */
-    final String name;
+    final String code;
     /**
      * 类型
      */
     final int type;
 
     // 构造方法
-    PlatformEnum(String name, int type) {
-        this.name = name;
+    PlatformEnum(String code, int type) {
+        this.code = code;
         this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getCode() {
+        return code;
     }
 
     public int getType() {
@@ -106,9 +106,9 @@ public enum PlatformEnum {
                 findFirst().orElse(null);
     }
 
-    public static PlatformEnum valueOfEnum(String name) {
+    public static PlatformEnum valueOfEnum(String code) {
         return Stream.of(PlatformEnum.values()).
-                filter(enums -> enums.name.equalsIgnoreCase(name)).
+                filter(enums -> enums.code.equalsIgnoreCase(code)).
                 findFirst().orElse(null);
     }
 }

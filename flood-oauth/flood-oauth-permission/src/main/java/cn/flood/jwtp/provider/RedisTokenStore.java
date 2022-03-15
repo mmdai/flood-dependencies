@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * redis存储token的实现
@@ -34,6 +35,8 @@ public class RedisTokenStore extends TokenStoreAbstract {
     private static final String KEY_PRE_PERM = "flood:oauth_prem:";  //权限存储的key前缀
 
     private static final String KEY_PRE_INFO = "flood:oauth_info:";  //信息存储的key前缀
+
+    private static final TimeUnit timeUnit = TimeUnit.SECONDS; //redis过期单位
 
     private final StringRedisTemplate redisTemplate;
 
@@ -82,16 +85,27 @@ public class RedisTokenStore extends TokenStoreAbstract {
         String key = getKey(platform, tenantId, userToken.getUserId());
         // 存储access_token
         redisTemplate.opsForList().rightPush(KEY_PRE_TOKEN + key, userToken.getAccessToken());
+        redisTemplate.expire(KEY_PRE_TOKEN + key, userToken.getExpireSecond(), timeUnit);
         // 存储refresh_token
         if (userToken.getRefreshToken() != null && findRefreshToken(platform, tenantId, userToken.getUserId(), userToken.getRefreshToken()) == null) {
             redisTemplate.opsForList().rightPush(KEY_PRE_REFRESH_TOKEN + key, userToken.getRefreshToken());
+            redisTemplate.expire(KEY_PRE_REFRESH_TOKEN + key, userToken.getRefreshTokenExpireSecond(), timeUnit);
         }
         // 存储角色
         updateRolesByUserId(platform, tenantId, userToken.getUserId(), userToken.getRoles());
+        if(Func.isNotEmpty(userToken.getRoles())){
+            redisTemplate.expire(KEY_PRE_ROLE  + key, userToken.getExpireSecond(), timeUnit);
+        }
         // 存储权限
         updatePermissionsByUserId(platform, tenantId, userToken.getUserId(), userToken.getPermissions());
+        if(Func.isNotEmpty(userToken.getPermissions())){
+            redisTemplate.expire(KEY_PRE_PERM  + key, userToken.getExpireSecond(), timeUnit);
+        }
         //存储用户信息
         updateUserInfoByUserId(platform, tenantId, userToken.getUserId(), userToken.getUserInfo());
+        if(Func.isNotEmpty(userToken.getUserInfo())){
+            redisTemplate.expire(KEY_PRE_INFO  + key, userToken.getExpireSecond(), timeUnit);
+        }
         // 限制用户的最大token数量
         if (getMaxToken() != -1) {
             listMaxLimit(KEY_PRE_TOKEN + key, getMaxToken());
@@ -231,7 +245,7 @@ public class RedisTokenStore extends TokenStoreAbstract {
     public int updateRolesByUserId(PlatformEnum platform, String tenantId, String userId, String[] roles) {
         String roleKey = KEY_PRE_ROLE  + getKey(platform, tenantId, userId);
         redisTemplate.delete(roleKey);
-        if (roles != null && roles.length > 0) {
+        if (Func.isNotEmpty(roles)) {
             redisTemplate.opsForSet().add(roleKey, roles);
         }
         return 1;
@@ -249,7 +263,7 @@ public class RedisTokenStore extends TokenStoreAbstract {
     public int updatePermissionsByUserId(PlatformEnum platform, String tenantId, String userId, String[] permissions) {
         String permKey = KEY_PRE_PERM + getKey(platform, tenantId, userId);
         redisTemplate.delete(permKey);
-        if (permissions != null && permissions.length > 0) {
+        if (Func.isNotEmpty(permissions)) {
             redisTemplate.opsForSet().add(permKey, permissions);
         }
         return 1;
