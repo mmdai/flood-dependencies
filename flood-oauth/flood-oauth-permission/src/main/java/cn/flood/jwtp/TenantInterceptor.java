@@ -3,7 +3,6 @@ package cn.flood.jwtp;
 import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.constants.HeaderConstant;
-import cn.flood.constants.TenantConstant;
 import cn.flood.context.TenantContextHolder;
 import cn.flood.http.WebUtil;
 import cn.flood.jwtp.util.CheckPermissionUtil;

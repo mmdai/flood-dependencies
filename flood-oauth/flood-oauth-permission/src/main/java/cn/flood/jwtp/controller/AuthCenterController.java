@@ -1,6 +1,7 @@
 package cn.flood.jwtp.controller;
 
 import cn.flood.UserToken;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.jwtp.annotation.Ignore;
 import cn.flood.jwtp.enums.PlatformEnum;
 import cn.flood.jwtp.provider.TokenStore;
@@ -26,7 +27,7 @@ public class AuthCenterController {
     private TokenStore tokenStore;
 
     @RequestMapping("/authentication")
-    public Result authentication(@RequestParam("access_token") String access_token) {
+    public Result authentication(@RequestParam(HeaderConstant.ACCESS_TOKEN) String access_token) {
         if (access_token == null || access_token.trim().isEmpty()) {
             return ResultWapper.error("access_token Not Found");
         }

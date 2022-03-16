@@ -41,4 +41,9 @@ public interface HeaderConstant {
      * 为了兼容旧版本无请求头,默认从1.0版本开始
      */
     String DEFAULT_VERSION = "1.0.0";
+
+    /**
+     * 传参token
+     */
+    String ACCESS_TOKEN = "access_token";
 }

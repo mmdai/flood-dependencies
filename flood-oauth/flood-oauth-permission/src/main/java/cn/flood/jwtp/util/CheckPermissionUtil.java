@@ -2,9 +2,11 @@ package cn.flood.jwtp.util;
 
 import cn.flood.Func;
 import cn.flood.UserToken;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.json.JsonUtils;
 import cn.flood.jwtp.annotation.*;
 import cn.flood.jwtp.requestWrapper.RequestWrapper;
+import cn.flood.lang.StringPool;
 import org.springframework.http.HttpHeaders;
 
 import org.springframework.web.method.HandlerMethod;
@@ -122,17 +124,17 @@ public class CheckPermissionUtil {
      */
     public static String takeToken(HttpServletRequest request) {
         String access_token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (access_token != null && access_token.length() >= 7) {
-            access_token = access_token.replaceFirst(TokenUtil.PREFIX, "");
+        if (Func.isNotEmpty(access_token)) {
+            access_token = access_token.replaceFirst(TokenUtil.PREFIX, StringPool.EMPTY);
         }else {
-            access_token = request.getParameter("access_token");
+            access_token = request.getParameter(HeaderConstant.ACCESS_TOKEN);
             if (access_token == null || access_token.trim().isEmpty()) {
                 // 防止流读取一次后就没有了, 所以需要将流继续写出去
                 String payload = new RequestWrapper(request).getBodyString(request);
 //                log.info("payload:【{}】", payload);
                 if(!Func.isEmpty(payload)){
                     Map<String, Object> map = JsonUtils.toMap(payload);
-                    access_token = ((String) map.get("access_token")).replaceFirst(TokenUtil.PREFIX, "");
+                    access_token = ((String) map.get(HeaderConstant.ACCESS_TOKEN)).replaceFirst(TokenUtil.PREFIX, StringPool.EMPTY);
                 }
             }
         }

@@ -2,6 +2,7 @@ package cn.flood.jwtp.client;
 
 import cn.flood.Func;
 import cn.flood.UserToken;
+import cn.flood.constants.HeaderConstant;
 import cn.flood.context.SpringContextManager;
 import cn.flood.http.WebUtil;
 import cn.flood.rpc.response.Result;
@@ -122,7 +123,7 @@ public class ClientInterceptor implements HandlerInterceptor {
         HttpHeaders headers = new HttpHeaders();
         // 封装参数，千万不要替换为Map与HashMap，否则参数无法传递
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
-        paramMap.add("access_token", access_token);
+        paramMap.add(HeaderConstant.ACCESS_TOKEN, access_token);
         HttpEntity requestEntity = new HttpEntity<>(paramMap, headers);
         Result result = restTemplate.postForObject(url.toString(), requestEntity, Result.class);
         if(result == null){
