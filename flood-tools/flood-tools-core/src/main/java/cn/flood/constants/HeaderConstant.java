@@ -12,10 +12,10 @@ public interface HeaderConstant {
     /**
      * 平台类型 WEB,APP
      */
-    String USER_TYPE = "user_type";
+    String CLIENT_ID = "client_id";
 
 
-    String DEFAULT_USER_TYPE = "all";
+    String DEFAULT_CLIENT_ID = "all";
 
     /**
      * header 中租户ID

@@ -75,7 +75,7 @@ public class SwaggerConfiguration {
 		securitySchemes.add(new ApiKey("access_token", "access_token", "header"));
 		securitySchemes.add(new ApiKey("版本号(1.0.0)", "version", "header"));
 		securitySchemes.add(new ApiKey("租户ID", "tenant_id", "header"));
-		securitySchemes.add(new ApiKey("平台类型(web,app)", "user_type", "header"));
+		securitySchemes.add(new ApiKey("平台类型(web,app)", "client_id", "header"));
 		securitySchemes.add(new ApiKey("验证码KEY", "captcha_key", "header"));
 		securitySchemes.add(new ApiKey("验证码CODE", "captcha_code", "header"));
 		return securitySchemes;
