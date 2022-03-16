@@ -342,6 +342,12 @@
 						</includes>
 					</resource>
 					<resource>
+						<directory>src/main/flowable</directory>
+						<includes>
+							<include>**/*.*</include>
+						</includes>
+					</resource>
+					<resource>
 						<directory>src/main/resources</directory>
 						<!--重要 如果不设置resource 会导致application.yaml中的@@找不到pom文件中的配置-->
 						<filtering>true</filtering>
@@ -360,6 +366,11 @@
 							<include>**/*.store</include>
 							<include>**/*.factories</include>
 							<include>**/static.*</include>
+							<include>**/flowable.*</include>
+							<include>**/processes.*</include>
+							<include>**/stencilset.*</include>
+							<include>**/templates.*</include>
+							<include>**/idm.*</include>
 						</includes>
 					</resource>
 				</resources>

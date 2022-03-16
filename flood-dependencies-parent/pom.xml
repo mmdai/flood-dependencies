@@ -89,6 +89,11 @@
                 	<include>**/*.store</include>
                 	<include>**/*.factories</include>
                 	<include>**/static.*</include>
+					<include>**/flowable.*</include>
+					<include>**/processes.*</include>
+					<include>**/stencilset.*</include>
+					<include>**/templates.*</include>
+					<include>**/idm.*</include>
 				</includes>
 			</resource>
 		</resources>
