@@ -5,6 +5,7 @@ import cn.flood.UserToken;
 import cn.flood.constants.HeaderConstant;
 import cn.flood.context.SpringContextManager;
 import cn.flood.http.WebUtil;
+import cn.flood.jwtp.constants.TokenConstant;
 import cn.flood.rpc.response.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,7 +120,7 @@ public class ClientInterceptor implements HandlerInterceptor {
             centerUrl = split[round];
         }
         StringBuilder url = new StringBuilder(centerUrl);
-        url.append("/authentication");
+        url.append(TokenConstant.URL.AUTH);
         HttpHeaders headers = new HttpHeaders();
         // 封装参数，千万不要替换为Map与HashMap，否则参数无法传递
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
