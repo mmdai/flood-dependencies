@@ -13,6 +13,7 @@ public class FloodPermissionProperties {
     private static final String[] ENDPOINTS = {
             "/actuator/**",
             "/v2/api-docs/**",
+            "/v3/api-docs/**",
             "/swagger/api-docs",
             "/swagger-ui.html",
             "/doc.html",
@@ -20,7 +21,9 @@ public class FloodPermissionProperties {
             "/webjars/**",
             "/druid/**",
             "/error/**",
-            "/assets/**"
+            "/assets/**",
+            "/js/**",
+            "/favicon.ico"
     };
 
     /**
