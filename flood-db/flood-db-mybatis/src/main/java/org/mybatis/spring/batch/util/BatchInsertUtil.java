@@ -53,6 +53,9 @@ public class BatchInsertUtil {
 
   private static boolean doCheckIsBatchInsertMethod(String fullMethodName) {
     int lastDotIndex = fullMethodName.lastIndexOf(DOT);
+    if(lastDotIndex < 0){
+      return false;
+    }
     String clzName = fullMethodName.substring(0, lastDotIndex);
     String methodName = fullMethodName.substring(lastDotIndex + 1);
 

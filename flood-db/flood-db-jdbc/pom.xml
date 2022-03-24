@@ -18,6 +18,7 @@
             <artifactId>druid</artifactId>
             <version>${druid.version}</version>
         </dependency>
+        <!-- mybatis 依赖 -->
         <dependency>
             <groupId>io.github.mmdai</groupId>
             <artifactId>flood-db-mybatis</artifactId>
