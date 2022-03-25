@@ -24,7 +24,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public static final String API_URI = "v2/api-docs";
+    public static final String API_URI = "v3/api-docs";
 
     private final RouteLocator routeLocator;
     private final GatewayProperties gatewayProperties;
