@@ -145,8 +145,16 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
      *静态资源处理
      **/
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
-        resourceHandlerRegistry.addResourceHandler("/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + properties.getViewResolverPrefix());
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/");
+        /** swagger-ui 地址 */
+        registry.addResourceHandler("/swagger-ui/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
+                .resourceChain(false);
+        registry.addResourceHandler("/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + properties.getViewResolverPrefix());
     }
 
     @Bean
