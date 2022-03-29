@@ -11,6 +11,7 @@ import cn.flood.jwtp.provider.TokenStore;
 import cn.flood.lang.StringPool;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -248,6 +249,51 @@ public class TokenUtil {
         return token;
     }
 
+
+    /**
+     * 解析token
+     *
+     * @param access_token
+     * @return Token
+     */
+    public static UserToken parseToken(String access_token) {
+        TokenStore bean = SpringContextManager.getBean(TokenStore.class);
+        return parseToken(access_token, bean);
+    }
+
+    /**
+     * 解析token
+     *
+     * @param access_token
+     * @param tokenStore TokenStore
+     * @return Token
+     */
+    public static UserToken parseToken(String access_token, TokenStore tokenStore) {
+        UserToken token = null;
+        if (tokenStore != null && !ObjectUtils.isEmpty(access_token)) {
+            try {
+                String tokenKey = tokenStore.getTokenKey();
+                String subject = TokenUtil.parseToken(access_token, tokenKey);
+                String[] subjects = subject.split(StringPool.COLON);
+                int type = Integer.parseInt(subjects[0]);
+                String tenantId = subjects[1];
+                String userId = subjects[2];
+                // 检查token是否存在系统中
+                token = tokenStore.findToken(PlatformEnum.valueOfEnum(type), tenantId, userId, access_token);
+                // 查询用户的角色和权限
+                if (token != null) {
+                    token.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, token));
+                    token.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, token));
+                }
+            } catch (ExpiredJwtException e) {
+                throw new ExpiredTokenException();
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+
+        }
+        return token;
+    }
 
     /**
      * 判断数组是否包含指定元素
