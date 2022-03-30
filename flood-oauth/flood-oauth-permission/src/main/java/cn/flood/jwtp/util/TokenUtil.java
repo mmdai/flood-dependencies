@@ -295,26 +295,4 @@ public class TokenUtil {
         return token;
     }
 
-    /**
-     * 判断数组是否包含指定元素
-     *
-     * @param strs 数组
-     * @param str  元素
-     * @return boolean
-     */
-    private static boolean contains(String[] strs, String str) {
-        for (int i = 0; i < strs.length; i++) {
-            // 处理空指针
-            String str1 = strs[i];
-            if (StringUtils.hasText(str1)) {
-                if (str1.equals(str)) {
-                    return true;
-                }
-            } else {
-                continue;
-            }
-        }
-        return false;
-    }
-
 }
