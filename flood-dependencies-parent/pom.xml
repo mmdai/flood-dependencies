@@ -120,12 +120,6 @@
 			<artifactId>flood-tools-captcha</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
-		<!-- easyexcel -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-tools-easyexcel</artifactId>
-			<version>${flood.version}</version>
-		</dependency>
 		<!-- 基础mail -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>

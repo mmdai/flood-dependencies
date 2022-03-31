@@ -20,16 +20,12 @@
         <module>flood-tools-core</module>
         <!-- 验证码 -->
         <module>flood-tools-captcha</module>
-        <!-- easyexcel -->
-        <module>flood-tools-easyexcel</module>
         <!-- 基础mail -->
         <module>flood-tools-email</module>
         <!-- 基础async -->
         <module>flood-tools-async</module>
         <!-- 基础分布式id -->
         <module>flood-tools-id</module>
-        <!-- security -->
-        <module>flood-tools-securities</module>
         <!-- 对象转换 -->
         <module>flood-tools-mapstruct</module>
     </modules>
