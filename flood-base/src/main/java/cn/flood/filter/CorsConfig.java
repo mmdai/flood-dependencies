@@ -22,7 +22,8 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns(CorsConfiguration.ALL)
                 .allowCredentials(Boolean.TRUE)
                 .allowedMethods(CorsConfiguration.ALL)
-                .exposedHeaders("X-Access-Token", "Flood_Token","channel_id", "cache-control", "content-language")
+                .exposedHeaders("X-Access-Token", "Flood_Token","channel_id", "cache-control",
+                        "content-language", "client_id", "version", "tenant_id")
                 .maxAge(3600L);
     }
 
