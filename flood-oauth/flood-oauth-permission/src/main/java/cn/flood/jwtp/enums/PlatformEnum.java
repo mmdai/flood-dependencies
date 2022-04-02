@@ -16,23 +16,68 @@ public enum PlatformEnum {
     /**
      * 全平台
      */
-    ALL("all", 0),
-
-    /**
-     * web
-     */
-    WEB("web", 1),
+    ALL("ALL", -1),
 
     /**
      * app
      */
-    APP("app", 2),
+    APP("APP", 0),
+
+    /**
+     * PC
+     */
+    PC("PC", 1),
+
+    /**
+     * web
+     */
+    H5("H5", 2),
 
     /**
      * 管理平台
      */
-    MGR("mgr", 3),
+    MGR("MGR", 3),
 
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_00("inner00", 100),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_01("inner01", 101),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_02("inner02", 102),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_03("inner03", 103),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_04("inner04", 104),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_05("inner05", 105),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_06("inner06", 106),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_07("inner07", 107),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_08("inner08", 108),
+    /**
+     * 内部平台
+     */
+    PLAT_INNER_09("inner09", 109),
     /**
      * 平台00
      */
