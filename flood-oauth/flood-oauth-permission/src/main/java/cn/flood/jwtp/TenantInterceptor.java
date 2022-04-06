@@ -36,7 +36,7 @@ public class TenantInterceptor implements HandlerInterceptor {
                 tenantId = userToken.getTenantId();
             }
         }
-        log.info("获取到的租户ID为:{}", tenantId);
+        log.debug("获取到的租户ID为:{}", tenantId);
         if (Func.isNotBlank(tenantId)) {
             TenantContextHolder.setTenantId(tenantId);
         } else {
