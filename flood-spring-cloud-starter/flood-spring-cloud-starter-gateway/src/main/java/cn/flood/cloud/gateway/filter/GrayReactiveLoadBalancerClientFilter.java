@@ -35,7 +35,7 @@ public class GrayReactiveLoadBalancerClientFilter extends ReactiveLoadBalancerCl
 	private GrayLoadBalancer grayLoadBalancer;
 
 	public GrayReactiveLoadBalancerClientFilter(GatewayLoadBalancerProperties properties, GrayLoadBalancer grayLoadBalancer) {
-		super(null, properties, null);
+		super(null, properties);
 		this.properties = properties;
 		this.grayLoadBalancer = grayLoadBalancer;
 	}

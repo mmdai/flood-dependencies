@@ -30,7 +30,7 @@ public class SecurityRuleFilter implements WebFilter {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    private final String ACCESS_CONTROL_MAX_AGE = "7200";
+    private final String ACCESS_CONTROL_MAX_AGE = "3600L";
 
     private final SafeRuleService safeRuleService;
 

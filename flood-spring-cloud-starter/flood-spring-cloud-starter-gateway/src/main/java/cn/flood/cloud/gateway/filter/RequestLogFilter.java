@@ -46,7 +46,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 		StringBuilder beforeReqLog = new StringBuilder(300);
 		// 日志参数
 		List<Object> beforeReqArgs = new ArrayList<>();
-		beforeReqLog.append("\n\n================ flood Gateway Request Start  ================\n");
+		beforeReqLog.append("\n================ flood Gateway Request Start  ================\n");
 		// 打印路由
 		beforeReqLog.append("===> {}: {}\n");
 		// 参数
@@ -78,7 +78,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 			StringBuilder responseLog = new StringBuilder(300);
 			// 日志参数
 			List<Object> responseArgs = new ArrayList<>();
-			responseLog.append("\n\n================ flood Gateway Response Start  ================\n");
+			responseLog.append("\n================ flood Gateway Response Start  ================\n");
 			// 打印路由 200 get: /mate*/xxx/xxx
 			responseLog.append("<=== {} {}: {}: {}\n");
 			// 参数

@@ -16,6 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
+    private final Long ACCESS_CONTROL_MAX_AGE = 3600L;
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -24,7 +26,7 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedMethods(CorsConfiguration.ALL)
                 .exposedHeaders("X-Access-Token", "Flood_Token","channel_id", "cache-control",
                         "content-language", "client_id", "version", "tenant_id")
-                .maxAge(3600L);
+                .maxAge(ACCESS_CONTROL_MAX_AGE);
     }
 
     @Override
