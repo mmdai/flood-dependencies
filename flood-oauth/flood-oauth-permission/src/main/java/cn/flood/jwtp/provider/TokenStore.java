@@ -24,9 +24,10 @@ public interface TokenStore {
      * @param platform  平台类型
      * @param tenantId  租户id
      * @param userId    用户id
+     * @param needRt   是否生成refresh_token
      * @return
      */
-    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId);
+    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, boolean needRt);
 
     /**
      * 创建新的token
@@ -35,9 +36,10 @@ public interface TokenStore {
      * @param tenantId  租户id
      * @param userId    用户id
      * @param userInfo  用户信息
+     * @param needRt    是否生成refresh_token
      * @return
      */
-    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo);
+    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, boolean needRt);
 
     /**
      * 创建新的token
@@ -47,9 +49,10 @@ public interface TokenStore {
      * @param userId    用户id
      * @param userInfo  用户信息
      * @param expire    token过期时间,单位秒
+     * @param needRt    是否生成refresh_token
      * @return
      */
-    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, long expire);
+    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, long expire, boolean needRt);
 
 
     /**
@@ -75,9 +78,10 @@ public interface TokenStore {
      * @param userInfo    用户信息
      * @param permissions 权限
      * @param roles       角色
+     * @param needRt      是否生成refresh_token
      * @return
      */
-    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles);
+    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, boolean needRt);
 
     /**
      * 创建新的token
@@ -89,9 +93,10 @@ public interface TokenStore {
      * @param permissions 权限
      * @param roles       角色
      * @param expire      token过期时间,单位秒
+     * @param needRt      是否生成refresh_token
      * @return
      */
-    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, long expire);
+    UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, long expire, boolean needRt);
 
     /**
      * 创建新的token

@@ -4,6 +4,7 @@ import cn.flood.Func;
 import cn.flood.cloud.gateway.props.WebSocketProperties;
 import cn.flood.constants.HeaderConstant;
 import cn.flood.trace.MDCTraceUtils;
+import com.google.common.base.Stopwatch;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
@@ -37,10 +39,9 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	private static final String START_TIME = "startTime";
-
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		String requestUrl = exchange.getRequest().getURI().getRawPath();
 		// 构建成一条长 日志，避免并发下日志错乱
 		StringBuilder beforeReqLog = new StringBuilder(300);
@@ -65,28 +66,21 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 		// 打印执行时间
 		log.info(beforeReqLog.toString(), beforeReqArgs.toArray());
 
-		exchange.getAttributes().put(START_TIME, System.currentTimeMillis());
 		return chain.filter(exchange).then(Mono.fromRunnable(() -> {
 			ServerHttpResponse response = exchange.getResponse();
-			Long startTime = exchange.getAttribute(START_TIME);
-			long executeTime = 0L;
-			if (startTime != null) {
-				executeTime = (System.currentTimeMillis() - startTime);
-			}
 
 			// 构建成一条长 日志，避免并发下日志错乱
 			StringBuilder responseLog = new StringBuilder(300);
 			// 日志参数
 			List<Object> responseArgs = new ArrayList<>();
 			responseLog.append("\n================ flood Gateway Response Start  ================\n");
-			// 打印路由 200 get: /mate*/xxx/xxx
+			// 打印路由 200 get: /*/xxx/xxx
 			responseLog.append("<=== {} {}: {}: {}\n");
 			// 参数
 			responseArgs.add(response.getStatusCode().value());
 			responseArgs.add(requestMethod);
 			responseArgs.add(requestUrl);
-			responseArgs.add(executeTime + "ms");
-
+			responseArgs.add(stopwatch.stop().elapsed(TimeUnit.MILLISECONDS) + "ms");
 			// 打印请求头
 			HttpHeaders httpHeaders = response.getHeaders();
 			//如果是websocket，不需要加入traceId
@@ -102,7 +96,6 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 				responseArgs.add(headerName);
 				responseArgs.add(Func.join(headerValue));
 			});
-
 			responseLog.append("================  flood Gateway Response End  =================\n");
 			// 打印执行时间
 			log.info(responseLog.toString(), responseArgs.toArray());

@@ -36,8 +36,8 @@ public abstract class TokenStoreAbstract implements TokenStore {
      * @return
      */
     @Override
-    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId) {
-        return createNewToken(platform, tenantId, userId, null, null, null);
+    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, boolean needRt) {
+        return createNewToken(platform, tenantId, userId, null, null, null, needRt);
     }
 
     /**
@@ -46,11 +46,12 @@ public abstract class TokenStoreAbstract implements TokenStore {
      * @param tenantId  租户id
      * @param userId    用户id
      * @param userInfo  用户信息
+     * @param needRt   是否生成refresh_token
      * @return
      */
     @Override
-    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo) {
-        return createNewToken(platform, tenantId, userId, userInfo,null, null);
+    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, boolean needRt) {
+        return createNewToken(platform, tenantId, userId, userInfo,null, null, needRt);
     }
 
     /**
@@ -60,11 +61,12 @@ public abstract class TokenStoreAbstract implements TokenStore {
      * @param userId    用户id
      * @param userInfo  用户信息
      * @param expire    token过期时间,单位秒
+     * @param needRt   是否生成refresh_token
      * @return
      */
     @Override
-    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, long expire) {
-        return createNewToken(platform, tenantId, userId, userInfo, null, null, expire);
+    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, long expire, boolean needRt) {
+        return createNewToken(platform, tenantId, userId, userInfo, null, null, expire, needRt);
     }
 
     /**
@@ -90,11 +92,12 @@ public abstract class TokenStoreAbstract implements TokenStore {
      * @param userInfo    用户信息
      * @param permissions 权限
      * @param roles       角色
+     * @param needRt   是否生成refresh_token
      * @return
      */
     @Override
-    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles) {
-        return createNewToken(platform, tenantId, userId, userInfo, permissions, roles, TokenUtil.DEFAULT_EXPIRE);
+    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, boolean needRt) {
+        return createNewToken(platform, tenantId, userId, userInfo, permissions, roles, TokenUtil.DEFAULT_EXPIRE, needRt);
     }
 
     /**
@@ -109,8 +112,8 @@ public abstract class TokenStoreAbstract implements TokenStore {
      * @return
      */
     @Override
-    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, long expire) {
-        return createNewToken(platform, tenantId, userId, userInfo, permissions, roles, expire, TokenUtil.DEFAULT_EXPIRE_REFRESH_TOKEN);
+    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, long expire, boolean needRt) {
+        return createNewToken(platform, tenantId, userId, userInfo, permissions, roles, expire, TokenUtil.DEFAULT_EXPIRE_REFRESH_TOKEN, needRt);
     }
 
     /**
@@ -127,10 +130,25 @@ public abstract class TokenStoreAbstract implements TokenStore {
      */
     @Override
     public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, long expire, long rtExpire) {
+        return createNewToken(platform, tenantId, userId, userInfo, permissions, roles, expire, rtExpire, true);
+    }
+    /**
+     *
+     * @param platform    平台类型
+     * @param tenantId    租户id
+     * @param userId      用户id
+     * @param userInfo    用户信息
+     * @param permissions 权限
+     * @param roles       角色
+     * @param expire      token过期时间,单位秒
+     * @param rtExpire
+     * @return
+     */
+    public UserToken createNewToken(PlatformEnum platform, String tenantId, String userId, String userInfo, String[] permissions, String[] roles, long expire, long rtExpire, boolean needRt) {
         String tokenKey = getTokenKey();
         logger.debug("TOKEN_KEY: " + tokenKey);
         tenantId = Func.toStr(tenantId, HeaderConstant.DEFAULT_TENANT_ID);
-        UserToken userToken = TokenUtil.buildToken(platform, tenantId, userId, expire, rtExpire, TokenUtil.parseHexKey(tokenKey));
+        UserToken userToken = TokenUtil.buildToken(platform, tenantId, userId, expire, rtExpire, TokenUtil.parseHexKey(tokenKey), needRt);
         userToken.setRoles(roles);
         userToken.setPermissions(permissions);
         if(Func.isNotEmpty(userInfo)){

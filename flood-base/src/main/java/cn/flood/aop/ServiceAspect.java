@@ -1,7 +1,8 @@
 package cn.flood.aop;
 
-import java.time.Clock;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Stopwatch;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -36,7 +37,7 @@ public class ServiceAspect implements LogAspect {
 	
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		long start = Clock.systemDefaultZone().millis();
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		String methodName = joinPoint.getSignature().getName();
 		if(methodName.equalsIgnoreCase("create")){
 			return joinPoint.proceed();
@@ -49,7 +50,7 @@ public class ServiceAspect implements LogAspect {
 //		if (logger.isDebugEnabled()) {
 //			logger.debug("【service】【{}】【{}】", methodName, after(result));
 //		}
-		logger.info("【service】【{}】 end,cost【{}ms】", methodName, (Clock.systemDefaultZone().millis()-start));
+		logger.info("【service】【{}】 end,cost【{}ms】", methodName, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
 		return result;
 	}
 }

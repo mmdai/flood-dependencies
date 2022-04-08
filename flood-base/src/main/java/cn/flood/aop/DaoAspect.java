@@ -1,10 +1,10 @@
 package cn.flood.aop;
 
-import java.time.Clock;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Stopwatch;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class DaoAspect implements LogAspect {
 	
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		long start = Clock.systemDefaultZone().millis();
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		String methodName = joinPoint.getSignature().getName();
 		logger.info("【dao】【{}】 start", methodName);
 		if (logger.isDebugEnabled()) {
@@ -41,7 +41,7 @@ public class DaoAspect implements LogAspect {
 		if (logger.isDebugEnabled()) {
 			logger.debug("【dao】【{}】【{}】", methodName, after(result));
 		}
-		logger.info("【dao】【{}】 end,cost【{}ms】", methodName, (Clock.systemDefaultZone().millis()-start));
+		logger.info("【dao】【{}】 end,cost【{}ms】", methodName, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
 		return result;
 	}
 }

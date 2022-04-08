@@ -42,10 +42,11 @@ public class TokenUtil {
      * @param platform 平台
      * @param tenantId 租户id
      * @param subject  载体
+     * @param needRt   是否生成refresh_token
      * @return UserToken
      */
-    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject) {
-        return buildToken(platform, tenantId, subject, DEFAULT_EXPIRE);
+    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, boolean needRt) {
+        return buildToken(platform, tenantId, subject, DEFAULT_EXPIRE, needRt);
     }
 
     /**
@@ -55,10 +56,11 @@ public class TokenUtil {
      * @param tenantId 租户id
      * @param subject  载体
      * @param expire   token过期时间，单位秒
+     * @param needRt   是否生成refresh_token
      * @return UserToken
      */
-    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, long expire) {
-        return buildToken(platform, tenantId, subject, expire, DEFAULT_EXPIRE_REFRESH_TOKEN);
+    public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, long expire, boolean needRt) {
+        return buildToken(platform, tenantId, subject, expire, DEFAULT_EXPIRE_REFRESH_TOKEN, getKey(), needRt);
     }
 
     /**

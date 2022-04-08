@@ -1,9 +1,10 @@
 package cn.flood.aop;
 
-import java.time.Clock;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Stopwatch;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -41,7 +42,7 @@ public class ControllerAspect implements LogAspect {
 	
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		long start = Clock.systemDefaultZone().millis();
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
 		String uri = request.getRequestURI();
@@ -54,7 +55,7 @@ public class ControllerAspect implements LogAspect {
 //		if (logger.isDebugEnabled()) {
 //		 	logger.debug("【controller】【{}】【{}】【{}】", uri, methodName, after(result));
 //		}
-		logger.info("【controller】【{}】【{}】 end, cost【{}ms】", uri, methodName, (Clock.systemDefaultZone().millis()-start));
+		logger.info("【controller】【{}】【{}】 end, cost【{}ms】", uri, methodName, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
 		return result;
 	}
 

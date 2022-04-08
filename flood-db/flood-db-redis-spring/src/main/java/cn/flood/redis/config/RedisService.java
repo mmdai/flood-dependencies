@@ -131,7 +131,7 @@ public interface RedisService {
 	* @return String    返回类型  
 	* @throws  
 	*/ 
-	String getHash(final String key, final String field);
+	<T> T getHash(final String key, final String field);
 	
 	/**  
 	* @Title: getAllHash  

@@ -204,9 +204,9 @@ public class RedisServiceImpl implements RedisService {
 	 * @see cn.flood.cache.service.RedisService#getHash(java.lang.String, java.lang.String)  
 	 */
 	@Override
-	public String getHash(String key, String field) {
+	public <T> T getHash(String key, String field) {
 		HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
-		return String.valueOf(hash.get(key, field));
+		return (T) hash.get(key, field);
 	}
 
 	/* (non-Javadoc)  

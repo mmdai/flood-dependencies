@@ -1,15 +1,13 @@
 package cn.flood.aop;
 
-import java.time.Clock;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Stopwatch;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -38,7 +36,7 @@ public class ManagerAspect implements LogAspect {
 	
 	@Around("log()") 
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		long start=Clock.systemDefaultZone().millis();
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		String methodName = joinPoint.getSignature().getName();
 		logger.info("【manager】【{}】 start", methodName);
 		if (logger.isDebugEnabled()) {
@@ -49,7 +47,7 @@ public class ManagerAspect implements LogAspect {
 		if (logger.isDebugEnabled()) {
 			logger.debug("【manager】【{}】【{}】", methodName, after(result));
 		}
-		logger.info("【manager】【{}】 end,cost【{}ms】", methodName, (Clock.systemDefaultZone().millis()-start));
+		logger.info("【manager】【{}】 end,cost【{}ms】", methodName, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
 		return result;
 	}
 

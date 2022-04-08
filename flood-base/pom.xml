@@ -60,7 +60,11 @@
           <artifactId>jackson-datatype-jsr310</artifactId>
           <version>${jackson.datatype.version}</version>
       </dependency>
-
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+          <version>${guava.version}</version>
+      </dependency>
       <dependency>
           <groupId>io.github.mmdai</groupId>
           <artifactId>flood-tools-core</artifactId>
