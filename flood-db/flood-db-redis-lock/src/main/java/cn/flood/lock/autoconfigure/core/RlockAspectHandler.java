@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by on 2017/12/29.
- * Content :给添加@KLock切面加锁处理
+ * Content :给添加@RLock切面加锁处理
  */
 @Aspect
 @Component

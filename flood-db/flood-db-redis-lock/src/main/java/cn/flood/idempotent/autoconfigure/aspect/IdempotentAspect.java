@@ -74,7 +74,7 @@ public class IdempotentAspect {
 		String key;
 
 		// 若没有配置 幂等 标识编号，则使用 url + 参数列表作为区分
-		if (ObjectUtils.isEmpty(idempotent.key())) {
+		if (ObjectUtils.isEmpty(idempotent.keys())) {
 			String url = request.getRequestURL().toString();
 			String argString = Arrays.asList(joinPoint.getArgs()).toString();
 			key = url + argString;
