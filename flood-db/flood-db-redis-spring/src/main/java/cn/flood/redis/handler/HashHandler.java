@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.*;
 import cn.flood.redis.util.ConvertUtil;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 哈希助手
@@ -92,6 +93,21 @@ public final class HashHandler implements RedisHandler {
     }
 
     /**
+     * 存入对象如果不存在
+     * @see <a href="http://redis.io/commands/hsetnx">Redis Documentation: HSETNX</a>
+     * @since redis 2.0.0
+     * @param key 键
+     * @param hashKey hash键
+     * @param value 对象
+     * @return 返回布尔值,成功true,失败false
+     */
+    public Boolean putIfAbsentAsObj(String key, String hashKey, Object value, Long timeout, TimeUnit unit) {
+        putIfAbsentAsObj(key, hashKey, value);
+        return expire(key, timeout, unit);
+    }
+
+
+    /**
      * 存入字符串如果不存在
      * @see <a href="http://redis.io/commands/hsetnx">Redis Documentation: HSETNX</a>
      * @since redis 2.0.0
@@ -102,6 +118,20 @@ public final class HashHandler implements RedisHandler {
      */
     public Boolean putIfAbsent(String key, String hashKey, String value) {
         return this.stringHashOperations.putIfAbsent(key, hashKey, value);
+    }
+
+    /**
+     * 存入字符串如果不存在
+     * @see <a href="http://redis.io/commands/hsetnx">Redis Documentation: HSETNX</a>
+     * @since redis 2.0.0
+     * @param key 键
+     * @param hashKey hash键
+     * @param value 字符串
+     * @return 返回布尔值,成功true,失败false
+     */
+    public Boolean putIfAbsent(String key, String hashKey, String value, Long timeout, TimeUnit unit) {
+        putIfAbsent(key, hashKey, value);
+        return expire(key, timeout, unit);
     }
 
     /**
@@ -134,6 +164,18 @@ public final class HashHandler implements RedisHandler {
     }
 
     /**
+     * 存入对象集合
+     * @see <a href="http://redis.io/commands/hmset">Redis Documentation: HMSET</a>
+     * @since redis 2.0.0
+     * @param key 键
+     * @param map 对象集合
+     */
+    public void putAllAsObj(String key, Map<String, Object> map, Long timeout, TimeUnit unit) {
+        putAllAsObj(key, map);
+        expire(key, timeout, unit);
+    }
+
+    /**
      * 存入字符串集合
      * @see <a href="http://redis.io/commands/hmset">Redis Documentation: HMSET</a>
      * @since redis 2.0.0
@@ -159,6 +201,36 @@ public final class HashHandler implements RedisHandler {
             });
         } catch (Exception e) {
             return;
+        }
+    }
+
+    /**
+     * 存入字符串集合
+     * @see <a href="http://redis.io/commands/hmset">Redis Documentation: HMSET</a>
+     * @since redis 2.0.0
+     * @param key 键
+     * @param map 字符串集合
+     */
+    public void putAll(String key, Map<String, String> map, Long timeout, TimeUnit unit) {
+        putAll(key, map);
+        expire(key, timeout, unit);
+    }
+
+    /**
+     * 指定缓存失效时间
+     * @param key 键
+     * @param time 时间(秒)
+     * @return
+     */
+    protected boolean expire(String key, long time, TimeUnit timeUnit) {
+        try {
+            if (time > 0) {
+                this.redisTemplate.expire(key, time, timeUnit);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
