@@ -23,7 +23,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -90,6 +92,64 @@ public class GlobalDefaultExceptionHandler {
 		error.set_msg(message);
 		return error;
     }
+
+	/**
+	 *
+	 * <p>Title: handleHttpRequestMethodNotSupportedException</p>
+	 * <p>Description: http method error 使用默认错误码405</p>
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+	public Object handleHttpRequestMethodNotSupportedException(HttpServletRequest req, HttpRequestMethodNotSupportedException ex) {
+		logger.error(GLOBAL_HANDLER_TITLE, ex);
+		ErrorMessage error = new ErrorMessage();
+		String code = GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getCode();
+		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+		String message = GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getZhName();
+		if(!ObjectUtils.isEmpty(langContent)){
+			if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+				message = GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getEnName();
+			}
+		}else{
+			if (!ZH_CN_2.equals(localeContent)){
+				message = GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getEnName();
+			}
+		}
+		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		error.set_code(code);
+		error.set_msg(message);
+		return error;
+	}
+
+	/**
+	 *
+	 * <p>Title: handleMissingServletRequestParameterException</p>
+	 * <p>Description: http method error 使用默认错误码400</p>
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(MissingServletRequestParameterException.class)
+	public Object handleMissingServletRequestParameterException(HttpServletRequest req, MissingServletRequestParameterException ex) {
+		logger.error(GLOBAL_HANDLER_TITLE, ex);
+		ErrorMessage error = new ErrorMessage();
+		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
+		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+		String message = GlobalErrorCodeEnum.BAD_REQUEST.getZhName();
+		if(!ObjectUtils.isEmpty(langContent)){
+			if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+				message = GlobalErrorCodeEnum.BAD_REQUEST.getEnName();
+			}
+		}else{
+			if (!ZH_CN_2.equals(localeContent)){
+				message = GlobalErrorCodeEnum.BAD_REQUEST.getEnName();
+			}
+		}
+		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		error.set_code(code);
+		error.set_msg(message);
+		return error;
+	}
 	/**
 	 * 
 	 * <p>Title: bindErrorHandler</p>  
