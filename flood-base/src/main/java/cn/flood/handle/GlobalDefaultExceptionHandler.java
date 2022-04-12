@@ -74,7 +74,6 @@ public class GlobalDefaultExceptionHandler {
 	@ExceptionHandler(MaxUploadSizeExceededException.class)
     public Object handleMaxUploadSizeExceededException(HttpServletRequest req, MaxUploadSizeExceededException ex) {
         logger.error(GLOBAL_HANDLER_TITLE, ex);
-        ErrorMessage error = new ErrorMessage();
 		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
 		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
 		String message = "上传文件大小超出系统限制 (" + ex.getMaxUploadSize() / KILO / KILO + "MB)";
@@ -88,9 +87,7 @@ public class GlobalDefaultExceptionHandler {
 			}
 		}
 		logger.error(">>>retCode:{}, retMsg:{}",code, message);
-		error.set_code(code);
-		error.set_msg(message);
-		return error;
+		return getErrorMessage(code, message);
     }
 
 	/**
@@ -103,7 +100,6 @@ public class GlobalDefaultExceptionHandler {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public Object handleHttpRequestMethodNotSupportedException(HttpServletRequest req, HttpRequestMethodNotSupportedException ex) {
 		logger.error(GLOBAL_HANDLER_TITLE, ex);
-		ErrorMessage error = new ErrorMessage();
 		String code = GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getCode();
 		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
 		String message = GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getZhName();
@@ -117,9 +113,7 @@ public class GlobalDefaultExceptionHandler {
 			}
 		}
 		logger.error(">>>retCode:{}, retMsg:{}",code, message);
-		error.set_code(code);
-		error.set_msg(message);
-		return error;
+		return getErrorMessage(code, message);
 	}
 
 	/**
@@ -132,7 +126,6 @@ public class GlobalDefaultExceptionHandler {
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	public Object handleMissingServletRequestParameterException(HttpServletRequest req, MissingServletRequestParameterException ex) {
 		logger.error(GLOBAL_HANDLER_TITLE, ex);
-		ErrorMessage error = new ErrorMessage();
 		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
 		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
 		String message = GlobalErrorCodeEnum.BAD_REQUEST.getZhName();
@@ -146,9 +139,7 @@ public class GlobalDefaultExceptionHandler {
 			}
 		}
 		logger.error(">>>retCode:{}, retMsg:{}",code, message);
-		error.set_code(code);
-		error.set_msg(message);
-		return error;
+		return getErrorMessage(code, message);
 	}
 	/**
 	 * 
@@ -181,17 +172,7 @@ public class GlobalDefaultExceptionHandler {
 		return getErrorMessage(req, error, code, message);
 	}
 
-	private ErrorMessage getErrorMessage(HttpServletRequest req, ErrorMessage error, String code, String message) {
-		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
-		if(ObjectUtils.isEmpty(langContent)){
-			langContent = localeContent;
-		}
-		message = localeParser.replacePlaceHolderByLocale(message, langContent);
-		logger.error(">>>retCode:{}, retMsg:{}",code, message);
-		error.set_code(code);
-		error.set_msg(message);
-		return error;
-	}
+
 
 	/**
 	 * 
@@ -236,7 +217,6 @@ public class GlobalDefaultExceptionHandler {
 	@ExceptionHandler(value = Exception.class)
 	public ErrorMessage defaultErrorHandler(HttpServletRequest req, Exception ex) {
 		logger.error(GLOBAL_HANDLER_TITLE, ex);
-		ErrorMessage error = new ErrorMessage();
 		String code = null;
 		String message = null;
 		Object[] arguments = null;
@@ -277,11 +257,41 @@ public class GlobalDefaultExceptionHandler {
 			message = localeParser.replacePlaceHolderByLocale(message, langContent);
 		}
 		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		return getErrorMessage(code, message);
+	}
+
+	/**
+	 *
+	 * @param req
+	 * @param error
+	 * @param code
+	 * @param message
+	 * @return
+	 */
+	private ErrorMessage getErrorMessage(HttpServletRequest req, ErrorMessage error, String code, String message) {
+		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+		if(ObjectUtils.isEmpty(langContent)){
+			langContent = localeContent;
+		}
+		message = localeParser.replacePlaceHolderByLocale(message, langContent);
+		logger.error(">>>retCode:{}, retMsg:{}",code, message);
 		error.set_code(code);
 		error.set_msg(message);
 		return error;
 	}
 
+	/**
+	 *
+	 * @param code
+	 * @param message
+	 * @return
+	 */
+	private ErrorMessage getErrorMessage(String code, String message) {
+		ErrorMessage error = new ErrorMessage();
+		error.set_code(code);
+		error.set_msg(message);
+		return error;
+	}
 	/**
 	 *
 	 * @param req
