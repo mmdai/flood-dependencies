@@ -3,7 +3,7 @@ package cn.flood.jwtp.util;
 import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.constants.HeaderConstant;
-import cn.flood.context.SpringContextManager;
+import cn.flood.context.SpringBeanManager;
 import cn.flood.http.WebUtil;
 import cn.flood.jwtp.enums.PlatformEnum;
 import cn.flood.jwtp.exception.ExpiredTokenException;
@@ -12,8 +12,6 @@ import cn.flood.lang.StringPool;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -210,7 +208,7 @@ public class TokenUtil {
      * @return Token
      */
     public static UserToken parseToken(HttpServletRequest request) {
-        TokenStore bean = SpringContextManager.getBean(TokenStore.class);
+        TokenStore bean = SpringBeanManager.getBean(TokenStore.class);
         return parseToken(request, bean);
     }
 
@@ -259,7 +257,7 @@ public class TokenUtil {
      * @return Token
      */
     public static UserToken parseToken(String access_token) {
-        TokenStore bean = SpringContextManager.getBean(TokenStore.class);
+        TokenStore bean = SpringBeanManager.getBean(TokenStore.class);
         return parseToken(access_token, bean);
     }
 

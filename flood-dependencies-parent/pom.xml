@@ -307,6 +307,11 @@
 			<artifactId>flood-spring-cloud-starter-rule</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-spring-cloud-starter-seata</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 	</dependencies>
 	</dependencyManagement>
 </project>

@@ -3,7 +3,7 @@ package cn.flood.jwtp.client;
 import cn.flood.Func;
 import cn.flood.UserToken;
 import cn.flood.constants.HeaderConstant;
-import cn.flood.context.SpringContextManager;
+import cn.flood.context.SpringBeanManager;
 import cn.flood.http.WebUtil;
 import cn.flood.jwtp.constants.TokenConstant;
 import cn.flood.rpc.response.Result;
@@ -74,7 +74,7 @@ public class ClientInterceptor implements HandlerInterceptor {
             throw new RuntimeException("请配置authCenterUrl");
         }
         UserToken userToken = null;
-        StringRedisTemplate stringRedisTemplate = SpringContextManager.getBean(StringRedisTemplate.class);
+        StringRedisTemplate stringRedisTemplate = SpringBeanManager.getBean(StringRedisTemplate.class);
         //加入redis 缓存
         if(stringRedisTemplate != null){
             String userTokenStr = stringRedisTemplate.opsForValue().get(REDIS_KEY + access_token);

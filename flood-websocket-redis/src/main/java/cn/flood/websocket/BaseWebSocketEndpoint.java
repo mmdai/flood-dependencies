@@ -3,7 +3,7 @@ package cn.flood.websocket;
 
 
 import cn.flood.Func;
-import cn.flood.context.SpringContextManager;
+import cn.flood.context.SpringBeanManager;
 import cn.flood.websocket.utils.WebSocketUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +60,6 @@ public abstract class BaseWebSocketEndpoint {
     }
 
     protected WebSocketManager getWebSocketManager() {
-        return (WebSocketManager) SpringContextManager.getBean(WebSocketManager.WEBSOCKET_MANAGER_NAME);
+        return (WebSocketManager) SpringBeanManager.getBean(WebSocketManager.WEBSOCKET_MANAGER_NAME);
     }
 }

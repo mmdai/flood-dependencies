@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class StringContextConfiguration {
 
     @Bean
-    public SpringContextManager getSpringContextManager(@Autowired ApplicationContext applicationContext){
-        return new SpringContextManager(applicationContext);
+    public SpringBeanManager getSpringContextManager(@Autowired ApplicationContext applicationContext){
+        return new SpringBeanManager(applicationContext);
     }
 }

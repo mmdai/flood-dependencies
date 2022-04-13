@@ -12,18 +12,18 @@ import org.springframework.core.env.Environment;
 * @author mmdai  
 * @date 2018年10月25日
  */
-public class SpringContextManager implements ApplicationContextAware {
+public class SpringBeanManager implements ApplicationContextAware {
 	
 	private static ApplicationContext applicationContext;
 
-	public SpringContextManager(ApplicationContext applicationContext){
+	public SpringBeanManager(ApplicationContext applicationContext){
 		this.applicationContext = applicationContext;
 	}
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		if(SpringContextManager.applicationContext == null) {
-			SpringContextManager.applicationContext = applicationContext;
+		if(SpringBeanManager.applicationContext == null) {
+			SpringBeanManager.applicationContext = applicationContext;
         }
 	}
 

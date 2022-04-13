@@ -3,7 +3,7 @@ package cn.flood.core.uid.extend.strategy;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.flood.context.SpringContextManager;
+import cn.flood.context.SpringBeanManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Lookup;
 
@@ -85,7 +85,7 @@ public class BaiduUidStrategy implements IUidStrategy {
      */
     @Lookup
     public UidGenerator getGenerator() {
-        return SpringContextManager.getBean(UidGenerator.class);
+        return SpringBeanManager.getBean(UidGenerator.class);
     }
 
     public UidGenerator getUidGenerator() {

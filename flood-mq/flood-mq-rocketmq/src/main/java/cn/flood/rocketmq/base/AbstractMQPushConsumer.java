@@ -1,13 +1,12 @@
 package cn.flood.rocketmq.base;
 
-import cn.flood.context.SpringContextManager;
+import cn.flood.context.SpringBeanManager;
 import cn.flood.rocketmq.dedup.persist.DedupElement;
 import cn.flood.rocketmq.dedup.persist.IPersist;
 import cn.flood.rocketmq.dedup.persist.JDBCPersit;
 import cn.flood.rocketmq.dedup.persist.RedisPersist;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.*;
-import org.apache.rocketmq.common.message.MessageClientIDSetter;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,14 +161,14 @@ public abstract class AbstractMQPushConsumer<T> extends AbstractMQConsumer<T> {
     //消费消息，带去重的逻辑
     private boolean handleMsgInner(final MessageExt messageExt) {
         //去重介质
-        String type = SpringContextManager.getProperties("spring.rocketmq.dedup-type");
+        String type = SpringBeanManager.getProperties("spring.rocketmq.dedup-type");
         IPersist persist = null;
         if("db".equalsIgnoreCase(type)){
-            persist = new JDBCPersit(SpringContextManager.getBean(JdbcTemplate.class));
+            persist = new JDBCPersit(SpringBeanManager.getBean(JdbcTemplate.class));
         }else{
-            persist = new RedisPersist(SpringContextManager.getBean(StringRedisTemplate.class));
+            persist = new RedisPersist(SpringBeanManager.getBean(StringRedisTemplate.class));
         }
-        DedupElement dedupElement = new DedupElement(SpringContextManager.getProperties("spring.application.name"), messageExt.getTopic(), messageExt.getTags()==null ? "" : messageExt.getTags(), dedupMessageKey(messageExt));
+        DedupElement dedupElement = new DedupElement(SpringBeanManager.getProperties("spring.application.name"), messageExt.getTopic(), messageExt.getTags()==null ? "" : messageExt.getTags(), dedupMessageKey(messageExt));
         Boolean shouldConsume = true;
 
         if (dedupElement.getMsgUniqKey() != null) {

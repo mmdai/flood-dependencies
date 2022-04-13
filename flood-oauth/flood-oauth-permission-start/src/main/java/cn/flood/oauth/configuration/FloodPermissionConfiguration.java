@@ -1,6 +1,5 @@
 package cn.flood.oauth.configuration;
 
-import cn.flood.context.SpringContextManager;
 import cn.flood.jwtp.TenantInterceptor;
 import cn.flood.jwtp.TokenInterceptor;
 import cn.flood.jwtp.perm.RestUrlPerm;
