@@ -2,7 +2,7 @@ package cn.flood.proto.resolver;
 
 import cn.flood.proto.ProtostuffRequest;
 import cn.flood.proto.ProtostuffUtils;
-import cn.flood.proto.RequestWrapper;
+import cn.flood.requestWrapper.RequestWrapper;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -40,7 +40,7 @@ public class ProtostuffArgumentResolver implements HandlerMethodArgumentResolver
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String reqBody = new RequestWrapper(request).getBodyString(request);
+        String reqBody = new RequestWrapper(request).getRequestPostStr(request);
         Class clazz = parameter.getParameterType();// 获得参数类型
         return ProtostuffUtils.deserialize(reqBody.getBytes(), clazz);
     }

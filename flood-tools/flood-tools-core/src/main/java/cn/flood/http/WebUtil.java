@@ -22,8 +22,6 @@ import cn.flood.lang.ClassUtil;
 import cn.flood.lang.StringUtils;
 import cn.flood.rpc.response.Result;
 import cn.flood.rpc.response.ResultWapper;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.io.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -321,7 +319,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 									  int status, Object value) throws IOException {
 		response.setContentType(contentType);
 		response.setStatus(status);
-		response.getOutputStream().write(JSONObject.toJSONString(value).getBytes());
+		response.getOutputStream().write(Func.toJson(value).getBytes());
 	}
 
 	/**

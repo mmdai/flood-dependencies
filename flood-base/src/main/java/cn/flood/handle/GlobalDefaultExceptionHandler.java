@@ -28,6 +28,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import cn.flood.exception.ErrorMessage;
@@ -141,6 +142,32 @@ public class GlobalDefaultExceptionHandler {
 		logger.error(">>>retCode:{}, retMsg:{}",code, message);
 		return getErrorMessage(code, message);
 	}
+	/**
+	 *
+	 * <p>Title: handleMissingServletRequestParameterException</p>
+	 * <p>Description: http method error 使用默认错误码400</p>
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	public Object handleMethodArgumentTypeMismatchException(HttpServletRequest req, MethodArgumentTypeMismatchException ex) {
+		logger.error(GLOBAL_HANDLER_TITLE, ex);
+		String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
+		String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+		String message = "请求参数类型错误";
+		if(!ObjectUtils.isEmpty(langContent)){
+			if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+				message = "BAD_REQUEST_TYPE";
+			}
+		}else{
+			if (!ZH_CN_2.equals(localeContent)){
+				message = "BAD_REQUEST_TYPE";
+			}
+		}
+		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		return getErrorMessage(code, message);
+	}
+
 	/**
 	 * 
 	 * <p>Title: bindErrorHandler</p>  
