@@ -45,7 +45,7 @@ public class XssFilterServletRequestWrapper extends HttpServletRequestWrapper {
                 Object o = resultJson.get(key);
                 if (o != null){
                     //过滤掉富文本内的非法标签
-                    o = cleanXSS(o.toString());
+                    o =  XSSUtil.clean(o.toString());
                 }
                 resultJson.put(key,o);
             }
@@ -72,13 +72,13 @@ public class XssFilterServletRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getHeader(String name) {
         String value = super.getHeader(name);
-        return cleanXSS(value);
+        return  XSSUtil.clean(value);
     }
 
     @Override
     public String getParameter(String name) {
         String value = super.getParameter(name);
-        return cleanXSS(value);
+        return  XSSUtil.clean(value);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class XssFilterServletRequestWrapper extends HttpServletRequestWrapper {
             int length = values.length;
             String[] escapseValues = new String[length];
             for (int i = 0; i < length; i++) {
-                escapseValues[i] =  cleanXSS(values[i]);
+                escapseValues[i] =   XSSUtil.clean(values[i]);
             }
             return escapseValues;
         }
@@ -109,7 +109,7 @@ public class XssFilterServletRequestWrapper extends HttpServletRequestWrapper {
             Map newMap = new LinkedHashMap<>();
             uriTemplateVars.forEach((key, value) -> {
                 if (value instanceof String) {
-                    newMap.put(key, cleanXSS((String) value));
+                    newMap.put(key, XSSUtil.clean((String) value));
                 } else {
                     newMap.put(key, value);
                 }
@@ -161,17 +161,4 @@ public class XssFilterServletRequestWrapper extends HttpServletRequestWrapper {
         return new BufferedReader(new InputStreamReader(getInputStream()));
     }
 
-    public static String cleanXSS(String value) {
-        if (Objects.isNull(value)) {
-            return value;
-        }
-        //You'll need to remove the spaces from the html entities below
-        value = value.replaceAll("<", "& lt;").replaceAll(">", "& gt;");
-        value = value.replaceAll("\\(", "& #40;").replaceAll("\\)", "& #41;");
-        value = value.replaceAll("'", "& #39;");
-        value = value.replaceAll("eval\\((.*)\\)", "");
-        value = value.replaceAll("[\\\"\\\'][\\s]*javascript:(.*)[\\\"\\\']", "\"\"");
-        value = value.replaceAll("script", "");
-        return value;
-    }
 }

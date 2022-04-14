@@ -37,6 +37,7 @@
 	  <transmittable.thread.local.version>2.13.0-Beta1</transmittable.thread.local.version>
 	  <classindex.version>3.11</classindex.version>
 	  <protostuff.version>1.2.2</protostuff.version>
+	  <jsoup.version>1.14.3</jsoup.version>
 	  <easy.captcha.version>1.6.2</easy.captcha.version>
 	  <fastjson.version>1.2.79</fastjson.version>
 	  <okhttp3.version>5.0.0-alpha.6</okhttp3.version>

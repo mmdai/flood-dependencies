@@ -60,6 +60,13 @@
           <artifactId>jackson-datatype-jsr310</artifactId>
           <version>${jackson.datatype.version}</version>
       </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+      <dependency>
+          <groupId>org.jsoup</groupId>
+          <artifactId>jsoup</artifactId>
+          <version>${jsoup.version}</version>
+      </dependency>
       <dependency>
           <groupId>com.google.guava</groupId>
           <artifactId>guava</artifactId>
