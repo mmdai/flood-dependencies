@@ -22,6 +22,8 @@
 	  <spring-cloud-alibaba-dependencies.version>2021.0.1.0</spring-cloud-alibaba-dependencies.version>
 	  <spring.platform.version>Cairo-SR8</spring.platform.version>
 	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
+	  <!-- seata -->
+	  <seata.version>1.4.2</seata.version>
 	  <!-- flood 版本 -->
 	  <flood.version>2.6.6.0-SNAPSHOT</flood.version>
 	  <!-- log -->
