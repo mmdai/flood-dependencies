@@ -12,21 +12,18 @@
     <artifactId>flood-spring-cloud-starter-seata</artifactId>
 
     <dependencies>
+        <!-- fegin -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-spring-cloud-starter-fegin</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
         <!-- Seata-->
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.seata</groupId>
-                    <artifactId>seata-all</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>io.seata</groupId>
-            <artifactId>seata-all</artifactId>
+            <artifactId>seata-spring-boot-starter</artifactId>
             <version>${seata.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -34,5 +31,14 @@
             <artifactId>flood-tools-core</artifactId>
             <version>${flood.version}</version>
         </dependency>
+
+        <!-- Druid 数据连接池依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+
     </dependencies>
 </project>

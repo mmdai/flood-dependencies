@@ -33,7 +33,6 @@ import java.util.Properties;
 * @date 2018年10月11日
  */
 @Configuration
-@ConditionalOnClass(com.alibaba.druid.pool.DruidDataSource.class)
 @ConditionalOnProperty(name = "spring.datasource.type", havingValue = "com.alibaba.druid.pool.DruidDataSource", matchIfMissing = true)
 @EnableConfigurationProperties({
         DataSourceProperties.class,
@@ -55,8 +54,8 @@ public class DruidDataSourceConfig {
         System.setProperty("druid.mysql.usePingMethod","false");
     }
 
-	@Bean(name="dataSource") // 只需要纳入动态数据源到spring容器
-    public DataSource dataSource(){
+	@Bean // 只需要纳入动态数据源到spring容器
+    public DruidDataSource dataSource(){
         if(dataSourceProperties.isThreadPool()) {
             DruidDataSource datasource = new DruidDataSource();
             datasource.setUrl(dataSourceProperties.getUrl());
@@ -100,7 +99,7 @@ public class DruidDataSourceConfig {
             datasource.setUseUnfairLock(true);
             return datasource;
         }else{
-            DriverManagerDataSource datasource = new DriverManagerDataSource();
+            DruidDataSource datasource = new DruidDataSource();
             datasource.setUrl(dataSourceProperties.getUrl());
             datasource.setUsername(dataSourceProperties.getUsername());
             datasource.setPassword(dataSourceProperties.getPassword());
