@@ -65,8 +65,6 @@
 	  <pulsar.version>2.8.0</pulsar.version>
 	  <!-- outh -->
 	  <jjwt-j.version>0.11.2</jjwt-j.version>
-	  <!--tx-lcn-->
-	  <txlcn.version>5.0.2.RELEASE</txlcn.version>
 	</properties>
 
   <dependencies>
@@ -301,8 +299,6 @@
 	<module>flood-db</module>
 	<!-- 基础flood-oauth -->
 	<module>flood-oauth</module>
-	<!-- flood 分布式事务 -->
-	<module>flood-db-transaction</module>
 	<!-- flood 工具 -->
 	<module>flood-tools</module>
 	<!-- flood mq -->

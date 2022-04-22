@@ -1,5 +1,6 @@
 package cn.flood.mybatis.interceptor;
 
+import com.google.common.base.Stopwatch;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
@@ -14,6 +15,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Statement;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用于输出每条 SQL 语句及其执行时间
@@ -112,9 +114,9 @@ public class SqlLogInterceptor implements Interceptor {
 		}
 
 		// 计算执行 SQL 耗时
-		long start = System.currentTimeMillis();
+		Stopwatch stopwatch = Stopwatch.createStarted();
 		Object result = invocation.proceed();
-		long timing = System.currentTimeMillis() - start;
+		long timing = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
 
 		// SQL 打印执行结果
 		Object target = realTarget(invocation.getTarget());

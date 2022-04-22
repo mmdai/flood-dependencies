@@ -312,6 +312,13 @@
 			<artifactId>flood-spring-cloud-starter-seata</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.shardingsphere/sharding-transaction-base-seata-at -->
+		<!-- 用于支持分布式seata -->
+		<dependency>
+			<groupId>org.apache.shardingsphere</groupId>
+			<artifactId>sharding-transaction-base-seata-at</artifactId>
+			<version>${sharding.jdbc.version}</version>
+		</dependency>
 	</dependencies>
 	</dependencyManagement>
 </project>
