@@ -1,6 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.flood.cloud.seata.config.SeataConfiguration,\
-  cn.flood.cloud.seata.config.SeataCondAutoConfiguration
+  cn.flood.cloud.seata.config.SeataDbConfiguration,\
+  cn.flood.cloud.seata.config.SeataFeginAutoConfiguration
 
 
 

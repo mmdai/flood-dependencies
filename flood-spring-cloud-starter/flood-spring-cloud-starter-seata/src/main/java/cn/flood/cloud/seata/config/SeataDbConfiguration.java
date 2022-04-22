@@ -27,7 +27,7 @@ import java.sql.SQLException;
 @ConditionalOnBean(DataSource.class)
 @EnableAutoDataSourceProxy
 @Slf4j
-public class SeataConfiguration {
+public class SeataDbConfiguration {
 
     @Autowired
     public DataSource dataSource;
