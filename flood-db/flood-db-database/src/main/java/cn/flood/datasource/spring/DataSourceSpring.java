@@ -16,28 +16,22 @@ import org.springframework.context.annotation.Primary;
 
 import cn.flood.datasource.DataSourceRegisterInfo;
 import cn.flood.datasource.MultiDataSourceRegister;
-import cn.flood.datasource.SingleDataSourceRegister;
 import cn.flood.datasource.dynamic.DynamicDataSource;
 import cn.flood.datasource.enums.DataSourceEnum;
 
 
 @Configuration
-@EnableConfigurationProperties(value= {MultiDataSourceRegister.class,SingleDataSourceRegister.class})
+@EnableConfigurationProperties(value= {MultiDataSourceRegister.class})
 @SuppressWarnings("unchecked")
 public class DataSourceSpring {
 	
 	@Autowired
 	private MultiDataSourceRegister multiDataSourceRegister;
-	
-	@Autowired
-	private SingleDataSourceRegister singleDataSourceRegister;
+
 	
  	@Bean(name="dataSource") // 只需要纳入动态数据源到spring容器
     @Primary
     public DataSource dataSource() {
- 		if(multiDataSourceRegister.getDataSourceList().size() == 0) {
- 			return singleDataSourceRegister.getDatasource();
- 		}
         DynamicDataSource dataSource = new DynamicDataSource();
     	List<DataSourceRegisterInfo> list = multiDataSourceRegister.getSourceConfig();
     	

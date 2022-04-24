@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +30,6 @@ import java.util.Properties;
 */
 @Configuration
 @EnableConfigurationProperties(DruidDbProperties.class)
-@ConditionalOnProperty(name="spring.datasource.isSingle",havingValue="false", matchIfMissing = true)
 @ConfigurationProperties(prefix = "spring.datasource")
 public class MultiDataSourceRegister implements InitializingBean {
 

@@ -15,48 +15,6 @@
 **单数据源范例**
 ---
 application.yml
-   
-#单数据源配置点
-spring:
-  datasource:
-    #数据源single,multi
-    isSingle: true
-    # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
-    url: jdbc:mysql://127.0.0.1:3306/credit_mgr?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
-    username: 'root'
-    password: '123456'
-    driver-class-name:  com.mysql.cj.jdbc.Driver
-    druid:
-      #配置初始化大小/最小/最大
-      initial-size: 10
-      min-idle: 20
-      max-active: 120
-      #获取连接等待超时时间
-      max-wait: 30000
-      validation-query: select 1
-      validation-query-timeout: 5
-      test-on-borrow: true
-      test-on-return: false
-      test-while-idle: true
-      remove-abandoned: true
-      remove-abandoned-timeout: 120
-      #间隔多久进行一次检测，检测需要关闭的空闲连接
-      time-between-eviction-runs-millis: 30000
-      #一个连接在池中最小生存的时间
-      min-evictable-idle-time-millis: 60000
-      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
-      pool-prepared-statements: false
-      max-pool-prepared-statement-per-connection-size: 20
-      #监控统计拦截的filters
-      filters: stat,wall
-      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
-      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=10
-      # 合并多个DruidDataSource的监控数据
-      use-global-data-source-stat: true
-  pagehelper:
-    # 分页注册别名默认mysql（hsqldb、h2、postgresql、phoenix、mysql、mariadb、sqlite、oracle、db2、informix、sqlserver、sqlserver2012、derby、dm-达梦）
-    helperDialect: mysql
-
 
 **多数据源范例**
 ---
