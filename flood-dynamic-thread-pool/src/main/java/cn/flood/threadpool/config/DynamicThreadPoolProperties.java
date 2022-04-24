@@ -21,6 +21,7 @@ import java.util.*;
  */
 @Data
 @ConfigurationProperties(prefix = "flood.threadpools")
+@SuppressWarnings("unchecked")
 public class DynamicThreadPoolProperties {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());

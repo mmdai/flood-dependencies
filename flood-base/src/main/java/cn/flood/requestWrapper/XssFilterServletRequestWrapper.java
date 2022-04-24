@@ -27,6 +27,7 @@ import java.util.Set;
  * @version 1.0
  * @date 2022/4/14 11:21
  */
+@SuppressWarnings("unchecked")
 public class XssFilterServletRequestWrapper extends HttpServletRequestWrapper {
 
     private static Logger log = LoggerFactory.getLogger(XssFilterServletRequestWrapper.class);

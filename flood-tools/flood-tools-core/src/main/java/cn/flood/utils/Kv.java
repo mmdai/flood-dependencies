@@ -14,6 +14,7 @@ import java.util.HashMap;
  * @version 1.0
  * @date 2022/2/21 17:29
  */
+@SuppressWarnings("unchecked")
 public class Kv extends LinkedCaseInsensitiveMap<Object> {
 
     private Kv() {

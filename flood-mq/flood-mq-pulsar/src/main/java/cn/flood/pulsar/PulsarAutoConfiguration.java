@@ -26,6 +26,7 @@ import org.springframework.core.env.Environment;
 
 @EnableConfigurationProperties({PulsarProperties.class})
 @Configuration
+@SuppressWarnings("unchecked")
 public class PulsarAutoConfiguration {
 
     private static final String PILOT_VALUE = "pilot";

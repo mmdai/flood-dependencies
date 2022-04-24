@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author xuxueli 2017-07-28 22:14:52
  */
+@SuppressWarnings("unchecked")
 public class AdminBizClient implements AdminBiz {
 
     public AdminBizClient() {

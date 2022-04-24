@@ -23,6 +23,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/api")
+@SuppressWarnings("unchecked")
 public class JobApiController {
 
     @Resource

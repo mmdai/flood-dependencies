@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/6/3
  * @since 1.8
  */
+@SuppressWarnings("unchecked")
 public final class NumberHandler implements RedisHandler {
     /**
      * 对象模板

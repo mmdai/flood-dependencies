@@ -46,6 +46,7 @@ import java.util.stream.Stream;
  * create: 2019-01-29 10:05
  **/
 @Component
+@SuppressWarnings("unchecked")
 public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired

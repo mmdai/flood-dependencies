@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @Author daimi
  * @Date 2019/7/31 9:05 AM
  **/
+@SuppressWarnings("unchecked")
 public abstract class AbstractTopicRegister <T extends DelayQueueJob> implements CallBack<T> {
 
 

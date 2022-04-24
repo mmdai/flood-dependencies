@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
  * @author daimm
  */
 @Aspect
+@SuppressWarnings("unchecked")
 public class IdempotentAspect {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
