@@ -13,15 +13,14 @@
     <dependencies>
         <!-- nacos注册中心的依赖 -->
         <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-register-nacos</artifactId>
-            <version>${flood.version}</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
         <!-- nacos配置中心的依赖 -->
         <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-config-nacos</artifactId>
-            <version>${flood.version}</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
     </dependencies>
 </project>
