@@ -135,7 +135,7 @@ public class BeanTools {
         Set<String> noValuePropertySet = new HashSet<>();
         Arrays.stream(pds).forEach(pd -> {
             Object propertyValue = beanWrapper.getPropertyValue(pd.getName());
-            if (StringUtils.isEmpty(propertyValue)) {
+            if (ObjectUtils.isEmpty(propertyValue)) {
                 noValuePropertySet.add(pd.getName());
             } else {
                 if (Iterable.class.isAssignableFrom(propertyValue.getClass())) {

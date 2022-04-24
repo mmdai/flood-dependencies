@@ -8,11 +8,10 @@ import feign.codec.Encoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
-import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
-import org.springframework.cloud.openfeign.support.SpringDecoder;
-import org.springframework.cloud.openfeign.support.SpringEncoder;
+import org.springframework.cloud.openfeign.support.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -36,6 +35,8 @@ public class FeignProtoSupportConfig {
     //Autowire the message converters.
     @Autowired
     private ObjectFactory<HttpMessageConverters> messageConverters;
+    @Autowired
+    private ObjectProvider<HttpMessageConverterCustomizer> customizers;
 
     //override the encoder
     @Bean
@@ -47,7 +48,7 @@ public class FeignProtoSupportConfig {
     //override the encoder
     @Bean
     public Decoder springDecoder(){
-        return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters));
+        return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters, customizers));
     }
 
     /**
