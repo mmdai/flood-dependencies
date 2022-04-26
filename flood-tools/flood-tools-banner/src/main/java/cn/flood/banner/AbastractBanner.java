@@ -61,7 +61,7 @@ public class AbastractBanner implements Banner {
         
         try {
 			Formatter formatter = new Formatter();
-			formatter.format("Flood Framework Version: %s%n", "2.3.9");
+			formatter.format("Flood Framework Version: %s%n", "2.6.7");
 			formatter.format("%s%n", LINE_SEPARATOR);
 
 			formatter.format("Java Home: %s%n", properties.get("java.home"));
@@ -90,7 +90,7 @@ public class AbastractBanner implements Banner {
 			// TODO Auto-generated catch block
 			logger.error("{}", e);
 		}
-        return "Flood Framework Version:  2.3.9";
+        return "Flood Framework Version:  2.6.7";
     }
 
 
