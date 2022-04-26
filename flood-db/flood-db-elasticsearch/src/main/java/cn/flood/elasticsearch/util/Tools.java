@@ -18,6 +18,7 @@ import java.util.stream.Stream;
  * author: X-Pacific zhang
  * create: 2019-01-18 16:23
  **/
+@SuppressWarnings("unchecked")
 public class Tools {
     /**
      * 根据对象中的注解获取ID的字段值

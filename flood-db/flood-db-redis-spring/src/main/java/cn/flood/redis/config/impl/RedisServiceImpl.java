@@ -32,6 +32,7 @@ import cn.flood.redis.config.RedisService;
 * @author mmdai  
 * @date 2018年12月8日  
 */
+@SuppressWarnings("unchecked")
 public class RedisServiceImpl implements RedisService {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());

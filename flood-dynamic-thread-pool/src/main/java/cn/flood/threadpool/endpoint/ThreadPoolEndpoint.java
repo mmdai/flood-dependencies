@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * 线程池信息端点
  */
+@SuppressWarnings("unchecked")
 @Endpoint(id = "thread-pool")
 public class ThreadPoolEndpoint {
 

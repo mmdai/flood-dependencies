@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by xuxueli on 16/7/22.
  */
+@SuppressWarnings("unchecked")
 public class TriggerCallbackThread {
     private static Logger logger = LoggerFactory.getLogger(TriggerCallbackThread.class);
 

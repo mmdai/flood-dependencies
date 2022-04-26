@@ -8,6 +8,7 @@ import java.util.function.Function;
  * @Author daimi
  * @Date 2019/8/4 2:48 PM
  **/
+@SuppressWarnings("unchecked")
 public class TimeoutUtil {
 
     /**执行用户回调接口的 线程池;    计算回调接口的超时时间           **/

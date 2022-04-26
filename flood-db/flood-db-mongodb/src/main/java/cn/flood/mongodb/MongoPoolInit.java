@@ -42,6 +42,7 @@ import org.springframework.util.StringUtils;
 * @author mmdai  
 * @date 2020年8月23日
  */
+@SuppressWarnings("unchecked")
 public class MongoPoolInit implements BeanDefinitionRegistryPostProcessor, EnvironmentAware {
 
 	private List<MongoPoolProperties> pools = new ArrayList<MongoPoolProperties>();

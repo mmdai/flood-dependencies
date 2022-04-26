@@ -24,6 +24,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.env.Environment;
 
 
+@SuppressWarnings("unchecked")
 public class ConsumerCollector implements BeanPostProcessor {
 
     private static final Logger log = LoggerFactory.getLogger(ConsumerCollector.class);

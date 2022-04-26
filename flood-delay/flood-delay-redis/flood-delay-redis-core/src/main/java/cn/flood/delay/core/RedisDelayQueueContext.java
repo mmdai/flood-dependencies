@@ -35,6 +35,7 @@ import java.util.concurrent.*;
  * @Author daimi
  * @Date 2019/7/31 9:16 AM
  **/
+@SuppressWarnings("unchecked")
 public  class RedisDelayQueueContext   {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisDelayQueueContext.class);

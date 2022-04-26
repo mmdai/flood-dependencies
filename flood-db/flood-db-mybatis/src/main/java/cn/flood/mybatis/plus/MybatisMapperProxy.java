@@ -12,6 +12,7 @@ import java.util.Map;
 /**
  * @author mmdai
  */
+@SuppressWarnings("unchecked")
 public class MybatisMapperProxy<T> extends MapperProxy<T> {
 
     private final SqlSession sqlSession;
