@@ -143,9 +143,8 @@ public class FloodFeignSentinel {
 						if (Func.isEmpty(traceId)) {
 							traceId = MDCTraceUtils.getTraceId();
 						}
-						if (Func.isNotEmpty(traceId)) {
-							requestTemplate.header(MDCTraceUtils.TRACE_ID_HEADER, traceId);
-						}
+						requestTemplate.header(MDCTraceUtils.TRACE_ID_HEADER, traceId);
+						requestTemplate.header(MDCTraceUtils.KEY_SPAN_ID, request.getHeader(MDCTraceUtils.KEY_SPAN_ID));
 						//传递版本号
 						String version =  request.getHeader(HeaderConstant.HEADER_VERSION);
 						if (Func.isNotEmpty(version)) {

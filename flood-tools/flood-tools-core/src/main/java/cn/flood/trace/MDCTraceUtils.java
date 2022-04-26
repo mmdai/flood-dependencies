@@ -14,6 +14,8 @@ public class MDCTraceUtils {
      */
     public static final String KEY_TRACE_ID = "X-B3-TraceId";
 
+    public static final String KEY_SPAN_ID = "X-B3-SpanId";
+
     /**
      * 日志链路追踪id信息头
      */
