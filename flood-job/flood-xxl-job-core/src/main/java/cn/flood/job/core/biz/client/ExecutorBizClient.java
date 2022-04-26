@@ -9,6 +9,7 @@ import cn.flood.job.core.util.XxlJobRemotingUtil;
  *
  * @author xuxueli 2017-07-28 22:14:52
  */
+@SuppressWarnings("unchecked")
 public class ExecutorBizClient implements ExecutorBiz {
 
     public ExecutorBizClient() {

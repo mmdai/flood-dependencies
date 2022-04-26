@@ -24,6 +24,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
+@SuppressWarnings("unchecked")
 @Configuration
 @MapperScan(basePackages = "cn.flood.delay.mapper")
 @EnableConfigurationProperties(DelayProperties.class)

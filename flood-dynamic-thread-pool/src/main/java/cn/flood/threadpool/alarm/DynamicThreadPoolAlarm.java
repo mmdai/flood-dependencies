@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * 线程池告警
  * @时间 2020-05-26 21:44
  */
+@SuppressWarnings("unchecked")
 public class DynamicThreadPoolAlarm {
 
     @Autowired

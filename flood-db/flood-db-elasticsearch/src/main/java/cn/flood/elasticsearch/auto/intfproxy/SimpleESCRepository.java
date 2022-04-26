@@ -21,6 +21,7 @@ import java.util.Map;
  * author: X-Pacific zhang
  * create: 2019-09-03 13:21
  **/
+@SuppressWarnings("unchecked")
 public class SimpleESCRepository<T,M> implements ESCRepository<T,M> {
     private Class<T> domainClass;
     private Class<M> idClass;

@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 /**
  * @author mmdai
  */
+@SuppressWarnings("unchecked")
 public class MybatisMapperProxyFactory<T> extends MapperProxyFactory<T> {
 
 
