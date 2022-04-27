@@ -20,7 +20,6 @@ import cn.flood.constants.HeaderConstant;
 import cn.flood.http.HttpMediaType;
 import cn.flood.mvc.annotation.ApiVersion;
 import cn.flood.mvc.annotation.UrlVersion;
-import cn.flood.mvc.version.ApiVersionCondition;
 import feign.MethodMetadata;
 import feign.Util;
 import org.springframework.cloud.openfeign.AnnotatedParameterProcessor;
@@ -35,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
@@ -90,7 +88,7 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 				apiVersion = AnnotatedElementUtils.findMergedAnnotation(targetType, ApiVersion.class);
 			}
 			if (apiVersion != null && Func.isNotEmpty(apiVersion.value())) {
-				data.template().header(HeaderConstant.HEADER_VERSION, apiVersion.value()[0]);
+				data.template().header(HeaderConstant.HEADER_VERSION, apiVersion.value());
 			}
 		}
 	}

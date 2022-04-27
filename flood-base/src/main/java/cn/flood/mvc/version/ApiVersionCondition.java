@@ -10,15 +10,36 @@ import java.util.Arrays;
 public class ApiVersionCondition implements RequestCondition<ApiVersionCondition> {
 
 
-    private String[] apiVersion;
+    private String apiVersion;
 
-    public ApiVersionCondition(String[] apiVersion) {
-            this.apiVersion = apiVersion;
+    private VersionOperator operator;
+
+    public ApiVersionCondition(String apiVersion, VersionOperator operator) {
+        this.apiVersion = apiVersion;
+        this.operator = operator;
     }
     @Override
     public ApiVersionCondition combine(ApiVersionCondition other) {
-        //如果已有定义，返回原先的即可。
-        if(Arrays.asList(this.apiVersion).contains(other.getApiVersion())) return this;
+        // 如果已有定义，返回原先的即可。
+        if (other.operator != null) {
+            int i = other.getApiVersion().compareToIgnoreCase(this.apiVersion);
+            switch (operator) {
+                case GT:
+                    return i > 0 ? this : other;
+                case GTE:
+                    return i >= 0 ? this : other;
+                case LT:
+                    return i < 0 ? this : other;
+                case LTE:
+                    return i <= 0 ? this : other;
+                case EQ:
+                    return i == 0 ? this : other;
+                case NE:
+                    return i != 0 ? this : other;
+                default:
+                    return other;
+            }
+        }
         return other;
     }
 
@@ -29,11 +50,29 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
         if(StringUtils.isNotBlank(v)) {
             version = String.valueOf(v);
         }
-        // 如果请求的版本号等于配置版本号， 则满足
-        if(Arrays.asList(this.apiVersion).contains(version))
-            return this;
+        // 如果请求的版本号等于配置版本号，则满足
+        if (this.operator != null) {
+            int i = version.compareToIgnoreCase(this.apiVersion);
+            switch (operator) {
+                case GT:
+                    return i > 0 ? this : null;
+                case GTE:
+                    return i >= 0 ? this : null;
+                case LT:
+                    return i < 0 ? this : null;
+                case LTE:
+                    return i <= 0 ? this : null;
+                case EQ:
+                    return i == 0 ? this : null;
+                case NE:
+                    return i != 0 ? this : null;
+                default:
+                    return null;
+            }
+        }
         return null;
     }
+
 
     /**
     * 如果匹配到两个都符合版本需求的（理论上不应该有）
@@ -45,7 +84,7 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
         //return Double.compare(other.getApiVersion(), this.apiVersion);
     }
 
-    public String[] getApiVersion() {
+    public String getApiVersion() {
         return apiVersion;
     }
 

@@ -15,6 +15,8 @@
  */
 package cn.flood.mvc.annotation;
 
+import cn.flood.mvc.version.VersionOperator;
+
 import java.lang.annotation.*;
 
 /**
@@ -26,12 +28,16 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 public @interface ApiVersion {
-
 	/**
 	 * header 路径中的版本
 	 *
 	 * @return 版本号
 	 */
-	String[] value() default {};
+	String value() default "";
+
+
+	VersionOperator op() default VersionOperator.EQ;
+
+
 
 }

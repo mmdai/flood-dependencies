@@ -94,7 +94,7 @@ public class FloodRequestMappingHandlerMapping extends RequestMappingHandlerMapp
 
 
 	private RequestCondition<ApiVersionCondition>createCondition(ApiVersion apiVersion) {
-		return apiVersion == null ? null : new ApiVersionCondition(apiVersion.value());
+		return apiVersion == null ? null : new ApiVersionCondition(apiVersion.value(), apiVersion.op());
 	}
 	@Override
 	protected void handlerMethodsInitialized(Map<RequestMappingInfo, HandlerMethod> handlerMethods) {
