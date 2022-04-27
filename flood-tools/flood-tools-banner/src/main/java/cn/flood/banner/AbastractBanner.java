@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.Banner;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.core.env.Environment;
 
 import java.io.PrintStream;
@@ -61,7 +62,7 @@ public class AbastractBanner implements Banner {
         
         try {
 			Formatter formatter = new Formatter();
-			formatter.format("Flood Framework Version: %s%n", "2.6.7");
+			formatter.format("Flood Framework Version: %s%n", SpringBootVersion.getVersion());
 			formatter.format("%s%n", LINE_SEPARATOR);
 
 			formatter.format("Java Home: %s%n", properties.get("java.home"));
@@ -90,7 +91,7 @@ public class AbastractBanner implements Banner {
 			// TODO Auto-generated catch block
 			logger.error("{}", e);
 		}
-        return "Flood Framework Version:  2.6.7";
+        return "Flood Framework Version: " + SpringBootVersion.getVersion();
     }
 
 

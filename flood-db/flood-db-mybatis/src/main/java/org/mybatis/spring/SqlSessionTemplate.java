@@ -65,6 +65,7 @@ import static org.springframework.util.Assert.notNull;
  * @see SqlSessionFactory
  * @see MyBatisExceptionTranslator
  */
+@SuppressWarnings("unchecked")
 public class SqlSessionTemplate implements SqlSession, DisposableBean {
 
   private final SqlSessionFactory sqlSessionFactory;

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -93,7 +94,7 @@ public class SwaggerConfiguration {
 	private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title(environment.getProperty("spring.application.name")+" .API")
-                .description("Flood Cloud API v2.5.4")
+                .description("Flood Cloud API "+ SpringBootVersion.getVersion())
 				.contact(new Contact("mmdai", "nothing", "daiming123.happy@163.com"))
                 .termsOfServiceUrl("")
                 .version("2.0")
