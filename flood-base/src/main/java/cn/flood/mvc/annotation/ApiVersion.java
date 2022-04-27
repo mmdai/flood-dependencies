@@ -32,6 +32,6 @@ public @interface ApiVersion {
 	 *
 	 * @return 版本号
 	 */
-	String value() default "";
+	String[] value() default {};
 
 }

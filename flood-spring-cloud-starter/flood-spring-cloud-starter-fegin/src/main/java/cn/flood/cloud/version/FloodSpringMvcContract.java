@@ -89,8 +89,8 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 			if (apiVersion == null || Func.isEmpty(apiVersion.value())) {
 				apiVersion = AnnotatedElementUtils.findMergedAnnotation(targetType, ApiVersion.class);
 			}
-			if (apiVersion != null && Func.isNotBlank(apiVersion.value())) {
-				data.template().header(HeaderConstant.HEADER_VERSION, apiVersion.value());
+			if (apiVersion != null && Func.isNotEmpty(apiVersion.value())) {
+				data.template().header(HeaderConstant.HEADER_VERSION, apiVersion.value()[0]);
 			}
 		}
 	}

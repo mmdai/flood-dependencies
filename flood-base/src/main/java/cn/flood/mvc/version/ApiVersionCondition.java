@@ -5,19 +5,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 public class ApiVersionCondition implements RequestCondition<ApiVersionCondition> {
 
 
-    private String apiVersion;
+    private String[] apiVersion;
 
-    public ApiVersionCondition(String apiVersion) {
+    public ApiVersionCondition(String[] apiVersion) {
             this.apiVersion = apiVersion;
     }
     @Override
     public ApiVersionCondition combine(ApiVersionCondition other) {
         //如果已有定义，返回原先的即可。
-        if(this.apiVersion.equals(other.getApiVersion())) return this;
+        if(Arrays.asList(this.apiVersion).contains(other.getApiVersion())) return this;
         return other;
     }
 
@@ -29,7 +30,7 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
             version = String.valueOf(v);
         }
         // 如果请求的版本号等于配置版本号， 则满足
-        if(version.equals(this.apiVersion))
+        if(Arrays.asList(this.apiVersion).contains(version))
             return this;
         return null;
     }
@@ -44,7 +45,7 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
         //return Double.compare(other.getApiVersion(), this.apiVersion);
     }
 
-    public String getApiVersion() {
+    public String[] getApiVersion() {
         return apiVersion;
     }
 
