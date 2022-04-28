@@ -44,7 +44,7 @@ public abstract class AbstractDataSourceConfig {
         ShardingRuleConfiguration shardingRuleConfig = buildShardingRuleConfiguration(multiDataSourceConfig);
         //3.配置其他的属性
         Properties properties = new Properties();
-        properties.put("sql.show", multiDataSourceConfig.getSqlshow());
+        properties.put("sql.show", multiDataSourceConfig.getSqlShow());
         return ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig, properties);
     }
 
