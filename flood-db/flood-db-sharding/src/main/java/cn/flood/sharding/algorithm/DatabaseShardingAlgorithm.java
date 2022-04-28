@@ -6,12 +6,12 @@
 * @date 2019年7月9日  
 * @version 1.0  
 */  
-package cn.flood.config.sharding;
-
-import java.util.Collection;
+package cn.flood.sharding.algorithm;
 
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.PreciseShardingValue;
+
+import java.util.Collection;
 
 
 /**  

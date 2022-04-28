@@ -169,10 +169,16 @@
 			<artifactId>flood-db-mongodb</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
-		<!-- 基础sharding-jdbc -->
+		<!-- 基础sharding-jdbc (分库分表)-->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-db-sharding</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
+		<!-- 基础sharding-jdbc (读写分离)-->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-db-sharding-rw</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 		<!-- redis -->

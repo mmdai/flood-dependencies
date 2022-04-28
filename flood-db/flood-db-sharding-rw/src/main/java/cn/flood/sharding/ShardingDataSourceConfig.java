@@ -6,7 +6,7 @@
 * @date 2019年7月9日  
 * @version 1.0  
 */  
-package cn.flood.config;
+package cn.flood.sharding;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import cn.flood.config.properties.DruidDbProperties;
+import cn.flood.sharding.properties.DruidDbProperties;
 import org.apache.shardingsphere.api.config.masterslave.LoadBalanceStrategyConfiguration;
 import org.apache.shardingsphere.api.config.masterslave.MasterSlaveRuleConfiguration;
 import org.apache.shardingsphere.shardingjdbc.api.MasterSlaveDataSourceFactory;
@@ -30,7 +30,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
-import cn.flood.config.properties.ShardingMasterSlaveProperties;
+import cn.flood.sharding.properties.ShardingMasterSlaveProperties;
 
 /**  
 * <p>Title: ShardingDataSourceConfig</p>  

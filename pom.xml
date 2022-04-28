@@ -44,7 +44,7 @@
 	  <fastjson.version>1.2.79</fastjson.version>
 	  <okhttp3.version>5.0.0-alpha.6</okhttp3.version>
 	  <zookeeper.version>3.7.0</zookeeper.version>
-	  <mapstruct.version>1.3.1.Final</mapstruct.version>
+	  <mapstruct.version>1.4.2.Final</mapstruct.version>
 	  <!-- netty -->
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->
@@ -240,6 +240,11 @@
 								<groupId>org.mapstruct</groupId>
 								<artifactId>mapstruct-processor</artifactId>
 								<version>${mapstruct.version}</version>
+							</path>
+							<path>
+								<groupId>org.projectlombok</groupId>
+								<artifactId>lombok-mapstruct-binding</artifactId>
+								<version>0.2.0</version>  <!-- 如果是0.1.0 有可能出现生成了maptruct的实现类，但该类只创建了对象，没有进行赋值 -->
 							</path>
 						</annotationProcessorPaths>
 					</configuration>

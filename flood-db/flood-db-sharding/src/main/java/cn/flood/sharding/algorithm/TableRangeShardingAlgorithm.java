@@ -6,15 +6,14 @@
 * @date 2019年7月9日  
 * @version 1.0  
 */  
-package cn.flood.config.sharding;
+package cn.flood.sharding.algorithm;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
+import com.google.common.collect.Range;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingAlgorithm;
 import org.apache.shardingsphere.api.sharding.standard.RangeShardingValue;
 
-import com.google.common.collect.Range;
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 /**  

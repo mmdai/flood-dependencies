@@ -1,4 +1,4 @@
-package cn.flood.config.properties;
+package cn.flood.sharding.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -99,7 +99,10 @@ public class DruidDbProperties {
      * 防御sql注入的filter:wall
      */
     private String filters = "mergeStat,config,wall";
-
+	/**
+	 * kylin的filter
+	 */
+	private String kylinFilters = "config";
 	/**
 	 * 通过connectProperties属性来打开mergeSql功能；慢SQL记录
 	 */

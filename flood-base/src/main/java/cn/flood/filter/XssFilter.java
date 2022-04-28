@@ -1,5 +1,8 @@
 package cn.flood.filter;
 
+
+import cn.flood.Func;
+import cn.flood.http.HttpMediaType;
 import cn.flood.requestWrapper.XssFilterServletRequestWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,10 +34,15 @@ public class XssFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        log.debug("XssFilter filter start... {}", httpServletRequest.getRequestURI());
-        XssFilterServletRequestWrapper xssFilterServletRequestWrapper = new XssFilterServletRequestWrapper(httpServletRequest);
-        filterChain.doFilter(xssFilterServletRequestWrapper, servletResponse);
-        log.debug("XssFilter filter end...");
+        String contentType = httpServletRequest.getHeader("Content-Type");
+        if(Func.isNotEmpty(contentType) && contentType.contains(HttpMediaType.APPLICATION_JSON_VALUE)){
+            log.debug("XssFilter filter start... {}", httpServletRequest.getRequestURI());
+            XssFilterServletRequestWrapper xssFilterServletRequestWrapper = new XssFilterServletRequestWrapper(httpServletRequest);
+            filterChain.doFilter(xssFilterServletRequestWrapper, servletResponse);
+            log.debug("XssFilter filter end...");
+        }else{
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
     }
 
     @Override

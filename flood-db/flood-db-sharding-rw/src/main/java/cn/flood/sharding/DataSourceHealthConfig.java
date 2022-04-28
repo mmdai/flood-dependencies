@@ -1,7 +1,6 @@
-package cn.flood.config;
+package cn.flood.sharding;
 
-import cn.flood.config.properties.DruidDbProperties;
-import cn.flood.config.properties.ShardingMasterSlaveProperties;
+import cn.flood.sharding.properties.DruidDbProperties;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthContributorAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthIndicatorProperties;

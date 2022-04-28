@@ -34,11 +34,7 @@
         <setting name="localCacheScope" value="SESSION" />  
         <!-- 默认为OTHER,为了解决oracle插入null报错的问题要设置为NULL -->  
         <setting name="jdbcTypeForNull" value="NULL" />  
-        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />
-        <!-- 控制台打印sql语句方便调试sql语句执行错误
-        #org.apache.ibatis.logging.stdout.StdOutImpl
-        #org.apache.ibatis.logging.log4j2.Log4j2Impl:这个不在控制台打印查询结果,但是在log4j中打印-->
-        <!--<setting name="logImpl" value="org.apache.ibatis.logging.stdout.StdOutImpl" />-->
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString" />  
     </settings>  
       
 </configuration> 

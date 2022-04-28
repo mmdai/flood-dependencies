@@ -6,7 +6,7 @@
 * @date 2019年7月9日  
 * @version 1.0  
 */  
-package cn.flood.config.properties;
+package cn.flood.sharding.properties;
 
 import java.util.HashMap;
 import java.util.Map;
