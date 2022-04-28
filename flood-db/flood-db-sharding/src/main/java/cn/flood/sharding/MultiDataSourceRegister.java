@@ -53,7 +53,7 @@ public class MultiDataSourceRegister implements InitializingBean {
 	/**
 	 * 是否显示 shardingsphere sql执行日志
 	 */
-	private Boolean sqlshow;
+	private Boolean sqlShow;
 	/**
 	 * 每个逻辑库中表的数量
 	 */
@@ -68,47 +68,46 @@ public class MultiDataSourceRegister implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() {
 		for(DataSourceProperties dsource: dataSources) {
-				DruidDataSource ds =  new DruidDataSource();
-				ds.setUrl(dsource.getUrl());
-				ds.setUsername(dsource.getUsername());
-				ds.setPassword(dsource.getPassword());
-				ds.setDriverClassName(dsource.getDriverClassName());
-				ds.setInitialSize(druidDbProperties.getInitialSize());
-				ds.setMinIdle(druidDbProperties.getMinIdle());
-				ds.setMaxActive(druidDbProperties.getMaxActive());
-				ds.setMaxWait(druidDbProperties.getMaxWait());
-				ds.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
-				ds.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
-				ds.setValidationQuery(druidDbProperties.getValidationQuery());
-				ds.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
-				ds.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
-				ds.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
-				ds.setTestOnReturn(druidDbProperties.isTestOnReturn());
-				ds.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
-				ds.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
-				ds.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
-				ds.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
-				try {
-					if(Func.isNotEmpty(dsource.getDriverClassName())
-							&& dsource.getDriverClassName().equalsIgnoreCase("org.apache.kylin.jdbc.Driver")){
-						ds.setFilters(druidDbProperties.getKylinFilters());
-					}else{
-						ds.setFilters(druidDbProperties.getFilters());
-					}
-				} catch (SQLException throwables) {
-					log.error("datasource Filters is error: {}", throwables);
+			DruidDataSource ds =  new DruidDataSource();
+			ds.setUrl(dsource.getUrl());
+			ds.setUsername(dsource.getUsername());
+			ds.setPassword(dsource.getPassword());
+			ds.setDriverClassName(dsource.getDriverClassName());
+			ds.setInitialSize(druidDbProperties.getInitialSize());
+			ds.setMinIdle(druidDbProperties.getMinIdle());
+			ds.setMaxActive(druidDbProperties.getMaxActive());
+			ds.setMaxWait(druidDbProperties.getMaxWait());
+			ds.setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
+			ds.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
+			ds.setValidationQuery(druidDbProperties.getValidationQuery());
+			ds.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
+			ds.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
+			ds.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
+			ds.setTestOnReturn(druidDbProperties.isTestOnReturn());
+			ds.setRemoveAbandoned(druidDbProperties.isRemoveAbandoned());
+			ds.setRemoveAbandonedTimeout(druidDbProperties.getRemoveAbandonedTimeout());
+			ds.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
+			ds.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
+			try {
+				if(Func.isNotEmpty(dsource.getDriverClassName())
+						&& dsource.getDriverClassName().equalsIgnoreCase("org.apache.kylin.jdbc.Driver")){
+					ds.setFilters(druidDbProperties.getKylinFilters());
+				}else{
+					ds.setFilters(druidDbProperties.getFilters());
 				}
-				Properties properties = new Properties();
-				String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
-				for(String proper : dataProperties){
-					properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
-				}
-				ds.setConnectProperties(properties);
-				ds.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
-				// 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
-				ds.setUseUnfairLock(true);
-				dataSourceList.add(ds);
-
+			} catch (SQLException throwables) {
+				log.error("datasource Filters is error: {}", throwables);
+			}
+			Properties properties = new Properties();
+			String[] dataProperties = druidDbProperties.getConnectionProperties().split(";");
+			for(String proper : dataProperties){
+				properties.setProperty(proper.split("=")[0], proper.split("=")[1]);
+			}
+			ds.setConnectProperties(properties);
+			ds.setUseGlobalDataSourceStat(druidDbProperties.isUseGlobalDataSourceStat());
+			// 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
+			ds.setUseUnfairLock(true);
+			dataSourceList.add(ds);
 			log.info("DruidPool-Multi Start completed... {}", dsource.getUrl());
 		}
 
@@ -140,12 +139,12 @@ public class MultiDataSourceRegister implements InitializingBean {
 		this.tableRules = tableRules;
 	}
 
-	public Boolean getSqlshow() {
-		return sqlshow;
+	public Boolean getSqlShow() {
+		return sqlShow;
 	}
 
-	public void setSqlshow(Boolean sqlshow) {
-		this.sqlshow = sqlshow;
+	public void setSqlShow(Boolean sqlShow) {
+		this.sqlShow = sqlShow;
 	}
 
 	public int getTableNum() {
