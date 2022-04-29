@@ -1,5 +1,6 @@
 package cn.flood.cloud.gateway.config;
 
+
 import cn.flood.cloud.gateway.filter.GrayReactiveLoadBalancerClientFilter;
 import cn.flood.cloud.gateway.rule.GrayLoadBalancer;
 import cn.flood.cloud.gateway.rule.VersionGrayLoadBalancer;
@@ -21,7 +22,7 @@ import org.springframework.context.annotation.Primary;
  * @author madi
  * @date 2021-02-24 13:41
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(GatewayLoadBalancerProperties.class)
 @AutoConfigureBefore(GatewayReactiveLoadBalancerClientAutoConfiguration.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
