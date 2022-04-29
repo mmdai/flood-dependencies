@@ -7,6 +7,7 @@ import com.alibaba.cloud.nacos.discovery.NacosDiscoveryClient;
 import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
 import com.alibaba.cloud.nacos.discovery.NacosWatch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,6 +33,9 @@ import java.time.format.DateTimeFormatter;
 @AutoConfigureBefore({SimpleDiscoveryClientAutoConfiguration.class, CommonsClientAutoConfiguration.class})
 public class NacosDiscoveryClientAutoConfiguration {
 
+    @Value("${spring.application.version}")
+    private String version;
+
     public NacosDiscoveryClientAutoConfiguration() {
     }
 
@@ -53,7 +57,6 @@ public class NacosDiscoveryClientAutoConfiguration {
     public NacosWatch nacosWatch(NacosServiceManager nacosServiceManager, NacosDiscoveryProperties nacosDiscoveryProperties) {
         //更改服务详情中的元数据，增加服务注册时间
         nacosDiscoveryProperties.getMetadata().put("startup.time", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
-        String version = nacosDiscoveryProperties.getMetadata().get("version");
         nacosDiscoveryProperties.getMetadata().put("version", ObjectUtils.isEmpty(version)? "1.0.0": version);
         return new NacosWatch(nacosServiceManager, nacosDiscoveryProperties);
     }
