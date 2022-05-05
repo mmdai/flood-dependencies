@@ -82,8 +82,9 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		long l = currentSpan.context().traceId();
 		AtomicInteger seed = positionCache.get(l);
 		int s = seed.getAndIncrement();
-		int pos = s % serviceInstancesList.size();
-		log.info("position {}, seed: {}, instances count: {}", pos, s, serviceInstancesList.size());
+		int c = serviceInstancesList.size();
+		int pos = s % c;
+		log.info("position {}, seed: {}, instances count: {}", pos, s, c);
 		return serviceInstancesList.stream()
 				//实例返回列表顺序可能不同，为了保持一致，先排序再取
 				.sorted(Comparator.comparing(ServiceInstance::getUri))
