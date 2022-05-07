@@ -32,5 +32,18 @@
             <version>${flood.version}</version>
         </dependency>
 
+        <!-- 1.5的版本默认采用的连接池技术是jedis  2.0以上版本默认连接池是lettuce -->
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+
+        <!-- spring jdbc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+
     </dependencies>
 </project>
