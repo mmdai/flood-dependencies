@@ -41,7 +41,7 @@ public class SeataResultHolderConfiguration implements ApplicationContextAware {
     public ResultHolder redisResultHolder() {
         RedisTemplate redisTemplate = getBean(RedisTemplate.class);
         if (redisTemplate == null) {
-            logger.error("JWTP: StringRedisTemplate is null");
+            logger.error("ResultHolder: RedisTemplate is null");
         }
         return new RedisResultHolder(redisTemplate);
     }
@@ -54,7 +54,7 @@ public class SeataResultHolderConfiguration implements ApplicationContextAware {
     public ResultHolder jdbcResultHolder() {
         DataSource dataSource = getBean(DataSource.class);
         if (dataSource == null) {
-            logger.error("JWTP: DataSource is null");
+            logger.error("ResultHolder: DataSource is null");
         }
         return new JdbcResultHolder(dataSource);
     }
