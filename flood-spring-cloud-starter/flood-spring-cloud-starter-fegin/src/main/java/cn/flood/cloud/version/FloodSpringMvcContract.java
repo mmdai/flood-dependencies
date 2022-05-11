@@ -122,18 +122,15 @@ public class FloodSpringMvcContract extends SpringMvcContract {
 		boolean httpAnnotation = super.processAnnotationsOnParameter(data, annotations, paramIndex);
 		// 在 springMvc 中如果是 Get 请求且参数中是对象 没有声明为@RequestBody 则默认为 Param
 		if (!httpAnnotation) {
-			String methodType = data.template().method().toUpperCase();
-			if ("GET".equals(methodType)) {
-				for (Annotation parameterAnnotation : annotations) {
-					if (!(parameterAnnotation instanceof RequestBody)) {
-						return false;
-					}
+//			String methodType = data.template().method().toUpperCase();
+			//如果是请求RequestBody 则false
+			for (Annotation parameterAnnotation : annotations) {
+				if (parameterAnnotation instanceof RequestBody) {
+					return false;
 				}
-				data.queryMapIndex(paramIndex);
-				return true;
 			}
-			// 在 springMvc 中如果不是 Get并且是protbuf是x-protobuf的是对象 则默认为 Param
-			if (!"GET".equals(methodType) && isProtobufData(data)) {
+			// 在 springMvc 中如果 RequestBody是protbuf是x-protobuf的是对象 则默认为 Param
+			if (isProtobufData(data)) {
 				data.queryMapIndex(paramIndex);
 //				Class<?>[] classes = data.method().getParameterTypes();
 //				for(int i=0; i<=classes.length-1; i++){
