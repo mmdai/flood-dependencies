@@ -16,6 +16,7 @@ Spring Cloud Alibaba | | <img src="https://img.shields.io/badge/Spring%20Cloud%2
 Nacos |  | <img src="https://img.shields.io/badge/Nacos-2.1.0-blue" alt="nacos"/>
 Sentinel |  | <img src="https://img.shields.io/badge/Sentinel-1.8.3-blue" alt="sentinel"/>
 Seata |  | <img src="https://img.shields.io/badge/Seata-1.4.2-blue" alt="Seata"/>
+XXL-JOB |  | <img src="https://img.shields.io/badge/XXL-JOB-2.3.0-blue" alt="XXL-JOB"/>
 
 - 主体框架：采用最新的`Spring Cloud 2021.0.2`, `Spring Boot 2.6.7`, `Spring Cloud Alibaba 2021.0.1.0`版本进行系统设计；
 
@@ -30,6 +31,8 @@ Seata |  | <img src="https://img.shields.io/badge/Seata-1.4.2-blue" alt="Seata"/
 - 业务熔断：采用`Sentinel`实现业务熔断处理，避免服务之间出现雪崩;
 
 - 分布式事务：采用`Seata`实现AT、TCC等分布式事务;
+
+- 调度中心：采用`XXL-JOB`实现任务定时调度;
 
 - 身份注入：通过注解的方式，实现用户登录信息的快速注入；
 
