@@ -59,7 +59,8 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 		// 打印请求头
 		HttpHeaders headers = exchange.getRequest().getHeaders();
 		headers.forEach((headerName, headerValue) -> {
-			if(HeaderConstant.HEADER_VERSION.equals(headerName) || MDCTraceUtils.TRACE_ID_HEADER.equals(headerName)){
+			if(MDCTraceUtils.TRACE_ID_HEADER.equals(headerName) ||
+					HeaderConstant.HEADER_VERSION.equals(headerName) || HeaderConstant.TENANT_ID.equals(headerName)){
 				beforeReqLog.append(" {}: {}\n");
 				beforeReqArgs.add(headerName);
 				beforeReqArgs.add(Func.join(headerValue));
@@ -95,7 +96,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 				httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 			}
 			httpHeaders.forEach((headerName, headerValue) -> {
-				if(HeaderConstant.HEADER_VERSION.equals(headerName) || MDCTraceUtils.TRACE_ID_HEADER.equals(headerName)){
+				if(MDCTraceUtils.TRACE_ID_HEADER.equals(headerName)){
 					responseLog.append(" {}: {}\n");
 					responseArgs.add(headerName);
 					responseArgs.add(Func.join(headerValue));
