@@ -2,6 +2,7 @@ package cn.flood.cloud.gateway.filter;
 
 import cn.flood.Func;
 import cn.flood.cloud.gateway.props.WebSocketProperties;
+import cn.flood.constants.FDConstant;
 import cn.flood.constants.HeaderConstant;
 import cn.flood.trace.MDCTraceUtils;
 import com.google.common.base.Stopwatch;
@@ -58,9 +59,11 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 		// 打印请求头
 		HttpHeaders headers = exchange.getRequest().getHeaders();
 		headers.forEach((headerName, headerValue) -> {
-			beforeReqLog.append(" {}: {}\n");
-			beforeReqArgs.add(headerName);
-			beforeReqArgs.add(Func.join(headerValue));
+			if(HeaderConstant.HEADER_VERSION.equals(headerName) || MDCTraceUtils.TRACE_ID_HEADER.equals(headerName)){
+				beforeReqLog.append(" {}: {}\n");
+				beforeReqArgs.add(headerName);
+				beforeReqArgs.add(Func.join(headerValue));
+			}
 		});
 		beforeReqLog.append("================ flood Gateway Request End =================\n");
 		// 打印执行时间
@@ -92,9 +95,11 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 				httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 			}
 			httpHeaders.forEach((headerName, headerValue) -> {
-				responseLog.append(" {}: {}\n");
-				responseArgs.add(headerName);
-				responseArgs.add(Func.join(headerValue));
+				if(HeaderConstant.HEADER_VERSION.equals(headerName) || MDCTraceUtils.TRACE_ID_HEADER.equals(headerName)){
+					responseLog.append(" {}: {}\n");
+					responseArgs.add(headerName);
+					responseArgs.add(Func.join(headerValue));
+				}
 			});
 			responseLog.append("================  flood Gateway Response End  =================\n");
 			// 打印执行时间
