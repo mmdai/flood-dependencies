@@ -1,7 +1,6 @@
 package cn.flood.proto.config;
 
 import cn.flood.proto.converter.ProtostuffHttpMessageConverter;
-import cn.flood.proto.resolver.ProtostuffArgumentResolver;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +19,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -64,13 +62,6 @@ public class ProtoSupportConfig implements WebMvcConfigurer {
         return new ProtostuffHttpMessageConverter();
     }
 
-    //add the protobuf http request resolver
-    @Bean
-    public ProtostuffArgumentResolver protostuffArgumentResolver() {
-        log.info("ProtostuffArgumentResolver:------------start------ ");
-        return new ProtostuffArgumentResolver();
-    }
-
     /**
      * 同一个WebMvcConfigurerAdapter中的configureMessageConverters方法先于extendMessageConverters方法执行
      * @param converters
@@ -112,13 +103,6 @@ public class ProtoSupportConfig implements WebMvcConfigurer {
         LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
         localeInterceptor.setParamName("lang");
         registry.addInterceptor(localeInterceptor);
-    }
-
-    //将参数处理器添加到springMVC中，以后的每个请求都会先经过检验，redis中是否有
-    //当前请求的对象，如果有则给请求中返回这个对象作为参数，否则返回null
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(protostuffArgumentResolver());
     }
 
 
