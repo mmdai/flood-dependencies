@@ -17,6 +17,7 @@ package cn.flood.oauth.configuration.client.restTempate;
 
 
 import cn.flood.constants.AppConstant;
+import cn.flood.constants.FDConstant;
 import cn.flood.exception.CoreException;
 import cn.flood.exception.enums.GlobalErrorCodeEnum;
 import cn.flood.proto.converter.ProtostuffHttpMessageConverter;
@@ -142,8 +143,8 @@ public class RestTemplateConfiguration {
 		protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
 		OkHttpClient.Builder builder = httpClientFactory.createBuilder(httpClientProperties.isDisableSslValidation())
 				.connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
-				.writeTimeout(30, TimeUnit.SECONDS)
-				.readTimeout(30, TimeUnit.SECONDS)
+				.writeTimeout(FDConstant.LONG_30, TimeUnit.SECONDS)
+				.readTimeout(FDConstant.LONG_30, TimeUnit.SECONDS)
 				.followRedirects(followRedirects)
 				.connectionPool(connectionPool);
 		builder.protocols(protocols);
