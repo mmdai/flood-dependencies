@@ -5,6 +5,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.env.Environment;
 
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 
 * <p>Title: SpringContextManager</p>  
@@ -96,5 +101,36 @@ public class SpringBeanManager implements ApplicationContextAware {
     public static <T> T getBean(String name, Class<T> clazz){
         return applicationContext.getBean(name, clazz);
     }
+
+	/**
+	 *
+	 * @param clazz
+	 * @param <T>
+	 * @return
+	 */
+	public static <T> List<T> getBeansOfType(Class<T> clazz) {
+		Map<String, T> map;
+		try {
+			map = applicationContext.getBeansOfType(clazz);
+		} catch (Exception e) {
+			map = null;
+		}
+		return map == null ? null : new ArrayList<>(map.values());
+	}
+
+	/**
+	 *
+	 * @param anno
+	 * @return
+	 */
+	public static Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> anno) {
+		Map<String, Object> map;
+		try {
+			map = applicationContext.getBeansWithAnnotation(anno);
+		} catch (Exception e) {
+			map = null;
+		}
+		return map;
+	}
 
 }

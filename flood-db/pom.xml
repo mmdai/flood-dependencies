@@ -29,6 +29,8 @@
         <module>flood-db-elasticsearch</module>
 
         <module>flood-db-mybatis</module>
+        <!-- canal  -->
+        <module>flood-db-canal</module>
 
 
     </modules>

@@ -163,6 +163,12 @@
 			<artifactId>flood-db-jdbc</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<!-- 阿里 canal 工具类-->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-db-canal</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 		<!-- 基础mongodb -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
