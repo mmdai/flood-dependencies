@@ -1,6 +1,6 @@
 package cn.flood.canal.client;
 
-import cn.flood.context.SpringBeanManager;
+import cn.flood.canal.util.BeanUtil;
 import com.alibaba.otter.canal.client.CanalConnector;
 import cn.flood.canal.annotation.ListenPoint;
 import cn.flood.canal.client.transfer.TransponderFactory;
@@ -67,11 +67,11 @@ public class SimpleCanalClient extends AbstractCanalClient {
      */
     private void initListeners() {
         logger.info("{}: initializing the listeners....", Thread.currentThread().getName());
-        List<CanalEventListener> list = SpringBeanManager.getBeansOfType(CanalEventListener.class);
+        List<CanalEventListener> list = BeanUtil.getBeansOfType(CanalEventListener.class);
         if (list != null) {
             listeners.addAll(list);
         }
-        Map<String, Object> listenerMap = SpringBeanManager.getBeansWithAnnotation(cn.flood.canal.annotation.CanalEventListener.class);
+        Map<String, Object> listenerMap = BeanUtil.getBeansWithAnnotation(cn.flood.canal.annotation.CanalEventListener.class);
         if (listenerMap != null) {
             for (Object target : listenerMap.values()) {
                 Method[] methods = target.getClass().getDeclaredMethods();

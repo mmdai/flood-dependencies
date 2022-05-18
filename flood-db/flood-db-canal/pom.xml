@@ -65,13 +65,6 @@
             </exclusions>
         </dependency>
 
-        <!-- tool 依赖 -->
-        <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-tools-core</artifactId>
-            <version>${flood.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
