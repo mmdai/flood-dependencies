@@ -319,8 +319,11 @@
 	<module>flood-delay</module>
 	<!-- flood-job 调度中心 -->
 	<module>flood-job</module>
+	  <!-- canal-client-->
+	<module>flood-canal</module>
 	<!-- flood cloud -->
 	<module>flood-spring-cloud-starter</module>
+
 
   </modules>
 

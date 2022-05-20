@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.flood.canal.configuration.autoconfigure.ZookeeperClientAutoConfiguration,\
+cn.flood.canal.configuration.autoconfigure.SimpleClientAutoConfiguration,\
+cn.flood.canal.configuration.autoconfigure.KafkaClientAutoConfiguration,\
+cn.flood.canal.configuration.autoconfigure.ClusterClientAutoConfiguration

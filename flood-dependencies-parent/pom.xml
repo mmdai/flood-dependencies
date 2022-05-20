@@ -222,6 +222,12 @@
 			<artifactId>flood-xxl-job-client</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<!-- canal-client -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-canal-client-start</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 
 		<!-- floodCloud Core -->
 		<dependency>
