@@ -41,7 +41,7 @@ public class CanalConfig {
         /**
          * zookeeper address
          */
-        private Set<String> zookeeperAddress = new LinkedHashSet<>();
+        private String zookeeperAddress = "127.0.0.1:2181";
 
         /**
          * canal server host
@@ -93,11 +93,11 @@ public class CanalConfig {
             this.clusterEnabled = clusterEnabled;
         }
 
-        public Set<String> getZookeeperAddress() {
+        public String getZookeeperAddress() {
             return zookeeperAddress;
         }
 
-        public void setZookeeperAddress(Set<String> zookeeperAddress) {
+        public void setZookeeperAddress(String zookeeperAddress) {
             this.zookeeperAddress = zookeeperAddress;
         }
 

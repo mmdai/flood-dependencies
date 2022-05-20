@@ -8,9 +8,6 @@ import cn.flood.canal.config.CanalConfig;
 import org.springframework.util.StringUtils;
 
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -65,14 +62,14 @@ public abstract class AbstractCanalClient implements CanalClient {
         CanalConfig.Instance instance = instanceEntry.getValue();
         CanalConnector connector;
         if (instance.isClusterEnabled()) {
-            List<SocketAddress> addresses = new ArrayList<>();
-            for (String s : instance.getZookeeperAddress()) {
+            String zkServers = instance.getZookeeperAddress();
+            for (String s : instance.getZookeeperAddress().split(",")) {
                 String[] entry = s.split(":");
                 if (entry.length != 2)
                     throw new CanalClientException("error parsing zookeeper address:" + s);
-                addresses.add(new InetSocketAddress(entry[0], Integer.parseInt(entry[1])));
+//                addresses.add(new InetSocketAddress(entry[0], Integer.parseInt(entry[1])));
             }
-            connector = CanalConnectors.newClusterConnector(addresses, instanceEntry.getKey(),
+            connector = CanalConnectors.newClusterConnector(zkServers, instanceEntry.getKey(),
                     instance.getUserName(),
                     instance.getPassword());
         } else {
