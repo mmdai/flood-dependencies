@@ -1,7 +1,5 @@
 package cn.flood.canal.config;
 
-
-
 import cn.flood.canal.client.CanalClient;
 import cn.flood.canal.client.SimpleCanalClient;
 import cn.flood.canal.client.transfer.MessageTransponders;
@@ -10,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 
 
 /**

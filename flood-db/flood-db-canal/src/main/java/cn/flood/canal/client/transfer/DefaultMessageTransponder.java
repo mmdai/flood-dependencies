@@ -2,10 +2,8 @@ package cn.flood.canal.client.transfer;
 
 import com.alibaba.otter.canal.client.CanalConnector;
 import com.alibaba.otter.canal.protocol.CanalEntry;
-import com.alibaba.otter.canal.protocol.Message;
 import cn.flood.canal.annotation.ListenPoint;
 import cn.flood.canal.client.ListenerPoint;
-import cn.flood.canal.client.exception.CanalClientException;
 import cn.flood.canal.config.CanalConfig;
 import cn.flood.canal.event.CanalEventListener;
 import org.slf4j.Logger;
@@ -14,10 +12,8 @@ import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
