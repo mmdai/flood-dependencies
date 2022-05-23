@@ -32,7 +32,7 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
     /**
      * 权限认证的排序
      */
-    public static final int MATE_UAA_FILTER_ORDER = -200;
+    public static final int FILTER_ORDER = -200;
 
     @Autowired
     private FloodApiProperties floodApiProperties;
@@ -97,6 +97,6 @@ public class PreUaaFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return MATE_UAA_FILTER_ORDER;
+        return FILTER_ORDER;
     }
 }
