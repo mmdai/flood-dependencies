@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.flood.lock.autoconfigure.RlockAutoConfiguration,\
-cn.flood.idempotent.autoconfigure.IdempotentAutoConfiguration

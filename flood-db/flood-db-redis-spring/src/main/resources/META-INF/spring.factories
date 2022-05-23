@@ -1,3 +1,0 @@
-#redis初始化
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.flood.redis.config.RedisAutoConfiguration

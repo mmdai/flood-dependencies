@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.flood.log.config.LogAutoConfigure,\
-cn.flood.log.services.impl.LoggerAuditServiceImpl,\
-cn.flood.log.services.impl.DbAuditServiceImpl,\
-cn.flood.log.aspect.AuditLogAspect

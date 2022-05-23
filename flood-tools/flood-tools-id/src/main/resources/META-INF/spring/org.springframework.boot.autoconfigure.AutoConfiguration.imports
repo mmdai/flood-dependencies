@@ -1,0 +1,3 @@
+cn.flood.core.uid.BaiduUidConfiguration
+cn.flood.core.uid.SegmentUidConfiguration
+cn.flood.core.uid.SnowflakeUidConfiguration

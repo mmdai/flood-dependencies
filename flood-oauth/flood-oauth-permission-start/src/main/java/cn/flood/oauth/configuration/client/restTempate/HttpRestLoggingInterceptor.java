@@ -111,7 +111,7 @@ public final class HttpRestLoggingInterceptor implements Interceptor {
 		/**
 		 * A {@link Logger} defaults output appropriate for the current platform.
 		 */
-		Logger DEFAULT = message -> Platform.get().log(INFO, message, null);
+		Logger DEFAULT = message -> Platform.get().log(message, INFO, null);
 	}
 
 	public HttpRestLoggingInterceptor() {

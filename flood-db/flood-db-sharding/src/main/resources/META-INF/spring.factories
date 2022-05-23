@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.flood.sharding.MultiDataSourceRegister,\
-cn.flood.sharding.DataSourceSpring,\
-cn.flood.sharding.SqlSessionFactorySpring

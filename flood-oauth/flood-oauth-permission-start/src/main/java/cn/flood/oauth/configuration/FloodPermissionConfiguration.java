@@ -23,6 +23,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -167,10 +168,11 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
     /** 解决跨域问题 **/
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
-        corsRegistry.addMapping("/**").allowedOrigins("*")
-                .allowedMethods("*").allowedHeaders("*")
-                .allowCredentials(true)
-                .exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(3600L);
+//        corsRegistry.addMapping("/**").allowedOriginPatterns(CorsConfiguration.ALL)
+//                .allowCredentials(Boolean.TRUE)
+//                .allowedMethods(CorsConfiguration.ALL)
+//                .allowedHeaders(CorsConfiguration.ALL)
+//                .exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(3600L);
     }
 
     /* 视图跳转控制器 */
