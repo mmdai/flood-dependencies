@@ -6,7 +6,8 @@ import cn.flood.Func;
 import cn.flood.constants.HeaderConstant;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.*;
@@ -25,8 +26,10 @@ import java.util.stream.Collectors;
 //一定必须是实现ReactorServiceInstanceLoadBalancer
 //而不是ReactorLoadBalancer<ServiceInstance>
 //因为注册的时候是ReactorServiceInstanceLoadBalancer
-@Slf4j
 public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements ReactorServiceInstanceLoadBalancer  {
+
+    private Logger log =  LoggerFactory.getLogger(this.getClass());
+
     private final ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplier;
     //每次请求算上重试不会超过1分钟
     //对于超过1分钟的，这种请求肯定比较重，不应该重试

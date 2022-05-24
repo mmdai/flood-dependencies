@@ -28,7 +28,7 @@ public class XssFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("==============XssFilter init");
+        log.info("=========XssFilter init========");
     }
 
     @Override
@@ -47,6 +47,6 @@ public class XssFilter implements Filter {
 
     @Override
     public void destroy() {
-        log.info("==============XssFilter destroy");
+        log.info("=========XssFilter destroy========");
     }
 }

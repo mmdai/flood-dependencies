@@ -58,7 +58,7 @@ public class ProtoSupportConfig implements WebMvcConfigurer {
     //add the protobuf http message converter
     @Bean
     public ProtostuffHttpMessageConverter protobufHttpMessageConverter() {
-        log.info("ProtostuffHttpMessageConverter:------------start------ ");
+        log.info("=========ProtostuffHttpMessageConverter init========");
         return new ProtostuffHttpMessageConverter();
     }
 

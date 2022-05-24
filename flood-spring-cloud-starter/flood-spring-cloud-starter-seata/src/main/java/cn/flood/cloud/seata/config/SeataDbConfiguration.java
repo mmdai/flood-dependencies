@@ -4,7 +4,8 @@ import cn.flood.cloud.seata.props.SeataProperties;
 import cn.flood.support.YamlPropertySourceFactory;
 import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,8 +27,9 @@ import java.sql.SQLException;
 @AllArgsConstructor
 @ConditionalOnBean(DataSource.class)
 @EnableAutoDataSourceProxy
-@Slf4j
 public class SeataDbConfiguration {
+
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     public DataSource dataSource;
