@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-
 /**
  * 给请求增加IP地址和TraceId
  *
@@ -39,6 +37,6 @@ public class PreRequestFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        return Ordered.LOWEST_PRECEDENCE-1;
     }
 }

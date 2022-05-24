@@ -28,7 +28,6 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
  * 打印请求和响应简要日志
  *
  * @author mmdai
- * @author L.cm
  * @since 2020-7-16
  */
 @Component
@@ -86,6 +85,6 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public int getOrder() {
-		return Ordered.LOWEST_PRECEDENCE-1;
+		return Ordered.LOWEST_PRECEDENCE;
 	}
 }
