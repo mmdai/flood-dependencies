@@ -242,7 +242,7 @@ public final class HttpRestLoggingInterceptor implements Interceptor {
 				responseEndMessage.append(" ").append(headers.name(i)).append(": ").append(headers.value(i)).append("\n");
 			}
 
-			if (!logBody || !HttpHeaders.hasBody(response)) {
+			if (!logBody || !HttpHeaders.promisesBody(response)) {
 				responseEndMessage.append(" ").append("<=== END HTTP").append("\n");
 			} else if (bodyHasUnknownEncoding(response.headers())) {
 				responseEndMessage.append(" ").append("<=== END HTTP (encoded body omitted)").append("\n");

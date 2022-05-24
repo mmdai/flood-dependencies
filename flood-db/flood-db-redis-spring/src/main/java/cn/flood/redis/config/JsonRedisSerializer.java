@@ -61,9 +61,9 @@ public class JsonRedisSerializer implements RedisSerializer<Object> {
             return null;
         }
         String str = new String(bytes, StandardCharsets.UTF_8);
-        if (JSONUtil.isJsonArray(str)) {
+        if (JSONUtil.isTypeJSONArray(str)) {
             return JSONUtil.parseArray(str);
-        }else if (JSONUtil.isJsonObj(str)) {
+        }else if (JSONUtil.isTypeJSONObject(str)) {
             return JSONUtil.parseObj(str);
         }else {
             return str;

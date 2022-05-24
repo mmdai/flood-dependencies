@@ -1,8 +1,6 @@
 package cn.flood.cloud.gateway.filter;
 
-import cn.flood.Func;
 import cn.flood.cloud.gateway.props.WebSocketProperties;
-import cn.flood.constants.FDConstant;
 import cn.flood.constants.HeaderConstant;
 import cn.flood.trace.MDCTraceUtils;
 import com.google.common.base.Stopwatch;
@@ -43,30 +41,17 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		Stopwatch stopwatch = Stopwatch.createStarted();
-		String requestUrl = exchange.getRequest().getURI().getRawPath();
+		String requestUrl = exchange.getRequest().getURI().toString();
 		// 构建成一条长 日志，避免并发下日志错乱
 		StringBuilder beforeReqLog = new StringBuilder(300);
 		// 日志参数
 		List<Object> beforeReqArgs = new ArrayList<>();
-		beforeReqLog.append("\n================ flood Gateway Request Start  ================\n");
-		// 打印路由
-		beforeReqLog.append("===> {}: {}\n");
+		beforeReqLog.append("===> {}: {}");
 		// 参数
 		String requestMethod = exchange.getRequest().getMethodValue();
 		beforeReqArgs.add(requestMethod);
 		beforeReqArgs.add(requestUrl);
 
-		// 打印请求头
-		HttpHeaders headers = exchange.getRequest().getHeaders();
-		headers.forEach((headerName, headerValue) -> {
-			if(MDCTraceUtils.TRACE_ID_HEADER.equals(headerName) ||
-					HeaderConstant.HEADER_VERSION.equals(headerName) || HeaderConstant.TENANT_ID.equals(headerName)){
-				beforeReqLog.append(" {}: {}\n");
-				beforeReqArgs.add(headerName);
-				beforeReqArgs.add(Func.join(headerValue));
-			}
-		});
-		beforeReqLog.append("================ flood Gateway Request End =================\n");
 		// 打印执行时间
 		log.info(beforeReqLog.toString(), beforeReqArgs.toArray());
 
@@ -77,9 +62,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 			StringBuilder responseLog = new StringBuilder(300);
 			// 日志参数
 			List<Object> responseArgs = new ArrayList<>();
-			responseLog.append("\n================ flood Gateway Response Start  ================\n");
-			// 打印路由 200 get: /*/xxx/xxx
-			responseLog.append("<=== {} {}: {}: {}\n");
+			responseLog.append("<=== {} {}: {}: {}");
 			// 参数
 			responseArgs.add(response.getStatusCode().value());
 			responseArgs.add(requestMethod);
@@ -95,16 +78,9 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 				String traceId = exchange.getAttribute(HeaderConstant.REQUEST_ID);
 				httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 			}
-			httpHeaders.forEach((headerName, headerValue) -> {
-				if(MDCTraceUtils.TRACE_ID_HEADER.equals(headerName)){
-					responseLog.append(" {}: {}\n");
-					responseArgs.add(headerName);
-					responseArgs.add(Func.join(headerValue));
-				}
-			});
-			responseLog.append("================  flood Gateway Response End  =================\n");
 			// 打印执行时间
 			log.info(responseLog.toString(), responseArgs.toArray());
+			MDCTraceUtils.removeTraceId();
 		}));
 	}
 

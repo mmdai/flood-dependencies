@@ -1,6 +1,5 @@
 package cn.flood.cloud.gateway.filter;
 
-import cn.flood.constants.HeaderConstant;
 import cn.flood.trace.MDCTraceUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -8,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -30,8 +30,10 @@ public class PreRequestFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 开启traceId追踪ID生成
         String traceId = MDCTraceUtils.createTraceId();
-        exchange.getAttributes().put(HeaderConstant.REQUEST_ID, traceId);
-        return chain.filter(exchange);
+        ServerHttpRequest newRequest = exchange.getRequest().mutate().header(MDCTraceUtils.TRACE_ID_HEADER, traceId).build();
+        ServerWebExchange build = exchange.mutate().request(newRequest).build();
+        MDCTraceUtils.putTraceId(traceId);
+        return chain.filter(build);
     }
 
 
