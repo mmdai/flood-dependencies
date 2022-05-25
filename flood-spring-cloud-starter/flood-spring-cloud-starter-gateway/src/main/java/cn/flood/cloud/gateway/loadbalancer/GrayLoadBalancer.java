@@ -1,4 +1,4 @@
-package cn.flood.cloud.gateway.rule;
+package cn.flood.cloud.gateway.loadbalancer;
 
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.http.server.reactive.ServerHttpRequest;

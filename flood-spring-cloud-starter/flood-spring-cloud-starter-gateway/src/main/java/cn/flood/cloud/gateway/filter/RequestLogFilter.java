@@ -40,7 +40,7 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		Stopwatch stopwatch = Stopwatch.createStarted();
-		String requestUrl = exchange.getRequest().getURI().toString();
+		String requestUrl = exchange.getRequest().getURI().getRawPath();
 		// 构建成一条长 日志，避免并发下日志错乱
 		StringBuilder beforeReqLog = new StringBuilder(300);
 		// 日志参数
@@ -85,6 +85,6 @@ public class RequestLogFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public int getOrder() {
-		return Ordered.LOWEST_PRECEDENCE;
+		return Ordered.LOWEST_PRECEDENCE-1;
 	}
 }

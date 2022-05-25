@@ -2,8 +2,8 @@ package cn.flood.cloud.gateway.config;
 
 
 import cn.flood.cloud.gateway.filter.GrayReactiveLoadBalancerClientFilter;
-import cn.flood.cloud.gateway.rule.GrayLoadBalancer;
-import cn.flood.cloud.gateway.rule.VersionGrayLoadBalancer;
+import cn.flood.cloud.gateway.loadbalancer.GrayLoadBalancer;
+import cn.flood.cloud.gateway.loadbalancer.VersionGrayLoadBalancer;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

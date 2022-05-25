@@ -3,6 +3,7 @@ package cn.flood.cloud.gateway.handler;
 import cn.flood.cloud.gateway.result.Result;
 import cn.flood.cloud.gateway.result.ResultCode;
 import cn.flood.cloud.gateway.result.ResultWapper;
+import cn.flood.trace.MDCTraceUtils;
 import io.netty.channel.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class ExceptionHandlerAdvice {
 	@ExceptionHandler(value = {ResponseStatusException.class})
 	public Result<?> handle(ResponseStatusException ex) {
 		log.error("response status exception:{}", ex.getMessage());
+		MDCTraceUtils.removeTraceId();
 		if (ex.getMessage().contains(HttpStatus.NOT_FOUND.toString()) ) {
 			return ResultWapper.wrap(ResultCode.NOT_FOUND.getCode(), ResultCode.NOT_FOUND.getMsg());
 		} else if(ex.getMessage().contains(HttpStatus.SERVICE_UNAVAILABLE.toString())) {

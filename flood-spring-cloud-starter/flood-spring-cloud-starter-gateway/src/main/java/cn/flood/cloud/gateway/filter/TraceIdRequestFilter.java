@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono;
  */
 @Component
 @RequiredArgsConstructor
-public class PreRequestFilter implements GlobalFilter, Ordered {
+public class TraceIdRequestFilter implements GlobalFilter, Ordered {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -37,6 +37,6 @@ public class PreRequestFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE-1;
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }

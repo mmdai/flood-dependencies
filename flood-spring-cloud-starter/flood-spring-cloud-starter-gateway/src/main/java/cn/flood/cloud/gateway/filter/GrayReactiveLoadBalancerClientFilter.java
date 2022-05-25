@@ -1,6 +1,6 @@
 package cn.flood.cloud.gateway.filter;
 
-import cn.flood.cloud.gateway.rule.GrayLoadBalancer;
+import cn.flood.cloud.gateway.loadbalancer.GrayLoadBalancer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.client.ServiceInstance;

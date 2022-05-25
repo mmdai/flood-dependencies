@@ -1,7 +1,6 @@
-package cn.flood.cloud.gateway.rule;
+package cn.flood.cloud.gateway.loadbalancer;
 
 import brave.Span;
-import brave.Tracer;
 import brave.Tracing;
 import cn.flood.Func;
 import cn.flood.constants.HeaderConstant;
@@ -85,9 +84,11 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		int c = serviceInstancesList.size();
 		int pos = s % c;
 		log.info("position {}, seed: {}, instances count: {}", pos, s, c);
-		return serviceInstancesList.stream()
+		ServiceInstance instance = serviceInstancesList.stream()
 				//实例返回列表顺序可能不同，为了保持一致，先排序再取
 				.sorted(Comparator.comparing(ServiceInstance::getUri))
 				.collect(Collectors.toList()).get(pos);
+		log.info("instances: {}", instance.getUri());
+		return instance;
 	}
 }
