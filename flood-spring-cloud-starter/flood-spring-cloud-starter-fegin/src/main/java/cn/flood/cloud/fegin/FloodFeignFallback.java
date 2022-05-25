@@ -15,21 +15,24 @@
  */
 package cn.flood.cloud.fegin;
 
-import cn.flood.Func;
+import cn.flood.constants.CoreConstant;
 import cn.flood.json.JsonUtils;
 import cn.flood.rpc.response.Result;
 import cn.flood.rpc.response.ResultWapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import feign.FeignException;
 import lombok.AllArgsConstructor;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Method;
+import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 import java.util.Objects;
 import java.util.Optional;
@@ -64,6 +67,20 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
 			return ResultWapper.error(errorMessage);
 		}
 		FeignException exception = (FeignException) cause;
+		//503 找不到可用服务
+		if(exception.status() == HttpStatus.SERVICE_UNAVAILABLE.value()){
+			return ResultWapper.wrap(HttpStatus.SERVICE_UNAVAILABLE.value()+"", HttpStatus.SERVICE_UNAVAILABLE.name());
+		}
+		//超时
+		if(exception.getCause() instanceof SocketTimeoutException || exception.getCause() instanceof ConnectTimeoutException) {
+			if (exception.getCause().getMessage().indexOf("connect timed out") > -1) {
+				return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00501, "ERROR【Connection timed out】");
+			} else if (exception.getCause().getMessage().indexOf("Read timed out") > -1 ||
+					exception.getCause().getMessage().indexOf("timeout") > -1) {
+				return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00502, "ERROR【Read timed out】");
+			}
+			return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00501, "ERROR【" + exception.getCause().getMessage() + "】");
+		}
 		Optional<ByteBuffer> contentOptional = exception.responseBody();
 		// 如果返回的数据为空
 		if (ObjectUtils.isEmpty(contentOptional.empty())) {
