@@ -13,14 +13,14 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
- * 给请求增加IP地址和TraceId
+ * 给请求 create TraceId
  *
  * @author mmdai
  * @since 2020-7-13
  */
 @Component
 @RequiredArgsConstructor
-public class TraceIdRequestFilter implements GlobalFilter, Ordered {
+public class TraceIdCreateFilter implements GlobalFilter, Ordered {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
