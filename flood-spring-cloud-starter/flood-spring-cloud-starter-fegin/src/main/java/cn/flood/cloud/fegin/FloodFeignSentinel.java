@@ -16,6 +16,7 @@
 package cn.flood.cloud.fegin;
 
 import cn.flood.Func;
+import cn.flood.cloud.fegin.fallback.FloodFallbackFactory;
 import cn.flood.cloud.sentinel.FloodSentinelInvocationHandler;
 import cn.flood.constants.HeaderConstant;
 import cn.flood.trace.MDCTraceUtils;

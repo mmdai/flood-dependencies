@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.flood.cloud.fegin;
+package cn.flood.cloud.fegin.fallback;
 
 import feign.Target;
 import lombok.AllArgsConstructor;

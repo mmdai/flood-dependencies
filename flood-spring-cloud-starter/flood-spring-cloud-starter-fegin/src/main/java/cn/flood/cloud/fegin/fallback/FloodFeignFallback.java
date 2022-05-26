@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package cn.flood.cloud.fegin;
+package cn.flood.cloud.fegin.fallback;
 
 import cn.flood.constants.CoreConstant;
 import cn.flood.json.JsonUtils;
@@ -69,7 +69,7 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
 		FeignException exception = (FeignException) cause;
 		//503 找不到可用服务
 		if(exception.status() == HttpStatus.SERVICE_UNAVAILABLE.value()){
-			return ResultWapper.wrap(HttpStatus.SERVICE_UNAVAILABLE.value()+"", HttpStatus.SERVICE_UNAVAILABLE.name());
+			return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00503, "ERROR【Service Unavailable】");
 		}
 		//超时
 		if(exception.getCause() instanceof SocketTimeoutException || exception.getCause() instanceof ConnectTimeoutException) {
@@ -79,7 +79,7 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
 					exception.getCause().getMessage().indexOf("timeout") > -1) {
 				return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00502, "ERROR【Read timed out】");
 			}
-			return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00501, "ERROR【" + exception.getCause().getMessage() + "】");
+			return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00500, "ERROR【" + exception.getCause().getMessage() + "】");
 		}
 		Optional<ByteBuffer> contentOptional = exception.responseBody();
 		// 如果返回的数据为空
