@@ -288,7 +288,7 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 	/**
 	 * 获取用户信息
 	 *
-	 * @return BladeUser
+	 * @return User
 	 */
 	public static UserToken getUser() {
 		HttpServletRequest request = WebUtil.getRequest();
@@ -296,14 +296,14 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
 			return null;
 		}
 		// 优先从 request 中获取
-		Object bladeUser = request.getAttribute(REQUEST_TOKEN_NAME);
-		if (bladeUser == null) {
-			if (bladeUser != null) {
+		Object floodUser = request.getAttribute(REQUEST_TOKEN_NAME);
+		if (floodUser == null) {
+			if (floodUser != null) {
 				// 设置到 request 中
-				request.setAttribute(REQUEST_TOKEN_NAME, bladeUser);
+				request.setAttribute(REQUEST_TOKEN_NAME, floodUser);
 			}
 		}
-		return (UserToken) bladeUser;
+		return (UserToken) floodUser;
 	}
 
 	/**

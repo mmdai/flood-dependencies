@@ -8,12 +8,10 @@
 */  
 package cn.flood.cloud.fegin;
 
-import cn.flood.cloud.fegin.retryer.FloodErrorDecoder;
 import cn.flood.cloud.version.FloodSpringMvcContract;
 import feign.Contract;
 import feign.Retryer;
 import feign.codec.Encoder;
-import feign.codec.ErrorDecoder;
 import feign.form.spring.SpringFormEncoder;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,23 +48,14 @@ public class FeignMultipartSupportConfig {
 	}
 
 	/**
-	 * 自定义重试机制
+	 * 默认不重试
 	 * @return
 	 */
 	@Bean
 	public Retryer feignRetryer() {
-		//最大请求次数为5， 初始间隔时间为100ms，下次间隔时间1.5倍递增，重试间最大间隔时间为1s，
-		return new Retryer.Default();
+		return Retryer.NEVER_RETRY;
 	}
 
-	/**
-	 * 自定义重试错误码
-	 * @return
-	 */
-	@Bean
-	public ErrorDecoder errorDecoder() {
-		return new FloodErrorDecoder();
-	}
 
 
 }

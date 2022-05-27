@@ -1,18 +1,3 @@
-/**
- * Copyright (c) 2018-2028,
- * <p>
- * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE 3.0;
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.gnu.org/licenses/lgpl.html
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package cn.flood.cloud.fegin.fallback;
 
 import cn.flood.constants.CoreConstant;
@@ -38,7 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * blade fallBack 代理处理
+ * fallBack 代理处理
  *
  * @author mmdai
  */
@@ -79,6 +64,9 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
 					exception.getCause().getMessage().indexOf("timeout") > -1) {
 				return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00502, "ERROR【Read timed out】");
 			}
+			return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00500, "ERROR【" + exception.getCause().getMessage() + "】");
+		}
+		if(exception.status() == -1){
 			return ResultWapper.wrap(CoreConstant.HTTP_ERROR_CODE.A00500, "ERROR【" + exception.getCause().getMessage() + "】");
 		}
 		Optional<ByteBuffer> contentOptional = exception.responseBody();
