@@ -41,29 +41,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<configuration>
-						<!--<compilerArgument>-Xlint:unchecked</compilerArgument>-->
-						<target>${java.version}</target>
-						<source>${java.version}</source>
-						<encoding>UTF-8</encoding>
-						<annotationProcessorPaths>
-							<path>
-								<groupId>org.projectlombok</groupId>
-								<artifactId>lombok</artifactId>
-								<version>1.18.20</version>
-							</path>
-							<path>
-								<groupId>org.mapstruct</groupId>
-								<artifactId>mapstruct-processor</artifactId>
-								<version>${mapstruct.version}</version>
-							</path>
-							<path>
-								<groupId>org.projectlombok</groupId>
-								<artifactId>lombok-mapstruct-binding</artifactId>
-								<version>0.2.0</version>  <!-- 如果是0.1.0 有可能出现生成了maptruct的实现类，但该类只创建了对象，没有进行赋值 -->
-							</path>
-						</annotationProcessorPaths>
-					</configuration>
+					<version>3.8.1</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-source-plugin</artifactId>
