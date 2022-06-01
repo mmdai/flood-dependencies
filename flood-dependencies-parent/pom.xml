@@ -144,7 +144,7 @@
 		<!-- 对象转换 -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-tools-mapstruct</artifactId>
+			<artifactId>flood-tools-orika</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 

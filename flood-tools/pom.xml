@@ -27,6 +27,6 @@
         <!-- 基础分布式id -->
         <module>flood-tools-id</module>
         <!-- 对象转换 -->
-        <module>flood-tools-mapstruct</module>
+        <module>flood-tools-orika</module>
     </modules>
 </project>
