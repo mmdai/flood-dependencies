@@ -2,6 +2,8 @@ package cn.flood.core.orika.test;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * The destination object of person data.
  */
@@ -17,6 +19,8 @@ public class PersonDestination {
      * The sir name.
      */
     private String sirName;
+
+    private String birthDayFormat;
 
     /**
      * The age.

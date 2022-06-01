@@ -7,6 +7,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Date;
+
 /**
  * The sample application of "orika-spring-boot-starter".
  * Maps {@link PersonSource} to {@link PersonDestination}.
@@ -28,6 +30,7 @@ public class Application implements ApplicationRunner {
         source.setFirstName("John");
         source.setLastName("Smith");
         source.setAge(23);
+        source.setBirthDay(new Date());
 
         System.out.println(source);  // => "PersonSource(firstName=John, lastName=Smith, age=23)"
         PersonDestination destination = orikaMapperFacade.map(source, PersonDestination.class);

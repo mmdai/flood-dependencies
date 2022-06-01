@@ -2,6 +2,8 @@ package cn.flood.core.orika.test;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * The source object of person data.
  */
@@ -17,6 +19,8 @@ public class PersonSource {
      * The last name.
      */
     private String lastName;
+
+    private Date birthDay;
 
     /**
      * The age.
