@@ -230,7 +230,7 @@ public enum GlobalErrorCodeEnum {
     /**
      * 系统异常
      */
-    INTERNAL_SERVER_ERROR("500", "系统异常", "INTERNAL_SERVER_ERROR"),
+    INTERNAL_SERVER_ERROR("500", "系统出错了", "INTERNAL_SERVER_ERROR"),
 
     /**
      *
