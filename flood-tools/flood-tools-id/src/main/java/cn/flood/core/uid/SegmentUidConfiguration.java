@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +24,7 @@ import java.util.Properties;
  * 分段批量(基于leaf)
  */
 //@ConditionalOnProperty(name = "spring.uid.strategy", havingValue = "segment")
+@Configuration
 @ConditionalOnClass(JdbcTemplate.class)
 @EnableConfigurationProperties({UidDbProperties.class, DruidDbProperties.class})
 public class SegmentUidConfiguration {
