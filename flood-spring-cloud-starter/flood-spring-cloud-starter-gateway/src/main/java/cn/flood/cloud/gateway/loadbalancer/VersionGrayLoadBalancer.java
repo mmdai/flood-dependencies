@@ -83,12 +83,12 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		int s = seed.getAndIncrement();
 		int c = serviceInstancesList.size();
 		int pos = s % c;
-		log.info("position {}, seed: {}, instances count: {}", pos, s, c);
+//		log.debug("position {}, seed: {}, instances count: {}", pos, s, c);
 		ServiceInstance instance = serviceInstancesList.stream()
 				//实例返回列表顺序可能不同，为了保持一致，先排序再取
 				.sorted(Comparator.comparing(ServiceInstance::getUri))
 				.collect(Collectors.toList()).get(pos);
-		log.info("instances: {}", instance.getUri());
+		log.info("serviceId: {} , instances: {}", serviceId, instance.getUri());
 		return instance;
 	}
 }
