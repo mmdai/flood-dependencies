@@ -11,18 +11,12 @@
 ---
 
 
-  
-**单数据源范例**
----
-application.yml
 
 **多数据源范例**
 ---
 application.yml
 spring:
   datasource:
-    #数据源single,multi
-    isSingle: false
     # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
     #多数据源
     sourceConfig[0]:

@@ -1,11 +1,17 @@
 **版本下载**
 ---
+    多数据源
     <dependency>
     	<groupId>cn.flood</groupId>
     	<artifactId>flood-db-database</artifactId>
     	<version>2.0.0</version>
     </dependency>
-
+    单数据源配置
+    <dependency>
+    	<groupId>cn.flood</groupId>
+    	<artifactId>flood-db-jdbc</artifactId>
+    	<version>2.0.0</version>
+    </dependency>
 
 **配置介绍**
 ---
@@ -13,14 +19,15 @@
 
   
 **单数据源范例**
+
+
+
 ---
 application.yml
    
 #单数据源配置点
 spring:
   datasource:
-    #数据源single,multi
-    isSingle: true
     # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
     url: jdbc:mysql://127.0.0.1:3306/credit_mgr?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     username: 'root'
@@ -63,8 +70,6 @@ spring:
 application.yml
 spring:
   datasource:
-    #数据源single,multi
-    isSingle: false
     # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
     #多数据源
     sourceConfig[0]:

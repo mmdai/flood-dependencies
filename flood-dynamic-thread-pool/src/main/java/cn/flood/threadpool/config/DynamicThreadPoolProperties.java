@@ -97,7 +97,7 @@ public class DynamicThreadPoolProperties {
         ConfigurationPropertySource sources = new MapConfigurationPropertySource(dataMap);
 
         Binder binder = new Binder(sources);
-        binder.bind("kitty.threadpools", Bindable.ofInstance(this)).get();
+        binder.bind("flood.threadpools", Bindable.ofInstance(this)).get();
     }
 
 }
