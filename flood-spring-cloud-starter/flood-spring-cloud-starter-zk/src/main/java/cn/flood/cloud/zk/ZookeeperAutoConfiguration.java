@@ -5,10 +5,10 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
 /**
  * redis 配置类
@@ -21,7 +21,7 @@ import org.springframework.context.annotation.ComponentScan;
  * Github: https://github.com/zlt2000
  */
 @EnableConfigurationProperties(ZookeeperProperty.class)
-@ComponentScan
+@AutoConfiguration
 public class ZookeeperAutoConfiguration {
     /**
      * 初始化连接

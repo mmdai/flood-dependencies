@@ -14,11 +14,10 @@ import cn.flood.core.uid.worker.dao.WorkerNodeDAO;
 import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -28,7 +27,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 //@ConditionalOnProperty(name = "spring.uid.strategy", havingValue = "baidu")
-@Configuration
+@AutoConfiguration
 @ConditionalOnClass(JdbcTemplate.class)
 @EnableConfigurationProperties({UidDbProperties.class, DruidDbProperties.class})
 public class BaiduUidConfiguration {

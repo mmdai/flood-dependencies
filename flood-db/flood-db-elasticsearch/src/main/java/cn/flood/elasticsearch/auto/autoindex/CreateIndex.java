@@ -1,5 +1,6 @@
 package cn.flood.elasticsearch.auto.autoindex;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.Order;
 import cn.flood.elasticsearch.annotation.ESMetaData;
@@ -11,10 +12,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Configuration;
-import cn.flood.elasticsearch.util.IndexTools;
 import cn.flood.elasticsearch.util.MetaData;
 
 import java.util.Map;
@@ -26,7 +24,7 @@ import java.util.Map;
  * author: X-Pacific zhang
  * create: 2019-01-30 18:43
  **/
-@Configuration
+@AutoConfiguration
 // 默认是最低优先级,值越小优先级越高
 @Order(1)
 public class CreateIndex implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware {

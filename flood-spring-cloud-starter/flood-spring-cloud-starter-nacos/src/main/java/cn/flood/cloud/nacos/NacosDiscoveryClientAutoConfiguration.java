@@ -3,20 +3,15 @@ package cn.flood.cloud.nacos;
 import com.alibaba.cloud.nacos.ConditionalOnNacosDiscoveryEnabled;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.NacosServiceManager;
-import com.alibaba.cloud.nacos.discovery.NacosDiscoveryClient;
-import com.alibaba.cloud.nacos.discovery.NacosServiceDiscovery;
 import com.alibaba.cloud.nacos.discovery.NacosWatch;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.CommonsClientAutoConfiguration;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.simple.SimpleDiscoveryClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
@@ -28,7 +23,7 @@ import java.time.format.DateTimeFormatter;
  * @version 1.0
  * @date 2022/4/28 15:57
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnNacosDiscoveryEnabled
 @AutoConfigureBefore({SimpleDiscoveryClientAutoConfiguration.class, CommonsClientAutoConfiguration.class})
 public class NacosDiscoveryClientAutoConfiguration {

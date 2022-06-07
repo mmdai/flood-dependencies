@@ -1,6 +1,7 @@
 package cn.flood.redis.config.cache;
 
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
 import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.autoconfigure.cache.RedisCacheManagerBuilderCustomizer;
@@ -9,7 +10,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2019/10/4
  * @since 1.8
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @ConditionalOnBean(RedisConnectionFactory.class)
 @ConditionalOnMissingBean(CacheManager.class)
 @EnableConfigurationProperties({CacheProperties.class})

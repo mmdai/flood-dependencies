@@ -18,8 +18,8 @@ import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -32,7 +32,7 @@ import java.util.*;
  * 自动装配消息消费者
  */
 @SuppressWarnings("unchecked")
-@Configuration
+@AutoConfiguration
 @ConditionalOnBean(MQBaseAutoConfiguration.class)
 public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration implements InitializingBean {
 

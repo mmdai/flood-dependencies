@@ -5,6 +5,7 @@ import cn.flood.cloud.loadbalancer.RoundRobinWithRequestSeparatedPositionLoadBal
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.cache.CachesEndpoint;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.loadbalancer.cache.LoadBalancerCacheManager;
@@ -13,7 +14,6 @@ import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 import org.springframework.cloud.loadbalancer.support.LoadBalancerClientFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.ReflectionUtils;
 
@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 @SuppressWarnings("unchecked")
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class DefaultLoadBalancerConfiguration {
     @Autowired
     private ConfigurableApplicationContext context;

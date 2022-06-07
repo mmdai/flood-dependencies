@@ -5,7 +5,7 @@ import cn.flood.lang.StringPool;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
  */
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 public class SecurityRuleFilter implements WebFilter {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());

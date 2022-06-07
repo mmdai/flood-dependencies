@@ -7,9 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -26,7 +26,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 * @author mmdai  
 * @date 2018年8月13日
  */
-@Configuration
+@AutoConfiguration
 @EnableAsync // 开启异步任务支持
 @AutoConfigureAfter({AsyncProperties.class})
 @EnableConfigurationProperties({AsyncProperties.class})

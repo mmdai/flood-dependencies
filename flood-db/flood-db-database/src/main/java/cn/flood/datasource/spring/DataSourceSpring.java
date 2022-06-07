@@ -7,11 +7,11 @@ import javax.sql.DataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import cn.flood.datasource.DataSourceRegisterInfo;
@@ -20,7 +20,7 @@ import cn.flood.datasource.dynamic.DynamicDataSource;
 import cn.flood.datasource.enums.DataSourceEnum;
 
 
-@Configuration
+@AutoConfiguration
 @EnableConfigurationProperties(value= {MultiDataSourceRegister.class})
 @SuppressWarnings("unchecked")
 public class DataSourceSpring {

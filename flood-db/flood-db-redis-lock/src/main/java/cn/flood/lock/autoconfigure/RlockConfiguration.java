@@ -5,15 +5,15 @@ import cn.flood.lock.autoconfigure.core.BusinessKeyProvider;
 import cn.flood.lock.autoconfigure.core.RlockAspectHandler;
 import cn.flood.lock.autoconfigure.core.LockInfoProvider;
 import cn.flood.lock.autoconfigure.lock.LockFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
  * Created by on 2017/12/29.
  * Content :适用于内部低版本spring mvc项目配置,redisson外化配置
  */
-@Configuration
+@AutoConfiguration
 @Import({RlockAspectHandler.class})
 public class RlockConfiguration {
     @Bean

@@ -4,11 +4,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  * author: X-Pacific zhang
  * create: 2019-04-16 15:24
  **/
-@Configuration
+@AutoConfiguration
 public class ESCRegistrar extends AbstractESCRegister implements BeanFactoryAware,ApplicationContextAware, ImportBeanDefinitionRegistrar, ResourceLoaderAware, EnvironmentAware {
     private @SuppressWarnings("null")
     ResourceLoader resourceLoader;

@@ -7,6 +7,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.client.codec.Codec;
 import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -18,7 +19,6 @@ import cn.flood.lock.autoconfigure.core.LockInfoProvider;
 import cn.flood.lock.autoconfigure.lock.LockFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.util.ClassUtils;
 
@@ -28,7 +28,7 @@ import org.springframework.util.ClassUtils;
  * @date 2017/12/29
  * Content :klock自动装配
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnProperty(prefix = RlockConfig.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
 @AutoConfigureAfter(RedisAutoConfiguration.class)
 @EnableConfigurationProperties(RlockConfig.class)

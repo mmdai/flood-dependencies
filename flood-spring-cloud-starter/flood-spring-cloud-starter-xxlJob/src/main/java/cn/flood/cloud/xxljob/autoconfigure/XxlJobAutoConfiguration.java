@@ -4,11 +4,10 @@ import cn.flood.job.core.executor.impl.XxlJobSpringExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
 
 
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
  * @date 2020/12/23
  */
 @EnableConfigurationProperties(XxlJobProperties.class)
-@Configuration
+@AutoConfiguration
 public class XxlJobAutoConfiguration {
 
     private Logger logger = LoggerFactory.getLogger(XxlJobAutoConfiguration.class);

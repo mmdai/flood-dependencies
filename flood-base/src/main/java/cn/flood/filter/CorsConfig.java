@@ -1,6 +1,6 @@
 package cn.flood.filter;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author mmdai
  * @date 2021/1/5
  */
-@Configuration
+@AutoConfiguration
 public class CorsConfig implements WebMvcConfigurer {
     /**
      * gateway 网关已经添加 所以注释掉该代码

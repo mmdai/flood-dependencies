@@ -7,13 +7,13 @@ import org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthIndic
 import org.springframework.boot.actuate.health.CompositeHealthContributor;
 import org.springframework.boot.actuate.health.HealthContributor;
 import org.springframework.boot.actuate.jdbc.DataSourceHealthIndicator;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.metadata.CompositeDataSourcePoolMetadataProvider;
 import org.springframework.boot.jdbc.metadata.DataSourcePoolMetadata;
 import org.springframework.boot.jdbc.metadata.DataSourcePoolMetadataProvider;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unchecked")
-@Configuration
+@AutoConfiguration
 @EnableConfigurationProperties(DruidDbProperties.class)
 public class DataSourceHealthConfig extends DataSourceHealthContributorAutoConfiguration {
 

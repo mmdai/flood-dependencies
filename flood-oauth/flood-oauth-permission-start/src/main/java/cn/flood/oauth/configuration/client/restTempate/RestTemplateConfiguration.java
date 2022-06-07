@@ -27,12 +27,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cloud.commons.httpclient.OkHttpClientConnectionPoolFactory;
 import org.springframework.cloud.commons.httpclient.OkHttpClientFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
@@ -56,7 +56,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author mmdai
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @AllArgsConstructor
 @ConditionalOnClass(okhttp3.OkHttpClient.class)
 public class RestTemplateConfiguration {

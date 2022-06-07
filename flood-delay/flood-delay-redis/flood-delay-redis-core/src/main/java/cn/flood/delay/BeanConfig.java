@@ -12,9 +12,9 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -25,7 +25,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 @SuppressWarnings("unchecked")
-@Configuration
+@AutoConfiguration
 @MapperScan(basePackages = "cn.flood.delay.mapper")
 @EnableConfigurationProperties(DelayProperties.class)
 public class BeanConfig {

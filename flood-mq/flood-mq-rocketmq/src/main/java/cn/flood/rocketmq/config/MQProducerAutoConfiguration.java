@@ -9,9 +9,9 @@ import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -24,7 +24,7 @@ import java.util.concurrent.*;
  * Created by yipin on 2017/6/29.
  * 自动装配消息生产者
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnBean(MQBaseAutoConfiguration.class)
 public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
 

@@ -14,9 +14,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.SpringBootVersion;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 
@@ -45,7 +45,7 @@ import javax.servlet.http.HttpSession;
 /**
  * SwaggerConfig
  */
-@Configuration
+@AutoConfiguration
 @EnableOpenApi
 @EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)

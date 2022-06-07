@@ -10,11 +10,11 @@ import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory.MapperFactoryBuilder;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * The auto-configuration for Orika.
@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @ConditionalOnProperty(name = "orika.enabled", matchIfMissing = true)
 @EnableConfigurationProperties(OrikaProperties.class)
-@Configuration
+@AutoConfiguration
 public class OrikaAutoConfiguration {
 
     /**

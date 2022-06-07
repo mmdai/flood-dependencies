@@ -3,6 +3,7 @@ package cn.flood.i18n;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -10,7 +11,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 /**
  * 配置i18n
  */
-@Configuration
+@AutoConfiguration
 @ComponentScan(basePackages = {"cn.flood.aop"})
 public class InternationalConfig {
 

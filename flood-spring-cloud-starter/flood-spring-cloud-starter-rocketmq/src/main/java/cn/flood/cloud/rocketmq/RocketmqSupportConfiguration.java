@@ -1,9 +1,9 @@
 package cn.flood.cloud.rocketmq;
 
 import cn.flood.rocketmq.annotation.EnableMQConfiguration;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 
-@Configuration
+@AutoConfiguration
 @EnableMQConfiguration
 public class RocketmqSupportConfiguration {
 

@@ -1,10 +1,10 @@
 package cn.flood.mongodb;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 /**
  * 
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 * @author mmdai  
 * @date 2020年8月23日
  */
-@Configuration
+@AutoConfiguration
 @Component
 @EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @SuppressWarnings("unchecked")

@@ -1,7 +1,6 @@
 package cn.flood.db;
 
 import javax.annotation.PostConstruct;
-import javax.sql.DataSource;
 
 import cn.flood.Func;
 import cn.flood.db.config.DataSourceProperties;
@@ -12,15 +11,12 @@ import com.alibaba.druid.support.http.WebStatFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.SQLException;
 import java.util.Properties;
@@ -32,7 +28,7 @@ import java.util.Properties;
 * @author mmdai  
 * @date 2018年10月11日
  */
-@Configuration
+@AutoConfiguration
 @ConditionalOnProperty(name = "spring.datasource.type", havingValue = "com.alibaba.druid.pool.DruidDataSource", matchIfMissing = true)
 @EnableConfigurationProperties({
         DataSourceProperties.class,

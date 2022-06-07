@@ -7,9 +7,9 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import javax.annotation.PostConstruct;
@@ -21,7 +21,7 @@ import java.sql.SQLException;
  * @version 1.0
  * @date 2022/4/13 12:27
  */
-@Configuration
+@AutoConfiguration
 @PropertySource(factory = YamlPropertySourceFactory.class, value = "classpath:cloud-seata.yml")
 @EnableConfigurationProperties(SeataProperties.class)
 @AllArgsConstructor

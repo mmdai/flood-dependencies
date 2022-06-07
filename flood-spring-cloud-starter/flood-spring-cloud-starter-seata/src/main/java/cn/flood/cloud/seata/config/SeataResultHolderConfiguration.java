@@ -6,11 +6,11 @@ import cn.flood.cloud.seata.idempotent.ResultHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.sql.DataSource;
@@ -21,7 +21,7 @@ import java.util.Collection;
  * @version 1.0
  * @date 2022/5/6 18:06
  */
-@Configuration
+@AutoConfiguration
 public class SeataResultHolderConfiguration implements ApplicationContextAware {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());

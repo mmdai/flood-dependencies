@@ -21,10 +21,10 @@ import org.apache.shardingsphere.shardingjdbc.api.MasterSlaveDataSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.google.common.base.Strings;
@@ -38,7 +38,7 @@ import cn.flood.sharding.properties.ShardingMasterSlaveProperties;
 * @author mmdai  
 * @date 2019年7月9日  
 */
-@Configuration
+@AutoConfiguration
 @EnableConfigurationProperties({ShardingMasterSlaveProperties.class,
         DruidDbProperties.class
 })
