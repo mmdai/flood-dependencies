@@ -1,6 +1,6 @@
 package cn.flood.canal.util;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.flood.json.JsonUtils;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -39,7 +39,7 @@ public class StringConvertUtil {
         } else if (type.equals(java.sql.Date.class)) {
             return parseDate(columnValue);
         }else if (type.equals(List.class)) {
-            return JSONObject.parseArray(columnValue);
+            return JsonUtils.toList(columnValue);
         } else {
             return columnValue;
         }

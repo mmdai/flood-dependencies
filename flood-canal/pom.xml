@@ -17,7 +17,7 @@
     </modules>
 
     <properties>
-        <canal.client.version>1.1.5</canal.client.version>
+        <canal.client.version>1.1.6</canal.client.version>
         <hibernate.javax.version>1.0.2.Final</hibernate.javax.version>
     </properties>
 

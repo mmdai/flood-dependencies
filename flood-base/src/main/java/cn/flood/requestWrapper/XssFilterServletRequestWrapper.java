@@ -1,8 +1,7 @@
 package cn.flood.requestWrapper;
 
 import cn.flood.Func;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import cn.flood.json.JsonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StreamUtils;
@@ -40,7 +39,7 @@ public class XssFilterServletRequestWrapper extends HttpServletRequestWrapper {
         //缓存请求body
         String requestBodyStr = getRequestPostStr(request);
         if(Func.isNotEmpty(requestBodyStr)){
-            JSONObject resultJson = JSON.parseObject(requestBodyStr);
+            Map<String, Object> resultJson = JsonUtils.toMap(requestBodyStr);
             Set<String> keySet = resultJson.keySet();
             for (String key : keySet) {
                 Object o = resultJson.get(key);
