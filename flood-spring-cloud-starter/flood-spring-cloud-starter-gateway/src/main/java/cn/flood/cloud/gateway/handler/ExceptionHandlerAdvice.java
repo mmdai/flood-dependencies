@@ -3,7 +3,6 @@ package cn.flood.cloud.gateway.handler;
 import cn.flood.cloud.gateway.result.Result;
 import cn.flood.cloud.gateway.result.ResultCode;
 import cn.flood.cloud.gateway.result.ResultWapper;
-import cn.flood.trace.MDCTraceUtils;
 import io.netty.channel.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
