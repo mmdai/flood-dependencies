@@ -3,7 +3,7 @@ package cn.flood.websocket.redis.action;
 
 import cn.flood.websocket.WebSocketManager;
 import cn.flood.websocket.utils.WebSocketUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 
 /**
  * {

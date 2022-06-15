@@ -2,7 +2,7 @@ package cn.flood.websocket.redis;
 
 import cn.flood.websocket.WebSocketManager;
 import cn.flood.websocket.redis.action.Action;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -29,7 +29,7 @@ public class DefaultRedisReceiver implements RedisReceiver {
     public void receiveMessage(String message) {
         logger.info(message);
 
-        JSONObject object = JSONObject.parseObject(JSONObject.parse(message).toString());
+        JSONObject object = JSONObject.parseObject(JSONObject.toJSONString(message));
         if(!object.containsKey(Action.ACTION)){
             return;
         }

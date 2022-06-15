@@ -3,7 +3,7 @@ package cn.flood.utils;
 
 import cn.flood.lang.ReflectBeans;
 import cn.flood.lang.StringUtils;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 
 import java.util.*;
 

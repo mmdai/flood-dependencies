@@ -2,7 +2,7 @@ package cn.flood.websocket.redis.action;
 
 
 import cn.flood.websocket.WebSocketManager;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 
 
 public class RemoveAction implements Action{
