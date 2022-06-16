@@ -91,6 +91,7 @@
 					<include>**/stencilset.*</include>
 					<include>**/templates.*</include>
 					<include>**/idm.*</include>
+					<include>**/spring.*</include>
 				</includes>
 			</resource>
 		</resources>
