@@ -3,12 +3,14 @@ package cn.flood.delay.threads;
 import cn.flood.delay.utils.LockUtil;
 import cn.flood.delay.utils.NextTimeHolder;
 import cn.flood.delay.redis.RedisOperation;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Clock;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * @Description 搬运线程
@@ -28,7 +30,8 @@ public class Move2ReadyThread {
 
 
     /** 搬运线程:  将 bucket中的延迟有序队列zSet尝试move到待消费队列List**/
-    private  final ExecutorService BUCKET_MOVE_TO_LIST = Executors.newSingleThreadExecutor();
+    private  final ExecutorService BUCKET_MOVE_TO_LIST = new ScheduledThreadPoolExecutor(1,
+            new BasicThreadFactory.Builder().namingPattern("bucket-move-to-list-pool-%d").build());
     /**
      * 搬运线程
      */

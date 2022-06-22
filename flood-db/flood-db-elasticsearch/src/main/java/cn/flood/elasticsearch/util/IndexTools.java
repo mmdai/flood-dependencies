@@ -129,7 +129,7 @@ public class IndexTools {
             metaData.setMaxResultWindow(clazz.getAnnotation(ESMetaData.class).maxResultWindow());
             metaData.setAutoRollover(clazz.getAnnotation(ESMetaData.class).autoRollover());
             metaData.setAutoCreateIndex(clazz.getAnnotation(ESMetaData.class).autoCreateIndex());
-            if(StringUtils.isEmpty(clazz.getAnnotation(ESMetaData.class).settingsPath())){
+            if(ObjectUtils.isEmpty(clazz.getAnnotation(ESMetaData.class).settingsPath())){
                 metaData.setSettingsPath(metaData.getIndexname()+".essettings");
             }else{
                 metaData.setSettingsPath(clazz.getAnnotation(ESMetaData.class).settingsPath());
@@ -157,7 +157,7 @@ public class IndexTools {
             ESMapping esMapping = field.getAnnotation(ESMapping.class);
             mappingData.setDatatype(getType(esMapping.datatype()));
             mappingData.setAnalyzer(esMapping.analyzer().toString());
-            if(!StringUtils.isEmpty(esMapping.custom_analyzer())){
+            if(!ObjectUtils.isEmpty(esMapping.custom_analyzer())){
                 mappingData.setAnalyzer(esMapping.custom_analyzer().toString());
             }
             mappingData.setSearch_analyzer(esMapping.search_analyzer().toString());
@@ -175,7 +175,7 @@ public class IndexTools {
             mappingData.setAllow_search(esMapping.allow_search());
             mappingData.setCopy_to(esMapping.copy_to());
             mappingData.setNested_class(esMapping.nested_class());
-            if (!StringUtils.isEmpty(esMapping.null_value())) {
+            if (!ObjectUtils.isEmpty(esMapping.null_value())) {
                 mappingData.setNull_value(esMapping.null_value());
             }
             //add date format

@@ -77,10 +77,11 @@ public  class RedisDelayQueueContext   {
             new ThreadPoolExecutor.DiscardPolicy()
     );
 
-
+    private static ThreadFactory NAME_THREAD_FACTORY = new ThreadFactoryBuilder()
+            .setNameFormat("delay-queue-pool-%d").build();
     /**redisDelayQueue: 接口的异步调用 线程池;**/
-    private static ExecutorService DelayQ_ASYNC = new ThreadPoolExecutor(10,
-            10, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+    private static ExecutorService DELAYQ_ASYNC = new ThreadPoolExecutor(10,
+            10, 30, TimeUnit.SECONDS, new LinkedBlockingQueue<>(), NAME_THREAD_FACTORY, new ThreadPoolExecutor.AbortPolicy());
 
 
 
@@ -111,7 +112,7 @@ public  class RedisDelayQueueContext   {
             throw new DelayQueueException("projectName 不能包含特殊字符 : } { ");
         }
         this.redisOperation = new RedisOperationByLua(redisTemplate);
-        this.redisDelayQueue = new RedisDelayQueueImpl(redisOperation, topicRegisterHolder, DelayQ_ASYNC, tbDelayJobMapper);
+        this.redisDelayQueue = new RedisDelayQueueImpl(redisOperation, topicRegisterHolder, DELAYQ_ASYNC, tbDelayJobMapper);
         this.ipInRedisServer = ipInRedisServer;
         this.tbDelayJobMapper = tbDelayJobMapper;
         PROJECTNAME = projectName;
@@ -150,7 +151,7 @@ public  class RedisDelayQueueContext   {
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
             logger.info("延迟任务开始关机....");
             //关闭异步AddJob线程池
-            ShutdownThread.closeExecutor(DelayQ_ASYNC,"异步AddJob线程池");
+            ShutdownThread.closeExecutor(DELAYQ_ASYNC,"异步AddJob线程池");
             //停止唤醒线程
             TIMER_NOTIFY.shutdown();
             //停止搬运线程

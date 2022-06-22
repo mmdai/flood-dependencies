@@ -1,5 +1,6 @@
 package cn.flood.elasticsearch.auto.autoindex;
 
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.stream.Collectors;
 
 /**
@@ -53,7 +55,8 @@ public class ScheduleRollover implements ApplicationListener<ContextRefreshedEve
             }
             return false;
         }).collect(Collectors.toList());
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(autoRolloverBeanList.size());
+        ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(autoRolloverBeanList.size(),
+                new BasicThreadFactory.Builder().namingPattern("executor-schedule-pool-%d").build());
         autoRolloverBeanList.forEach(s -> {
             ESMetaData annotation = s.getValue().getClass().getAnnotation(ESMetaData.class);
             executor.scheduleAtFixedRate(() -> {

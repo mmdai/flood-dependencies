@@ -1,8 +1,11 @@
 package cn.flood.date;
 
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+
 import java.sql.Timestamp;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class SystemClock {
@@ -17,11 +20,8 @@ public class SystemClock {
     }
 
     private void scheduleClockUpdating() {
-        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor((runnable) -> {
-            Thread thread = new Thread(runnable, "System Clock");
-            thread.setDaemon(true);
-            return thread;
-        });
+        ScheduledExecutorService scheduler =new ScheduledThreadPoolExecutor(1,
+                new BasicThreadFactory.Builder().namingPattern("scheduler-pool-%d").daemon(true).build());
         scheduler.scheduleAtFixedRate(() -> {
             this.now = System.currentTimeMillis();
         }, this.period, this.period, TimeUnit.MILLISECONDS);

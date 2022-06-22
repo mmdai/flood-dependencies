@@ -7,8 +7,7 @@ import org.springframework.context.annotation.Bean;
 import cn.flood.canal.handler.CanalThreadUncaughtExceptionHandler;
 import cn.flood.canal.configuration.properties.CanalProperties;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @author gujiachun
@@ -21,6 +20,9 @@ public class ThreadPoolAutoConfiguration {
     public ExecutorService executorService() {
         BasicThreadFactory factory = new BasicThreadFactory.Builder().namingPattern("canal-execute-thread-%d")
                 .uncaughtExceptionHandler(new CanalThreadUncaughtExceptionHandler()).build();
-        return Executors.newFixedThreadPool(10, factory);
+//        return Executors.newFixedThreadPool(10, factory);
+        return new ThreadPoolExecutor(10, 10,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<Runnable>(1024), factory, new ThreadPoolExecutor.AbortPolicy());
     }
 }

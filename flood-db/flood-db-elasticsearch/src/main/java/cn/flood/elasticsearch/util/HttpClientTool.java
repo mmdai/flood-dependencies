@@ -45,6 +45,7 @@ import javax.net.ssl.SSLContext;
  **/
 public class HttpClientTool {
 
+    private static final String UTF_8 = "UTF-8";
     private static HttpClient mHttpClient = null;
 
     private static CloseableHttpClient getHttpClient(HttpClientBuilder httpClientBuilder) {
@@ -171,7 +172,7 @@ public class HttpClientTool {
         HttpUriRequest request = postMethod(url, obj);
         response = httpClient.execute(request);
         HttpEntity entity1 = response.getEntity();
-        String respContent = EntityUtils.toString(entity1, HTTP.UTF_8).trim();
+        String respContent = EntityUtils.toString(entity1, UTF_8).trim();
         return respContent;
     }
 
@@ -190,7 +191,7 @@ public class HttpClientTool {
         HttpUriRequest request = postMethod(url, obj);
         response = httpClient.execute(request);
         HttpEntity entity1 = response.getEntity();
-        String respContent = EntityUtils.toString(entity1, HTTP.UTF_8).trim();
+        String respContent = EntityUtils.toString(entity1, UTF_8).trim();
         return respContent;
     }
 
@@ -206,7 +207,7 @@ public class HttpClientTool {
 
     static class Constants {
         /** 编码*/
-        public static final String CHARSET = HTTP.UTF_8;
+        public static final String CHARSET = UTF_8;
         /*从连接池中取连接的超时时间*/
         public static final int CONMANTIMEOUT = 2000;
         /*连接超时*/
