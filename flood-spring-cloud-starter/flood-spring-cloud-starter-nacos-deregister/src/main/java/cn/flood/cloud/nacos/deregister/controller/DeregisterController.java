@@ -1,4 +1,4 @@
-package cn.flood.cloud.nacos.controller;
+package cn.flood.cloud.nacos.deregister.controller;
 
 
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
