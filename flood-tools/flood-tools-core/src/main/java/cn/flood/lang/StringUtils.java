@@ -683,28 +683,35 @@ public class StringUtils extends org.springframework.util.StringUtils {
 	}
 
     public static String checkNull(Object inputField) {
-        if (inputField == null)
+        if (inputField == null){
             return StringPool.EMPTY;
+        }
         String tempStr = inputField.toString();
-        if (tempStr == null)
+        if (tempStr == null){
             return StringPool.EMPTY;
+        }
         tempStr = tempStr.trim();
-        if (tempStr.equalsIgnoreCase("null"))
+        if ("null".equalsIgnoreCase(tempStr)){
             return StringPool.EMPTY;
+        }
         return tempStr;
     }
 
     public static String checkNull(Object inputField, String def) {
-        if (inputField == null)
+        if (inputField == null){
             return def;
+        }
         String tempStr = inputField.toString();
-        if (tempStr == null)
+        if (tempStr == null){
             return def;
+        }
         tempStr = tempStr.trim();
-        if (tempStr.equals(""))
+        if ("".equals(tempStr)){
             return def;
-        if (tempStr.equalsIgnoreCase("null"))
+        }
+        if ("null".equalsIgnoreCase(tempStr)){
             return def;
+        }
         return tempStr;
     }
 
@@ -713,28 +720,35 @@ public class StringUtils extends org.springframework.util.StringUtils {
     }
 
     public static Long checkLong(Object inputField) {
-        if (inputField instanceof Long)
+        if (inputField instanceof Long){
             return (Long) inputField;
+        }
         String temp = checkNull(inputField);
-        if (temp.length() == 0)
+        if (temp.length() == 0){
             return null;
+        }
         return Long.valueOf(temp);
     }
 
     public static Long checkLong(Object inputField, Long def) {
-        if (inputField instanceof Long)
+        if (inputField instanceof Long){
             return (Long) inputField;
+        }
         String temp = checkNull(inputField);
-        if (temp.length() == 0)
+        if (temp.length() == 0){
             return def;
+        }
         return Long.valueOf(temp);
     }
 
     public static Integer checkInt(Object inputField) {
-        if (inputField instanceof Integer)
+        if (inputField instanceof Integer){
             return (Integer) inputField;
+        }
         String temp = checkNull(inputField);
-        if (temp.length() == 0) return 0;
+        if (temp.length() == 0){
+            return 0;
+        }
         if (temp.contains(".")) {
             temp = temp.substring(0, temp.indexOf("."));
         }
@@ -742,11 +756,13 @@ public class StringUtils extends org.springframework.util.StringUtils {
     }
 
     public static Integer checkInt(Object inputField, Integer def) {
-        if (inputField instanceof Integer)
+        if (inputField instanceof Integer){
             return (Integer) inputField;
+        }
         String temp = checkNull(inputField);
-        if (temp.length() == 0)
+        if (temp.length() == 0){
             return def;
+        }
         if (temp.contains(".")) {
             temp = temp.substring(0, temp.indexOf("."));
         }
@@ -831,7 +847,7 @@ public class StringUtils extends org.springframework.util.StringUtils {
             return true;
         }
         if ((obj instanceof String)) {
-            return ((String) obj).trim().equals("");
+            return "".equals(((String) obj).trim());
         }
         if ((obj instanceof Object[])) {
             return ((Object[]) obj).length == 0;

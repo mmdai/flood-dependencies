@@ -11,25 +11,25 @@ public enum DataType {
 
 
     public static DataType getDataTypeByStr(String str){
-        if(str.equals("keyword")){
+        if("keyword".equals(str)){
             return keyword_type;
-        }else if(str.equals("text")){
+        }else if("text".equals(str)){
             return text_type;
-        }else if(str.equals("byte")){
+        }else if("byte".equals(str)){
             return byte_type;
-        }else if(str.equals("short")){
+        }else if("short".equals(str)){
             return short_type;
-        }else if(str.equals("integer")){
+        }else if("integer".equals(str)){
             return integer_type;
-        }else if(str.equals("long")){
+        }else if("long".equals(str)){
             return long_type;
-        }else if(str.equals("float")){
+        }else if("float".equals(str)){
             return float_type;
-        }else if(str.equals("double")){
+        }else if("double".equals(str)){
             return double_type;
-        }else if(str.equals("boolean")){
+        }else if("boolean".equals(str)){
             return boolean_type;
-        }else if(str.equals("date") || str.equals("datetime")){
+        }else if("date".equals(str) || "datetime".equals(str)){
             return date_type;
         }else{
             return text_type;

@@ -105,7 +105,7 @@ public class TokenUtil {
     public static UserToken buildToken(PlatformEnum platform, String tenantId, String subject, Long expire, Long rtExpire, Key key, boolean needRt) {
         tenantId = Func.toStr(tenantId, HeaderConstant.DEFAULT_TENANT_ID);
         String platformSubject = platform.getType() + StringPool.COLON + tenantId + StringPool.COLON+ subject;
-        Date expireDate = new Date(new Date().getTime() + 1000 * expire);
+        Date expireDate = new Date(System.currentTimeMillis() + 1000 * expire);
         // 生成access_token
         String access_token = Jwts.builder().setSubject(platformSubject).signWith(key).setExpiration(expireDate).compact();
         // 构建Token对象
@@ -117,7 +117,7 @@ public class TokenUtil {
         userToken.setExpireSecond(expire);
         // 生成refresh_token
         if (needRt) {
-            Date refreshExpireDate = new Date(new Date().getTime() + 1000 * rtExpire);
+            Date refreshExpireDate = new Date(System.currentTimeMillis() + 1000 * rtExpire);
             String refresh_token = Jwts.builder().setSubject(platformSubject).signWith(key).setExpiration(refreshExpireDate).compact();
             userToken.setRefreshToken(refresh_token);
             userToken.setRefreshTokenExpireTime(refreshExpireDate);

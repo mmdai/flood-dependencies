@@ -135,7 +135,9 @@ public class ReflectBeans {
     public static Map beanToMap(Object src, Map map, boolean addLine, boolean containNull) {
         Map srcMap = null;
         if (map == null) {
-            if (src == null) return null;
+            if (src == null) {
+                return null;
+            }
             if (src instanceof LinkedHashMap) {
                 return (LinkedHashMap) src;
             }
@@ -169,7 +171,9 @@ public class ReflectBeans {
             if (methodName.startsWith("set")
                     || "getClass".equals(methodName)
                     || "getEnv".equals(methodName)
-                    || "getString".equals(methodName)) continue;
+                    || "getString".equals(methodName)) {
+                continue;
+            }
             // 根据set方法获取属性名称
             StringBuffer fieldName = new StringBuffer();
             // 取得所有的除set方法
@@ -191,9 +195,12 @@ public class ReflectBeans {
             try {
                 Object value = method.invoke(src);
                 // 如果值为null 或是布尔类型 则不要put到Map中
-                if (!containNull && value == null) continue;
-                if (value instanceof Boolean) continue;
-
+                if (!containNull && value == null){
+                    continue;
+                }
+                if (value instanceof Boolean){
+                    continue;
+                }
                 if (value != null && value instanceof String) {
                     value = ((String) value).trim();
                 } else if (value != null && value instanceof Date) {
@@ -229,14 +236,18 @@ public class ReflectBeans {
      * @param dest
      */
     public static <T> T copy(Object src, T dest) {
-        if (src == null) return null;
+        if (src == null) {
+            return null;
+        }
         Map srcMap = beanToMap(src);
         mapToBean(srcMap, dest);
         return dest;
     }
 
     public static <T> T copy(Object src, Class<T> dest) {
-        if (src == null) return null;
+        if (src == null) {
+            return null;
+        }
         Map srcMap = beanToMap(src);
         T to = null;
         try {
@@ -283,14 +294,18 @@ public class ReflectBeans {
                     || "java.sql.Time".equals(type)
                     || "java.util.Date".equals(type)) {
                 String regex = "^(\\d+)\\D(\\d+)\\D(\\d+)(\\D+(\\d+)\\D(\\d+)\\D(\\d+).*)?$";
-                if (!((String) fieldValue).matches(regex)) return null;
+                if (!((String) fieldValue).matches(regex)){
+                    return null;
+                }
                 if (((String) fieldValue).matches("^(\\d+)\\D(\\d+)\\D(\\d+)$")) {
                     fieldValue = ((String) fieldValue).replaceAll(regex, "$1-$2-$3");
                 } else {
                     fieldValue = ((String) fieldValue).replaceAll(regex, "$1-$2-$3 $4:$5:$6");
                 }
                 Date dateValue = stringToDate((String) fieldValue);
-                if (dateValue == null) return null;
+                if (dateValue == null) {
+                    return null;
+                }
                 if ("java.sql.Timestamp".equals(type)) {
                     fieldValue = new Timestamp(dateValue.getTime());
                 } else if ("java.sql.Date".equals(type)) {

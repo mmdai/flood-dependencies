@@ -47,7 +47,7 @@ public abstract class AbstractMQConsumer<T> {
     }
 
     protected Map<String, Object> parseExtParam(MessageExt message) {
-        Map<String, Object> extMap = new HashMap<>();
+        Map<String, Object> extMap = new HashMap<>(16);
 
         // parse message property
         extMap.put(MessageExtConst.PROPERTY_TOPIC, message.getTopic());

@@ -96,7 +96,7 @@ public class IndexTools {
             indexname = clazz.getAnnotation(ESMetaData.class).indexName();
             indextype = clazz.getAnnotation(ESMetaData.class).indexType();
             //es7 https://www.elastic.co/guide/en/elasticsearch/reference/7.9/removal-of-types.html
-            if (indextype == null || indextype.equals("")) {
+            if (indextype == null || "".equals(indextype)) {
                 indextype = "_doc";
             }
             number_of_shards = clazz.getAnnotation(ESMetaData.class).number_of_shards();
@@ -166,7 +166,7 @@ public class IndexTools {
             }
             mappingData.setNgram(esMapping.ngram());
             mappingData.setIgnore_above(esMapping.ignore_above());
-            if (mappingData.getDatatype().equals("text")) {
+            if ("text".equals(mappingData.getDatatype())) {
                 mappingData.setKeyword(esMapping.keyword());
             } else {
                 mappingData.setKeyword(false);
@@ -184,9 +184,13 @@ public class IndexTools {
                 if (formats != null) {
                     List<String> list = new CopyOnWriteArrayList<>(formats);
                     list.forEach(s -> {
-                        if (StringUtils.isEmpty(s)) list.remove(s);
+                        if (ObjectUtils.isEmpty(s)) {
+                            list.remove(s);
+                        }
                     });
-                    if (!CollectionUtils.isEmpty(list)) mappingData.setDateFormat(list);
+                    if (!CollectionUtils.isEmpty(list)) {
+                        mappingData.setDateFormat(list);
+                    }
                 }
             }
             mappingData.setNormalizer(esMapping.normalizer());
@@ -243,7 +247,7 @@ public class IndexTools {
         Field[] fields = clazz.getDeclaredFields();
         MappingData[] mappingDataList = new MappingData[fields.length];
         for (int i = 0; i < fields.length; i++) {
-            if (fields[i].getName().equals("serialVersionUID")) {
+            if ("serialVersionUID".equals(fields[i].getName())) {
                 continue;
             }
             mappingDataList[i] = getMappingData(fields[i]);

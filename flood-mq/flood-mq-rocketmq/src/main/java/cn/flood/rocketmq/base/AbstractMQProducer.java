@@ -21,7 +21,7 @@ public abstract class AbstractMQProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMQProducer.class);
 
-    private final static MessageQueueSelector messageQueueSelector = new SelectMessageQueueByHash();
+    private final static MessageQueueSelector MESSAGE_QUEUE_SELECTOR = new SelectMessageQueueByHash();
 
     public AbstractMQProducer() {
     }
@@ -68,7 +68,7 @@ public abstract class AbstractMQProducer {
             syncSend(message);
         }
         try {
-            SendResult sendResult = producer.send(message, messageQueueSelector, hashKey);
+            SendResult sendResult = producer.send(message, MESSAGE_QUEUE_SELECTOR, hashKey);
             LOGGER.debug("send rocketmq message orderly ,messageId : {}", sendResult.getMsgId());
             this.doAfterSyncSend(message, sendResult);
         } catch (Exception e) {

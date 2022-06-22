@@ -111,8 +111,8 @@ public class SegmentServiceImpl implements ISegmentService {
         // 下一个id
         Long nextId = null;
         if (segment[index()].getMiddleId().equals(currentId.longValue()) || segment[index()].getMaxId().equals(currentId.longValue())) {
+            lock.lock();
             try {
-                lock.lock();
                 // 阈值50%时，加载下一个buffer
                 if (segment[index()].getMiddleId().equals(currentId.longValue())) {
                     thresholdHandler();

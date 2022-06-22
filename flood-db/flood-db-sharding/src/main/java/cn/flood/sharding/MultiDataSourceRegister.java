@@ -90,7 +90,7 @@ public class MultiDataSourceRegister implements InitializingBean {
 			ds.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
 			try {
 				if(Func.isNotEmpty(dsource.getDriverClassName())
-						&& dsource.getDriverClassName().equalsIgnoreCase("org.apache.kylin.jdbc.Driver")){
+						&& "org.apache.kylin.jdbc.Driver".equalsIgnoreCase(dsource.getDriverClassName())){
 					ds.setFilters(druidDbProperties.getKylinFilters());
 				}else{
 					ds.setFilters(druidDbProperties.getFilters());

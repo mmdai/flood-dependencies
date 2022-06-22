@@ -257,7 +257,9 @@ public  class RedisDelayQueueContext   {
                             //获取许可
                             semaphore.acquire(topicIds.size());
                             for(int i =0; i<topicIds.size(); i++){
-                                if(ObjectUtils.isEmpty(topicIds.get(i)))continue;
+                                if(ObjectUtils.isEmpty(topicIds.get(i))){
+                                    continue;
+                                }
                                 String topicId = topicIds.get(i).replaceAll("\"","");
                                 register.getTOPIC_THREADS().execute(()->{
                                     boolean isfail = false;
@@ -425,7 +427,7 @@ public  class RedisDelayQueueContext   {
         List<String> kills = Lists.newArrayList();
         for(RedisClientInfo info:list){
             if(info.getAddressPort().split(":")[0].equals(ip)
-                    &&info.getLastCommand().equals("blpop")){
+                    &&"blpop".equals(info.getLastCommand())){
                 kills.add(info.getAddressPort());
                 logger.info("优雅关机,杀掉redis的Blpop客户端;{}",info.getAddressPort());
 

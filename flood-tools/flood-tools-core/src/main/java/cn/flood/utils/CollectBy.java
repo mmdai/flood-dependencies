@@ -360,7 +360,9 @@ public class CollectBy implements Cloneable {
         String[] inter = intersect(left, select, groupBy);
         select = inter[0];//度量
         groupBy = inter[1];//维度
-        if (groupBy == null || groupBy.length() == 0) return null;
+        if (groupBy == null || groupBy.length() == 0) {
+            return null;
+        }
         groupBy = groupBy.replaceAll("[^\\s]+\\.", "").toLowerCase();
         String[] groups = groupBy.split(", *");
         //metric e.g.:count(field) as name, sum(field) as name, field
@@ -368,10 +370,14 @@ public class CollectBy implements Cloneable {
         List<Map> result = new ArrayList();
         for (Map data : left) {
             //过滤条件
-            if (where(data, where, null)) continue;
+            if (where(data, where, null)){
+                continue;
+            }
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < groups.length; i++) {
-                if (i > 0) sb.append(",");
+                if (i > 0) {
+                    sb.append(",");
+                }
                 String gp = groups[i];
                 sb.append(StringUtils.checkNull(data.get(gp)));
             }
@@ -397,7 +403,9 @@ public class CollectBy implements Cloneable {
                 if (groupOnly) {
                     for (int i = 0; i < groups.length; i++) {
                         String gp = groups[i];
-                        if (!data.containsKey(gp)) continue;
+                        if (!data.containsKey(gp)) {
+                            continue;
+                        }
                         un.put(gp, data.get(gp));
                     }
                 } else {
@@ -420,7 +428,9 @@ public class CollectBy implements Cloneable {
                         un.put(asName, origin + now);
                     }
                 }
-                if (ext != null) un.putAll(ext);
+                if (ext != null) {
+                    un.putAll(ext);
+                }
                 result.add(un);
                 groupUnique.put(key, un);
             }
@@ -457,7 +467,9 @@ public class CollectBy implements Cloneable {
             } else {
             	List list = new ArrayList();
             	for (Map data : left) {
-            		if (where(data, where, "l")) continue;
+            		if (where(data, where, "l")) {
+                        continue;
+                    }
             		list.add(data);
             	}
             	if (!list.isEmpty()) {
@@ -468,24 +480,34 @@ public class CollectBy implements Cloneable {
             	
             	list = new ArrayList();
             	for (Map data : right) {
-            		if (where(data, where, "r")) continue;
+            		if (where(data, where, "r")){
+                        continue;
+                    }
             		list.add(data);
             	}
             	result.addAll(list);
             }
             for (Map rw : result) {
-                if (ext != null) rw.putAll(ext);
-                if (row != null) row.each(rw, param);
+                if (ext != null) {
+                    rw.putAll(ext);
+                }
+                if (row != null) {
+                    row.each(rw, param);
+                }
             }
         } else {
         	Map<String, List<Map>> leftUnique = new LinkedHashMap();
             for (Map ld : left) {
-                if (where(ld, where, "l")) continue;
+                if (where(ld, where, "l")) {
+                    continue;
+                }
                 StringBuffer value = new StringBuffer();
                 for (Iterator it = on.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getKey();
-                    if (value.length() > 0) value.append(",");
+                    if (value.length() > 0) {
+                        value.append(",");
+                    }
                     value.append(ld.get(key));
                 }
                 String key = value.toString();
@@ -500,12 +522,16 @@ public class CollectBy implements Cloneable {
             }
             Map<String, List<Map>> rightUnique = new LinkedHashMap();
             for (Map rd : right) {
-                if (where(rd, where, "r")) continue;
+                if (where(rd, where, "r")){
+                    continue;
+                }
                 StringBuffer value = new StringBuffer();
                 for (Iterator it = on.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getValue();
-                    if (value.length() > 0) value.append(",");
+                    if (value.length() > 0) {
+                        value.append(",");
+                    }
                     value.append(rd.get(key));
                 }
                 String key = value.toString();
@@ -524,8 +550,12 @@ public class CollectBy implements Cloneable {
                 String key = (String) entry.getKey();
                 List<Map> ldList = (List<Map>) entry.getValue();
                 List<Map> rdList = rightUnique.get(key);
-                if (ldList == null || ldList.isEmpty()) continue;
-                if (rdList == null || rdList.isEmpty()) continue;
+                if (ldList == null || ldList.isEmpty()) {
+                    continue;
+                }
+                if (rdList == null || rdList.isEmpty()){
+                    continue;
+                }
                 for (Map ld : ldList) {
                     for (int i = 0; i < rdList.size(); i++) {
                     	Map rd = rdList.get(i);
@@ -535,8 +565,12 @@ public class CollectBy implements Cloneable {
                     	} else {
                     		rw = merge(ld, rd, true);
                     	}
-                        if (ext != null) rw.putAll(ext);
-                        if (row != null) row.each(rw, param);
+                        if (ext != null) {
+                            rw.putAll(ext);
+                        }
+                        if (row != null){
+                            row.each(rw, param);
+                        }
                         result.add(rw);
                     }
                 }
@@ -574,7 +608,9 @@ public class CollectBy implements Cloneable {
             } else if (right == null || right.isEmpty()) {
             	List list = new ArrayList();
             	for (Map data : left) {
-            		if (where(data, where, "l")) continue;
+            		if (where(data, where, "l")){
+            		    continue;
+                    }
             		list.add(data);
             	}
             	if (!list.isEmpty()) {
@@ -585,7 +621,9 @@ public class CollectBy implements Cloneable {
             } else {
             	List list = new ArrayList();
             	for (Map data : left) {
-            		if (where(data, where, "l")) continue;
+            		if (where(data, where, "l")){
+                        continue;
+                    }
             		list.add(data);
             	}
             	if (!list.isEmpty()) {
@@ -596,24 +634,34 @@ public class CollectBy implements Cloneable {
             	
             	list = new ArrayList();
             	for (Map data : right) {
-            		if (where(data, where, "r")) continue;
+            		if (where(data, where, "r")) {
+                        continue;
+                    }
             		list.add(data);
             	}
             	result.addAll(list);
             }
             for (Map rw : result) {
-                if (ext != null) rw.putAll(ext);
-                if (row != null) row.each(rw, param);
+                if (ext != null) {
+                    rw.putAll(ext);
+                }
+                if (row != null) {
+                    row.each(rw, param);
+                }
             }
         } else {
             Map<String, List<Map>> leftUnique = new LinkedHashMap();
             for (Map ld : left) {
-                if (where(ld, where, "l")) continue;
+                if (where(ld, where, "l")){
+                    continue;
+                }
                 StringBuffer value = new StringBuffer();
                 for (Iterator it = on.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getKey();
-                    if (value.length() > 0) value.append(",");
+                    if (value.length() > 0) {
+                        value.append(",");
+                    }
                     value.append(ld.get(key));
                 }
                 String key = value.toString();
@@ -628,12 +676,16 @@ public class CollectBy implements Cloneable {
             }
             Map<String, List<Map>> rightUnique = new LinkedHashMap();
             for (Map rd : right) {
-                if (where(rd, where, "r")) continue;
+                if (where(rd, where, "r")) {
+                    continue;
+                }
                 StringBuffer value = new StringBuffer();
                 for (Iterator it = on.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getValue();
-                    if (value.length() > 0) value.append(",");
+                    if (value.length() > 0) {
+                        value.append(",");
+                    }
                     value.append(rd.get(key));
                 }
                 String key = value.toString();
@@ -652,13 +704,19 @@ public class CollectBy implements Cloneable {
                 String key = (String) entry.getKey();
                 List<Map> ldList = (List<Map>) entry.getValue();
                 List<Map> rdList = rightUnique.get(key);
-                if (ldList == null || ldList.isEmpty()) continue;
+                if (ldList == null || ldList.isEmpty()) {
+                    continue;
+                }
                 for (Map ld : ldList) {
                     if (rdList == null || rdList.isEmpty()) {
                         Map rw = new LinkedHashMap();
                         rw.putAll(ld);
-                        if (ext != null) rw.putAll(ext);
-                        if (row != null) row.each(rw, param);
+                        if (ext != null){
+                            rw.putAll(ext);
+                        }
+                        if (row != null){
+                            row.each(rw, param);
+                        }
                         result.add(rw);
                     } else {
                         for (int i = 0; i < rdList.size(); i++) {
@@ -669,8 +727,12 @@ public class CollectBy implements Cloneable {
                         	} else {
                         		rw = merge(ld, rd, true);
                         	}
-                            if (ext != null) rw.putAll(ext);
-                            if (row != null) row.each(rw, param);
+                            if (ext != null) {
+                                rw.putAll(ext);
+                            }
+                            if (row != null) {
+                                row.each(rw, param);
+                            }
                             result.add(rw);
                         }
                     }
@@ -701,14 +763,18 @@ public class CollectBy implements Cloneable {
             } else if (left == null || left.isEmpty()) {
             	List list = new ArrayList();
             	for (Map data : right) {
-            		if (where(data, where, "r")) continue;
+            		if (where(data, where, "r")) {
+                        continue;
+                    }
             		list.add(data);
             	}
             	result.addAll(list);
             } else if (right == null || right.isEmpty()) {
             	List list = new ArrayList();
             	for (Map data : left) {
-            		if (where(data, where, "l")) continue;
+            		if (where(data, where, "l")){
+                        continue;
+                    }
             		list.add(data);
             	}
             	if (!list.isEmpty()) {
@@ -719,7 +785,9 @@ public class CollectBy implements Cloneable {
             } else {
             	List list = new ArrayList();
             	for (Map data : left) {
-            		if (where(data, where, "l")) continue;
+            		if (where(data, where, "l")) {
+                        continue;
+                    }
             		list.add(data);
             	}
             	if (!list.isEmpty()) {
@@ -730,24 +798,34 @@ public class CollectBy implements Cloneable {
             	
             	list = new ArrayList();
             	for (Map data : right) {
-            		if (where(data, where, "r")) continue;
+            		if (where(data, where, "r")) {
+                        continue;
+                    }
             		list.add(data);
             	}
             	result.addAll(list);
             }
             for (Map rw : result) {
-                if (ext != null) rw.putAll(ext);
-                if (row != null) row.each(rw, param);
+                if (ext != null) {
+                    rw.putAll(ext);
+                }
+                if (row != null) {
+                    row.each(rw, param);
+                }
             }
         } else {
             Map<String, List<Map>> leftUnique = new LinkedHashMap();
             for (Map ld : left) {
-                if (where(ld, where, "l")) continue;
+                if (where(ld, where, "l")) {
+                    continue;
+                }
                 StringBuffer value = new StringBuffer();
                 for (Iterator it = on.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getKey();
-                    if (value.length() > 0) value.append(",");
+                    if (value.length() > 0) {
+                        value.append(",");
+                    }
                     value.append(ld.get(key));
                 }
                 String key = value.toString();
@@ -762,12 +840,16 @@ public class CollectBy implements Cloneable {
             }
             Map<String, List<Map>> rightUnique = new LinkedHashMap();
             for (Map rd : right) {
-                if (where(rd, where, "r")) continue;
+                if (where(rd, where, "r")) {
+                    continue;
+                }
                 StringBuffer value = new StringBuffer();
                 for (Iterator it = on.entrySet().iterator(); it.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) it.next();
                     String key = (String) entry.getValue();
-                    if (value.length() > 0) value.append(",");
+                    if (value.length() > 0){
+                        value.append(",");
+                    }
                     value.append(rd.get(key));
                 }
                 String key = value.toString();
@@ -786,13 +868,19 @@ public class CollectBy implements Cloneable {
                 String key = (String) entry.getKey();
                 List<Map> ldList = (List<Map>) entry.getValue();
                 List<Map> rdList = rightUnique.get(key);
-                if (ldList == null || ldList.isEmpty()) continue;
+                if (ldList == null || ldList.isEmpty()){
+                    continue;
+                }
                 for (Map ld : ldList) {
                     if (rdList == null || rdList.isEmpty()) {
                         Map rw = new LinkedHashMap();
                         rw.putAll(ld);
-                        if (ext != null) rw.putAll(ext);
-                        if (row != null) row.each(rw, param);
+                        if (ext != null){
+                            rw.putAll(ext);
+                        }
+                        if (row != null) {
+                            row.each(rw, param);
+                        }
                         result.add(rw);
                     } else {
                         for (int i = 0; i < rdList.size(); i++) {
@@ -803,8 +891,12 @@ public class CollectBy implements Cloneable {
                         	} else {
                         		rw = merge(ld, rd, true);
                         	}
-                            if (ext != null) rw.putAll(ext);
-                            if (row != null) row.each(rw, param);
+                            if (ext != null){
+                                rw.putAll(ext);
+                            }
+                            if (row != null) {
+                                row.each(rw, param);
+                            }
                             result.add(rw);
                         }
                     }
@@ -815,13 +907,19 @@ public class CollectBy implements Cloneable {
                 String key = (String) entry.getKey();
                 List<Map> ldList = (List<Map>) entry.getValue();
                 List<Map> rdList = leftUnique.get(key);
-                if (ldList == null || ldList.isEmpty()) continue;
+                if (ldList == null || ldList.isEmpty()) {
+                    continue;
+                }
                 for (Map ld : ldList) {
                     if (rdList == null || rdList.isEmpty()) {
                         Map rw = new LinkedHashMap();
                         rw.putAll(ld);
-                        if (ext != null) rw.putAll(ext);
-                        if (row != null) row.each(rw, param);
+                        if (ext != null) {
+                            rw.putAll(ext);
+                        }
+                        if (row != null) {
+                            row.each(rw, param);
+                        }
                         result.add(rw);
                     }
                 }
@@ -844,7 +942,9 @@ public class CollectBy implements Cloneable {
      * @param ext
      */
     private void fliterField(List<Map> result, String select, Map ext) {
-    	if (result == null || result.isEmpty()) return;
+    	if (result == null || result.isEmpty()) {
+            return;
+        }
         //筛选字段
         List<Map> fields = parseSelect(select, ext);
         if (fields != null) {
@@ -862,7 +962,9 @@ public class CollectBy implements Cloneable {
                 for (Iterator it2 = rw.entrySet().iterator(); it2.hasNext(); ) {
                     Map.Entry entry2 = (Map.Entry) it2.next();
                     String column = (String) entry2.getKey();
-                    if (!unique.containsKey(column)) continue;
+                    if (!unique.containsKey(column)) {
+                        continue;
+                    }
                     Map mp = unique.get(column);
                     String asName = (String) mp.get("asName");
                     if (!column.equalsIgnoreCase(asName)) {
@@ -872,7 +974,9 @@ public class CollectBy implements Cloneable {
                     	} else {
                     		data.put(asName, entry2.getValue());
                     	}
-                    	if (!struct.containsKey(asName)) struct.put(asName, null);
+                    	if (!struct.containsKey(asName)){
+                            struct.put(asName, null);
+                        }
                     } else {
                 		data.put(asName, entry2.getValue());
                 	}
@@ -900,11 +1004,15 @@ public class CollectBy implements Cloneable {
     
     private boolean where(Map data, Map<String, Object> where, String fix) {
         boolean breakflg = false;//true的话 该条data数据将被外层调用时过滤
-        if (where == null || where.isEmpty()) return breakflg;
+        if (where == null || where.isEmpty()){
+            return breakflg;
+        }
         for (Iterator it = where.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, Object> entry = (Map.Entry) it.next();
             String key = entry.getKey();
-            if (key == null) continue;
+            if (key == null){
+                continue;
+            }
             key = key.toLowerCase();
             if (!StringUtils.isCheckNull(fix)) {
                 if (key.startsWith(fix)) {
@@ -918,14 +1026,20 @@ public class CollectBy implements Cloneable {
             Object value = entry.getValue();
             String left = StringUtils.checkNull(data.get(key));
             if (value == null) {
-                if (left.length() == 0) continue;
+                if (left.length() == 0){
+                    continue;
+                }
             } else if (value instanceof String && ((String) value).startsWith("-")) {
                 continue;  //表示不做限制
             } else if (value instanceof String && ((String) value).contains(",")) {
-                if (!((String) value).contains(left)) breakflg = true;
+                if (!((String) value).contains(left)){
+                    breakflg = true;
+                }
             } else if (value instanceof Object[]) {
                 Object[] v = (Object[]) value;
-                if (v.length == 0) continue;
+                if (v.length == 0) {
+                    continue;
+                }
                 breakflg = true;
                 for (Object o : v) {
                     String right = StringUtils.checkNull(o);
@@ -937,7 +1051,9 @@ public class CollectBy implements Cloneable {
                 }
             } else if (value instanceof Collection) {
                 Collection v = (Collection) value;
-                if (v.size() == 0) continue;
+                if (v.size() == 0){
+                    continue;
+                }
                 breakflg = true;
                 for (Object o : v) {
                     String right = StringUtils.checkNull(o);
@@ -949,24 +1065,34 @@ public class CollectBy implements Cloneable {
                 }
             } else {
                 String right = StringUtils.checkNull(value);
-                if (!left.equals(right)) breakflg = true;
+                if (!left.equals(right)){
+                    breakflg = true;
+                }
             }
-            if (breakflg) break;
+            if (breakflg){
+                break;
+            }
         }
         return breakflg;
     }
 
     private List<Map> parseSelect(String select, Map ext) {
-        if (select == null) return null;
+        if (select == null) {
+            return null;
+        }
         select = select.trim().replaceAll("^(?i)(select) *", "");
-        if (select.equals("*")) return null;
+        if ("*".equals(select)) {
+            return null;
+        }
         String[] sp = select.split(", *");
         List result = new ArrayList();
         for (String metric : sp) {
             String method = null;//count, sum
             String field = null;
             String asName = null;
-            if (metric != null) metric = metric.toLowerCase();
+            if (metric != null) {
+                metric = metric.toLowerCase();
+            }
             if (metric.contains("(")) {
                 String temp = metric.replaceAll("^\\s*([^\\(\\)\\s]+)\\s*\\(\\s*([^\\(\\)\\s]+)\\s*\\)(\\s+(as\\s+)?([^\\(\\)\\s]+))?\\s*$", "$1,$2,$5");
                 String[] split = temp.split(", *");
@@ -986,8 +1112,12 @@ public class CollectBy implements Cloneable {
             if (field != null && field.startsWith("'") && field.endsWith("'")) {
             	m.put("string", "1");
             }
-            if (field != null) field = field.replaceAll("^'(.*)'$", "$1");
-            if (asName != null) asName = asName.replaceAll("^'(.*)'$", "$1");
+            if (field != null) {
+                field = field.replaceAll("^'(.*)'$", "$1");
+            }
+            if (asName != null){
+                asName = asName.replaceAll("^'(.*)'$", "$1");
+            }
             m.put("method", method);
             m.put("field", field);
             m.put("asName", asName);
@@ -1041,7 +1171,9 @@ public class CollectBy implements Cloneable {
     }
 
     private String[] intersect(List<Map> list, String select, String group) {
-        if (select == null || list == null || list.isEmpty()) return null;
+        if (select == null || list == null || list.isEmpty()) {
+            return null;
+        }
         select = select.trim().replaceAll("^(?i)(select) *", "");
         String[] sp = select.split(", ");
         Map data = list.get(0);
@@ -1049,10 +1181,14 @@ public class CollectBy implements Cloneable {
         StringBuffer selectBy = new StringBuffer();
         for (String f : sp) {
             if (data.containsKey(f)) {
-                if (groupBy.length() > 0) groupBy.append(",");
+                if (groupBy.length() > 0) {
+                    groupBy.append(",");
+                }
                 groupBy.append(f);
             } else {
-                if (selectBy.length() > 0) selectBy.append(",");
+                if (selectBy.length() > 0){
+                    selectBy.append(",");
+                }
                 selectBy.append(f);
             }
         }
@@ -1068,7 +1204,9 @@ public class CollectBy implements Cloneable {
             }
             groupBy = new StringBuffer();
             for (String f : set) {
-                if (groupBy.length() > 0) groupBy.append(",");
+                if (groupBy.length() > 0){
+                    groupBy.append(",");
+                }
                 groupBy.append(f);
             }
         }

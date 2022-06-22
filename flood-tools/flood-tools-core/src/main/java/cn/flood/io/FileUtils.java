@@ -151,20 +151,26 @@ public class FileUtils {
     public static void copyFile(File srcFile, File destFile, boolean holdFileDate) throws Exception {
         Assert.notNull(srcFile, "Source file must not be null.");
         Assert.notNull(destFile, "Destination file must not be null.");
-        if (!srcFile.exists()) throw new Exception("Source [" + srcFile + "] does not exist.");
-        if (srcFile.isDirectory())
+        if (!srcFile.exists()){
+            throw new Exception("Source [" + srcFile + "] does not exist.");
+        }
+        if (srcFile.isDirectory()){
             throw new Exception("Source [" + srcFile + "] exists but it is a directory.");
+        }
 
         try {
-            if (srcFile.getCanonicalPath().equals(destFile.getCanonicalPath()))
+            if (srcFile.getCanonicalPath().equals(destFile.getCanonicalPath())){
                 throw new Exception(String.format("Source [%s] and destination [%s] are the same.", srcFile, destFile));
+            }
             File parentFile = destFile.getParentFile();
             if (parentFile != null) {
-                if (!parentFile.mkdirs() && !parentFile.isDirectory())
+                if (!parentFile.mkdirs() && !parentFile.isDirectory()){
                     throw new Exception("Destination [" + parentFile + "] directory cannot be created.");
+                }
             }
-            if (destFile.exists() && !destFile.canWrite())
+            if (destFile.exists() && !destFile.canWrite()){
                 throw new Exception(" ===> Destination [" + parentFile + "] directory cannot be written.");
+            }
             doCopyFile(srcFile, destFile, holdFileDate);
         } catch (IOException e) {
             throw new Exception(e);
@@ -180,8 +186,9 @@ public class FileUtils {
      * @throws Exception 
      */
     private static void doCopyFile(File srcFile, File destFile, boolean holdFileDate) throws Exception {
-        if (destFile.exists() && destFile.isDirectory())
+        if (destFile.exists() && destFile.isDirectory()){
             throw new Exception("Destination [" + destFile + "] exists but it is a directory.");
+        }
 
         try (FileInputStream in = new FileInputStream(srcFile);
              FileOutputStream out = new FileOutputStream(destFile);
@@ -197,7 +204,9 @@ public class FileUtils {
         if (srcFile.length() != destFile.length()) {
             throw new IOException(String.format("Failed to copy full contents from [%s] to [%s]", srcFile.getPath(), destFile.getPath()));
         }
-        if (holdFileDate) destFile.setLastModified(srcFile.lastModified());
+        if (holdFileDate){
+            destFile.setLastModified(srcFile.lastModified());
+        }
     }
 
     /**
@@ -222,8 +231,9 @@ public class FileUtils {
     private static void copyFileToDirectory(File srcFile, File destDir, boolean holdFileDate) throws Exception {
         Assert.notNull(srcFile, "Source file must not be null.");
         Assert.notNull(destDir, "Destination Directory must not be null.");
-        if (destDir.exists() && !destDir.isDirectory())
+        if (destDir.exists() && !destDir.isDirectory()){
             throw new Exception("Destination [" + destDir + "] is not a directory.");
+        }
 
         File destFile = new File(destDir, srcFile.getName());
         copyFile(srcFile, destFile, holdFileDate);
@@ -290,16 +300,21 @@ public class FileUtils {
     public static void copyDirectory(File srcDir, File destDir, boolean holdFileDate, FileFilter filter) throws Exception {
         Assert.notNull(srcDir, "Source Directory must not be null.");
         Assert.notNull(destDir, "Destination Directory must not be null.");
-        if (!srcDir.exists()) throw new Exception("Source [" + srcDir + "] does not exist.");
-        if (destDir.isFile())
+        if (!srcDir.exists()){
+            throw new Exception("Source [" + srcDir + "] does not exist.");
+        }
+        if (destDir.isFile()){
             throw new Exception("Destination [" + destDir + "] exists but is not a directory.");
+        }
 
         try {
-            if (srcDir.getCanonicalPath().equals(destDir.getCanonicalPath()))
+            if (srcDir.getCanonicalPath().equals(destDir.getCanonicalPath())){
                 throw new Exception(String.format("Source [%s] and destination [%s] are the same.", srcDir, destDir));
+            }
             //当目标目录是原目录的子目录时,不支持复制.
-            if (destDir.getCanonicalPath().startsWith(srcDir.getCanonicalPath() + File.separator))
+            if (destDir.getCanonicalPath().startsWith(srcDir.getCanonicalPath() + File.separator)){
                 throw new Exception(String.format("Destination [%s] is child directory of source [%s].", destDir, srcDir));
+            }
             doCopyDirectory(srcDir, destDir, holdFileDate, filter);
         } catch (IOException e) {
             throw new Exception(e);
@@ -320,11 +335,15 @@ public class FileUtils {
         if (srcFiles == null) {
             throw new IOException("Failed to list contents of [" + srcDir + "]");
         }
-        if (destDir.exists() && !destDir.isDirectory())
+        if (destDir.exists() && !destDir.isDirectory()){
             throw new IOException("Destination [" + destDir + "] exists but is not a directory.");
-        if (!destDir.mkdirs() && !destDir.isDirectory())
+        }
+        if (!destDir.mkdirs() && !destDir.isDirectory()){
             throw new IOException("Destination [" + destDir + "] directory cannot be created.");
-        if (!destDir.canWrite()) throw new IOException("Destination [" + destDir + "] cannot be written to.");
+        }
+        if (!destDir.canWrite()) {
+            throw new IOException("Destination [" + destDir + "] cannot be written to.");
+        }
 
         for (File srcFile : srcFiles) {
             File destFile = new File(destDir, srcFile.getName());
@@ -353,13 +372,19 @@ public class FileUtils {
     public static void moveFile(File srcFile, File destFile) throws Exception {
         Assert.notNull(srcFile, "Source must not be null.");
         Assert.notNull(destFile, "Destination must not be null.");
-        if (!srcFile.exists()) throw new Exception("Source [" + srcFile + "] does not exist.");
-        if (srcFile.isDirectory()) throw new Exception("Source [" + srcFile + "] is a directory.");
+        if (!srcFile.exists()){
+            throw new Exception("Source [" + srcFile + "] does not exist.");
+        }
+        if (srcFile.isDirectory()) {
+            throw new Exception("Source [" + srcFile + "] is a directory.");
+        }
 //        if (!destFile.exists()) throw new Exception("Destination [" + destFile + "] does not exist.");
-        if (destFile.isFile() && destFile.exists())
+        if (destFile.isFile() && destFile.exists()){
             throw new Exception("Destination [" + destFile + "] already exists.");
-        if (destFile.isDirectory() && !destFile.canWrite())
+        }
+        if (destFile.isDirectory() && !destFile.canWrite()){
             throw new Exception("Destination [" + destFile + "] cannot be written to.");
+        }
 
         File targetFile;
         if (destFile.isDirectory()) {
@@ -400,20 +425,28 @@ public class FileUtils {
     public static void moveDirectory(File srcDir, File destDir, boolean toDir) throws Exception {
         Assert.notNull(srcDir, "Source must not be null.");
         Assert.notNull(destDir, "Destination must not be null.");
-        if (!srcDir.exists()) throw new Exception("Source [" + srcDir + "] does not exist.");
-        if (!srcDir.isDirectory()) throw new Exception("Destination [" + srcDir + "] is not a directory.");
-        if (destDir.exists() && !destDir.isDirectory())
+        if (!srcDir.exists()) {
+            throw new Exception("Source [" + srcDir + "] does not exist.");
+        }
+        if (!srcDir.isDirectory()) {
+            throw new Exception("Destination [" + srcDir + "] is not a directory.");
+        }
+        if (destDir.exists() && !destDir.isDirectory()){
             throw new Exception("Destination [" + destDir + "] is not a directory.");
+        }
 
         File targetDir = toDir ? new File(destDir, srcDir.getName()) : destDir;
 
-        if (!targetDir.mkdirs()) throw new Exception("Directory [" + targetDir + "] could not be created.");
+        if (!targetDir.mkdirs()) {
+            throw new Exception("Directory [" + targetDir + "] could not be created.");
+        }
         boolean renameTo = srcDir.renameTo(targetDir);
         if (!renameTo) {
             copyDirectory(srcDir, targetDir);
             delete(srcDir);
-            if (srcDir.exists())
+            if (srcDir.exists()){
                 throw new Exception(String.format("Failed to delete original directory '%s' after copy to '%s'", srcDir, destDir));
+            }
         }
     }
 
@@ -428,7 +461,9 @@ public class FileUtils {
      */
     public static void delete(File file) throws Exception {
         Assert.notNull(file, "File must not be null.");
-        if (!file.exists()) return;
+        if (!file.exists()) {
+            return;
+        }
         if (file.isDirectory()) {
             cleanDirectory(file);
         }
@@ -446,8 +481,12 @@ public class FileUtils {
      */
     public static void cleanDirectory(File directory) throws Exception {
         Assert.notNull(directory, "Directory must not be null.");
-        if (!directory.exists()) throw new Exception("Directory [" + directory + "] does not exist.");
-        if (!directory.isDirectory()) throw new Exception("The [" + directory + "] is not a directory.");
+        if (!directory.exists()){
+            throw new Exception("Directory [" + directory + "] does not exist.");
+        }
+        if (!directory.isDirectory()){
+            throw new Exception("The [" + directory + "] is not a directory.");
+        }
         File[] listFiles = directory.listFiles();
         if (listFiles == null) {
             throw new Exception("Failed to list contents of " + directory);
@@ -510,15 +549,19 @@ public class FileUtils {
     private static FileOutputStream openFileOutputStream(File file, boolean append) throws Exception {
         Assert.notNull(file, "File must not be null.");
         if (file.exists()) {
-            if (file.isDirectory())
+            if (file.isDirectory()){
                 throw new Exception("Destination [" + file + "] exists but is a directory.");
-            if (!file.canWrite())
+            }
+            if (!file.canWrite()){
                 throw new Exception(String.format("Destination [%s] exists but cannot write.", file));
+            }
         } else {
             File parent = file.getParentFile();
             if (parent != null) {
-                if (!parent.mkdirs() && !parent.isDirectory())
+                if (!parent.mkdirs() && !parent.isDirectory()){
                     throw new Exception("Directory [" + parent + "] could not be created.");
+                }
+
             }
         }
         try {
@@ -536,7 +579,9 @@ public class FileUtils {
      * @return 格式化的大小
      */
     public static String formatSize(long fileSize) {
-        if (fileSize < 0) return StringUtils.EMPTY_STRING;
+        if (fileSize < 0) {
+            return StringUtils.EMPTY_STRING;
+        }
         return formatSize((double) fileSize);
     }
 
@@ -547,7 +592,9 @@ public class FileUtils {
      * @return 格式化的大小
      */
     public static String formatSize(double fileSize) {
-        if (fileSize < 0) return StringUtils.EMPTY_STRING;
+        if (fileSize < 0) {
+            return StringUtils.EMPTY_STRING;
+        }
         //byte
         double size = fileSize;
         if (size < 1024) {
@@ -575,7 +622,9 @@ public class FileUtils {
      * @return 格式化的大小
      */
     public static String formatSizeAsString(String fileSize) {
-        if (ObjectUtils.isEmpty(fileSize)) return StringUtils.EMPTY_STRING;
+        if (ObjectUtils.isEmpty(fileSize)){
+            return StringUtils.EMPTY_STRING;
+        }
         double size = Double.parseDouble(fileSize);
         return formatSize(size);
     }
@@ -598,10 +647,12 @@ public class FileUtils {
      */
     public static void forceMakeDir(File directory) throws Exception {
         if (directory.exists()) {
-            if (!directory.isDirectory())
+            if (!directory.isDirectory()){
                 throw new Exception("The file[" + directory + "] exists and is not a directory.Unable to create directory.");
-        } else if (!directory.mkdirs() && !directory.isDirectory())
+            }
+        } else if (!directory.mkdirs() && !directory.isDirectory()){
             throw new Exception("Unable to create directory[" + directory + "]");
+        }
     }
     //endregion-----------------------------others-------------------------------
 

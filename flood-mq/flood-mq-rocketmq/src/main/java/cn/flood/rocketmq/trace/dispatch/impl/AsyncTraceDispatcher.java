@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 异步提交消息轨迹等数据
  */
 public class AsyncTraceDispatcher extends AsyncDispatcher {
-    private final static InternalLogger clientlog = ClientLogger.getLog();
+    private final static InternalLogger CLIENT_LOG = ClientLogger.getLog();
     // RingBuffer 实现，size 必须为 2 的 n 次方
     private final Object[] entries;
     private final int queueSize;
@@ -94,7 +94,7 @@ public class AsyncTraceDispatcher extends AsyncDispatcher {
             final long put = putIndex.get();
             final long size = put - takeIndex.get();
             if (size >= qsize) {
-                clientlog.info("msgtrace buffer is full,the loss count is" + discardCount.incrementAndGet() + "  " + ctx);
+                CLIENT_LOG.info("msgtrace buffer is full,the loss count is" + discardCount.incrementAndGet() + "  " + ctx);
                 return false;
             }
             if (putIndex.compareAndSet(put, put + 1)) {
@@ -106,7 +106,7 @@ public class AsyncTraceDispatcher extends AsyncDispatcher {
                         notEmpty.signal();
                     }
                     catch (Exception e) {
-                        clientlog.info("fail to signal notEmpty,maybe block!");
+                        CLIENT_LOG.info("fail to signal notEmpty,maybe block!");
                     }
                     finally {
                         lock.unlock();
@@ -137,7 +137,7 @@ public class AsyncTraceDispatcher extends AsyncDispatcher {
                         notEmpty.signal();
                     }
                     catch (Exception e) {
-                        clientlog.info("fail to signal notEmpty,maybe block!");
+                        CLIENT_LOG.info("fail to signal notEmpty,maybe block!");
                     }
                     finally {
                         lock.unlock();
@@ -148,6 +148,7 @@ public class AsyncTraceDispatcher extends AsyncDispatcher {
     }
 
     class AsyncRunnable implements Runnable {
+        @Override
         public void run() {
             final AsyncTraceDispatcher parent = AsyncTraceDispatcher.this;
             final int indexMask = parent.indexMask;
@@ -209,11 +210,11 @@ public class AsyncTraceDispatcher extends AsyncDispatcher {
                     }
                 }
                 catch (InterruptedException e) {
-                    clientlog.info("[WARN] " + workerName + " async thread is iterrupted");
+                    CLIENT_LOG.info("[WARN] " + workerName + " async thread is iterrupted");
                     break;
                 }
                 catch (Exception e) {
-                    clientlog.info("[ERROR] Fail to async write log");
+                    CLIENT_LOG.info("[ERROR] Fail to async write log");
                 }
             }
             running.set(false);

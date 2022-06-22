@@ -72,7 +72,7 @@ public enum DataScopeViewTypeEnum {
      */
     public static DataScopeViewTypeEnum typeOfEnum(Integer type) {
         return Stream.of(DataScopeViewTypeEnum.values()).
-                filter(eu -> eu.type ==type).findFirst().orElse(null);
+                filter(eu -> eu.type.equals(type)).findFirst().orElse(null);
     }
 
     /**
@@ -82,6 +82,6 @@ public enum DataScopeViewTypeEnum {
      */
     public static DataScopeViewTypeEnum levelOfEnum(Integer level) {
         return Stream.of(DataScopeViewTypeEnum.values()).
-                filter(eu -> eu.level == level).findFirst().orElse(null);
+                filter(eu -> eu.level.equals(level) ).findFirst().orElse(null);
     }
 }

@@ -49,10 +49,12 @@ public class MongoPoolInit implements BeanDefinitionRegistryPostProcessor, Envir
 
 	private ScopeMetadataResolver scopeMetadataResolver = new AnnotationScopeMetadataResolver();
 
+	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
 	}
 
+	@Override
 	public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
 		int index = 0;
 		for (MongoPoolProperties properties : pools) {
@@ -135,6 +137,7 @@ public class MongoPoolInit implements BeanDefinitionRegistryPostProcessor, Envir
 		return options;
 	}
 
+	@Override
 	public void setEnvironment(Environment environment) {
 		// 初始化配置信息到对象的映射
 		Map<String, Object> map = Binder.get(environment).bind("spring.data.mongodb.", Map.class).orElse(null);

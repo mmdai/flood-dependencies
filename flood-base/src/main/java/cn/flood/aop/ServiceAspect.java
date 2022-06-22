@@ -39,7 +39,7 @@ public class ServiceAspect implements LogAspect {
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		String methodName = joinPoint.getSignature().getName();
-		if(methodName.equalsIgnoreCase("create")){
+		if("create".equalsIgnoreCase(methodName)){
 			return joinPoint.proceed();
 		}
 		logger.info("【service】【{}】 start", methodName);

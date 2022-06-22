@@ -254,11 +254,15 @@ public class BeanUtil extends org.springframework.beans.BeanUtils {
 				if (Iterable.class.isAssignableFrom(propertyValue.getClass())) {
 					Iterable iterable = (Iterable) propertyValue;
 					Iterator iterator = iterable.iterator();
-					if (!iterator.hasNext()) noValuePropertySet.add(pd.getName());
+					if (!iterator.hasNext()) {
+						noValuePropertySet.add(pd.getName());
+					}
 				}
 				if (Map.class.isAssignableFrom(propertyValue.getClass())) {
 					Map map = (Map) propertyValue;
-					if (map.isEmpty()) noValuePropertySet.add(pd.getName());
+					if (map.isEmpty()){
+						noValuePropertySet.add(pd.getName());
+					}
 				}
 			}
 		});

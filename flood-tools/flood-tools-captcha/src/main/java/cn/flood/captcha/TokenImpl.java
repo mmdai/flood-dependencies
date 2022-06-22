@@ -73,8 +73,9 @@ public class TokenImpl implements Token {
 
 	@Override
 	public boolean isValid(String token) {
-		if (token.equalsIgnoreCase(this.token))
+		if (token.equalsIgnoreCase(this.token)){
 			return Clock.systemDefaultZone().millis() - this.date < this.delay;
+		}
 		return false;
 	}
 

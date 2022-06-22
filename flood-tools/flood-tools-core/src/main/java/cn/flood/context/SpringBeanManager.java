@@ -22,7 +22,7 @@ public class SpringBeanManager implements ApplicationContextAware {
 	private static ApplicationContext applicationContext;
 
 	public SpringBeanManager(ApplicationContext applicationContext){
-		this.applicationContext = applicationContext;
+		SpringBeanManager.applicationContext = applicationContext;
 	}
 
 	@Override

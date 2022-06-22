@@ -42,6 +42,7 @@ public class DataSourceHealthConfig extends DataSourceHealthContributorAutoConfi
     }
 
 
+    @Override
     public void afterPropertiesSet() {
         this.poolMetadataProvider = new CompositeDataSourcePoolMetadataProvider(this.metadataProviders);
     }

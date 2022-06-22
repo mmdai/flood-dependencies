@@ -79,18 +79,22 @@ public class HostException extends CoreException implements MessageSourceResolva
 		messageSourceResolvable = new DefaultMessageSourceResolvable(new String[]{code}, args, msg);
 	}
 
-	public String getCode() {
+	@Override
+    public String getCode() {
 		return messageSourceResolvable.getCode();
 	}
 	
+	@Override
 	public String[] getCodes() {
 		return messageSourceResolvable.getCodes();
 	}
 	
+	@Override
 	public Object[] getArguments() {
 		return messageSourceResolvable.getArguments();
 	}
 	
+	@Override
 	public String getDefaultMessage() {
 		return messageSourceResolvable.getDefaultMessage();
 	}

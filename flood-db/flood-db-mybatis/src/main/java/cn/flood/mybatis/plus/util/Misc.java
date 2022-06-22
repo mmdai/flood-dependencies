@@ -14,7 +14,7 @@ public class Misc {
 	/**下划线字符*/
 	public static final char UNDERLINE = '_';
 	/** 用来将字节转换成 16 进制表示的字符表 */
-    public static final char _hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    public static final char HEX_DIGITS[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
 	/**
 	 * 判断字符串是否为空
@@ -162,49 +162,49 @@ public class Misc {
 	 */
 	public static StringBuilder toHex(int val, StringBuilder sb) {
 		if (val < 0 || val >= 0x10000000) {
-			sb.append(_hexDigits[(val >> 28) & 0xF]);
-			sb.append(_hexDigits[(val >> 24) & 0xF]);
-			sb.append(_hexDigits[(val >> 20) & 0xF]);
-			sb.append(_hexDigits[(val >> 16) & 0xF]);
-			sb.append(_hexDigits[(val >> 12) & 0xF]);
-			sb.append(_hexDigits[(val >> 8) & 0xF]);
-			sb.append(_hexDigits[(val >> 4) & 0xF]);
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 28) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 24) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 20) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 16) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 12) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 8) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else if (val >= 0x01000000) {
-			sb.append(_hexDigits[(val >> 24) & 0xF]);
-			sb.append(_hexDigits[(val >> 20) & 0xF]);
-			sb.append(_hexDigits[(val >> 16) & 0xF]);
-			sb.append(_hexDigits[(val >> 12) & 0xF]);
-			sb.append(_hexDigits[(val >> 8) & 0xF]);
-			sb.append(_hexDigits[(val >> 4) & 0xF]);
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 24) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 20) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 16) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 12) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 8) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else if (val >= 0x00100000) {
-			sb.append(_hexDigits[(val >> 20) & 0xF]);
-			sb.append(_hexDigits[(val >> 16) & 0xF]);
-			sb.append(_hexDigits[(val >> 12) & 0xF]);
-			sb.append(_hexDigits[(val >> 8) & 0xF]);
-			sb.append(_hexDigits[(val >> 4) & 0xF]);
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 20) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 16) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 12) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 8) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else if (val >= 0x00010000) {
-			sb.append(_hexDigits[(val >> 16) & 0xF]);
-			sb.append(_hexDigits[(val >> 12) & 0xF]);
-			sb.append(_hexDigits[(val >> 8) & 0xF]);
-			sb.append(_hexDigits[(val >> 4) & 0xF]);
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 16) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 12) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 8) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else if (val >= 0x00001000) {
-			sb.append(_hexDigits[(val >> 12) & 0xF]);
-			sb.append(_hexDigits[(val >> 8) & 0xF]);
-			sb.append(_hexDigits[(val >> 4) & 0xF]);
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 12) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 8) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else if (val >= 0x00000100) {
-			sb.append(_hexDigits[(val >> 8) & 0xF]);
-			sb.append(_hexDigits[(val >> 4) & 0xF]);
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 8) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else if (val >= 0x00000010) {
-			sb.append(_hexDigits[(val >> 4) & 0xF]);
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else if (val >= 0x00000001) {
-			sb.append(_hexDigits[(val) & 0xF]);
+			sb.append(HEX_DIGITS[(val) & 0xF]);
 		} else {
 			sb.append("0");
 			return sb;

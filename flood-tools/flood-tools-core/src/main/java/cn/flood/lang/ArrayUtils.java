@@ -57,8 +57,10 @@ public class ArrayUtils {
         for (int i = 1; i < array.size(); i++)
         {
         	//小于(-1 前小后大)、等于(0)或大于(1)
-        	if (func.apply(max).compareTo(func.apply(array.get(i)))< 0)
+        	if (func.apply(max).compareTo(func.apply(array.get(i)))< 0) {
                 max = array.get(i);
+            }
+
         }
         return max;
     }
@@ -74,8 +76,9 @@ public class ArrayUtils {
     	T min = array.get(0);
     	for (int i = 1; i < array.size(); i++){
          	//小于(-1 前小后大)、等于(0)或大于(1)
-         	if (func.apply(min).compareTo(func.apply(array.get(i)))> 0)
-         		min = array.get(i);
+         	if (func.apply(min).compareTo(func.apply(array.get(i)))> 0){
+                min = array.get(i);
+            }
         }
         return min;
     }
@@ -92,9 +95,10 @@ public class ArrayUtils {
         List<T> list = new ArrayList<T>();
         for(T item : array){
         	//满足什么条件 ,如 >50或<30
-        	if(func.test(item))
-        		//添加满足条件元素
-        		list.add(item);
+        	if(func.test(item)){
+                //添加满足条件元素
+                list.add(item);
+            }
         }
         return list;
     }
@@ -110,8 +114,9 @@ public class ArrayUtils {
     public static <T> T findOne(List<T> array , Predicate<T> func)
     {
     	for(T item : array){
-    		if(func.test(item))
-    			return item;
+    		if(func.test(item)){
+                return item;
+            }
     	}
         //泛型的默认值
         return null;
@@ -128,8 +133,9 @@ public class ArrayUtils {
         for (int i = 0; i < array.size()-1; i++){
             for (int j = 0; j < array.size()-1-i; j++){
             	//小于(-1 前小后大)、等于(0)或大于(1)
-                if (func.apply(array.get(j)).compareTo(func.apply(array.get(j+1)))>0)
+                if (func.apply(array.get(j)).compareTo(func.apply(array.get(j+1)))>0){
                     Collections.swap(array, j, j + 1);
+                }
             }
         }
     }
@@ -144,8 +150,9 @@ public class ArrayUtils {
         for (int i = 0; i < array.size()-1; i++){
             for (int j = 0; j < array.size()-1-i; j++){
             	//小于(-1 前小后大)、等于(0)或大于(1)
-                if (func.apply(array.get(j)).compareTo(func.apply(array.get(j+1)))<0)
+                if (func.apply(array.get(j)).compareTo(func.apply(array.get(j+1)))<0){
                     Collections.swap(array, j, j + 1);
+                }
             }
         }
     }
@@ -161,8 +168,9 @@ public class ArrayUtils {
     	//存储满足条件的元素的数组
         List<V> list = new ArrayList<V>();
         for(T item : array){
-    		if(func.apply(item)!=null)
-    			list.add(func.apply(item));
+    		if(func.apply(item)!=null){
+                list.add(func.apply(item));
+            }
     	}
     	return list;
     }

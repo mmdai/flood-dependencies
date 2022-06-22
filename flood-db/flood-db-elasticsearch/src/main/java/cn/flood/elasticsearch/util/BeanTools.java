@@ -20,9 +20,9 @@ import java.util.*;
  **/
 public class BeanTools {
     public static Object mapToObject(Map map, Class<?> beanClass) throws Exception {
-        if (map == null)
+        if (map == null){
             return null;
-
+        }
         Object obj = beanClass.newInstance();
 
         Field[] fields = obj.getClass().getDeclaredFields();
@@ -41,8 +41,9 @@ public class BeanTools {
     }
 
     public static <T> T typeMapToObject(Map<String,NameTypeValueMap> map, Class<T> beanClass) throws Exception {
-        if (map == null)
+        if (map == null){
             return null;
+        }
         T t = beanClass.newInstance();
         Field[] fields = t.getClass().getDeclaredFields();
         for (Field field : fields) {
@@ -141,11 +142,15 @@ public class BeanTools {
                 if (Iterable.class.isAssignableFrom(propertyValue.getClass())) {
                     Iterable iterable = (Iterable) propertyValue;
                     Iterator iterator = iterable.iterator();
-                    if (!iterator.hasNext()) noValuePropertySet.add(pd.getName());
+                    if (!iterator.hasNext()){
+                        noValuePropertySet.add(pd.getName());
+                    }
                 }
                 if (Map.class.isAssignableFrom(propertyValue.getClass())) {
                     Map map = (Map) propertyValue;
-                    if (map.isEmpty()) noValuePropertySet.add(pd.getName());
+                    if (map.isEmpty()) {
+                        noValuePropertySet.add(pd.getName());
+                    }
                 }
             }
         });

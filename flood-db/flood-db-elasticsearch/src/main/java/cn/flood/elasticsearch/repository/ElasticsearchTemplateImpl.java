@@ -555,8 +555,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     public Map aggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, String... indexs) throws Exception {
         MetaData metaData = elasticsearchIndex.getMetaData(clazz);
         String[] indexname = indexs;
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
-        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
+        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -566,9 +566,9 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         metricName = genKeyword(f_metric, metricName);
         bucketName = genKeyword(f_bucket, bucketName);
 
-        //定义聚合临时变量不需要加keyword
-        String by = "by_" + bucketName.replaceAll(keyword, "");
-        String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
+        //定义聚合临时变量不需要加KEYWORD
+        String by = "by_" + bucketName.replaceAll(KEYWORD, "");
+        String me = aggsType.toString() + "_" + metricName.replaceAll(KEYWORD, "");
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         TermsAggregationBuilder aggregation = AggregationBuilders.terms(by)
@@ -640,7 +640,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public List<Down> aggswith2level(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String[] bucketNames, String... indexs) throws Exception {
         String[] indexname = indexs;
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
         if (bucketNames == null) {
             throw new NullPointerException();
         }
@@ -649,7 +649,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         }
         Field[] f_buckets = new Field[bucketNames.length];
         for (int i = 0; i < bucketNames.length; i++) {
-            f_buckets[i] = clazz.getDeclaredField(bucketNames[i].replaceAll(keyword, ""));
+            f_buckets[i] = clazz.getDeclaredField(bucketNames[i].replaceAll(KEYWORD, ""));
             if (f_buckets[i] == null) {
                 throw new Exception("bucket field is null");
             }
@@ -658,12 +658,12 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
             throw new Exception("metric field is null");
         }
         metricName = genKeyword(f_metric, metricName);
-        String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
+        String me = aggsType.toString() + "_" + metricName.replaceAll(KEYWORD, "");
 
         String[] bys = new String[bucketNames.length];
         for (int i = 0; i < f_buckets.length; i++) {
             bucketNames[i] = genKeyword(f_buckets[i], bucketNames[i]);
-            bys[i] = "by_" + bucketNames[i].replaceAll(keyword, "");
+            bys[i] = "by_" + bucketNames[i].replaceAll(KEYWORD, "");
         }
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         TermsAggregationBuilder[] termsAggregationBuilders = new TermsAggregationBuilder[bucketNames.length];
@@ -738,13 +738,13 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     }
 
 
-    private static final String keyword = ".keyword";
+    private static final String KEYWORD = ".keyword";
 
     /**
-     * 组织字段是否带有.keyword（对于当前es版本默认不打开field_data）
-     *  1、如果入参字段名称带有.keyword不处理
+     * 组织字段是否带有.KEYWORD（对于当前es版本默认不打开field_data）
+     *  1、如果入参字段名称带有.KEYWORD不处理
      *  2、如果是非分词类型的字段（非text）不处理
-     *  3、如果是分词类型的字段（text类型）且配置了ESMapping且包含kerword子字段或者没有配置ESMapping，则拼接keyword子字段
+     *  3、如果是分词类型的字段（text类型）且配置了ESMapping且包含kerword子字段或者没有配置ESMapping，则拼接KEYWORD子字段
      *  4、如果是分词类型的字段（text类型）且配置了ESMapping且不包含kerword子字段，会自动报错
      *  doc values
      *      建立索引时会默认建立正排索引和倒排索引两种
@@ -756,28 +756,28 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
      *      Fielddata和doc values结构是类似的
      *      默认是关闭的
      *      保存于heap内存中
-     * 如果想统计词频，需要手工设定索引并打开field_data，将ESMapping中的keyword关闭
+     * 如果想统计词频，需要手工设定索引并打开field_data，将ESMapping中的KEYWORD关闭
      * @param field
      * @param name
      * @return
      */
     private String genKeyword(Field field, String name) {
         ESMapping esMapping = field.getAnnotation(ESMapping.class);
-        //带着.keyword直接忽略
-        if (name == null || name.indexOf(keyword) > -1) {
+        //带着.KEYWORD直接忽略
+        if (name == null || name.indexOf(KEYWORD) > -1) {
             return name;
         }
-        //只要keyword是true就要拼接
-        //没配注解，但是类型是字符串，默认keyword是true
+        //只要KEYWORD是true就要拼接
+        //没配注解，但是类型是字符串，默认KEYWORD是true
         if (esMapping == null) {
             if (field.getType() == String.class) {
-                return name + keyword;
+                return name + KEYWORD;
             }
         }
-        //配了注解，但是类型是字符串，默认keyword是true
+        //配了注解，但是类型是字符串，默认KEYWORD是true
         else {
             if (esMapping.datatype() == DataType.text_type && esMapping.keyword() == true) {
-                return name + keyword;
+                return name + KEYWORD;
             }
         }
         return name;
@@ -793,8 +793,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public double aggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String... indexs) throws Exception {
         String[] indexname = indexs;
-        String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
+        String me = aggsType.toString() + "_" + metricName.replaceAll(KEYWORD, "");
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -853,7 +853,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     public Stats statsAggs(String metricName, QueryBuilder queryBuilder, Class<T> clazz, String... indexs) throws Exception {
         String[] indexname = indexs;
         String me = "stats";
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -882,8 +882,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public Map<String, Stats> statsAggs(String metricName, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, String... indexs) throws Exception {
         String[] indexname = indexs;
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
-        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
+        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -893,8 +893,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         metricName = genKeyword(f_metric, metricName);
         bucketName = genKeyword(f_bucket, bucketName);
 
-        String by = "by_" + bucketName.replaceAll(keyword, "");
-        String me = "stats" + "_" + metricName.replaceAll(keyword, "");
+        String by = "by_" + bucketName.replaceAll(KEYWORD, "");
+        String me = "stats" + "_" + metricName.replaceAll(KEYWORD, "");
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         TermsAggregationBuilder aggregation = AggregationBuilders.terms(by)
@@ -969,12 +969,12 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public long cardinality(String metricName, QueryBuilder queryBuilder, long precisionThreshold, Class<T> clazz, String... indexs) throws Exception {
         String[] indexname = indexs;
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
         metricName = genKeyword(f_metric, metricName);
-        String me = "cardinality_" + metricName.replaceAll(keyword, "");
+        String me = "cardinality_" + metricName.replaceAll(KEYWORD, "");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         CardinalityAggregationBuilder aggregation = AggregationBuilders
                 .cardinality(me)
@@ -1002,7 +1002,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
 
     @Override
     public Map percentilesAggs(String metricName, QueryBuilder queryBuilder, Class<T> clazz, double[] customSegment, String... indexs) throws Exception {
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -1012,7 +1012,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
             throw new Exception("customSegment is null");
         }
         metricName = genKeyword(f_metric, metricName);
-        String me = "percentiles_" + metricName.replaceAll(keyword, "");
+        String me = "percentiles_" + metricName.replaceAll(KEYWORD, "");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         PercentilesAggregationBuilder aggregation = AggregationBuilders.percentiles(me).field(metricName).percentiles(customSegment);
         if (queryBuilder != null) {
@@ -1043,7 +1043,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public Map percentileRanksAggs(String metricName, QueryBuilder queryBuilder, Class<T> clazz, double[] customSegment, String... indexs) throws Exception {
         String[] indexname = indexs;
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -1051,7 +1051,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
             throw new Exception("customSegment is null");
         }
         metricName = genKeyword(f_metric, metricName);
-        String me = "percentiles_" + metricName.replaceAll(keyword, "");
+        String me = "percentiles_" + metricName.replaceAll(KEYWORD, "");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         PercentileRanksAggregationBuilder aggregation = AggregationBuilders.percentileRanks(me, customSegment).field(metricName);
         if (queryBuilder != null) {
@@ -1087,12 +1087,12 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         if (filters == null) {
             throw new NullPointerException();
         }
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
         metricName = genKeyword(f_metric, metricName);
-        String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
+        String me = aggsType.toString() + "_" + metricName.replaceAll(KEYWORD, "");
         AggregationBuilder aggregation = AggregationBuilders.filters("filteragg", filters);
         searchSourceBuilder.size(0);
         if (AggsType.count == aggsType) {
@@ -1151,8 +1151,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public Map histogramAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, double interval, String... indexs) throws Exception {
         String[] indexname = indexs;
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
-        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
+        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -1161,8 +1161,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         }
         metricName = genKeyword(f_metric, metricName);
         bucketName = genKeyword(f_bucket, bucketName);
-        String by = "by_" + bucketName.replaceAll(keyword, "");
-        String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
+        String by = "by_" + bucketName.replaceAll(KEYWORD, "");
+        String me = aggsType.toString() + "_" + metricName.replaceAll(KEYWORD, "");
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         AggregationBuilder aggregation = AggregationBuilders.histogram(by).field(bucketName).interval(interval);
@@ -1223,8 +1223,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
     @Override
     public Map dateHistogramAggs(String metricName, AggsType aggsType, QueryBuilder queryBuilder, Class<T> clazz, String bucketName, DateHistogramInterval interval, String... indexs) throws Exception {
         String[] indexname = indexs;
-        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(keyword, ""));
-        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(keyword, ""));
+        Field f_metric = clazz.getDeclaredField(metricName.replaceAll(KEYWORD, ""));
+        Field f_bucket = clazz.getDeclaredField(bucketName.replaceAll(KEYWORD, ""));
         if (f_metric == null) {
             throw new Exception("metric field is null");
         }
@@ -1239,8 +1239,8 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
         }
         metricName = genKeyword(f_metric, metricName);
         bucketName = genKeyword(f_bucket, bucketName);
-        String by = "by_" + bucketName.replaceAll(keyword, "");
-        String me = aggsType.toString() + "_" + metricName.replaceAll(keyword, "");
+        String by = "by_" + bucketName.replaceAll(KEYWORD, "");
+        String me = aggsType.toString() + "_" + metricName.replaceAll(KEYWORD, "");
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         AggregationBuilder aggregation = AggregationBuilders.dateHistogram(by).field(bucketName).dateHistogramInterval(interval);
@@ -1371,7 +1371,7 @@ public class ElasticsearchTemplateImpl<T, M> implements ElasticsearchTemplate<T,
                 Sort sort = pageSortHighLight.getSort();
                 List<Sort.Order> orders = sort.listOrders();
                 for (int i = 0; i < orders.size(); i++) {
-                    if(orders.get(i).getProperty().equals("_id")){
+                    if("_id".equals(orders.get(i).getProperty())){
                         idSortFlag = true;
                     }
                     searchSourceBuilder.sort(new FieldSortBuilder(orders.get(i).getProperty()).order(orders.get(i).getDirection()));

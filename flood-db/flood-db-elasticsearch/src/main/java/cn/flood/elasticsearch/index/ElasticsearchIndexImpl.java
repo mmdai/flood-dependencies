@@ -117,7 +117,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             }
             if (!mappingData.getDatatype().equals(NESTED)) {
                 if (mappingData.isNgram() &&
-                        (mappingData.getDatatype().equals("text") || mappingData.getDatatype().equals("keyword"))) {
+                        ("text".equals(mappingData.getDatatype()) || "keyword".equals(mappingData.getDatatype()))) {
                     isNgram = true;
                 }
                 source.append(oneField(mappingData));
@@ -311,16 +311,16 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
         if (!mappingData.isAllow_search()) {
             source.append(" ,\"index\": false\n");
         }
-        if (mappingData.isNgram() && (mappingData.getDatatype().equals("text") || mappingData.getDatatype().equals("keyword"))) {
+        if (mappingData.isNgram() && ("text".equals(mappingData.getDatatype()) ||"keyword".equals(mappingData.getDatatype()))) {
             source.append(" ,\"analyzer\": \"autocomplete\"\n");
             source.append(" ,\"search_analyzer\": \"standard\"\n");
 
-        } else if (mappingData.getDatatype().equals("text")) {
+        } else if ("text".equals(mappingData.getDatatype())) {
             source.append(" ,\"analyzer\": \"" + mappingData.getAnalyzer() + "\"\n");
             source.append(" ,\"search_analyzer\": \"" + mappingData.getSearch_analyzer() + "\"\n");
         }
 
-        if (mappingData.isKeyword() && !mappingData.getDatatype().equals("keyword") && mappingData.isSuggest()) {
+        if (mappingData.isKeyword() && !"keyword".equals(mappingData.getDatatype()) && mappingData.isSuggest()) {
             source.append(" \n");
             source.append(" ,\"fields\": {\n");
 
@@ -335,7 +335,7 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
             source.append(" }\n");
 
             source.append(" }\n");
-        } else if (mappingData.isKeyword() && !mappingData.getDatatype().equals("keyword") && !mappingData.isSuggest()) {
+        } else if (mappingData.isKeyword() && !"keyword".equals(mappingData.getDatatype()) && !mappingData.isSuggest()) {
             source.append(" \n");
             source.append(" ,\"fields\": {\n");
             source.append(" \"keyword\": {\n");
@@ -377,9 +377,13 @@ public class ElasticsearchIndexImpl<T> implements ElasticsearchIndex<T> {
 
     @Override
     public void rollover(Class<T> clazz,boolean isAsyn) throws Exception {
-        if(clazz == null)return;
+        if(clazz == null){
+            return;
+        }
         MetaData metaData = indexTools.getMetaData(clazz);
-        if(!metaData.isRollover())return;
+        if(!metaData.isRollover()){
+            return;
+        }
         if(metaData.isAutoRollover()){
             rollover(metaData);
             return;

@@ -19,7 +19,7 @@ import java.security.SecureRandom;
  */
 public class AES {
 	
-	private final static String encoding = "UTF-8"; 
+	private final static String ENCODING = "UTF-8"; 
 	
 	/**
 	 * 
@@ -62,7 +62,7 @@ public class AES {
 		String result = str;
 		if (str != null && str.length() > 0) {
 			try {
-				byte[] encodeByte = str.getBytes(encoding);
+				byte[] encodeByte = str.getBytes(ENCODING);
 				//阿里巴巴
 				//result = Base64.byteArrayToBase64(encodeByte);
 				result  = Base64.encode(encodeByte);
@@ -189,8 +189,9 @@ public class AES {
 	 * @return
 	 */
 	public static byte[] parseHexStr2Byte(String hexStr) {   
-		if (hexStr.length() < 1)   
-			return null;   
+		if (hexStr.length() < 1)   {
+			return null;
+		}
 		byte[] result = new byte[hexStr.length()/2];   
 		for (int i = 0;i< hexStr.length()/2; i++) {   
 			int high = Integer.parseInt(hexStr.substring(i*2, i*2+1), 16);   

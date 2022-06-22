@@ -71,7 +71,7 @@ public class ForestNodeManager<T extends INode> {
 	public List<T> getRoot() {
 		List<T> roots = new ArrayList<>();
 		for (T forestNode : list) {
-			if (forestNode.getParentId().equals("root") || parentIds.contains(forestNode.getId())) {
+			if ("root".equals(forestNode.getParentId()) || parentIds.contains(forestNode.getId())) {
 				roots.add(forestNode);
 			}
 		}

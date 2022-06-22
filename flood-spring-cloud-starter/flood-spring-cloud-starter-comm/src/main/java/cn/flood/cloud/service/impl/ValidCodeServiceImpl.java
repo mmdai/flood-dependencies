@@ -52,6 +52,8 @@ public class ValidCodeServiceImpl implements ValidCodeService {
                 break;
             case EMAIL:
                 token = tokenService.getToken(TokenEnum.EMAIL);
+                break;
+            default:
         }
         saveToken(deviceId, tokenType, token);
         return token;

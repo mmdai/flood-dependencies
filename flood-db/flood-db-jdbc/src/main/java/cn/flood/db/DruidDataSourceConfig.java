@@ -76,7 +76,7 @@ public class DruidDataSourceConfig {
             datasource.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
             try {
                 if(Func.isNotEmpty(dataSourceProperties.getDriverClassName())
-                        && dataSourceProperties.getDriverClassName().equalsIgnoreCase("org.apache.kylin.jdbc.Driver")){
+                        && "org.apache.kylin.jdbc.Driver".equalsIgnoreCase(dataSourceProperties.getDriverClassName())){
                     datasource.setFilters("config");
                 }else{
                     datasource.setFilters(druidDbProperties.getFilters());

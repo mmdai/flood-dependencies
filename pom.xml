@@ -300,8 +300,6 @@
     <module>flood-dependencies-parent</module>
 	<!-- socket -->
 	<module>flood-websocket-redis</module>
-	<!-- 动态线程池 -->
-	<module>flood-dynamic-thread-pool</module>
 	<!-- flood-delay 延时消息队列中心 -->
 	<module>flood-delay</module>
 	<!-- flood-job 调度中心 -->

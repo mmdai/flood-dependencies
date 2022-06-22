@@ -84,14 +84,17 @@ public class CoreException extends RuntimeException implements MessageSourceReso
 		return messageSourceResolvable.getCode();
 	}
 	
+	@Override
 	public String[] getCodes() {
 		return messageSourceResolvable.getCodes();
 	}
 	
+	@Override
 	public Object[] getArguments() {
 		return messageSourceResolvable.getArguments();
 	}
 	
+	@Override
 	public String getDefaultMessage() {
 		return messageSourceResolvable.getDefaultMessage();
 	}

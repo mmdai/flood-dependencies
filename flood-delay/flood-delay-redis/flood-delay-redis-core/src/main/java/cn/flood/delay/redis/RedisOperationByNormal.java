@@ -72,10 +72,14 @@ public class RedisOperationByNormal implements RedisOperation {
     public long moveAndRtTopScore(){
         int maxCount = 1000;
         for(int i=0;i<maxCount;i++){
-            Set<String> members = redisTemplate.opsForZSet().range(RedisKeyUtil.getBucketKey(),0l,1l);
-            if(members==null||members.size()==0)return Long.MAX_VALUE;
+            Set<String> members = redisTemplate.opsForZSet().range(RedisKeyUtil.getBucketKey(),0L,1L);
+            if(members==null||members.size()==0){
+                return Long.MAX_VALUE;
+            }
             Iterator it1 = members.iterator();
-            if(!it1.hasNext())return Long.MAX_VALUE;
+            if(!it1.hasNext()){
+                return Long.MAX_VALUE;
+            }
             Object member = it1.next();
             Double score = redisTemplate.opsForZSet().score(RedisKeyUtil.getBucketKey(),member);
             if(score<=System.currentTimeMillis()){
@@ -88,12 +92,16 @@ public class RedisOperationByNormal implements RedisOperation {
         }
         //最后查一次返回
         //
-        Set<String> ms2 = redisTemplate.opsForZSet().range(RedisKeyUtil.getBucketKey(),0l,1l);
+        Set<String> ms2 = redisTemplate.opsForZSet().range(RedisKeyUtil.getBucketKey(),0L,1L);
         Iterator it2 = ms2.iterator();
-        if(!it2.hasNext())return Long.MAX_VALUE;
+        if(!it2.hasNext()){
+            return Long.MAX_VALUE;
+        }
         Object m2 = it2.next();
         Double score2 = redisTemplate.opsForZSet().score(RedisKeyUtil.getBucketKey(),m2);
-        if(score2==null)return Long.MAX_VALUE;
+        if(score2==null){
+            return Long.MAX_VALUE;
+        }
         return score2.longValue();
     }
 
@@ -101,7 +109,9 @@ public class RedisOperationByNormal implements RedisOperation {
     @Override
     public Object BLPOP(String topic){
         String topicId = BLPOPKey(topic);
-        if(topicId == null)return null;
+        if(topicId == null){
+            return null;
+        }
         return getJob(topicId);
     }
 
@@ -114,13 +124,17 @@ public class RedisOperationByNormal implements RedisOperation {
     @Override
     public String BLPOPKey(String topic){
         Object object =  BLPOP(RedisKeyUtil.getTopicListKey(topic),5*60*1000);
-        if(object==null)return null;
+        if(object==null){
+            return null;
+        }
         return object.toString();
     }
     @Override
     public String BLPOP(String key,long timeout){
         Object object = redisTemplate.opsForList().leftPop(key,timeout,TimeUnit.MILLISECONDS);
-        if(object==null)return null;
+        if(object==null){
+            return null;
+        }
         return object.toString();
     }
 
@@ -135,7 +149,9 @@ public class RedisOperationByNormal implements RedisOperation {
     @Override
     public DelayQueueJob getJob(String topicId){
         Object args =  redisTemplate.opsForHash().get(RedisKeyUtil.getDelayQueueTableKey(),topicId);
-        if(args == null)return null;
+        if(args == null){
+            return null;
+        }
         return (DelayQueueJob)args;
     }
 

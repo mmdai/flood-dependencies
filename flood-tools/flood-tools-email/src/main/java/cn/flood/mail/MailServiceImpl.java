@@ -43,6 +43,7 @@ public class MailServiceImpl implements MailService, InitializingBean{
      * @param subject
      * @param content
      */
+    @Override
     public void sendSimpleMail(String[] to, String[] cc, String subject, String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(from);
@@ -69,6 +70,7 @@ public class MailServiceImpl implements MailService, InitializingBean{
      * @param subject
      * @param content
      */
+    @Override
     public void sendHtmlMail(String[] to, String[] cc, String subject, String content) {
         MimeMessage message = mailSender.createMimeMessage();
 
@@ -97,9 +99,10 @@ public class MailServiceImpl implements MailService, InitializingBean{
      * @param cc
      * @param subject
      * @param content
-     * @param filePath
+     * @param filesPath
      */
-    public void sendAttachmentsMail(String[] to, String[] cc,  String subject, String content,  String[] filesPath){
+    @Override
+    public void sendAttachmentsMail(String[] to, String[] cc, String subject, String content, String[] filesPath){
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -138,6 +141,7 @@ public class MailServiceImpl implements MailService, InitializingBean{
      * @param content
      * @param mailAttachment
      */
+    @Override
     public void sendInlineResourceMail(String[] to, String[] cc, String subject, String content, List<MailAttachment> mailAttachment){
         MimeMessage message = mailSender.createMimeMessage();
 

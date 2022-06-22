@@ -52,7 +52,7 @@ public abstract class AbstractDataSourceConfig {
      * 构建配置真实数据源
      */
     private Map<String, DataSource> buildDataSourceMap(List<DruidDataSource> dataSourceList) {
-        Map<String, DataSource> dataSourceMap = new HashMap<>();
+        Map<String, DataSource> dataSourceMap = new HashMap<>(16);
         for (int i = 0; i < dataSourceList.size(); i++) {
             //获取目标数据源创建dataSource
             DruidDataSource dataSource = dataSourceList.get(i);

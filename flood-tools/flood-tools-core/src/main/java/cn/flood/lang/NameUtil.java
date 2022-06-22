@@ -26,7 +26,9 @@ public class NameUtil {
 	 * @return
 	 */
 	public static String shortName(String name) {
-		if (name == null) return null;
+		if (name == null){
+			return null;
+		}
 		//没有下划线的情况就按原样返回
 		if (name.split("_").length == 1) {
 			return name;
@@ -79,9 +81,15 @@ public class NameUtil {
 	}
 	
 	public static String firstUpperCase(String name) {
-		if (name == null) return null;
-		if (name.length() == 0) return name;
-		if (name.length() == 1) return name.toUpperCase();
+		if (name == null){
+			return null;
+		}
+		if (name.length() == 0) {
+			return name;
+		}
+		if (name.length() == 1) {
+			return name.toUpperCase();
+		}
 		char ch = name.charAt(0);
 		ch = (char) (ch >= 'A' && ch <= 'Z' ? ch : ch - 32);
 		name = ch + name.substring(1);
@@ -89,9 +97,15 @@ public class NameUtil {
 	}
 	
 	public static String firstLowerCase(String name) {
-		if (name == null) return null;
-		if (name.length() == 0) return name;
-		if (name.length() == 1) return name.toLowerCase();
+		if (name == null) {
+			return null;
+		}
+		if (name.length() == 0) {
+			return name;
+		}
+		if (name.length() == 1) {
+			return name.toLowerCase();
+		}
 		char ch = name.charAt(0);
 		ch = (char) (ch >= 'A' && ch <= 'Z' ? ch + 32 : ch);
 		name = ch + name.substring(1);

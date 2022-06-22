@@ -44,7 +44,7 @@ public class ClientInterceptor implements HandlerInterceptor {
 
     private RestTemplate restTemplate;
 
-    private static final String options = "OPTIONS";
+    private static final String OPTIONS = "OPTIONS";
     //client key
     private static final String REDIS_KEY = "flood:oauth_client:";
     //存在5分钟
@@ -52,8 +52,8 @@ public class ClientInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 放行options请求
-        if (options.equalsIgnoreCase(request.getMethod().toUpperCase())) {
+        // 放行OPTIONS请求
+        if (OPTIONS.equalsIgnoreCase(request.getMethod().toUpperCase())) {
             CheckPermissionUtil.passOptions(response);
             return false;
         }

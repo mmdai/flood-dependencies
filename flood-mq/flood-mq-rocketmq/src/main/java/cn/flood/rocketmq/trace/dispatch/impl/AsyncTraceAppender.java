@@ -21,7 +21,7 @@ import java.util.*;
  * Created by alvin on 16-3-7.
  */
 public class AsyncTraceAppender extends AsyncAppender {
-    private final static InternalLogger clientlog = ClientLogger.getLog();
+    private final static InternalLogger CLIENT_LOG = ClientLogger.getLog();
     /**
      * batch大小
      */
@@ -135,12 +135,12 @@ public class AsyncTraceAppender extends AsyncAppender {
                 @Override
                 public void onException(Throwable e) {
                     //todo 对于发送失败的数据，如何保存，保证所有轨迹数据都记录下来
-                    clientlog.info("send trace data failed ,the msgidSet is"+message.getKeys());
+                    CLIENT_LOG.info("send trace data failed ,the msgidSet is"+message.getKeys());
                 }
             }, 5000);
         }
         catch (Exception e) {
-            clientlog.info("send trace data failed ,the msgidSet is"+message.getKeys());
+            CLIENT_LOG.info("send trace data failed ,the msgidSet is"+message.getKeys());
         }
     }
 

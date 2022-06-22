@@ -24,23 +24,23 @@ public class DateUtil {
     private static final String DATE_FORMAT = "yyyy-MM-dd";
     private static final String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-    private static final ThreadLocal<Map<String, DateFormat>> dateFormatThreadLocal = new ThreadLocal<Map<String, DateFormat>>();
+    private static final ThreadLocal<Map<String, DateFormat>> DATE_FORMAT_THREADLOCAL = new ThreadLocal<Map<String, DateFormat>>();
     private static DateFormat getDateFormat(String pattern) {
         if (pattern==null || pattern.trim().length()==0) {
             throw new IllegalArgumentException("pattern cannot be empty.");
         }
 
-        Map<String, DateFormat> dateFormatMap = dateFormatThreadLocal.get();
+        Map<String, DateFormat> dateFormatMap = DATE_FORMAT_THREADLOCAL.get();
         if(dateFormatMap!=null && dateFormatMap.containsKey(pattern)){
             return dateFormatMap.get(pattern);
         }
 
-        synchronized (dateFormatThreadLocal) {
+        synchronized (DATE_FORMAT_THREADLOCAL) {
             if (dateFormatMap == null) {
                 dateFormatMap = new HashMap<String, DateFormat>();
             }
             dateFormatMap.put(pattern, new SimpleDateFormat(pattern));
-            dateFormatThreadLocal.set(dateFormatMap);
+            DATE_FORMAT_THREADLOCAL.set(dateFormatMap);
         }
 
         return dateFormatMap.get(pattern);

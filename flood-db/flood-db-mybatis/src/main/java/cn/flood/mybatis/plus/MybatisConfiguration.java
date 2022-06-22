@@ -31,26 +31,32 @@ public class MybatisConfiguration extends Configuration{
     /**
      * 以下代码都是从 org.apache.ibatis.session.Configuration 直接搬过来用的
      */
+    @Override
     public MapperRegistry getMapperRegistry() {
         return mapperRegistry;
     }
 
+    @Override
     public void addMappers(String packageName, Class<?> superType) {
         mapperRegistry.addMappers(packageName, superType);
     }
 
+    @Override
     public void addMappers(String packageName) {
         mapperRegistry.addMappers(packageName);
     }
 
+    @Override
     public <T> void addMapper(Class<T> type) {
         mapperRegistry.addMapper(type);
     }
 
+    @Override
     public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
         return mapperRegistry.getMapper(type, sqlSession);
     }
 
+    @Override
     public boolean hasMapper(Class<?> type) {
         return mapperRegistry.hasMapper(type);
     }

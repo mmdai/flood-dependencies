@@ -99,12 +99,12 @@ public class XmlUtil {
                     Map m = dom2Map(iter); 
                     if(map.get(iter.getName()) != null){ 
                         Object obj = map.get(iter.getName()); 
-                        if(!obj.getClass().getName().equals("java.util.ArrayList")){ 
+                        if(!"java.util.ArrayList".equals(obj.getClass().getName())){
                             mapList = new ArrayList(); 
                             mapList.add(obj); 
                             mapList.add(m); 
                         } 
-                        if(obj.getClass().getName().equals("java.util.ArrayList")){ 
+                        if("java.util.ArrayList".equals(obj.getClass().getName())){
                             mapList = (List) obj; 
                             mapList.add(m); 
                         } 
@@ -115,12 +115,12 @@ public class XmlUtil {
                 } else{ 
                     if(map.get(iter.getName()) != null){ 
                         Object obj = map.get(iter.getName()); 
-                        if(!obj.getClass().getName().equals("java.util.ArrayList")){ 
+                        if(!"java.util.ArrayList".equals(obj.getClass().getName())){
                             mapList = new ArrayList(); 
                             mapList.add(obj); 
                             mapList.add(iter.getText()); 
                         } 
-                        if(obj.getClass().getName().equals("java.util.ArrayList")){ 
+                        if("java.util.ArrayList".equals(obj.getClass().getName())){
                             mapList = (List) obj; 
                             mapList.add(iter.getText()); 
                         } 

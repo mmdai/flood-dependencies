@@ -47,7 +47,7 @@ public class IdempotentAspect {
 
 	private static final String DELKEY = "delKey";
 
-	private static final String ErrorCode = "S10000";
+	private static final String ERROR_CODE = "S10000";
 
 	@Autowired
 	private Redisson redisson;
@@ -96,12 +96,12 @@ public class IdempotentAspect {
 		Object v1;
 		if (null != rMapCache.get(key)) {
 			// had stored
-			throw new IdempotentException(ErrorCode, "[idempotent]:" + info);
+			throw new IdempotentException(ERROR_CODE, "[idempotent]:" + info);
 		}
 		synchronized (this) {
 			v1 = rMapCache.putIfAbsent(key, value, expireTime, TimeUnit.SECONDS);
 			if (null != v1) {
-				throw new IdempotentException(ErrorCode, "[idempotent]:" + info);
+				throw new IdempotentException(ERROR_CODE, "[idempotent]:" + info);
 			}
 			else {
 				log.info("[idempotent]:has stored key={},value={},expireTime={}{},now={}", key, value, expireTime,

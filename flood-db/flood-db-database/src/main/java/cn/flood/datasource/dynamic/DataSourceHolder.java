@@ -19,18 +19,18 @@ import cn.flood.datasource.enums.DataSourceEnum;
  */
 public class DataSourceHolder {
 	
-	private static final ThreadLocal<DataSourceEnum> dataSourceKey = new ThreadLocal<>();
+	private static final ThreadLocal<DataSourceEnum> DATA_SOURCE_KEY = new ThreadLocal<>();
 
 	public static DataSourceEnum getDataSourceKey() {
-        return dataSourceKey.get();
+        return DATA_SOURCE_KEY.get();
     }
 
     public static void setDataSourceKey(DataSourceEnum type) {
-        dataSourceKey.set(type);
+        DATA_SOURCE_KEY.set(type);
     }
 
     public static void clearDataSourceKey() {
-        dataSourceKey.remove();
+        DATA_SOURCE_KEY.remove();
     }
 	
 	

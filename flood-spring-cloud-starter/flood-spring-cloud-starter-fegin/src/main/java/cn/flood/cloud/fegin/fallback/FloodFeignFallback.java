@@ -71,7 +71,7 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
 		}
 		Optional<ByteBuffer> contentOptional = exception.responseBody();
 		// 如果返回的数据为空
-		if (ObjectUtils.isEmpty(contentOptional.empty())) {
+		if (contentOptional != null) {
 			return ResultWapper.error(errorMessage);
 		}
 		byte[] content = contentOptional.get().array();

@@ -64,31 +64,31 @@ public class ContentType {
     public static final ContentType DEFAULT_BINARY = APPLICATION_OCTET_STREAM;
 
     //support file extension
-    private static final Map<String, ContentType> supportFileExts;
+    private static final Map<String, ContentType> SUPPORT_FILE_EXTS;
 
     static {
-        Map<String, ContentType> _supportFileExts = new ConcurrentHashMap<>();
-        _supportFileExts.put("xml", APPLICATION_XML);
-        _supportFileExts.put("json", APPLICATION_JSON);
-        _supportFileExts.put("doc", APPLICATION_DOC);
-        _supportFileExts.put("docx", APPLICATION_DOC);
-        _supportFileExts.put("xls", APPLICATION_XLS);
-        _supportFileExts.put("xlsx", APPLICATION_XLS);
-        _supportFileExts.put("ppt", APPLICATION_PPT);
-        _supportFileExts.put("pptx", APPLICATION_PPT);
-        _supportFileExts.put("pdf", APPLICATION_PDF);
-        _supportFileExts.put("zip", APPLICATION_ZIP);
-        _supportFileExts.put("gzip", APPLICATION_GZ);
-        _supportFileExts.put("png", IMAGE_PNG);
-        _supportFileExts.put("jpeg", IMAGE_JPEG);
-        _supportFileExts.put("jpg", IMAGE_JPG);
-        _supportFileExts.put("gif", IMAGE_GIF);
-        _supportFileExts.put("html", TEXT_HTML);
-        _supportFileExts.put("txt", TEXT_PLAIN);
-        _supportFileExts.put("apk", APPLICATION_APK);
-        _supportFileExts.put("ipa", APPLICATION_IPA);
+        Map<String, ContentType> _SUPPORT_FILE_EXTS = new ConcurrentHashMap<>();
+        _SUPPORT_FILE_EXTS.put("xml", APPLICATION_XML);
+        _SUPPORT_FILE_EXTS.put("json", APPLICATION_JSON);
+        _SUPPORT_FILE_EXTS.put("doc", APPLICATION_DOC);
+        _SUPPORT_FILE_EXTS.put("docx", APPLICATION_DOC);
+        _SUPPORT_FILE_EXTS.put("xls", APPLICATION_XLS);
+        _SUPPORT_FILE_EXTS.put("xlsx", APPLICATION_XLS);
+        _SUPPORT_FILE_EXTS.put("ppt", APPLICATION_PPT);
+        _SUPPORT_FILE_EXTS.put("pptx", APPLICATION_PPT);
+        _SUPPORT_FILE_EXTS.put("pdf", APPLICATION_PDF);
+        _SUPPORT_FILE_EXTS.put("zip", APPLICATION_ZIP);
+        _SUPPORT_FILE_EXTS.put("gzip", APPLICATION_GZ);
+        _SUPPORT_FILE_EXTS.put("png", IMAGE_PNG);
+        _SUPPORT_FILE_EXTS.put("jpeg", IMAGE_JPEG);
+        _SUPPORT_FILE_EXTS.put("jpg", IMAGE_JPG);
+        _SUPPORT_FILE_EXTS.put("gif", IMAGE_GIF);
+        _SUPPORT_FILE_EXTS.put("html", TEXT_HTML);
+        _SUPPORT_FILE_EXTS.put("txt", TEXT_PLAIN);
+        _SUPPORT_FILE_EXTS.put("apk", APPLICATION_APK);
+        _SUPPORT_FILE_EXTS.put("ipa", APPLICATION_IPA);
 
-        supportFileExts = _supportFileExts;
+        SUPPORT_FILE_EXTS = _SUPPORT_FILE_EXTS;
     }
 
     private String mimeType;
@@ -159,9 +159,11 @@ public class ContentType {
      * @return {@link ContentType}
      */
     public static ContentType parseByFileExt(String fileExt) {
-        if (ObjectUtils.isEmpty(fileExt)) return DEFAULT_BINARY;
+        if (ObjectUtils.isEmpty(fileExt)){
+            return DEFAULT_BINARY;
+        }
         fileExt = fileExt.toLowerCase();
-        ContentType contentType = supportFileExts.get(fileExt);
+        ContentType contentType = SUPPORT_FILE_EXTS.get(fileExt);
         return (contentType == null) ? DEFAULT_BINARY : contentType;
     }
 

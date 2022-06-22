@@ -112,7 +112,7 @@ public class AuditLogAspect {
         Map<String, Object> params = null;
         if (paramNames != null && paramNames.length > 0) {
             Object[] args = joinPoint.getArgs();// 参数值
-            params = new HashMap<>();
+            params = new HashMap<>(16);
             for (int i = 0; i < paramNames.length; i++) {
                 if(paramNames[i] instanceof Serializable){
                     params.put(paramNames[i], args[i]);
