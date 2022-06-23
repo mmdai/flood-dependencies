@@ -72,7 +72,7 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 					reqVersion.equals(instance.getMetadata().get("version")))
 					.collect(Collectors.toList());
 			//容错，如header无匹配的则返回正常列表轮询
-			if(Func.isEmpty(serviceInstances)){
+			if(Func.isEmpty(serviceInstancesList)){
 				serviceInstancesList = serviceInstances;
 			}
 		}
