@@ -1,4 +1,4 @@
-package cn.flood.cloud.nacos.deregister.controller;
+package cn.flood.cloud.nacos.gray.controller;
 
 
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Slf4j
-public class DeregisterController {
+public class GrayController {
 
     @Autowired
     private NacosDiscoveryProperties nacosDiscoveryProperties;
@@ -37,6 +37,24 @@ public class DeregisterController {
             nacosServiceManager.getNamingService(nacosDiscoveryProperties.getNacosProperties()).deregisterInstance(serviceName, groupName, ip, port, clusterName);
         } catch (NacosException e) {
             log.error("deregister from nacos error", e);
+            return "error";
+        }
+        return "success";
+    }
+
+    @GetMapping(value = "/api/nacos/startup")
+    public String  registerInstance(){
+        String serviceName = nacosDiscoveryProperties.getService();
+        String groupName = nacosDiscoveryProperties.getGroup();
+        String clusterName = nacosDiscoveryProperties.getClusterName();
+
+        String ip = nacosDiscoveryProperties.getIp();
+        int port = nacosDiscoveryProperties.getPort();
+        try {
+            log.info("register from nacos, serviceName:{}, groupName:{}, clusterName:{}, ip:{}, port:{}", serviceName, groupName, clusterName, ip, port);
+            nacosServiceManager.getNamingService(nacosDiscoveryProperties.getNacosProperties()).registerInstance(serviceName, groupName, ip, port, clusterName);
+        } catch (NacosException e) {
+            log.error("register from nacos error", e);
             return "error";
         }
         return "success";

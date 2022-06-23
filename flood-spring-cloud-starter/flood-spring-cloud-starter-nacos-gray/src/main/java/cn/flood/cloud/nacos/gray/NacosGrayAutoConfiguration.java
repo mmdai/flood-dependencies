@@ -1,4 +1,4 @@
-package cn.flood.cloud.nacos.deregister;
+package cn.flood.cloud.nacos.gray;
 
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2022/4/28 15:57
  */
 @AutoConfiguration
-@ComponentScan(basePackages = {"cn.flood.cloud.nacos.deregister.controller"})
-public class NacosDediscoverytAutoConfiguration {
+@ComponentScan(basePackages = {"cn.flood.cloud.nacos.gray.controller"})
+public class NacosGrayAutoConfiguration {
 
 }
