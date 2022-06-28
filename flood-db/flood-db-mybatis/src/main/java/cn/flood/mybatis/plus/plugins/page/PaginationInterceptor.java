@@ -34,9 +34,10 @@ public class PaginationInterceptor implements Interceptor {
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
-        Object target = invocation.getTarget(); //被代理对象
-        Object[] args = invocation.getArgs(); //方法参数
-
+        //被代理对象
+        Object target = invocation.getTarget();
+        //方法参数
+        Object[] args = invocation.getArgs();
         if(target instanceof Executor){
             MappedStatement mappedStatement = (MappedStatement) args[0];
             Object parameterObject = args[1];
@@ -49,7 +50,8 @@ public class PaginationInterceptor implements Interceptor {
             }
 
             if(null == rowBounds || RowBounds.DEFAULT == rowBounds){
-                return invocation.proceed(); // 不用处理分页
+                // 不用处理分页
+                return invocation.proceed();
             }
 
             if(rowBounds instanceof MybatisRowBounds){
@@ -93,14 +95,6 @@ public class PaginationInterceptor implements Interceptor {
                     }
                     return proceed;
                 }finally {
-                    // 取的是当前事务的 connection 不需要在这里关闭
-                    /*if(null != connection){
-                        try {
-                            connection.close();
-                        } catch (Exception e) {
-                            _Logger.debug("分页查询关闭连接错误",e);
-                        }
-                    }*/
                 }
             }
 

@@ -1,6 +1,7 @@
 package cn.flood.mybatis.interceptor;
 
 import com.google.common.base.Stopwatch;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
@@ -41,96 +42,100 @@ public class SqlLogInterceptor implements Interceptor {
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		Statement statement;
-		Object firstArg = invocation.getArgs()[0];
-		if (Proxy.isProxyClass(firstArg.getClass())) {
-			statement = (Statement) SystemMetaObject.forObject(firstArg).getValue("h.statement");
-		} else {
-			statement = (Statement) firstArg;
-		}
-		MetaObject stmtMetaObj = SystemMetaObject.forObject(statement);
-		try {
-			statement = (Statement) stmtMetaObj.getValue("stmt.statement");
-		} catch (Exception e) {
-			// do nothing
-		}
-		if (stmtMetaObj.hasGetter("delegate")) {
-			//Hikari
-			try {
-				statement = (Statement) stmtMetaObj.getValue("delegate");
-			} catch (Exception ignored) {
-
+		Object targetExe = invocation.getTarget();
+		if (targetExe instanceof Executor) {
+			Statement statement;
+			Object firstArg = invocation.getArgs()[0];
+			if (Proxy.isProxyClass(firstArg.getClass())) {
+				statement = (Statement) SystemMetaObject.forObject(firstArg).getValue("h.statement");
+			} else {
+				statement = (Statement) firstArg;
 			}
-		}
-
-		String originalSql = null;
-		String stmtClassName = statement.getClass().getName();
-		if (DRUID_POOLED_PREPARED_STATEMENT.equals(stmtClassName)) {
+			MetaObject stmtMetaObj = SystemMetaObject.forObject(statement);
 			try {
-				if (druidGetSqlMethod == null) {
-					Class<?> clazz = Class.forName(DRUID_POOLED_PREPARED_STATEMENT);
-					druidGetSqlMethod = clazz.getMethod("getSql");
-				}
-				Object stmtSql = druidGetSqlMethod.invoke(statement);
-				if (stmtSql instanceof String) {
-					originalSql = (String) stmtSql;
-				}
+				statement = (Statement) stmtMetaObj.getValue("stmt.statement");
 			} catch (Exception e) {
-				e.printStackTrace();
+				// do nothing
 			}
-		} else if (T4C_PREPARED_STATEMENT.equals(stmtClassName)
-				|| ORACLE_PREPARED_STATEMENT_WRAPPER.equals(stmtClassName)) {
-			try {
-				if (oracleGetOriginalSqlMethod != null) {
-					Object stmtSql = oracleGetOriginalSqlMethod.invoke(statement);
+			if (stmtMetaObj.hasGetter("delegate")) {
+				//Hikari
+				try {
+					statement = (Statement) stmtMetaObj.getValue("delegate");
+				} catch (Exception ignored) {
+
+				}
+			}
+
+			String originalSql = null;
+			String stmtClassName = statement.getClass().getName();
+			if (DRUID_POOLED_PREPARED_STATEMENT.equals(stmtClassName)) {
+				try {
+					if (druidGetSqlMethod == null) {
+						Class<?> clazz = Class.forName(DRUID_POOLED_PREPARED_STATEMENT);
+						druidGetSqlMethod = clazz.getMethod("getSql");
+					}
+					Object stmtSql = druidGetSqlMethod.invoke(statement);
 					if (stmtSql instanceof String) {
 						originalSql = (String) stmtSql;
 					}
-				} else {
-					Class<?> clazz = Class.forName(stmtClassName);
-					oracleGetOriginalSqlMethod = getMethodRegular(clazz, "getOriginalSql");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else if (T4C_PREPARED_STATEMENT.equals(stmtClassName)
+					|| ORACLE_PREPARED_STATEMENT_WRAPPER.equals(stmtClassName)) {
+				try {
 					if (oracleGetOriginalSqlMethod != null) {
-						//OraclePreparedStatementWrapper is not a public class, need set this.
-						oracleGetOriginalSqlMethod.setAccessible(true);
-						if (null != oracleGetOriginalSqlMethod) {
-							Object stmtSql = oracleGetOriginalSqlMethod.invoke(statement);
-							if (stmtSql instanceof String) {
-								originalSql = (String) stmtSql;
+						Object stmtSql = oracleGetOriginalSqlMethod.invoke(statement);
+						if (stmtSql instanceof String) {
+							originalSql = (String) stmtSql;
+						}
+					} else {
+						Class<?> clazz = Class.forName(stmtClassName);
+						oracleGetOriginalSqlMethod = getMethodRegular(clazz, "getOriginalSql");
+						if (oracleGetOriginalSqlMethod != null) {
+							//OraclePreparedStatementWrapper is not a public class, need set this.
+							oracleGetOriginalSqlMethod.setAccessible(true);
+							if (null != oracleGetOriginalSqlMethod) {
+								Object stmtSql = oracleGetOriginalSqlMethod.invoke(statement);
+								if (stmtSql instanceof String) {
+									originalSql = (String) stmtSql;
+								}
 							}
 						}
 					}
+				} catch (Exception e) {
+					//ignore
 				}
-			} catch (Exception e) {
-				//ignore
 			}
-		}
-		if (originalSql == null) {
-			originalSql = statement.toString();
-		}
-		originalSql = originalSql.replaceAll("[\\s]+", " ");
-		int index = indexOfSqlStart(originalSql);
-		if (index > 0) {
-			originalSql = originalSql.substring(index);
-		}
+			if (originalSql == null) {
+				originalSql = statement.toString();
+			}
+			originalSql = originalSql.replaceAll("[\\s]+", " ");
+			int index = indexOfSqlStart(originalSql);
+			if (index > 0) {
+				originalSql = originalSql.substring(index);
+			}
 
-		// 计算执行 SQL 耗时
-		Stopwatch stopwatch = Stopwatch.createStarted();
-		Object result = invocation.proceed();
-		long timing = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
+			// 计算执行 SQL 耗时
+			Stopwatch stopwatch = Stopwatch.createStarted();
+			Object result = invocation.proceed();
+			long timing = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
 
-		// SQL 打印执行结果
-		Object target = realTarget(invocation.getTarget());
-		MetaObject metaObject = SystemMetaObject.forObject(target);
-		MappedStatement ms = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
+			// SQL 打印执行结果
+			Object target = realTarget(invocation.getTarget());
+			MetaObject metaObject = SystemMetaObject.forObject(target);
+			MappedStatement ms = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
 
-		// 打印 sql
-		String sqlLogger = "\n\n==============  Sql Start  ==============" +
-				"\nExecute ID  ：{}" +
-				"\nExecute SQL ：{}" +
-				"\nExecute Time：{} ms" +
-				"\n==============  Sql  End   ==============\n";
-		log.info(sqlLogger, ms.getId(), originalSql, timing);
-		return result;
+			// 打印 sql
+			String sqlLogger = "\n\n==============  Sql Start  ==============" +
+					"\nExecute ID  ：{}" +
+					"\nExecute SQL ：{}" +
+					"\nExecute Time：{} ms" +
+					"\n==============  Sql  End   ==============\n";
+			log.info(sqlLogger, ms.getId(), originalSql, timing);
+			return result;
+		}
+		return invocation.proceed();
 	}
 
 	@Override
