@@ -14,11 +14,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.boot.autoconfigure.MybatisProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,7 +27,7 @@ import org.springframework.util.ObjectUtils;
 
 @AutoConfiguration
 @ComponentScan(basePackages = {"cn.flood.datasource.aop.impl"})
-@ConditionalOnClass(DataSource.class)
+@AutoConfigureBefore(DataSource.class)
 @EnableConfigurationProperties({
 		MybatisProperties.class
 })
@@ -36,21 +35,18 @@ public class SqlSessionFactorySpring {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-//	/**
-//	 * 配置mapper的扫描，找到所有的mapper.xml映射文件
-//	 */
-//	@Value("${mybatis.mapper-locations:classpath*:/mapper/**/*Mapper.xml}")
-//	private String mapperLocations;
-
 	/**
 	 * 加载全局的配置文件
 	 */
 	@Value("${mybatis.config-location:classpath:/mybatis-config.xml}")  
 	private String configLocation;
 
-	@Autowired
-	private MybatisProperties mybatisProperties;
-	
+	private final MybatisProperties mybatisProperties;
+
+	public SqlSessionFactorySpring(MybatisProperties mybatisProperties) {
+		this.mybatisProperties = mybatisProperties;
+	}
+
 	@Bean(name = "sqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource)
             throws Exception {
@@ -86,12 +82,22 @@ public class SqlSessionFactorySpring {
         }
     }
 
+	/**
+	 *
+	 * @param sqlSessionFactory
+	 * @return
+	 */
 	@Bean
 	public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
-	
-	@Bean // 将数据源纳入spring事物管理
+
+	/**
+	 * 将数据源纳入spring事物管理
+	 * @param dataSource
+	 * @return
+	 */
+	@Bean
     public DataSourceTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }

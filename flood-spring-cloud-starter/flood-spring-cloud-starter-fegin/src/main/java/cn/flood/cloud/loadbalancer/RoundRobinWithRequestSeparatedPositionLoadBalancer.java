@@ -23,9 +23,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-//一定必须是实现ReactorServiceInstanceLoadBalancer
-//而不是ReactorLoadBalancer<ServiceInstance>
-//因为注册的时候是ReactorServiceInstanceLoadBalancer
+
+/**
+ * 一定必须是实现ReactorServiceInstanceLoadBalancer
+ * 而不是ReactorLoadBalancer<ServiceInstance>
+ * 因为注册的时候是ReactorServiceInstanceLoadBalancer
+ * @author mmdai
+ */
 public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements ReactorServiceInstanceLoadBalancer  {
 
     private Logger log =  LoggerFactory.getLogger(this.getClass());

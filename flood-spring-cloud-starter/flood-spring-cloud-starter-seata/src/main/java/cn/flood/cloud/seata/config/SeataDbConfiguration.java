@@ -28,8 +28,8 @@ public class SeataDbConfiguration implements InitializingBean {
 
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    public DataSource dataSource;
+    @Autowired(required = false)
+    private DataSource dataSource;
     /**
      * seata1.4.2之后，需要回滚的表日期类型不能使用datetime，可以使用timestamp
      */
@@ -77,15 +77,17 @@ public class SeataDbConfiguration implements InitializingBean {
      */
     @Override
     public void afterPropertiesSet() throws Exception {
-        try {
-            dataSource.getConnection().prepareStatement(AT_UNDO_LOG_SQL).execute();
-        } catch (SQLException e) {
-            log.error("创建[seata] undo_log表错误。", e);
-        }
-        try {
-            dataSource.getConnection().prepareStatement(TCC_FENCE_SQL).execute();
-        } catch (SQLException e) {
-            log.error("创建[seata] tcc_fence_log表错误。", e);
+        if(null != dataSource){
+            try {
+                dataSource.getConnection().prepareStatement(AT_UNDO_LOG_SQL).execute();
+            } catch (SQLException e) {
+                log.error("创建[seata] undo_log表错误。", e);
+            }
+            try {
+                dataSource.getConnection().prepareStatement(TCC_FENCE_SQL).execute();
+            } catch (SQLException e) {
+                log.error("创建[seata] tcc_fence_log表错误。", e);
+            }
         }
     }
 

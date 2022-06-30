@@ -25,6 +25,7 @@ import static feign.Util.checkNotNull;
 /**
  * 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelInvocationHandler} 适配最新API
  *
+ * @author mmdai
  */
 public class FloodSentinelInvocationHandler implements InvocationHandler {
 

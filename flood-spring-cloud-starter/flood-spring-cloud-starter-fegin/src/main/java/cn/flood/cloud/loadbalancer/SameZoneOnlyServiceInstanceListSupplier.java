@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * 只返回与当前实例同一个 Zone 的服务实例，不同 zone 之间的服务不互相调用
+ * @author mmdai
  */
 public class SameZoneOnlyServiceInstanceListSupplier extends DelegatingServiceInstanceListSupplier {
 
