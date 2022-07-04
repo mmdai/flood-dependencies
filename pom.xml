@@ -25,7 +25,7 @@
 	  <!-- nacos -->
 	  <nacos.version>2.1.0</nacos.version>
 	  <!-- seata -->
-	  <seata.version>1.4.2</seata.version>
+	  <seata.version>1.5.1.1</seata.version>
 	  <!-- flood 版本 -->
 	  <flood.version>2.7.1.0-SNAPSHOT</flood.version>
 	  <!-- log -->
@@ -187,6 +187,21 @@
 		    <version>${spring-cloud-alibaba-dependencies.version}</version>
 		    <type>pom</type>
 		    <scope>import</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>seata-spring-boot-starter</artifactId>
+					<groupId>io.seata</groupId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.alibaba.cloud</groupId>
+					<artifactId>spring-cloud-starter-alibaba-seata</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-spring-boot-starter</artifactId>
+			<version>${seata.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.spring.platform</groupId>
