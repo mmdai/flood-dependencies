@@ -82,9 +82,12 @@ public class JdbcResultHolder implements ResultHolder {
      */
     private List<Object> getFieldsForUpdate(String actionClass, String xid, String context) {
         List<Object> objects = new ArrayList();
-        objects.add(actionClass);  // 类名
-        objects.add(xid);  // xid
-        objects.add(context);  // TCC信息
+        // 类名
+        objects.add(actionClass);
+        // xid
+        objects.add(xid);
+        // TCC信息
+        objects.add(context);
         return objects;
     }
 
