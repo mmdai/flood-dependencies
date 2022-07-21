@@ -25,7 +25,7 @@
 	  <!-- nacos -->
 	  <nacos.version>2.1.0</nacos.version>
 	  <!-- seata -->
-	  <seata.version>1.5.1.1</seata.version>
+	  <seata.version>1.5.2</seata.version>
 	  <!-- flood 版本 -->
 	  <flood.version>2.7.1.0-SNAPSHOT</flood.version>
 	  <!-- log -->
