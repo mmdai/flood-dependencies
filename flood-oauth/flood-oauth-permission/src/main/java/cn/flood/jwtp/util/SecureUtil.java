@@ -189,7 +189,8 @@ public class SecureUtil {
                     String userId = subjects[2];
                     // 检查token是否存在系统中
                     userToken = tokenStore.findToken(PlatformEnum.valueOfEnum(type), tenantId, userId, access_token);
-                    if (userToken != null) {  // 查询用户的角色和权限
+                    // 查询用户的角色和权限
+                    if (userToken != null) {
                         userToken.setRoles(tokenStore.findRolesByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, userToken));
                         userToken.setPermissions(tokenStore.findPermissionsByUserId(PlatformEnum.valueOfEnum(type), tenantId, userId, userToken));
                     }

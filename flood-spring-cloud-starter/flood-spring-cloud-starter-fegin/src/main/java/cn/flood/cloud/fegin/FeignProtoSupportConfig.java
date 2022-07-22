@@ -30,20 +30,28 @@ public class FeignProtoSupportConfig {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private static final String PROTO_TYPE = "prototype";
-    //Autowire the message converters.
+    /**
+     * Autowire the message converters.
+     */
     @Autowired
     private ObjectFactory<HttpMessageConverters> messageConverters;
     @Autowired
     private ObjectProvider<HttpMessageConverterCustomizer> customizers;
 
-    //override the encoder
+    /**
+     * override the encoder
+     * @return
+     */
     @Bean
     @Primary
     public Encoder springEncoder(){
         return new SpringEncoder(this.messageConverters);
     }
 
-    //override the encoder
+    /**
+     * override the encoder
+     * @return
+     */
     @Bean
     public Decoder springDecoder(){
         return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters, customizers));

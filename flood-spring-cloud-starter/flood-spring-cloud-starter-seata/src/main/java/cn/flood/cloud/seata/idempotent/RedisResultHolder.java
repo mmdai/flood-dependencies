@@ -11,8 +11,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisResultHolder implements ResultHolder {
 
     private final RedisTemplate redisTemplate;
-
-    private static final String KEY_SEATA_KEY = "seata_tcc:";  //seata-tcc 存储key
+    //seata-tcc 存储key
+    private static final String KEY_SEATA_KEY = "seata_tcc:";
 
     /**
      *

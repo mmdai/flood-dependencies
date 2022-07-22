@@ -16,10 +16,12 @@ public interface LogAspect {
      */
     default String before(ProceedingJoinPoint joinPoint){
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        String[] paramNames = methodSignature.getParameterNames();// 参数名
+        // 参数名
+        String[] paramNames = methodSignature.getParameterNames();
         Map<String, Object> params = null;
         if (paramNames != null && paramNames.length > 0) {
-            Object[] args = joinPoint.getArgs();// 参数值
+            // 参数值
+            Object[] args = joinPoint.getArgs();
             params = new HashMap<>();
             for (int i = 0; i < paramNames.length; i++) {
                 if(paramNames[i] instanceof Serializable){

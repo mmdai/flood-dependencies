@@ -53,9 +53,12 @@ public class FloodPermissionClientConfiguration implements WebMvcConfigurer, App
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        UrlPerm urlPerm = getBean(UrlPerm.class);  // 获取UrlPerm
-        String[] path = properties.getPath();  // 获取拦截路径
-        String[] excludePath = properties.getExcludePath();  // 获取排除路径
+        // 获取UrlPerm
+        UrlPerm urlPerm = getBean(UrlPerm.class);
+        // 获取拦截路径
+        String[] path = properties.getPath();
+        // 获取排除路径
+        String[] excludePath = properties.getExcludePath();
         ClientInterceptor interceptor = new ClientInterceptor(properties.getAuthCenterUrl(), urlPerm, restTemplate);
         registry.addInterceptor(interceptor).addPathPatterns(path).excludePathPatterns(excludePath);
         TenantInterceptor tenantInterceptor = new TenantInterceptor();

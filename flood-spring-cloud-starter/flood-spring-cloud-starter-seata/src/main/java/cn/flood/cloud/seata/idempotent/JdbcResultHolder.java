@@ -18,16 +18,24 @@ import java.util.List;
 public class JdbcResultHolder implements ResultHolder {
 
     private final JdbcTemplate jdbcTemplate;
-    // sql
+    /**
+     * sql
+     */
     private static final String UPDATE_FIELDS = "action_class, xid, context";
 
-    // 插入
+    /**
+     * 插入
+     */
     private static final String SQL_INSERT = "insert into seata_tcc (" + UPDATE_FIELDS + ") values (?, ?, ?) ";
 
-    // 删除
+    /**
+     * 删除
+     */
     private static final String SQL_DELETE_BY_XID = "delete from seata_tcc where action_class = ? and xid = ? ";
 
-    // 查询
+    /**
+     * 查询
+     */
     private static final String SQL_SELECT_BY_XID = "select count(1) from seata_tcc where action_class = ? and xid = ? ";
 
 

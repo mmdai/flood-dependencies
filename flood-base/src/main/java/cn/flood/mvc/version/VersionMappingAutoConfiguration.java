@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Bean;
  *
  * 参考：https://gitee.com/lianqu1990/spring-boot-starter-version-mapping
  *
+ * @author mmdai
  */
 @AutoConfiguration
 @ConditionalOnWebApplication

@@ -28,7 +28,8 @@ public class CheckPermissionUtil {
      */
     public static boolean checkIgnore(Method method) {
         Ignore annotation = method.getAnnotation(Ignore.class);
-        if (annotation == null) {  // 方法上没有注解再检查类上面有没有注解
+        // 方法上没有注解再检查类上面有没有注解
+        if (annotation == null) {
             annotation = method.getDeclaringClass().getAnnotation(Ignore.class);
             if (annotation == null) {
                 return false;
@@ -44,7 +45,8 @@ public class CheckPermissionUtil {
      */
     public static boolean checkToken(Method method) {
         RequiresToken annotation = method.getAnnotation(RequiresToken.class);
-        if (annotation == null) {  // 方法上没有注解再检查类上面有没有注解
+        // 方法上没有注解再检查类上面有没有注解
+        if (annotation == null) {
             annotation = method.getDeclaringClass().getAnnotation(RequiresToken.class);
             if (annotation == null) {
                 return false;
@@ -59,7 +61,8 @@ public class CheckPermissionUtil {
     public static boolean checkPermission(UserToken userToken, HttpServletRequest request, HttpServletResponse response, Object handler, UrlPerm urlPerm) {
         Method method = ((HandlerMethod) handler).getMethod();
         RequiresPermissions annotation = method.getAnnotation(RequiresPermissions.class);
-        if (annotation == null) {  // 方法上没有注解再检查类上面有没有注解
+        // 方法上没有注解再检查类上面有没有注解
+        if (annotation == null) {
             annotation = method.getDeclaringClass().getAnnotation(RequiresPermissions.class);
         }
         String[] requiresPermissions;
@@ -83,7 +86,8 @@ public class CheckPermissionUtil {
     public static boolean checkRole(UserToken userToken, HttpServletRequest request, HttpServletResponse response, Object handler, UrlPerm urlPerm) {
         Method method = ((HandlerMethod) handler).getMethod();
         RequiresRoles annotation = method.getAnnotation(RequiresRoles.class);
-        if (annotation == null) {  // 方法上没有注解再检查类上面有没有注解
+        // 方法上没有注解再检查类上面有没有注解
+        if (annotation == null) {
             annotation = method.getDeclaringClass().getAnnotation(RequiresRoles.class);
         }
         String[] requiresRoles;

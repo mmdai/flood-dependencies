@@ -19,14 +19,14 @@ import org.slf4j.LoggerFactory;
 public abstract class TokenStoreAbstract implements TokenStore {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private Integer maxToken = -1;  // 单个用户最大的token数量
-
-    private String findRolesSql;  // 查询用户角色的sql
-
-    private String findPermissionsSql;  // 查询用户权限的sql
-
-    public static String mTokenKey;  // 生成token用的Key
+    // 单个用户最大的token数量
+    private Integer maxToken = -1;
+    // 查询用户角色的sql
+    private String findRolesSql;
+    // 查询用户权限的sql
+    private String findPermissionsSql;
+    // 生成token用的Key
+    public static String mTokenKey;
 
     /**
      *

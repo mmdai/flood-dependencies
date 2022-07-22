@@ -17,8 +17,16 @@ public class ErrorMessage implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5276841118425404723L;
-	//错误码
+	/**
+	 * 错误码
+	 */
 	private String _code;
+
+	/**
+	 * 错误信息说明，实际从message.properties中翻译
+	 */
+	private String _msg;
+
 
 	public String get_code() {
 		return _code;
@@ -35,8 +43,4 @@ public class ErrorMessage implements Serializable {
 	public void set_msg(String _msg) {
 		this._msg = _msg;
 	}
-
-	//错误信息说明，实际从message.properties中翻译
-	private String _msg;
-	
 }

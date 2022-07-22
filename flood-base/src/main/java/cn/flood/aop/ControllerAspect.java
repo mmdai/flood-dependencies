@@ -32,7 +32,6 @@ public class ControllerAspect implements LogAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//	@Pointcut("execution(* cn..*.*.controller..*.*(..))")
 	@Pointcut(
 			"@within(org.springframework.web.bind.annotation.RestController))"
 	)

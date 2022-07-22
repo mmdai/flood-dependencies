@@ -27,7 +27,8 @@ public class ServiceAspect implements LogAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//	@Pointcut("execution(* cn..*.*.service..*.*(..))")
+	private static final String CREATE = "create";
+
 	@Pointcut(
 			"@within(org.springframework.stereotype.Service))"
 	)
@@ -39,7 +40,7 @@ public class ServiceAspect implements LogAspect {
 	public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		String methodName = joinPoint.getSignature().getName();
-		if("create".equalsIgnoreCase(methodName)){
+		if(CREATE.equalsIgnoreCase(methodName)){
 			return joinPoint.proceed();
 		}
 		logger.info("【service】【{}】 start", methodName);

@@ -12,6 +12,9 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author mmdai
+ */
 public class LocaleParser {
 
     private static final Pattern KEY_WORD_PATTERN = Pattern.compile("\\{&.*?}");

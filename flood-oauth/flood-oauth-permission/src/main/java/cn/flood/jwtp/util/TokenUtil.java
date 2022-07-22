@@ -26,10 +26,13 @@ import java.util.Date;
  * <p>
  */
 public class TokenUtil {
-    public static final long DEFAULT_EXPIRE = 2 * 60 * 60;  // 默认token过期时长,单位秒(2h)
-    public static final long DEFAULT_EXPIRE_REFRESH_TOKEN = 60 * 60 * 24 * 30;  // 默认refresh_token过期时长,单位秒(30天)
+    // 默认token过期时长,单位秒(2h)
+    public static final long DEFAULT_EXPIRE = 2 * 60 * 60;
+    // 默认refresh_token过期时长,单位秒(30天)
+    public static final long DEFAULT_EXPIRE_REFRESH_TOKEN = 60 * 60 * 24 * 30;
 
-    public static final String PREFIX = "Bearer ";//默认头
+    //默认头
+    public static final String PREFIX = "Bearer ";
 
     public static final String CAPTCHA_HEADER_KEY = "captcha_key";
 

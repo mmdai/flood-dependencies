@@ -35,8 +35,10 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
     private Logger log =  LoggerFactory.getLogger(this.getClass());
 
     private final ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplier;
-    //每次请求算上重试不会超过1分钟
-    //对于超过1分钟的，这种请求肯定比较重，不应该重试
+    /**
+     * 每次请求算上重试不会超过1分钟
+     * 对于超过1分钟的，这种请求肯定比较重，不应该重试
+     */
     private final LoadingCache<Long, AtomicInteger> positionCache = Caffeine.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES)
             //随机初始值，防止每次都是从第一个开始调用
             .build(k -> new AtomicInteger(ThreadLocalRandom.current().nextInt(0, 1000)));

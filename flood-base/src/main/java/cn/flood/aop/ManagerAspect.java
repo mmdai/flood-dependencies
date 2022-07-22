@@ -26,7 +26,6 @@ public class ManagerAspect implements LogAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//	@Pointcut("execution(* cn..*.*.manager..*.*(..))")
 	@Pointcut(
 			"@within(org.springframework.stereotype.Component))"
 	)
@@ -39,14 +38,14 @@ public class ManagerAspect implements LogAspect {
 		Stopwatch stopwatch = Stopwatch.createStarted();
 		String methodName = joinPoint.getSignature().getName();
 		logger.info("【manager】【{}】 start", methodName);
-		if (logger.isDebugEnabled()) {
-			logger.debug("【manager】【{}】【{}】", methodName, before(joinPoint));
-		}
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("【manager】【{}】【{}】", methodName, before(joinPoint));
+//		}
 
 		Object result = joinPoint.proceed();
-		if (logger.isDebugEnabled()) {
-			logger.debug("【manager】【{}】【{}】", methodName, after(result));
-		}
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("【manager】【{}】【{}】", methodName, after(result));
+//		}
 		logger.info("【manager】【{}】 end,cost【{}ms】", methodName, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
 		return result;
 	}
