@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * url自动对应权限 - RESTful模式
+ * @author mmdai
  */
 public class RestUrlPerm implements UrlPerm {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());

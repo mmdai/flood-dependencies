@@ -4,6 +4,9 @@ import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
+/**
+ * @author mmdai
+ */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE})
 @Documented

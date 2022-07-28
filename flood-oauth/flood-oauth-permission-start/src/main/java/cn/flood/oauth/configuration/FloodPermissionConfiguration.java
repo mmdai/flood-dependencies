@@ -96,7 +96,8 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        TokenStore tokenStore = getBean(TokenStore.class);  // 获取TokenStore
+        // 获取TokenStore
+        TokenStore tokenStore = getBean(TokenStore.class);
         // 给TokenStore添加配置参数
         if (tokenStore != null) {
             tokenStore.setMaxToken(properties.getMaxToken());
@@ -105,9 +106,12 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
         } else {
             logger.error("JWTP: Unknown TokenStore");
         }
-        UrlPerm urlPerm = getBean(UrlPerm.class);  // 获取UrlPerm
-        String[] path = properties.getPath();  // 获取拦截路径
-        String[] excludePath = properties.getExcludePath();  // 获取排除路径
+        // 获取UrlPerm
+        UrlPerm urlPerm = getBean(UrlPerm.class);
+        // 获取拦截路径
+        String[] path = properties.getPath();
+        // 获取排除路径
+        String[] excludePath = properties.getExcludePath();
         TokenInterceptor interceptor = new TokenInterceptor(tokenStore, urlPerm);
         registry.addInterceptor(interceptor).addPathPatterns(path).excludePathPatterns(excludePath);
         TenantInterceptor tenantInterceptor = new TenantInterceptor();
@@ -120,7 +124,10 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
         this.applicationContext = applicationContext;
     }
 
-    /* 配置内容裁决的一些选项*/
+    /**
+     * 配置内容裁决的一些选项
+     * @param contentNegotiationConfigurer
+     */
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer contentNegotiationConfigurer) {
 
@@ -131,7 +138,10 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
 
     }
 
-    /* 默认静态资源处理器 */
+    /**
+     * 默认静态资源处理器
+     * @param defaultServletHandlerConfigurer
+     */
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer defaultServletHandlerConfigurer) {
 
@@ -165,7 +175,10 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
         return resolver;
     }
 
-    /** 解决跨域问题 **/
+    /**
+     * 解决跨域问题
+     * @param corsRegistry
+     */
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
 //        corsRegistry.addMapping("/**").allowedOriginPatterns(CorsConfiguration.ALL)
@@ -175,7 +188,10 @@ public class FloodPermissionConfiguration implements WebMvcConfigurer, Applicati
 //                .exposedHeaders(HttpHeaders.SET_COOKIE).maxAge(3600L);
     }
 
-    /* 视图跳转控制器 */
+    /**
+     * 视图跳转控制器
+     * @param viewControllerRegistry
+     */
     @Override
     public void addViewControllers(ViewControllerRegistry viewControllerRegistry) {
         viewControllerRegistry.addViewController("/")

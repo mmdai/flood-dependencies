@@ -8,6 +8,7 @@ import java.lang.annotation.*;
 
 /**
  * 开启自动配置
+ * @author mmdai
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE})

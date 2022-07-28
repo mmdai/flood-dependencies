@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 权限判断注解
+ * @author mmdai
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

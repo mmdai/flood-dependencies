@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * url自动对应权限接口
+ * @author mmdai
  */
 public interface UrlPerm {
 

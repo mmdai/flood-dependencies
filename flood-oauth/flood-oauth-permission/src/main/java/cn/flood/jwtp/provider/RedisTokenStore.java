@@ -23,20 +23,34 @@ import java.util.concurrent.TimeUnit;
  * redis存储token的实现
  */
 public class RedisTokenStore extends TokenStoreAbstract {
-
-    private static final String KEY_TOKEN_KEY = "oauth_token_key";  //tokenKey存储的key
-
-    private static final String KEY_PRE_TOKEN = "flood:oauth_token:";  //token存储的key前缀
-
-    private static final String KEY_PRE_REFRESH_TOKEN = "flood:oauth_refresh_token:";  //refresh_token存储的key前缀
-
-    private static final String KEY_PRE_ROLE = "flood:oauth_role:";  //角色存储的key前缀
-
-    private static final String KEY_PRE_PERM = "flood:oauth_prem:";  //权限存储的key前缀
-
-    private static final String KEY_PRE_INFO = "flood:oauth_info:";  //信息存储的key前缀
-
-    private static final TimeUnit timeUnit = TimeUnit.SECONDS; //redis过期单位
+    /**
+     * tokenKey存储的key
+     */
+    private static final String KEY_TOKEN_KEY = "oauth_token_key";
+    /**
+     * token存储的key前缀
+     */
+    private static final String KEY_PRE_TOKEN = "flood:oauth_token:";
+    /**
+     * refresh_token存储的key前缀
+     */
+    private static final String KEY_PRE_REFRESH_TOKEN = "flood:oauth_refresh_token:";
+    /**
+     * 角色存储的key前缀
+     */
+    private static final String KEY_PRE_ROLE = "flood:oauth_role:";
+    /**
+     * 权限存储的key前缀
+     */
+    private static final String KEY_PRE_PERM = "flood:oauth_prem:";
+    /**
+     * 信息存储的key前缀
+     */
+    private static final String KEY_PRE_INFO = "flood:oauth_info:";
+    /**
+     * redis过期单位
+     */
+    private static final TimeUnit timeUnit = TimeUnit.SECONDS;
 
     private final StringRedisTemplate redisTemplate;
 

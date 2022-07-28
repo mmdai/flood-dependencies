@@ -4,6 +4,7 @@ import cn.flood.jwtp.annotation.Logical;
 
 /**
  * url自动对应权限接口的返回结果封装
+ * @author mmdai
  */
 public class UrlPermResult {
 

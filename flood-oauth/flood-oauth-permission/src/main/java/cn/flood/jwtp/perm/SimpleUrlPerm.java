@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * url自动对应权限 - 简易模式
+ * @author mmdai
  */
 public class SimpleUrlPerm implements UrlPerm {
 
