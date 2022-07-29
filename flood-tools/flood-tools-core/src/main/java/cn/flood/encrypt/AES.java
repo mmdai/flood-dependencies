@@ -59,8 +59,8 @@ public class AES {
 	 * @return
 	 */
 	public static String ebotongEncrypto(String str) {
-		String result = str;
 		if (str != null && str.length() > 0) {
+			String result = str;
 			try {
 				byte[] encodeByte = str.getBytes(ENCODING);
 				//阿里巴巴
@@ -69,9 +69,10 @@ public class AES {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			//base64加密超过一定长度会自动换行 需要去除换行符
+			return result.replace("\r\n", "").replace("\r", "").replace("\n", "");
 		}
-		//base64加密超过一定长度会自动换行 需要去除换行符
-		return result.replaceAll("\r\n", "").replaceAll("\r", "").replaceAll("\n", "");
+		return null;
 	}
 	/**
 	 * 
@@ -108,12 +109,15 @@ public class AES {
 			kgen.init(256, secureRandom);
 			SecretKey secretKey = kgen.generateKey();   
 			byte[] enCodeFormat = secretKey.getEncoded();   
-			SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");   
-			Cipher cipher = Cipher.getInstance("AES");// 创建密码器   
-			byte[] byteContent = content.getBytes("utf-8");   
-			cipher.init(Cipher.ENCRYPT_MODE, key);// 初始化   
-			byte[] result = cipher.doFinal(byteContent);   
-			return result; // 加密   
+			SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+			// 创建密码器
+			Cipher cipher = Cipher.getInstance("AES");
+			byte[] byteContent = content.getBytes("utf-8");
+			// 初始化
+			cipher.init(Cipher.ENCRYPT_MODE, key);
+			byte[] result = cipher.doFinal(byteContent);
+			// 加密
+			return result;
 		} catch (NoSuchAlgorithmException e) {   
 			e.printStackTrace();   
 		} catch (NoSuchPaddingException e) {   
@@ -127,7 +131,7 @@ public class AES {
 		} catch (BadPaddingException e) {   
 			e.printStackTrace();   
 		}   
-		return null;   
+		return new byte[0];
 	}  
 	/**
 	 * 
@@ -145,11 +149,14 @@ public class AES {
 			kgen.init(256, secureRandom);
 			SecretKey secretKey = kgen.generateKey();   
 			byte[] enCodeFormat = secretKey.getEncoded();   
-			SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");               
-			Cipher cipher = Cipher.getInstance("AES");// 创建密码器   
-			cipher.init(Cipher.DECRYPT_MODE, key);// 初始化   
-			byte[] result = cipher.doFinal(content);   
-			return result; // 加密   
+			SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
+			// 创建密码器
+			Cipher cipher = Cipher.getInstance("AES");
+			// 初始化
+			cipher.init(Cipher.DECRYPT_MODE, key);
+			byte[] result = cipher.doFinal(content);
+			// 加密
+			return result;
 		} catch (NoSuchAlgorithmException e) {   
 			e.printStackTrace();   
 		} catch (NoSuchPaddingException e) {   
@@ -161,7 +168,7 @@ public class AES {
 		} catch (BadPaddingException e) {   
 			e.printStackTrace();   
 		}   
-		return null;   
+		return new byte[0];
 	}  
 	/**
 	 * 

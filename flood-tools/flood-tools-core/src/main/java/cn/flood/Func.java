@@ -26,6 +26,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.method.HandlerMethod;
 
@@ -341,7 +342,7 @@ public class Func {
 	 * @return {@code true} if found, {@code false} otherwise
 	 */
 	public static boolean contains(@Nullable Iterator<?> iterator, Object element) {
-		return CollectionUtil.contains(iterator, element);
+		return CollectionUtils.contains(iterator, element);
 	}
 
 	/**
