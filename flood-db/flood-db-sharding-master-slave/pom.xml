@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>flood-db-sharding-rw</artifactId>
+    <artifactId>flood-db-sharding-master-slave</artifactId>
 
     <dependencies>
 

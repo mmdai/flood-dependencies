@@ -18,9 +18,9 @@
         <!-- 基础mongodb -->
         <module>flood-db-mongodb</module>
         <!-- 基础sharding-jdbc (分库分表)-->
-        <module>flood-db-sharding</module>
+        <module>flood-db-sharding-sphere</module>
         <!-- 基础sharding-jdbc (读写分离)-->
-        <module>flood-db-sharding-rw</module>
+        <module>flood-db-sharding-master-slave</module>
         <!-- redis -->
         <module>flood-db-redis-spring</module>
         <!--lock 基于redisson-->

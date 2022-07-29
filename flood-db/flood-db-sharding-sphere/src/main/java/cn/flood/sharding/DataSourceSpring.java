@@ -3,8 +3,7 @@ package cn.flood.sharding;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -12,11 +11,11 @@ import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.List;
 
-
-@AutoConfiguration
-@EnableConfigurationProperties(value= {MultiDataSourceRegister.class})
+/**
+ * @author mmdai
+ */
+@AutoConfigureBefore(value= {MultiDataSourceRegister.class})
 @SuppressWarnings("unchecked")
 public class DataSourceSpring extends AbstractDataSourceConfig {
 	
