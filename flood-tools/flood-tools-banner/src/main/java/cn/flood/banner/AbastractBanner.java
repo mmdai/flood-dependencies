@@ -77,7 +77,7 @@ public class AbastractBanner implements Banner {
 
             return formatter.toString();
 		} catch (Exception e) {
-			logger.error("{}", e.getLocalizedMessage());
+			logger.error("error {}", e);
             return "Flood Framework Version: " + SpringBootVersion.getVersion();
 		}
     }

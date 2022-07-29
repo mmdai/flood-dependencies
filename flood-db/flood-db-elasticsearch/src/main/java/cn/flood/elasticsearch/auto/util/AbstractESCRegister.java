@@ -42,8 +42,8 @@ public abstract class AbstractESCRegister {
             //生成beanname
             String beanName = beanClassName.substring(beanClassName.lastIndexOf(".") + 1);
             if(EnableESTools.isPrintregmsg()){
-                logger.info("generate ESCRegistrar beanClassName:" + beanClassName);
-                logger.info("generate ESCRegistrar beanName:" + beanName);
+                logger.info("generate ESCRegistrar beanClassName: {}" , beanClassName);
+                logger.info("generate ESCRegistrar beanName: {}", beanName);
             }
             BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) factory;
             //注册bean  beanName是代理bean的名字
@@ -76,7 +76,7 @@ public abstract class AbstractESCRegister {
      * scanner interface ESCRepository
      */
     private static class ESCRepositoryComponentProvider extends ClassPathScanningCandidateComponentProvider {
-        private BeanDefinitionRegistry registry;
+//        private BeanDefinitionRegistry registry;
 
         public ESCRepositoryComponentProvider(BeanDefinitionRegistry registry) {
             super(false);

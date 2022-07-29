@@ -1,5 +1,6 @@
 package cn.flood.sharding;
 
+import cn.flood.exception.CoreException;
 import cn.flood.sharding.properties.TableRuleProperties;
 import com.alibaba.druid.pool.DruidDataSource;
 
@@ -96,7 +97,7 @@ public abstract class AbstractDataSourceConfig {
             Class<?> algorithmClass = Class.forName(shardingAlgorithm);
             return (ComplexKeysShardingAlgorithm<Comparable<?>>) algorithmClass.newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("build shardingAlgorithm instance error");
+            throw new CoreException("build shardingAlgorithm instance error");
         }
     }
 
