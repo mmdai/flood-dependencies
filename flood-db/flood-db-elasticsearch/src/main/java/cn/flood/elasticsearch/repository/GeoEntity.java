@@ -40,4 +40,8 @@ public class GeoEntity {
         this.lon = lon;
     }
 
+    public GeoEntity(){
+
+    }
+
 }

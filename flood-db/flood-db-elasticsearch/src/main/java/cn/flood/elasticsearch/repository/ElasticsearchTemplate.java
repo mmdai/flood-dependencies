@@ -210,6 +210,16 @@ public interface ElasticsearchTemplate<T,M> {
      */
     String queryBySQL(String sql, SqlFormat sqlFormat) throws Exception;
 
+
+    /**
+     * 通过sql进行查询
+     * @param sql sql脚本（支持mysql语法）
+     * @param clazz 索引pojo类类型
+     * @return
+     * @throws Exception
+     */
+    List<T> queryBySQL(String sql, Class<T> clazz) throws Exception;
+
     /**
      * 查询数量
      * @param queryBuilder 查询条件

@@ -32,6 +32,7 @@ public class MetaData{
     private boolean autoCreateIndex;
     private long maxResultWindow;
     private String settingsPath;
+    private boolean isScore;
 
     public MetaData(String indexname, String indextype) {
         this.indexname = indexname;
@@ -198,5 +199,13 @@ public class MetaData{
 
     public void setSettingsPath(String settingsPath) {
         this.settingsPath = settingsPath;
+    }
+
+    public boolean getIsScore() {
+        return isScore;
+    }
+
+    public void setIsScore(boolean score) {
+        isScore = score;
     }
 }

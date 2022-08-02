@@ -1,14 +1,13 @@
 package cn.flood.elasticsearch.util;
 
-import cn.flood.elasticsearch.properties.ElasticsearchProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import cn.flood.elasticsearch.annotation.ESID;
 import cn.flood.elasticsearch.annotation.ESMapping;
 import cn.flood.elasticsearch.annotation.ESMetaData;
+import cn.flood.elasticsearch.properties.ElasticsearchProperties;
 import cn.flood.elasticsearch.enums.DataType;
 
 import java.lang.reflect.Field;
@@ -129,6 +128,7 @@ public class IndexTools {
             metaData.setMaxResultWindow(clazz.getAnnotation(ESMetaData.class).maxResultWindow());
             metaData.setAutoRollover(clazz.getAnnotation(ESMetaData.class).autoRollover());
             metaData.setAutoCreateIndex(clazz.getAnnotation(ESMetaData.class).autoCreateIndex());
+            metaData.setIsScore(clazz.getAnnotation(ESMetaData.class).isScore());
             if(ObjectUtils.isEmpty(clazz.getAnnotation(ESMetaData.class).settingsPath())){
                 metaData.setSettingsPath(metaData.getIndexname()+".essettings");
             }else{
@@ -166,7 +166,7 @@ public class IndexTools {
             }
             mappingData.setNgram(esMapping.ngram());
             mappingData.setIgnore_above(esMapping.ignore_above());
-            if ("text".equals(mappingData.getDatatype())) {
+            if (mappingData.getDatatype().equals("text")) {
                 mappingData.setKeyword(esMapping.keyword());
             } else {
                 mappingData.setKeyword(false);
@@ -184,13 +184,9 @@ public class IndexTools {
                 if (formats != null) {
                     List<String> list = new CopyOnWriteArrayList<>(formats);
                     list.forEach(s -> {
-                        if (ObjectUtils.isEmpty(s)) {
-                            list.remove(s);
-                        }
+                        if (ObjectUtils.isEmpty(s)) list.remove(s);
                     });
-                    if (!CollectionUtils.isEmpty(list)) {
-                        mappingData.setDateFormat(list);
-                    }
+                    if (!CollectionUtils.isEmpty(list)) mappingData.setDateFormat(list);
                 }
             }
             mappingData.setNormalizer(esMapping.normalizer());
@@ -247,7 +243,7 @@ public class IndexTools {
         Field[] fields = clazz.getDeclaredFields();
         MappingData[] mappingDataList = new MappingData[fields.length];
         for (int i = 0; i < fields.length; i++) {
-            if ("serialVersionUID".equals(fields[i].getName())) {
+            if (fields[i].getName().equals("serialVersionUID")) {
                 continue;
             }
             mappingDataList[i] = getMappingData(fields[i]);

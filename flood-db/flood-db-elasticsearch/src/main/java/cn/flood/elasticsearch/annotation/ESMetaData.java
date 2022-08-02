@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * program: esdemo
  * description: es索引元数据的注解，在es entity class上添加
- * author: X-Pacific zhang
  * create: 2019-01-18 16:12
- **/
+ *
+ * @author mmdai*/
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Documented
@@ -161,4 +161,10 @@ public @interface ESMetaData {
      * settings个性配置路径，如果不配置则到构建路径寻找与indexName一样后缀为essetting的文件
      */
     String settingsPath() default "";
+
+    /**
+     * 查询的时候，是否需要在实体类中填充匹配率参数，一定要是Float类型
+     * true :自动填充
+     */
+    boolean isScore() default false;
 }
