@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
  * @author
  */
 public class OrderDbShardingByUserAlgorithm implements ComplexKeysShardingAlgorithm<Comparable<?>> {
+    /**
+     * 后三位
+     */
+    private static final int THREE_NUM = 3;
 
     @Override
     public Collection<String> doSharding(Collection<String> dbs, ComplexKeysShardingValue<Comparable<?>> shardingValue) {
@@ -34,9 +38,9 @@ public class OrderDbShardingByUserAlgorithm implements ComplexKeysShardingAlgori
         return actualDbNames;
     }
 
-        public String getActualDbName(String shardingValue, Collection<String> dbs) {
+    public String getActualDbName(String shardingValue, Collection<String> dbs) {
             //获取userId后三位
-            String userIdSuffix = StringUtils.substring(shardingValue, shardingValue.length() - 3);
+            String userIdSuffix = StringUtils.substring(shardingValue, shardingValue.length() - THREE_NUM);
             //使用userId后三位进行路由
             int dbSuffix = userIdSuffix.hashCode() % dbs.size();
             for(String db : dbs) {

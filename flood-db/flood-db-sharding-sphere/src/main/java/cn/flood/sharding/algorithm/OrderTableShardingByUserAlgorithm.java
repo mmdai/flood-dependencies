@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
  * @author
  */
 public class OrderTableShardingByUserAlgorithm implements ComplexKeysShardingAlgorithm<Comparable<?>> {
+    /**
+     * 后三位
+     */
+    private static final int THREE_NUM = 3;
 
     @Override
     public Collection<String> doSharding(Collection<String> tables, ComplexKeysShardingValue<Comparable<?>> shardingValue) {
@@ -34,9 +38,9 @@ public class OrderTableShardingByUserAlgorithm implements ComplexKeysShardingAlg
         return actualTableNames;
     }
 
-        public String getActualTableName(String shardingValue, Collection<String> tables) {
+    public String getActualTableName(String shardingValue, Collection<String> tables) {
             //获取userId后三位
-            String userIdSuffix = StringUtils.substring(shardingValue, shardingValue.length() - 3);
+            String userIdSuffix = StringUtils.substring(shardingValue, shardingValue.length() - THREE_NUM);
             //使用userId后三位进行路由
             int tableSuffix = userIdSuffix.hashCode() / tables.size() % tables.size();
             for(String table : tables) {
