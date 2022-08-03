@@ -1,9 +1,10 @@
-package cn.flood.requestWrapper;
+package cn.flood.support.xss;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Element;
 import org.springframework.util.StringUtils;
+
 /**
  * <p>
  * 参考自 jpress：https://gitee.com/fuhai/jpress

@@ -1,4 +1,4 @@
-package cn.flood.requestWrapper;
+package cn.flood.support.xss;
 
 import cn.flood.Func;
 import cn.flood.json.JsonUtils;
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.servlet.HandlerMapping;
-
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -21,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
 /**
  * @author mmdai
  * @version 1.0

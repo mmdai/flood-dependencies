@@ -1,16 +1,15 @@
+# flood-db-redis-lock redis锁
 
-
-
-**版本下载**
+##### 1. 添加maven依赖：
 ---
     <dependency>
     	<groupId>cn.flood</groupId>
     	<artifactId>flood-mongodb</artifactId>
-    	<version>2.0.0</version>
+    	<version>${flood.version}</version>
     </dependency>
 
 
-**配置介绍**
+##### 2. 使用说明：
 ---
 application.yml
    

@@ -1,27 +1,23 @@
-**版本下载**
----
+# flood-db-database 数据库连接
+
+##### 1. 添加maven依赖：
+```
     多数据源
     <dependency>
     	<groupId>cn.flood</groupId>
     	<artifactId>flood-db-database</artifactId>
-    	<version>2.0.0</version>
+    	<version>${flood.version}</version>
     </dependency>
     单数据源配置
     <dependency>
     	<groupId>cn.flood</groupId>
     	<artifactId>flood-db-jdbc</artifactId>
-    	<version>2.0.0</version>
+    	<version>${flood.version}</version>
     </dependency>
-
-**配置介绍**
----
-
-
+```
+##### 2. 使用说明：
   
 **单数据源范例**
-
-
-
 ---
 application.yml
    

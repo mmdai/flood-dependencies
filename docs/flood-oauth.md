@@ -1,4 +1,17 @@
 # JwtPermission 
+
+
+##### 1. 添加maven依赖：
+
+```
+<dependency>
+    <groupId>cn.flood</groupId>
+    <artifactId>flood-oauth-permission-start</artifactId>
+    <version>${flood.version}</version>
+</dependency>
+```
+
+##### 2. 使用说明：
 数据库脚本：
 
 DROP TABLE IF EXISTS `oauth_token`;
@@ -28,21 +41,6 @@ CREATE TABLE `oauth_token_key` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
-## 更新日志
-
-- 2020-01-14 （v3.1.1）
-    - 使用RedisTokenStore不需要jdbc相关的包及配置
-    - 增加支持统一身份认证（单点登录）功能
-    - 对于排除拦截的接口也提供获取当前用户信息的方法
-
-- 2019-12-16 （v3.0.0）
-    - 增加refresh_token机制
-    - 增加@Ignore注解(用于忽略验证)
-    - 增加url自动匹配权限机制(自带RESTful模式模式和简化模式)
-    - 增加自定义查询权限和角色的sql配置
-
-
 ## 1、简介
 
 基于token验证的Java Web权限控制框架，使用jjwt，支持redis和db多种存储方式，可用于前后端分离项目，功能完善、使用简单、易于扩展。
@@ -57,8 +55,8 @@ CREATE TABLE `oauth_token_key` (
 ```xml
 <dependency>
    <groupId>cn.flood</groupId>
-          <artifactId>flood-oauth-permission-start</artifactId>
-          <version>2.0.0</version>
+   <artifactId>flood-oauth-permission-start</artifactId>
+   version>2.0.0</version>
 </dependency>
 ```
 

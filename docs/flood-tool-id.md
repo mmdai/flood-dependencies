@@ -1,17 +1,15 @@
-# ecp-uid
+# flood-tool-uid
 居于美团leaf、百度UidGenerator、原生snowflake 进行整合的 唯一ID生成器
 
-一、介绍
--------------------
-   1、本项目为uid生成器，支持segment、snowflake、UidGenerator、spring四种策略生成id
-   
-   2、本项目可生成混淆id，目前混淆策略为：gene(基因法)
-
-   3、项目地址：
-      github ： https://github.com/linhuaichuan/ecp-uid
-      码云： https://gitee.com/zmds/ecp-uid
-   
-二、策略说明
+##### 1. 添加maven依赖：
+```
+    <dependency>
+    	<groupId>cn.flood</groupId>
+    	<artifactId>flood-tool-id</artifactId>
+    	<version>${flood.version}</version>
+    </dependency>
+```
+##### 2. 使用说明：
 -------------------
    1、snowflake
      snowflake 是基于Twitter [snowflake](https://github.com/twitter/snowflake) 算法的优化策略

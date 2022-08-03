@@ -1,7 +1,17 @@
-# idempotent 幂等处理方案
+# flood-db-redis-lock redis锁
 
+##### 1. 添加maven依赖：
 
-### 1.原理
+```
+<dependency>
+  <groupId>cn.flood</groupId>
+  <artifactId>flood-db-redis-lock</artifactId>
+  <version>${flood.version}</version>
+</dependency>
+```
+##### 2. 使用说明：
+
+- 1.幂等处理方案
 
 1.请求开始前，根据key查询
 查到结果：报错
@@ -27,18 +37,6 @@ key=ip+url+args
 
 9.此注解只用于幂等，不用于锁，100个并发这种压测，会出现问题，在这种场景下也没有意义，实际中用户也不会出现1s或者3s内手动发送了50个或者100个重复请求,或者弱网下有100个重复请求；
 
-
-### 2.使用
-
-- 1. 引入依赖
-
-```java
-<dependency>
-    <groupId>cn.flood</groupId>
-    <artifactId>flood-db-redis-lock</artifactId>
-    <version>2.0.0</version>
-</dependency>
-```
 
 - 2. 配置 redis 链接相关信息
 
@@ -173,7 +171,6 @@ customReleaseTimeoutStrategy: 自定义释放锁时，需指定自定义处理�
 ```
 # 锁超时说明
 因为基于redis实现分布式锁，如果使用不当，会在以下场景下遇到锁超时的问题：
-![锁超时处理逻辑](https://wx1.sinaimg.cn/large/7dfa0a7bly1g24obim6cnj20u80jzgnf.jpg "锁超时处理逻辑.jpg")
 
 加锁超时处理策略(**LockTimeoutStrategy**)：
 - **NO_OPERATION** 不做处理，继续执行业务逻辑

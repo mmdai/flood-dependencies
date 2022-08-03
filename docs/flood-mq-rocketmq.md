@@ -1,43 +1,23 @@
-# spring boot starter for RocketMQ [![Build Status](https://travis-ci.org/maihaoche/rocketmq-spring-boot-starter.svg?branch=master)](https://travis-ci.org/maihaoche/rocketmq-spring-boot-starter) [![Coverage Status](https://coveralls.io/repos/github/maihaoche/rocketmq-spring-boot-starter/badge.svg?branch=master)](https://coveralls.io/github/maihaoche/rocketmq-spring-boot-starter?branch=master)
-
-<p><a href="http://search.maven.org/#search%7Cga%7C1%7Ccom.maihaoche"><img src="https://maven-badges.herokuapp.com/maven-central/com.maihaoche/spring-boot-starter-rocketmq/badge.svg" alt="Maven Central" style="max-width:100%;"></a><a href="https://github.com/maihaoche/rocketmq-spring-boot-starter/releases"><img src="https://camo.githubusercontent.com/795f06dcbec8d5adcfadc1eb7a8ac9c7d5007fce/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f72656c656173652d646f776e6c6f61642d6f72616e67652e737667" alt="GitHub release" data-canonical-src="https://img.shields.io/badge/release-download-orange.svg" style="max-width:100%;"></a>
-
-
-### 项目介绍
-
+#flood-mq-rocketmq 
 [Rocketmq](https://github.com/apache/rocketmq) 是由阿里巴巴团队开发并捐赠给apache团队的优秀消息中间件，承受过历年双十一大促的考验。
-
-你可以通过本项目轻松的集成Rocketmq到你的SpringBoot项目中。
-本项目主要包含以下特性
-
-* [x] 同步发送消息
-* [x] 异步发送消息
-* [x] 广播发送消息
-* [x] 有序发送和消费消息
-* [x] 发送延时消息
-* [x] 消息tag和key支持
-* [x] 自动序列化和反序列化消息体
-* [x] 消息的实际消费方IP追溯
-* [x] 发送事务消息(NEW)
-
-
-
-### 简单入门实例
 
 
 ##### 1. 添加maven依赖：
 
-```java
+```
 <dependency>
     <groupId>cn.flood</groupId>
     <artifactId>flood-spring-cloud-starter-rocketmq</artifactId>
-    <version>2.0.0</version>
+    <version>${flood.version}</version>
 </dependency>
 ```
 
-##### 2. 添加配置：
+##### 2. 使用说明：
 
-```java
+配置：
+---
+application.yml
+
 spring:
     rocketmq:
       name-server-address: 172.21.10.111:9876

@@ -2,9 +2,9 @@
 MyBatis 增强工具包，实现了便捷的单表 CRUD，各种自定义条件查询，单表查询甚至可以做到无 XML，像使用 PHP 操作数据库一样简单。
 
 --------------------------------------------------
-# 最新版本
+##### 1. 添加maven依赖：
 
-```xml
+```
 <dependency>
   <groupId>cn.flood</groupId>
   <artifactId>flood-db-mybatis</artifactId>
@@ -12,7 +12,7 @@ MyBatis 增强工具包，实现了便捷的单表 CRUD，各种自定义条件�
 </dependency>
 ```
 
-SpringBoot 项目接入方式
+##### 2. 使用说明：
 ```xml
 <dependency>
   <groupId>cn.flood</groupId>

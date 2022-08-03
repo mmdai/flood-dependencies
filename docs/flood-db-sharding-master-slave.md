@@ -1,16 +1,16 @@
-**版本下载**
----
+# flood-db-sharding-master-slave 主从读写分离
+
+##### 1. 添加maven依赖：
+```
     <dependency>
     	<groupId>cn.flood</groupId>
-    	<artifactId>flood-db-sharding</artifactId>
-    	<version>2.0.0</version>
+    	<artifactId>flood-db-sharding-master-slave</artifactId>
+    	<version>${flood.version}</version>
     </dependency>
+```
 
+##### 2. 使用说明：
 
-**配置介绍**
----
-
----
 application.yml
    
 ########################################################
