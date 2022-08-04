@@ -19,11 +19,19 @@ public class OrderTableShardingByUserAlgorithm implements ComplexKeysShardingAlg
      * 后三位
      */
     private static final int THREE_NUM = 3;
+    /**
+     * order_no 订单号
+     */
+    private static final String ORDER_NO_COLUMN = "order_no";
+    /**
+     * user_id 用户id
+     */
+    private static final String USER_ID_COLUMN = "user_id";
 
     @Override
     public Collection<String> doSharding(Collection<String> tables, ComplexKeysShardingValue<Comparable<?>> shardingValue) {
-        Collection<Comparable<?>> orderNos = shardingValue.getColumnNameAndShardingValuesMap().get("order_no");
-        Collection<Comparable<?>> userIds = shardingValue.getColumnNameAndShardingValuesMap().get("user_id");
+        Collection<Comparable<?>> orderNos = shardingValue.getColumnNameAndShardingValuesMap().get(ORDER_NO_COLUMN);
+        Collection<Comparable<?>> userIds = shardingValue.getColumnNameAndShardingValuesMap().get(USER_ID_COLUMN);
         Set<String> actualTableNames = null;
         if (CollectionUtils.isNotEmpty(orderNos)) {
             actualTableNames = orderNos.stream()

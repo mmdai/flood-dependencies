@@ -1,5 +1,6 @@
 package cn.flood.sharding;
 
+import cn.flood.Func;
 import cn.flood.exception.CoreException;
 import cn.flood.sharding.properties.TableRuleProperties;
 import com.alibaba.druid.pool.DruidDataSource;
@@ -75,14 +76,22 @@ public abstract class AbstractDataSourceConfig {
         int tableLastIndex = multiDataSourceConfig.getTableNum() - 1;
 
         for (TableRuleProperties tableRule : multiDataSourceConfig.getTableRules()) {
-            //构建分片策略实例
-            ComplexKeysShardingAlgorithm<Comparable<?>> dbShardingAlgorithm = buildAlgorithmInstance(tableRule.getDbShardingAlgorithm());
-            ComplexKeysShardingAlgorithm<Comparable<?>> tableShardingAlgorithm = buildAlgorithmInstance(tableRule.getTableShardingAlgorithm());
 
             // 配置表规则和分库分表策略
             TableRuleConfiguration tableRuleConfiguration = new TableRuleConfiguration(tableRule.getLogicTable(), "ds${0.." + dbLastIndex + "}." + tableRule.getLogicTable() + "${0.." + tableLastIndex + "}");
-            tableRuleConfiguration.setDatabaseShardingStrategyConfig(new ComplexShardingStrategyConfiguration(tableRule.getDbShardingColumns(), dbShardingAlgorithm));
-            tableRuleConfiguration.setTableShardingStrategyConfig(new ComplexShardingStrategyConfiguration(tableRule.getTableShardingColumns(), tableShardingAlgorithm));
+            //构建分库策略实例
+            ComplexKeysShardingAlgorithm<Comparable<?>> dbShardingAlgorithm = null;
+            if(Func.isNotBlank(tableRule.getDbShardingAlgorithm())){
+                dbShardingAlgorithm = buildAlgorithmInstance(tableRule.getDbShardingAlgorithm());
+                tableRuleConfiguration.setDatabaseShardingStrategyConfig(new ComplexShardingStrategyConfiguration(tableRule.getDbShardingColumns(), dbShardingAlgorithm));
+
+            }
+            //构建分表策略实例
+            ComplexKeysShardingAlgorithm<Comparable<?>> tableShardingAlgorithm = null;
+            if(Func.isNotBlank(tableRule.getTableShardingAlgorithm())){
+                tableShardingAlgorithm = buildAlgorithmInstance(tableRule.getTableShardingAlgorithm());
+                tableRuleConfiguration.setTableShardingStrategyConfig(new ComplexShardingStrategyConfiguration(tableRule.getTableShardingColumns(), tableShardingAlgorithm));
+            }
             shardingRuleConfig.getTableRuleConfigs().add(tableRuleConfiguration);
         }
         return shardingRuleConfig;

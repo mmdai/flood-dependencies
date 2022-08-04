@@ -16,14 +16,22 @@ import java.util.stream.Collectors;
  */
 public class OrderDbShardingByUserAlgorithm implements ComplexKeysShardingAlgorithm<Comparable<?>> {
     /**
+     * order_no 订单号
+     */
+    private static final String ORDER_NO_COLUMN = "order_no";
+    /**
+     * user_id 用户id
+     */
+    private static final String USER_ID_COLUMN = "user_id";
+    /**
      * 后三位
      */
     private static final int THREE_NUM = 3;
 
     @Override
     public Collection<String> doSharding(Collection<String> dbs, ComplexKeysShardingValue<Comparable<?>> shardingValue) {
-        Collection<Comparable<?>> orderNos = shardingValue.getColumnNameAndShardingValuesMap().get("order_no");
-        Collection<Comparable<?>> userIds = shardingValue.getColumnNameAndShardingValuesMap().get("user_id");
+        Collection<Comparable<?>> orderNos = shardingValue.getColumnNameAndShardingValuesMap().get(ORDER_NO_COLUMN);
+        Collection<Comparable<?>> userIds = shardingValue.getColumnNameAndShardingValuesMap().get(USER_ID_COLUMN);
         Set<String> actualDbNames = null;
         if (CollectionUtils.isNotEmpty(orderNos)) {
             actualDbNames = orderNos.stream()
