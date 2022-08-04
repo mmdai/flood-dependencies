@@ -10,12 +10,12 @@ floodCloud是一款基于Spring Cloud Alibaba的微服务架构。旨在为大�
 
 核心中间件 |  | 2.0.0
 ---|---|---
-Spring Boot |  | <img src="https://img.shields.io/badge/Spring%20Boot-2.7.0-blue" alt="SpringBoot"/>
+Spring Boot |  | <img src="https://img.shields.io/badge/Spring%20Boot-2.7.2-blue" alt="SpringBoot"/>
 Spring Cloud |  | <img src="https://img.shields.io/badge/Spring%20Cloud-2021.0.3-blue" alt="SpringCloud"/>
 Spring Cloud Alibaba | | <img src="https://img.shields.io/badge/Spring%20Cloud%20Alibaba-2021.0.1.0-blue" alt="SpringCloudAlibaba"/>
 Nacos |  | <img src="https://img.shields.io/badge/Nacos-2.1.0-blue" alt="nacos"/>
 Sentinel |  | <img src="https://img.shields.io/badge/Sentinel-1.8.3-blue" alt="sentinel"/>
-Seata |  | <img src="https://img.shields.io/badge/Seata-1.4.2-blue" alt="Seata"/>
+Seata |  | <img src="https://img.shields.io/badge/Seata-1.5.2-blue" alt="Seata"/>
 XXL-JOB |  | <img src="https://img.shields.io/badge/XXL-JOB-2.3.0-blue" alt="XXL-JOB"/>
 
 - 主体框架：采用最新的`Spring Cloud 2021.0.3`, `Spring Boot 2.7.0`, `Spring Cloud Alibaba 2021.0.1.0`版本进行系统设计；
