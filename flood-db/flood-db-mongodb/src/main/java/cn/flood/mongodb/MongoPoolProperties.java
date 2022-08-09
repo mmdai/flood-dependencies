@@ -32,9 +32,9 @@ public class MongoPoolProperties {
     private int maxConnectionsPerHost = 100;
     private int threadsAllowedToBlockForConnectionMultiplier = 5;
     private int serverSelectionTimeout = 1000 * 30;
-    private int maxWaitTime = 1000 * 60 * 2;
-    private int maxConnectionIdleTime;
-    private int maxConnectionLifeTime;
+    private long maxWaitTime = 1000 * 60 * 2;
+    private long maxConnectionIdleTime;
+    private long maxConnectionLifeTime;
     private int connectTimeout = 1000 * 10;
     private int socketTimeout = 0;
     private boolean socketKeepAlive = false;

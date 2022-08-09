@@ -1,11 +1,9 @@
 package cn.flood.mongodb;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 /**
  * 
 * <p>Title: MongoPoolAutoConfiguration</p>  
@@ -13,9 +11,7 @@ import org.springframework.stereotype.Component;
 * @author mmdai  
 * @date 2020年8月23日
  */
-@AutoConfiguration
-@Component
-@EnableAutoConfiguration(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
+@AutoConfigureBefore({MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @SuppressWarnings("unchecked")
 public class MongoPoolAutoConfiguration {
 	
