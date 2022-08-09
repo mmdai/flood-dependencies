@@ -2,6 +2,7 @@ package cn.flood.sharding;
 
 import cn.flood.Func;
 import cn.flood.exception.CoreException;
+import cn.flood.lang.StringUtils;
 import cn.flood.sharding.properties.TableRuleProperties;
 import com.alibaba.druid.pool.DruidDataSource;
 
@@ -47,6 +48,9 @@ public abstract class AbstractDataSourceConfig {
         //3.配置其他的属性
         Properties properties = new Properties();
         properties.put("sql.show", multiDataSourceConfig.getSqlShow());
+        if(StringUtils.isNoneBlank(multiDataSourceConfig.getDefaultDataSourceName())){
+            shardingRuleConfig.setDefaultDataSourceName(multiDataSourceConfig.getDefaultDataSourceName());
+        }
         return ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig, properties);
     }
 
@@ -78,7 +82,11 @@ public abstract class AbstractDataSourceConfig {
         for (TableRuleProperties tableRule : multiDataSourceConfig.getTableRules()) {
 
             // 配置表规则和分库分表策略
-            TableRuleConfiguration tableRuleConfiguration = new TableRuleConfiguration(tableRule.getLogicTable(), "ds${0.." + dbLastIndex + "}." + tableRule.getLogicTable() + "${0.." + tableLastIndex + "}");
+            TableRuleConfiguration tableRuleConfiguration = new TableRuleConfiguration(tableRule.getLogicTable(), "ds${0.." + dbLastIndex + "}." + tableRule.getLogicTable() + "${0.." + tableLastIndex + "}");;
+
+            if(Func.isBlank(tableRule.getTableShardingAlgorithm())){
+                tableRuleConfiguration = new TableRuleConfiguration(tableRule.getLogicTable(), "ds${0.." + dbLastIndex + "}." + tableRule.getLogicTable());
+            }
             //构建分库策略实例
             ComplexKeysShardingAlgorithm<Comparable<?>> dbShardingAlgorithm = null;
             if(Func.isNotBlank(tableRule.getDbShardingAlgorithm())){

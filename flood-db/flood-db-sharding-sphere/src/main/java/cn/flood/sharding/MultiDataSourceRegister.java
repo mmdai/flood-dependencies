@@ -57,6 +57,10 @@ public class MultiDataSourceRegister implements InitializingBean {
 	 * 每个逻辑库中表的数量
 	 */
 	private int tableNum;
+	/**
+	 * 默认数据源
+	 */
+	private String defaultDataSourceName;
 
 	@PostConstruct
 	public void setProperties(){
@@ -160,5 +164,13 @@ public class MultiDataSourceRegister implements InitializingBean {
 
 	public void setDataSourceList(List<DruidDataSource> dataSourceList) {
 		this.dataSourceList = dataSourceList;
+	}
+
+	public String getDefaultDataSourceName() {
+		return defaultDataSourceName;
+	}
+
+	public void setDefaultDataSourceName(String defaultDataSourceName) {
+		this.defaultDataSourceName = defaultDataSourceName;
 	}
 }
