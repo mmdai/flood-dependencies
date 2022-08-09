@@ -34,12 +34,6 @@ public class SqlSessionFactorySpring {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-//	/**
-//	 * 配置mapper的扫描，找到所有的mapper.xml映射文件
-//	 */
-//	@Value("${mybatis.mapper-locations:classpath*:/mapper/**/*Mapper.xml}")
-//	private String mapperLocations;
-
 	/**
 	 * 加载全局的配置文件
 	 */

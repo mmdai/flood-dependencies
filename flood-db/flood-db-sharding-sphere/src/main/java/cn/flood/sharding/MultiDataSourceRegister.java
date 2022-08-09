@@ -70,12 +70,12 @@ public class MultiDataSourceRegister implements InitializingBean {
 
 	@Override
 	public void afterPropertiesSet() {
-		for(DataSourceProperties dsource: dataSources) {
+		for(DataSourceProperties source: dataSources) {
 			DruidDataSource ds =  new DruidDataSource();
-			ds.setUrl(dsource.getUrl());
-			ds.setUsername(dsource.getUsername());
-			ds.setPassword(dsource.getPassword());
-			ds.setDriverClassName(dsource.getDriverClassName());
+			ds.setUrl(source.getUrl());
+			ds.setUsername(source.getUsername());
+			ds.setPassword(source.getPassword());
+			ds.setDriverClassName(source.getDriverClassName());
 			ds.setInitialSize(druidDbProperties.getInitialSize());
 			ds.setMinIdle(druidDbProperties.getMinIdle());
 			ds.setMaxActive(druidDbProperties.getMaxActive());
@@ -92,8 +92,8 @@ public class MultiDataSourceRegister implements InitializingBean {
 			ds.setPoolPreparedStatements(druidDbProperties.isPoolPreparedStatements());
 			ds.setMaxPoolPreparedStatementPerConnectionSize(druidDbProperties.getMaxPoolPreparedStatementPerConnectionSize());
 			try {
-				if(Func.isNotEmpty(dsource.getDriverClassName())
-						&& "org.apache.kylin.jdbc.Driver".equalsIgnoreCase(dsource.getDriverClassName())){
+				if(Func.isNotEmpty(source.getDriverClassName())
+						&& "org.apache.kylin.jdbc.Driver".equalsIgnoreCase(source.getDriverClassName())){
 					ds.setFilters(druidDbProperties.getKylinFilters());
 				}else{
 					ds.setFilters(druidDbProperties.getFilters());
@@ -111,7 +111,7 @@ public class MultiDataSourceRegister implements InitializingBean {
 			// 设置druid 连接池非公平锁模式,其实 druid 默认配置为非公平锁，不过一旦设置了maxWait 之后就会使用公平锁模式
 			ds.setUseUnfairLock(true);
 			dataSourceList.add(ds);
-			log.info("DruidPool-Multi Start completed... {}", dsource.getUrl());
+			log.info("DruidPool-Multi Start completed... {}", source.getUrl());
 		}
 
 		
