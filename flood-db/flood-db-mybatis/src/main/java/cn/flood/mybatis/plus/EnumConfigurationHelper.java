@@ -26,7 +26,7 @@ public class EnumConfigurationHelper {
         TypeHandlerRegistry typeHandlerRegistry = factory.getConfiguration().getTypeHandlerRegistry();
         for (String javaTypeClass : list) {
             typeHandlerRegistry.register(javaTypeClass, HANDLER_CLAZZ.getName());
-            log.info("EnumTypeHandler - javaTypeClass:" + javaTypeClass + ", TypeHandler:" + HANDLER_CLAZZ.getName());
+            log.info("EnumTypeHandler - javaTypeClass: {}, TypeHandler: {}", javaTypeClass, HANDLER_CLAZZ.getName());
         }
         log.info("EnumTypeHandler - end......");
     }
