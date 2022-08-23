@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Primary;
 /**
  * 灰度负载模式自动装配
  *
- * @author L.cm
  * @author madi
  * @date 2021-02-24 13:41
  */
