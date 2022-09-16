@@ -18,8 +18,8 @@
 	  <maven.compiler.target>1.8</maven.compiler.target>
 	  <java.version>1.8</java.version>
 	  <spring-boot-dependencies.version>2.7.3</spring-boot-dependencies.version>
-	  <spring-cloud-dependencies.version>2021.0.3</spring-cloud-dependencies.version>
-	  <spring-cloud-alibaba-dependencies.version>2021.0.1.0</spring-cloud-alibaba-dependencies.version>
+	  <spring-cloud-dependencies.version>2021.0.4</spring-cloud-dependencies.version>
+	  <spring-cloud-alibaba-dependencies.version>2021.0.4.0</spring-cloud-alibaba-dependencies.version>
 	  <spring.platform.version>Cairo-SR8</spring.platform.version>
 	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
 	  <!-- nacos -->
@@ -187,22 +187,22 @@
 		    <version>${spring-cloud-alibaba-dependencies.version}</version>
 		    <type>pom</type>
 		    <scope>import</scope>
-			<exclusions>
-				<exclusion>
-					<artifactId>seata-spring-boot-starter</artifactId>
-					<groupId>io.seata</groupId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.alibaba.cloud</groupId>
-					<artifactId>spring-cloud-starter-alibaba-seata</artifactId>
-				</exclusion>
-			</exclusions>
+<!--			<exclusions>-->
+<!--				<exclusion>-->
+<!--					<artifactId>seata-spring-boot-starter</artifactId>-->
+<!--					<groupId>io.seata</groupId>-->
+<!--				</exclusion>-->
+<!--				<exclusion>-->
+<!--					<groupId>com.alibaba.cloud</groupId>-->
+<!--					<artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
+<!--				</exclusion>-->
+<!--			</exclusions>-->
 		</dependency>
-		<dependency>
-			<groupId>io.seata</groupId>
-			<artifactId>seata-spring-boot-starter</artifactId>
-			<version>${seata.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.seata</groupId>-->
+<!--			<artifactId>seata-spring-boot-starter</artifactId>-->
+<!--			<version>${seata.version}</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>io.spring.platform</groupId>
 			<artifactId>platform-bom</artifactId>
