@@ -11,7 +11,9 @@ import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * swagger配置
@@ -42,13 +44,20 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
         List<String> routes = new ArrayList<>();
         //获取所有路由的ID
         routeLocator.getRoutes().subscribe(route -> routes.add(route.getId()));
+        // 记录已经添加过的server，存在同一个应用注册了多个服务在nacos上
+        Set<String> repeated = new HashSet<>();
         //过滤出配置文件中定义的路由->过滤出Path Route Predicate->根据路径拼接成api-docs路径->生成SwaggerResource
         gatewayProperties.getRoutes().stream().filter(routeDefinition -> routes.contains(routeDefinition.getId())).forEach(route ->
                 route.getPredicates().stream()
                         .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
-                        .forEach(predicateDefinition -> resources.add(swaggerResource(route.getId(),
-                                predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
-                                        .replace("**", API_URI)))));
+                        .forEach(predicateDefinition -> {
+                            if (!repeated.contains(route.getId())) {
+                                repeated.add(route.getId());
+                                resources.add(swaggerResource(route.getId(),
+                                        predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
+                                                .replace("**", API_URI)));
+                            }
+                        }));
         return resources;
     }
 
