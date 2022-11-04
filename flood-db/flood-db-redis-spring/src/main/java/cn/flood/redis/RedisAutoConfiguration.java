@@ -1,7 +1,7 @@
-package cn.flood.redis.config;
+package cn.flood.redis;
 
-import cn.flood.redis.config.impl.RedisServiceImpl;
-import cn.flood.redis.config.jedis.JedisConnectionConfiguration;
+import cn.flood.redis.service.RedisService;
+import cn.flood.redis.service.impl.RedisServiceImpl;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -32,7 +32,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @AutoConfigureBefore(org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration.class)
 @Import({
         ApplicationContextUtil.class,
-        JedisConnectionConfiguration.class,
         LettuceConnectionConfiguration.class
 })
 public class RedisAutoConfiguration {
