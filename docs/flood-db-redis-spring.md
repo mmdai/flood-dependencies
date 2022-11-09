@@ -132,3 +132,51 @@ List execute = RedisUtil.getTransactionHandler(2).execute(handler -> {
     return handler.commit();
 });
 ```
+
+####多数据源配置
+---
+spring:
+  redis:
+    dynamic: 
+      enabled: true
+      #defaultDataSource可配可不配，不配的话，系统产生一个默认的数据源
+      defaultDataSource: redisDataSoure1
+      connection:
+        ###多数据源固定配置格式
+        redisDataSoure1: 
+          host: 127.0.0.1
+          port: 6379
+          database: 0
+          password: 123456
+        ###redis集群配置
+  #      cluster: 
+  #        nodes: 
+  #          - 47.94.7.243:6001
+  #          - 47.94.7.243:6002
+  #        max-redirects: 2
+          #lettuce连接池配置
+          lettuce: 
+            pool: 
+              max-idle: 10
+              max-wait: 100000
+              min-idle: 5
+        redisDataSoure2: 
+          host: 10.218.223.99
+          port: 6379
+          database: 0
+          
+
+####多数据源使用 默认是默认数据源
+
+    /*RedisTemplaterFactoryBuild多数据源工厂*/
+    @Autowired
+    private RedisTemplaterFactoryBuild redisTemplaterFactoryBuild;
+    
+    
+     RedisTemplate<String, Object> redis = redisTemplaterFactoryBuild.getRedisTemplaterByName("redisDataSoure1");
+     
+     对应部分redis访问
+     RedisBaseOperation
+     
+     如：
+     T t =  RedisBaseOperation.get(redis, String key)
