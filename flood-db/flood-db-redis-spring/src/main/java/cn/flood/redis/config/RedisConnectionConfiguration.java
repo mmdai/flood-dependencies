@@ -60,11 +60,12 @@ public abstract class RedisConnectionConfiguration {
             config.setHostName(connectionInfo.getHostName());
             config.setPort(connectionInfo.getPort());
             config.setPassword(RedisPassword.of(connectionInfo.getPassword()));
-        }
-        else {
+        } else if (StringUtils.hasText(this.properties.getHost()) && !"localhost".equals(this.properties.getHost())){
             config.setHostName(this.properties.getHost());
             config.setPort(this.properties.getPort());
             config.setPassword(RedisPassword.of(this.properties.getPassword()));
+        }else {
+            return null;
         }
         config.setDatabase(this.properties.getDatabase());
         return config;
