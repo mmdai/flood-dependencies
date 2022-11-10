@@ -1,7 +1,7 @@
 package cn.flood.cloud.seata.idempotent;
 
-import cn.flood.Func;
-import cn.flood.lang.StringUtils;
+import cn.flood.base.core.Func;
+import cn.flood.base.core.lang.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;
 

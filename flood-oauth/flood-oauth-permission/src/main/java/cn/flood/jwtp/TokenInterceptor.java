@@ -1,9 +1,9 @@
 package cn.flood.jwtp;
 
-import cn.flood.UserToken;
-import cn.flood.http.WebUtil;
+import cn.flood.base.core.UserToken;
+import cn.flood.base.core.http.WebUtil;
 import cn.flood.jwtp.enums.PlatformEnum;
-import cn.flood.lang.StringPool;
+import cn.flood.base.core.lang.StringPool;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

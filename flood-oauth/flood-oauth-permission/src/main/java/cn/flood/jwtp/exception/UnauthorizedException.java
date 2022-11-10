@@ -1,6 +1,6 @@
 package cn.flood.jwtp.exception;
 
-import cn.flood.exception.enums.GlobalErrorCodeEnum;
+import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
 
 /**
  * 没有权限的异常

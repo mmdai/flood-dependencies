@@ -1,2 +1,2 @@
-cn.flood.db.DruidDataSourceConfig
-cn.flood.db.SqlSessionFactorySpring
+cn.flood.db.jdbc.DruidDataSourceConfig
+cn.flood.db.jdbc.SqlSessionFactorySpring

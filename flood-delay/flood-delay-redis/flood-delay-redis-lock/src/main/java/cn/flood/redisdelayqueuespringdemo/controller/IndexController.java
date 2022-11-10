@@ -1,6 +1,5 @@
 package cn.flood.redisdelayqueuespringdemo.controller;
 
-import cn.flood.idempotent.autoconfigure.annotation.Idempotent;
 import cn.flood.redisdelayqueuespringdemo.service.TestService;
 import cn.flood.redisdelayqueuespringdemo.service.TimeoutService;
 import org.springframework.beans.factory.annotation.Autowired;

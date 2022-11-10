@@ -1,2 +1,2 @@
-cn.flood.context.StringContextConfiguration
-cn.flood.trace.WebTraceFilter
+cn.flood.base.core.context.StringContextConfiguration
+cn.flood.base.core.trace.WebTraceFilter

@@ -1,6 +1,6 @@
 package cn.flood.cloud.gateway.filter;
 
-import cn.flood.trace.MDCTraceUtils;
+import cn.flood.base.core.trace.MDCTraceUtils;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package cn.flood.cloud.gateway.init;
 
 //import cn.credit.gateway.entity.GatewayRoute;
-//import cn.flood.constants.FDConstants;
+//import cn.flood.base.core.constants.FDConstants;
 //import com.alibaba.cloud.nacos.NacosConfigProperties;
 //import com.alibaba.nacos.api.NacosFactory;
 //import com.alibaba.nacos.api.PropertyKeyConst;

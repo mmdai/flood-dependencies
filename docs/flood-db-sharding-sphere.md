@@ -72,11 +72,11 @@ sharding:
       #库分片列名称，多个列以逗号分隔
       db-sharding-columns: order_no,user_id
       #库分片策略类
-      db-sharding-algorithm: cn.flood.sharding.algorithm.OrderDbShardingByUserAlgorithm
+      db-sharding-algorithm: OrderDbShardingByUserAlgorithm
       #表分片列名称，多个列以逗号分隔
       table-sharding-columns: order_no,user_id
       #表分片策略类
-      table-sharding-algorithm: cn.flood.sharding.algorithm.OrderTableShardingByUserAlgorithm
+      table-sharding-algorithm: OrderTableShardingByUserAlgorithm
     ###配置#order_item_detail表分片规则
     table-rules[1]:
       #逻辑表名
@@ -84,11 +84,11 @@ sharding:
       #库分片列名称，多个列以逗号分隔
       db-sharding-columns: order_no,user_id
       #库分片策略类
-      db-sharding-algorithm: cn.flood.sharding.algorithm.OrderDbShardingByUserAlgorithm
+      db-sharding-algorithm: OrderDbShardingByUserAlgorithm
       #表分片列名称，多个列以逗号分隔
       table-sharding-columns: order_no,user_id
       #表分片策略类
-      table-sharding-algorithm: cn.flood.sharding.algorithm.OrderTableShardingByUserAlgorithm
+      table-sharding-algorithm: OrderTableShardingByUserAlgorithm
     #是否显示shardingsphere sql执行日志
     sql-show: true
     #每个逻辑库中表的数量

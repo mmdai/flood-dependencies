@@ -1,8 +1,8 @@
 package cn.flood.cloud.gateway.filter;
 
 import cn.flood.cloud.gateway.props.WebSocketProperties;
-import cn.flood.constants.HeaderConstant;
-import cn.flood.trace.MDCTraceUtils;
+import cn.flood.base.core.constants.HeaderConstant;
+import cn.flood.base.core.trace.MDCTraceUtils;
 import com.google.common.base.Stopwatch;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;

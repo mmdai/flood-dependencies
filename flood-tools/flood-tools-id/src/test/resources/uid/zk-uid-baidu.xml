@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- UID generator -->
-    <bean id="zkWorkerIdAssigner" class="cn.flood.core.uid.worker.ZkWorkerIdAssigner">
+    <bean id="zkWorkerIdAssigner" class="cn.flood.tools.uid.worker.ZkWorkerIdAssigner">
     	<property name="zkAddress" value="172.16.51.123:2181" />
     </bean>
 
-    <bean id="defaultUidGenerator" class="cn.flood.core.uid.baidu.impl.DefaultUidGenerator" lazy-init="false" scope="prototype" >
+    <bean id="defaultUidGenerator" class="cn.flood.tools.uid.baidu.impl.DefaultUidGenerator" lazy-init="false" scope="prototype" >
         <property name="workerIdAssigner" ref="zkWorkerIdAssigner"/>
 
         <!-- Specified bits & epoch as your demand. No specified the default value will be used -->

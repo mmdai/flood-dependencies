@@ -1,8 +1,8 @@
 package cn.flood.lock.test;
 
-import cn.flood.lock.autoconfigure.annotation.Rlock;
-import cn.flood.lock.autoconfigure.annotation.RlockKey;
-import cn.flood.lock.autoconfigure.model.LockTimeoutStrategy;
+import cn.flood.db.redis.lock.autoconfigure.annotation.Rlock;
+import cn.flood.db.redis.lock.autoconfigure.annotation.RlockKey;
+import cn.flood.db.redis.lock.autoconfigure.model.LockTimeoutStrategy;
 import org.springframework.stereotype.Service;
 
 /**

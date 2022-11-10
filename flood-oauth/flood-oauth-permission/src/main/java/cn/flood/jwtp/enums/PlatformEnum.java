@@ -1,6 +1,6 @@
 package cn.flood.jwtp.enums;
 
-import cn.flood.enums.annotation.EnumHandler;
+import cn.flood.base.core.enums.annotation.EnumHandler;
 
 import java.util.stream.Stream;
 

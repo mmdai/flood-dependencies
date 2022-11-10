@@ -1,7 +1,7 @@
 package cn.flood.jwtp.provider;
 
-import cn.flood.UserToken;
-import cn.flood.exception.CoreException;
+import cn.flood.base.core.UserToken;
+import cn.flood.base.core.exception.CoreException;
 import cn.flood.jwtp.enums.PlatformEnum;
 
 import java.util.List;

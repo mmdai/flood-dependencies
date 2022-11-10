@@ -1,6 +1,6 @@
 package cn.flood.jwtp.exception;
 
-import cn.flood.exception.CoreException;
+import cn.flood.base.core.exception.CoreException;
 
 /**
  * TokenException

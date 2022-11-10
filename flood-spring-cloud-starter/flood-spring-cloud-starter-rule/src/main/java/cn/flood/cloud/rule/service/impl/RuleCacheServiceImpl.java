@@ -1,8 +1,8 @@
 package cn.flood.cloud.rule.service.impl;
 
 
-import cn.flood.Func;
-import cn.flood.redis.util.RedisUtil;
+import cn.flood.base.core.Func;
+import cn.flood.db.redis.util.RedisUtil;
 import cn.flood.cloud.rule.constant.RuleConstant;
 import cn.flood.cloud.rule.entity.BlackList;
 import cn.flood.cloud.rule.service.RuleCacheService;

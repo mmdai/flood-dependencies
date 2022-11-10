@@ -1,10 +1,10 @@
 package cn.flood.cloud.gateway.filter;
 
-import cn.flood.Func;
+import cn.flood.base.core.Func;
 import cn.flood.cloud.gateway.props.FloodApiProperties;
 import cn.flood.cloud.gateway.result.Result;
 import cn.flood.cloud.gateway.result.ResultWapper;
-import cn.flood.lang.StringPool;
+import cn.flood.base.core.lang.StringPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

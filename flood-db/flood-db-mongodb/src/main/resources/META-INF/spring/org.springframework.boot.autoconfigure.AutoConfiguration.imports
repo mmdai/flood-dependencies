@@ -1,1 +1,1 @@
-cn.flood.mongodb.MongoPoolAutoConfiguration
+cn.flood.db.mongodb.MongoPoolAutoConfiguration

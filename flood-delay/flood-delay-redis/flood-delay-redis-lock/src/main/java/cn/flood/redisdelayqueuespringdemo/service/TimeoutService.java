@@ -1,9 +1,9 @@
 package cn.flood.redisdelayqueuespringdemo.service;
 
-import cn.flood.lock.autoconfigure.annotation.Rlock;
-import cn.flood.lock.autoconfigure.model.LockTimeoutStrategy;
-import cn.flood.lock.autoconfigure.model.LockType;
-import cn.flood.lock.autoconfigure.model.ReleaseTimeoutStrategy;
+import cn.flood.db.redis.lock.autoconfigure.annotation.Rlock;
+import cn.flood.db.redis.lock.autoconfigure.model.LockTimeoutStrategy;
+import cn.flood.db.redis.lock.autoconfigure.model.LockType;
+import cn.flood.db.redis.lock.autoconfigure.model.ReleaseTimeoutStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

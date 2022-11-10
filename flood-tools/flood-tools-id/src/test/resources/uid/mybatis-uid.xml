@@ -10,7 +10,7 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<!-- Spring annotation扫描 -->
 	<context:component-scan base-package="cn.flood.core.uid" />
-	<bean class="cn.flood.core.uid.worker.dao.WorkerNodeDAO" />
+	<bean class="cn.flood.tools.uid.worker.dao.WorkerNodeDAO" />
 	<!-- 加载配置文件 -->
 	<context:property-placeholder ignore-unresolvable="true" location="classpath*:uid/uid-default.properties,classpath*:config/uid.properties" />
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">

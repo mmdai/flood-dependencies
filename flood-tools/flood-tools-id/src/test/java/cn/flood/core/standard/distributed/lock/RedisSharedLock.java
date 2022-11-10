@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.RedisScript;
 
-import cn.flood.core.uid.baidu.utils.NamingThreadFactory;
+import cn.flood.tools.uid.baidu.utils.NamingThreadFactory;
 
 /**
  * @类名称 RedisSharedLock.java

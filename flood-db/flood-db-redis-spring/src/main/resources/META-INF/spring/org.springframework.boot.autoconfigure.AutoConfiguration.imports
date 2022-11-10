@@ -1,1 +1,1 @@
-cn.flood.redis.RedisAutoConfiguration
+cn.flood.db.redis.RedisAutoConfiguration

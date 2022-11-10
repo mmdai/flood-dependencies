@@ -1,14 +1,14 @@
 package cn.flood.jwtp.util;
 
-import cn.flood.Func;
-import cn.flood.UserToken;
-import cn.flood.constants.HeaderConstant;
-import cn.flood.context.SpringBeanManager;
-import cn.flood.http.WebUtil;
+import cn.flood.base.core.Func;
+import cn.flood.base.core.UserToken;
+import cn.flood.base.core.constants.HeaderConstant;
+import cn.flood.base.core.context.SpringBeanManager;
+import cn.flood.base.core.http.WebUtil;
 import cn.flood.jwtp.enums.PlatformEnum;
 import cn.flood.jwtp.exception.ExpiredTokenException;
 import cn.flood.jwtp.provider.TokenStore;
-import cn.flood.lang.StringPool;
+import cn.flood.base.core.lang.StringPool;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.util.ObjectUtils;

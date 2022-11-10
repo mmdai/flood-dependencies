@@ -1,6 +1,6 @@
 package cn.flood.cloud.seata.config;
 
-import cn.flood.cloud.config.FloodCloudAutoConfiguration;
+import cn.flood.cloud.grpc.config.FloodCloudAutoConfiguration;
 import cn.flood.cloud.seata.rest.SeataRestTemplateInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
 package cn.flood.job.admin;
 
-import cn.flood.banner.AbastractBanner;
+import cn.flood.tools.banner.AbastractBanner;
 
 public class XxlJobBanner extends AbastractBanner {
 

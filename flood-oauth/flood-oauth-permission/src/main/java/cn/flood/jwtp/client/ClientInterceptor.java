@@ -1,12 +1,12 @@
 package cn.flood.jwtp.client;
 
-import cn.flood.Func;
-import cn.flood.UserToken;
-import cn.flood.constants.HeaderConstant;
-import cn.flood.context.SpringBeanManager;
-import cn.flood.http.WebUtil;
+import cn.flood.base.core.Func;
+import cn.flood.base.core.UserToken;
+import cn.flood.base.core.constants.HeaderConstant;
+import cn.flood.base.core.context.SpringBeanManager;
+import cn.flood.base.core.http.WebUtil;
 import cn.flood.jwtp.constants.TokenConstant;
-import cn.flood.rpc.response.Result;
+import cn.flood.base.core.rpc.response.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;

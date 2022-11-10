@@ -1,7 +1,7 @@
 package cn.flood.cloud.gateway.filter;
 
 import cn.flood.cloud.gateway.service.SafeRuleService;
-import cn.flood.lang.StringPool;
+import cn.flood.base.core.lang.StringPool;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

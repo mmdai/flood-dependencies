@@ -1,11 +1,10 @@
 package cn.flood.jwtp.provider;
 
-import cn.flood.Func;
-import cn.flood.UserToken;
-import cn.flood.constants.HeaderConstant;
-import cn.flood.exception.CoreException;
+import cn.flood.base.core.Func;
+import cn.flood.base.core.UserToken;
+import cn.flood.base.core.constants.HeaderConstant;
+import cn.flood.base.core.exception.CoreException;
 import cn.flood.jwtp.enums.PlatformEnum;
-import cn.flood.lang.StringPool;
 import io.jsonwebtoken.ExpiredJwtException;
 import cn.flood.jwtp.exception.ErrorTokenException;
 import cn.flood.jwtp.exception.ExpiredTokenException;

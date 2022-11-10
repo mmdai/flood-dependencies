@@ -1,7 +1,7 @@
 package cn.flood.websocket.memory;
 
 
-import cn.flood.Func;
+import cn.flood.base.core.Func;
 import cn.flood.websocket.WebSocket;
 import cn.flood.websocket.WebSocketEvent;
 import cn.flood.websocket.WebSocketManager;

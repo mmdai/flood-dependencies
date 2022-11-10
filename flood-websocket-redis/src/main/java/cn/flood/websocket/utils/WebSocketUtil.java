@@ -1,6 +1,6 @@
 package cn.flood.websocket.utils;
 
-import cn.flood.http.UrlUtils;
+import cn.flood.base.core.http.UrlUtils;
 
 import javax.websocket.Session;
 import java.io.IOException;

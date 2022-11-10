@@ -1,6 +1,6 @@
 package cn.flood.cloud.seata.rest;
 
-import cn.flood.Func;
+import cn.flood.base.core.Func;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import io.seata.core.context.RootContext;

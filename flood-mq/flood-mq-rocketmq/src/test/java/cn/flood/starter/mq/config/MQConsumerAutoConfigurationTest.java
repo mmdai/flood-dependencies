@@ -1,15 +1,8 @@
 package cn.flood.starter.mq.config;
 
-import cn.flood.rocketmq.annotation.MQConsumer;
-import cn.flood.rocketmq.base.AbstractMQPushConsumer;
-import cn.flood.rocketmq.base.MessageExtConst;
-import cn.flood.rocketmq.config.MQConsumerAutoConfiguration;
 //import org.junit.After;
 //import org.junit.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 //import static org.junit.Assert.assertEquals;
 //import static org.junit.Assert.assertNotNull;

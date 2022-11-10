@@ -1,2 +1,2 @@
-cn.flood.datasource.spring.DataSourceSpring
-cn.flood.datasource.spring.SqlSessionFactorySpring
+cn.flood.db.database.spring.DataSourceSpring
+cn.flood.db.database.spring.SqlSessionFactorySpring

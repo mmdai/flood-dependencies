@@ -2,8 +2,8 @@ package cn.flood.websocket;
 
 
 
-import cn.flood.Func;
-import cn.flood.context.SpringBeanManager;
+import cn.flood.base.core.Func;
+import cn.flood.base.core.context.SpringBeanManager;
 import cn.flood.websocket.utils.WebSocketUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

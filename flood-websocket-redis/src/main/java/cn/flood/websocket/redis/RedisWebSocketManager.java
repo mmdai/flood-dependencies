@@ -1,6 +1,6 @@
 package cn.flood.websocket.redis;
 
-import cn.flood.Func;
+import cn.flood.base.core.Func;
 import cn.flood.websocket.WebSocket;
 import cn.flood.websocket.memory.MemWebSocketManager;
 import cn.flood.websocket.redis.action.Action;

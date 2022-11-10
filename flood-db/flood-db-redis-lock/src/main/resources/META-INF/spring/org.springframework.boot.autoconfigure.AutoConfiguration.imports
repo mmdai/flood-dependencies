@@ -1,2 +1,2 @@
-cn.flood.lock.autoconfigure.RlockAutoConfiguration
-cn.flood.idempotent.autoconfigure.IdempotentAutoConfiguration
+cn.flood.db.redis.lock.autoconfigure.RlockAutoConfiguration
+cn.flood.db.redis.idempotent.autoconfigure.IdempotentAutoConfiguration

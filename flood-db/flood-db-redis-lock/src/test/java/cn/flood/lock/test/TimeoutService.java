@@ -1,10 +1,10 @@
 package cn.flood.lock.test;
 
-import cn.flood.lock.autoconfigure.annotation.Rlock;
+import cn.flood.db.redis.lock.autoconfigure.annotation.Rlock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import cn.flood.lock.autoconfigure.model.LockTimeoutStrategy;
-import cn.flood.lock.autoconfigure.model.ReleaseTimeoutStrategy;
+import cn.flood.db.redis.lock.autoconfigure.model.LockTimeoutStrategy;
+import cn.flood.db.redis.lock.autoconfigure.model.ReleaseTimeoutStrategy;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;

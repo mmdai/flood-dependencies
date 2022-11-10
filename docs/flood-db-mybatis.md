@@ -190,7 +190,7 @@ public void testSqlRestriction()
 
 MathOptVo 用法
 
-<update id="mathOpt" parameterType="cn.flood.mybatis.plus.support.MathOptVo">
+<update id="mathOpt" parameterType="MathOptVo">
         update user
         <set>
             <if test="opt == 'add'">

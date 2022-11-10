@@ -1,9 +1,8 @@
 package cn.flood.redisdelayqueuespringdemo.service;
 
-import cn.flood.idempotent.autoconfigure.annotation.Idempotent;
-import cn.flood.lock.autoconfigure.annotation.Rlock;
-import cn.flood.lock.autoconfigure.annotation.RlockKey;
-import cn.flood.lock.autoconfigure.model.LockTimeoutStrategy;
+import cn.flood.db.redis.idempotent.autoconfigure.annotation.Idempotent;
+import cn.flood.db.redis.lock.autoconfigure.annotation.Rlock;
+import cn.flood.db.redis.lock.autoconfigure.annotation.RlockKey;
 import org.springframework.stereotype.Service;
 
 /**

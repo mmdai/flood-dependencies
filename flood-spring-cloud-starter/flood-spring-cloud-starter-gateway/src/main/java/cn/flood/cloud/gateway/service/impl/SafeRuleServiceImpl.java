@@ -1,13 +1,13 @@
 package cn.flood.cloud.gateway.service.impl;
 
-import cn.flood.Func;
+import cn.flood.base.core.Func;
 import cn.flood.cloud.gateway.service.SafeRuleService;
 
 import cn.flood.cloud.rule.constant.RuleConstant;
 import cn.flood.cloud.rule.entity.BlackList;
 import cn.flood.cloud.rule.service.RuleCacheService;
-import cn.flood.date.DateTimeUtils;
-import cn.flood.http.IPUtils;
+import cn.flood.base.core.date.DateTimeUtils;
+import cn.flood.base.core.http.IPUtils;
 import com.google.common.base.Stopwatch;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

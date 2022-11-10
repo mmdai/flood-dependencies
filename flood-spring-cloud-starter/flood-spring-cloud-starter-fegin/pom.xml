@@ -44,6 +44,7 @@
             <artifactId>feign-okhttp</artifactId>
         </dependency>
         <!--调用路径记录-->
+        <!-- BRAVE -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>

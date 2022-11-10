@@ -1,4 +1,4 @@
-cn.flood.log.config.LogAutoConfigure
-cn.flood.log.services.impl.LoggerAuditServiceImpl
-cn.flood.log.services.impl.DbAuditServiceImpl
-cn.flood.log.aspect.AuditLogAspect
+cn.flood.cloud.log.config.LogAutoConfigure
+cn.flood.cloud.log.services.impl.LoggerAuditServiceImpl
+cn.flood.cloud.log.services.impl.DbAuditServiceImpl
+cn.flood.cloud.log.aspect.AuditLogAspect

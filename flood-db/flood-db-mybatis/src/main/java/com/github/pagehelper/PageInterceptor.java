@@ -1,6 +1,6 @@
 package com.github.pagehelper;
 
-import cn.flood.mybatis.plus.MybatisRowBounds;
+import cn.flood.db.mybatis.plus.MybatisRowBounds;
 import com.github.pagehelper.cache.Cache;
 import com.github.pagehelper.cache.CacheFactory;
 import com.github.pagehelper.util.ExecutorUtil;

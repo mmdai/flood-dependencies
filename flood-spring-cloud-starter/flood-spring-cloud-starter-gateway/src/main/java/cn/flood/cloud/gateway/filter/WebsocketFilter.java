@@ -1,6 +1,6 @@
 package cn.flood.cloud.gateway.filter;
 
-import cn.flood.Func;
+import cn.flood.base.core.Func;
 import cn.flood.cloud.gateway.props.WebSocketProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

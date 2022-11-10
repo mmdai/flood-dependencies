@@ -2,8 +2,8 @@ package cn.flood.cloud.gateway.loadbalancer;
 
 import brave.Span;
 import brave.Tracing;
-import cn.flood.Func;
-import cn.flood.constants.HeaderConstant;
+import cn.flood.base.core.Func;
+import cn.flood.base.core.constants.HeaderConstant;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.slf4j.Logger;

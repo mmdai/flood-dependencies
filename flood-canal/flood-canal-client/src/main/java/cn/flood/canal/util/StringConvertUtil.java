@@ -1,6 +1,6 @@
 package cn.flood.canal.util;
 
-import cn.flood.json.JsonUtils;
+import cn.flood.base.core.json.JsonUtils;
 
 import java.math.BigDecimal;
 import java.text.ParseException;

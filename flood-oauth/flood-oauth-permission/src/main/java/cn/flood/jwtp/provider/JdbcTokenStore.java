@@ -1,10 +1,10 @@
 package cn.flood.jwtp.provider;
 
-import cn.flood.Func;
-import cn.flood.UserToken;
+import cn.flood.base.core.Func;
+import cn.flood.base.core.UserToken;
 import cn.flood.jwtp.enums.PlatformEnum;
-import cn.flood.lang.CollectionUtil;
-import cn.flood.lang.StringUtils;
+import cn.flood.base.core.lang.CollectionUtil;
+import cn.flood.base.core.lang.StringUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

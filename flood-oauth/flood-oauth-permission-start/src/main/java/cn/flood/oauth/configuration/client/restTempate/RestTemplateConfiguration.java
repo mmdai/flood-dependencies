@@ -16,12 +16,12 @@
 package cn.flood.oauth.configuration.client.restTempate;
 
 
-import cn.flood.constants.AppConstant;
-import cn.flood.constants.FDConstant;
-import cn.flood.exception.CoreException;
-import cn.flood.exception.enums.GlobalErrorCodeEnum;
-import cn.flood.proto.converter.ProtostuffHttpMessageConverter;
-import cn.flood.utils.Charsets;
+import cn.flood.base.core.constants.AppConstant;
+import cn.flood.base.core.constants.FDConstant;
+import cn.flood.base.core.exception.CoreException;
+import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
+import cn.flood.base.proto.converter.ProtostuffHttpMessageConverter;
+import cn.flood.base.core.utils.Charsets;
 import lombok.AllArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;

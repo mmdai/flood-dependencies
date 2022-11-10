@@ -1,7 +1,6 @@
 package cn.flood.cloud.seata.config;
 
-import cn.flood.cloud.seata.props.SeataProperties;
-import cn.flood.support.YamlPropertySourceFactory;
+import cn.flood.base.core.support.YamlPropertySourceFactory;
 import io.seata.spring.annotation.datasource.EnableAutoDataSourceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
