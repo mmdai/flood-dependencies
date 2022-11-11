@@ -25,7 +25,7 @@ public class ValidCodeServiceImpl implements ValidCodeService {
     /**
      * redis 存放key
      */
-    private static final String KEY_TOKEN = "flood:oauth_code:";
+    private static final String KEY_TOKEN = "flood:cert:";
     /**
      * redis 存放时间
      */
