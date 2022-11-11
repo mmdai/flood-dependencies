@@ -34,7 +34,7 @@ public class GrayController {
         int port = nacosDiscoveryProperties.getPort();
         try {
             log.info("deregister from nacos, serviceName:{}, groupName:{}, clusterName:{}, ip:{}, port:{}", serviceName, groupName, clusterName, ip, port);
-            nacosServiceManager.getNamingService(nacosDiscoveryProperties.getNacosProperties()).deregisterInstance(serviceName, groupName, ip, port, clusterName);
+            nacosServiceManager.getNamingService().deregisterInstance(serviceName, groupName, ip, port, clusterName);
         } catch (NacosException e) {
             log.error("deregister from nacos error", e);
             return "error";
@@ -52,7 +52,7 @@ public class GrayController {
         int port = nacosDiscoveryProperties.getPort();
         try {
             log.info("register from nacos, serviceName:{}, groupName:{}, clusterName:{}, ip:{}, port:{}", serviceName, groupName, clusterName, ip, port);
-            nacosServiceManager.getNamingService(nacosDiscoveryProperties.getNacosProperties()).registerInstance(serviceName, groupName, ip, port, clusterName);
+            nacosServiceManager.getNamingService().registerInstance(serviceName, groupName, ip, port, clusterName);
         } catch (NacosException e) {
             log.error("register from nacos error", e);
             return "error";
