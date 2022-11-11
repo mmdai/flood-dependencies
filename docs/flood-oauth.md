@@ -178,30 +178,7 @@ JwtPermistion在token验证失败和没有权限的时候会抛出异常：
 | ExpiredTokenException | token已经过期 | 错误信息“登录已过期”，错误码402   |
 | UnauthorizedException | 没有权限      | 错误信息“没有访问权限”，错误码403 |
 
-建议使用异常处理器来捕获异常并返回json数据：
-```java
-@ControllerAdvice
-public class ExceptionHandler {
 
-   @ResponseBody
-   @ExceptionHandler(Exception.class)
-   public Map<String, Object> errorHandler(Exception ex) {
-       Map<String, Object> map = new HashMap<>();
-       // 根据不同错误获取错误信息
-       if (ex instanceof TokenException) {
-           map.put("code", ((TokenException) ex).getCode());
-           map.put("msg", ex.getMessage());
-       } else {
-           map.put("code", 500);
-           map.put("msg", ex.getMessage());
-           ex.printStackTrace();
-       }
-       return map;
-   }
-}
-```
-
----
 
 ## 2.5、更多用法
 

@@ -48,7 +48,7 @@ public class GlobalDefaultExceptionHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(GlobalDefaultExceptionHandler.class);
 
-	private static final String GLOBAL_HANDLER_TITLE = "GlobalExceptionHandler: ";
+	private static final String GLOBAL_HANDLER_TITLE = "GlobalExceptionHandler: {}";
 
     private static final int KILO = 1024;
 	@Autowired
@@ -87,7 +87,7 @@ public class GlobalDefaultExceptionHandler {
 				message = "upload file size exceeds system limit (" + ex.getMaxUploadSize() / KILO / KILO + "MB)";
 			}
 		}
-		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		logger.info(">>>retCode:{}, retMsg:{}",code, message);
 		return getErrorMessage(code, message);
     }
 
@@ -113,7 +113,7 @@ public class GlobalDefaultExceptionHandler {
 				message = GlobalErrorCodeEnum.METHOD_NOT_ALLOWED.getEnName();
 			}
 		}
-		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		logger.info(">>>retCode:{}, retMsg:{}",code, message);
 		return getErrorMessage(code, message);
 	}
 
@@ -139,7 +139,7 @@ public class GlobalDefaultExceptionHandler {
 				message = GlobalErrorCodeEnum.BAD_REQUEST.getEnName();
 			}
 		}
-		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		logger.info(">>>retCode:{}, retMsg:{}",code, message);
 		return getErrorMessage(code, message);
 	}
 	/**
@@ -164,7 +164,7 @@ public class GlobalDefaultExceptionHandler {
 				message = "BAD_REQUEST_TYPE";
 			}
 		}
-		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		logger.info(">>>retCode:{}, retMsg:{}",code, message);
 		return getErrorMessage(code, message);
 	}
 
@@ -283,7 +283,7 @@ public class GlobalDefaultExceptionHandler {
 			}
 			message = localeParser.replacePlaceHolderByLocale(message, langContent);
 		}
-		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		logger.info(">>>retCode:{}, retMsg:{}",code, message);
 		return getErrorMessage(code, message);
 	}
 
@@ -301,7 +301,7 @@ public class GlobalDefaultExceptionHandler {
 			langContent = localeContent;
 		}
 		message = localeParser.replacePlaceHolderByLocale(message, langContent);
-		logger.error(">>>retCode:{}, retMsg:{}",code, message);
+		logger.info(">>>retCode:{}, retMsg:{}",code, message);
 		error.set_code(code);
 		error.set_msg(message);
 		return error;
