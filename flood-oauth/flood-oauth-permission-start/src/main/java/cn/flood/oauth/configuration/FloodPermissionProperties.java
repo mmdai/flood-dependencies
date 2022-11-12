@@ -12,6 +12,7 @@ public class FloodPermissionProperties {
      */
     private static final String[] ENDPOINTS = {
             "/actuator/**",
+            "/monitor/**",
             "/v2/api-docs/**",
             "/v3/api-docs/**",
             "/swagger/api-docs",
