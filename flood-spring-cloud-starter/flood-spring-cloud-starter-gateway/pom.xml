@@ -50,11 +50,11 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
         </dependency>
-        <!-- 用于actuator监控 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+<!--        &lt;!&ndash; 用于actuator监控 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--        </dependency>-->
         <!-- BRAVE -->
         <dependency>
             <groupId>io.zipkin.brave</groupId>
