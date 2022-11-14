@@ -50,11 +50,8 @@ public class SameZoneOnlyServiceInstanceListSupplier extends DelegatingServiceIn
                 return filteredInstances;
             }
         }
-        /**
-         * @see ZonePreferenceServiceInstanceListSupplier 在没有相同zone实例的时候返回的是所有实例
-         * 我们这里为了实现不同 zone 之间不互相调用需要返回空列表
-         */
-        return Arrays.asList();
+        //如果没有zone设置, 则返回所有实例
+        return serviceInstances;
     }
 
     private String getZone(ServiceInstance serviceInstance) {

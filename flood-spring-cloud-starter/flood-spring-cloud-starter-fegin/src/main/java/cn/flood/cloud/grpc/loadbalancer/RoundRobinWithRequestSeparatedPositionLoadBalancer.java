@@ -1,7 +1,7 @@
 package cn.flood.cloud.grpc.loadbalancer;
 
 import brave.Span;
-import brave.Tracer;
+import brave.Tracing;
 import cn.flood.base.core.Func;
 import cn.flood.base.core.constants.HeaderConstant;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -43,13 +43,13 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
             //随机初始值，防止每次都是从第一个开始调用
             .build(k -> new AtomicInteger(ThreadLocalRandom.current().nextInt(0, 1000)));
     private final String serviceId;
-    private final Tracer tracer;
+    private final Tracing tracing;
 
 
-    public RoundRobinWithRequestSeparatedPositionLoadBalancer(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplier, String serviceId, Tracer tracer) {
+    public RoundRobinWithRequestSeparatedPositionLoadBalancer(ObjectProvider<ServiceInstanceListSupplier> serviceInstanceListSupplier, String serviceId, Tracing tracing) {
         this.serviceInstanceListSupplier = serviceInstanceListSupplier;
         this.serviceId = serviceId;
-        this.tracer = tracer;
+        this.tracing = tracing;
     }
 
     @Override
@@ -73,9 +73,9 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
             return new EmptyResponse();
         }
         //为了解决原始算法不同调用并发可能导致一个请求重试相同的实例
-        Span currentSpan = tracer.currentSpan();
+        Span currentSpan = tracing.tracer().currentSpan();
         if (currentSpan == null) {
-            currentSpan = tracer.newTrace();
+            currentSpan = tracing.tracer().newTrace();
         }
         long l = currentSpan.context().traceId();
         AtomicInteger seed = positionCache.get(l);
