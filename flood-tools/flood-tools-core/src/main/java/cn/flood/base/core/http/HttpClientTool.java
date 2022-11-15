@@ -294,7 +294,7 @@ public class HttpClientTool {
             log.info("【http】【{}】 start", request.getURI());
             HttpResponse response = httpClient.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
-            log.info("【http】【{}】,statusCode: {} end, cost【{}ms】", request.getURI(), statusCode, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
+            log.info("【http】【{}】,statuscode: {} end, cost【{}ms】", request.getURI(), statusCode, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
             String res = EntityUtils.toString(response.getEntity(), Charsets.UTF_8).trim();
             log.info("http return: {}", res);
             if (statusCode != HttpStatus.SC_OK){
