@@ -4,6 +4,7 @@ import cn.flood.base.core.Func;
 import cn.flood.base.core.constants.CoreConstant;
 import cn.flood.base.core.exception.CoreException;
 import cn.flood.base.core.utils.Charsets;
+import com.google.common.base.Stopwatch;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -48,6 +49,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * http客户端工具
@@ -288,9 +290,11 @@ public class HttpClientTool {
 
     public static String excute(HttpUriRequest request, HttpClient httpClient) throws CoreException {
         try{
+            Stopwatch stopwatch = Stopwatch.createStarted();
+            log.info("【http】【{}】 start", request.getURI());
             HttpResponse response = httpClient.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
-            log.info("http statusCode:{}", statusCode);
+            log.info("【http】【{}】,statusCode: {} end, cost【{}ms】", request.getURI(), statusCode, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
             String res = EntityUtils.toString(response.getEntity(), Charsets.UTF_8).trim();
             log.info("http return: {}", res);
             if (statusCode != HttpStatus.SC_OK){
@@ -298,7 +302,7 @@ public class HttpClientTool {
             }
             return res;
         }catch(Exception e){
-            log.info("http error:{}", e);
+            log.error("http error:{}", e);
             String message = e!=null? e.getMessage(): "";
             if(e instanceof CoreException){
                 throw (CoreException) e;
