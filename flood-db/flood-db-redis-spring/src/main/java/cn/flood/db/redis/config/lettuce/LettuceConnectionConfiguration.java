@@ -87,7 +87,11 @@ public class LettuceConnectionConfiguration extends RedisConnectionConfiguration
         Map<String, RedisProperties> connection = dynamicRedisProperties.getConnection();
         AtomicReference<LettuceConnectionFactory> dynamic = new AtomicReference<>();
         connection.forEach((key, value) -> {
-            dynamic.set(dynamicBuild(value));
+            //如果配置了默认的数据源，则使用默认的数据源
+            String defaultDataSource = dynamicRedisProperties.getDefaultDataSource();
+            if(defaultDataSource.equals(key)){
+                dynamic.set(dynamicBuild(value));
+            }
         });
         return dynamic.get();
     }

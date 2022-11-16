@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -147,37 +148,36 @@ public class RedisAutoConfiguration {
             redisTemplate = new RedisTemplate<>();
             redisTemplate.setConnectionFactory(redisConnectionFactory);
             RedisSerializer<?> stringSerializer = new StringRedisSerializer();
-            redisTemplate.setKeySerializer(stringSerializer);// key序列化
-            redisTemplate.setValueSerializer(redisSerializer());// value序列化
-            redisTemplate.setHashKeySerializer(stringSerializer);// Hash key序列化
-            redisTemplate.setHashValueSerializer(redisSerializer());// Hash value序列化
+            // key序列化
+            redisTemplate.setKeySerializer(stringSerializer);
+            // value序列化
+            redisTemplate.setValueSerializer(redisSerializer());
+            // Hash key序列化
+            redisTemplate.setHashKeySerializer(stringSerializer);
+            // Hash value序列化
+            redisTemplate.setHashValueSerializer(redisSerializer());
             redisTemplate.afterPropertiesSet();
         }
         return redisTemplate;
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean({StringRedisTemplate.class})
-//    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
-//        StringRedisTemplate template = new StringRedisTemplate();
-//        // 设置序列化
-//        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
-//                Object.class);
-//        ObjectMapper om = new ObjectMapper();
-//        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-////	    om.enableDefaultTyping(DefaultTyping.NON_FINAL);
-//        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
-//                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-//        jackson2JsonRedisSerializer.setObjectMapper(om);
-//        template.setConnectionFactory(redisConnectionFactory);
-//        RedisSerializer<?> stringSerializer = new StringRedisSerializer();
-//        template.setKeySerializer(stringSerializer);// key序列化
-//        template.setValueSerializer(stringSerializer);// value序列化
-//        template.setHashKeySerializer(stringSerializer);// Hash key序列化
-//        template.setHashValueSerializer(stringSerializer);// Hash value序列化
-//        template.afterPropertiesSet();
-//        return template;
-//    }
+    @Bean
+    @ConditionalOnMissingBean({StringRedisTemplate.class})
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        StringRedisTemplate template = new StringRedisTemplate();
+        template.setConnectionFactory(redisConnectionFactory);
+        RedisSerializer<?> stringSerializer = new StringRedisSerializer();
+        // key序列化
+        template.setKeySerializer(stringSerializer);
+        // value序列化
+        template.setValueSerializer(redisSerializer());
+        // Hash key序列化
+        template.setHashKeySerializer(stringSerializer);
+        // Hash value序列化
+        template.setHashValueSerializer(redisSerializer());
+        template.afterPropertiesSet();
+        return template;
+    }
 
     @Bean
     public RedisService getRedisService(RedisTemplate<String, Object> redisTemplate) {

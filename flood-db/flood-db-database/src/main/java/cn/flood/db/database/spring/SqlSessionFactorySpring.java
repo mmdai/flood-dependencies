@@ -26,7 +26,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.util.ObjectUtils;
 
 @AutoConfiguration
-@ComponentScan(basePackages = {"cn.flood.datasource.aop.impl"})
+@ComponentScan(basePackages = {"cn.flood.db.database.aop.impl"})
 @AutoConfigureBefore(DataSource.class)
 @EnableConfigurationProperties({
 		MybatisProperties.class
