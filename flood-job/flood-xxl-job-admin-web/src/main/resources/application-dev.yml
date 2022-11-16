@@ -162,7 +162,9 @@ spring:
       load-on-startup: 0
     static-path-pattern: /static/**
   resources:
-    static-locations: classpath:/static/
+  web:
+    resources:
+      static-locations: classpath:/static/
 ########################################################
 
 ### spring mail

@@ -137,8 +137,7 @@ management:
     mail:
       enabled: false
   server:
-    servlet:
-      context-path: /actuator
+    base-path: /actuator
   endpoint:
     health:
       show-details: ALWAYS
@@ -165,7 +164,9 @@ spring:
       load-on-startup: 0
     static-path-pattern: /static/**
   resources:
-    static-locations: classpath:/static/
+  web:
+    resources:
+      static-locations: classpath:/static/
 ########################################################
 
 ### spring mail
