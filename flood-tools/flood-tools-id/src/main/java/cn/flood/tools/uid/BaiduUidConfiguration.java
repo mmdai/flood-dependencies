@@ -99,7 +99,7 @@ public class BaiduUidConfiguration {
                 "  `modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',\n" +
                 "  `created` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',\n" +
                 "  PRIMARY KEY(id)" +
-                ")COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;";
+                ")COMMENT='DB WorkerID Assigner for UID Generator',ENGINE = INNODB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic";
         this.jdbcTemplate.execute(sql);
     }
 
