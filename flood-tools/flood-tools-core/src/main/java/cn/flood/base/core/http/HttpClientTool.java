@@ -173,7 +173,7 @@ public class HttpClientTool {
      */
     public static String getMethod(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
-        HttpUriRequest request = httpUriRequestGet(url, map, true);
+        HttpRequestBase request = httpRequestGet(url, map, true);
         return excute(request, httpClient);
     }
     /**
@@ -198,7 +198,7 @@ public class HttpClientTool {
      */
     public static String getMethodUnUnicode(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
-        HttpUriRequest request = httpUriRequestGet(url, map, false);
+        HttpRequestBase request = httpRequestGet(url, map, false);
         return excute(request, httpClient);
     }
     /**
@@ -223,7 +223,7 @@ public class HttpClientTool {
      */
     public static String postMethod(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
-        HttpUriRequest request = httpUriRequestPost(url, map, true);
+        HttpRequestBase request = httpRequestPost(url, map, true);
         return excute(request, httpClient);
     }
 
@@ -248,7 +248,7 @@ public class HttpClientTool {
      */
     public static String postMethodUnUnicode(String url, Map<String, Object> map, String username, String password) throws CoreException{
         HttpClient httpClient = getHttpClientMethod(username, password);
-        HttpUriRequest request = httpUriRequestPost(url, map, false);
+        HttpRequestBase request = httpRequestPost(url, map, false);
         return excute(request, httpClient);
     }
 
@@ -275,7 +275,7 @@ public class HttpClientTool {
     public static String postMethodJson(String url, Map<String, Object> map, String username, String password) throws CoreException {
         HttpClient httpClient = getHttpClientMethod(username, password);
         String obj = Func.toJson(map);
-        HttpUriRequest request = httpUriRequestJson(url, obj);
+        HttpRequestBase request = httpRequestJson(url, obj);
         return excute(request, httpClient);
     }
 
@@ -288,7 +288,7 @@ public class HttpClientTool {
         return httpClient;
     }
 
-    public static String excute(HttpUriRequest request, HttpClient httpClient) throws CoreException {
+    public static String excute(HttpRequestBase request, HttpClient httpClient) throws CoreException {
         try{
             Stopwatch stopwatch = Stopwatch.createStarted();
             log.info("【http】【{}】 start", request.getURI());
@@ -317,10 +317,12 @@ public class HttpClientTool {
             }else{
                 throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【"+message+"】");
             }
+        }finally {
+            request.releaseConnection();
         }
     }
 
-    public static HttpUriRequest httpUriRequestGet(String url, Map<String, Object> map, boolean isUnicode){
+    public static HttpRequestBase httpRequestGet(String url, Map<String, Object> map, boolean isUnicode){
         StringBuilder getParam = new StringBuilder();
         getParam.append(url).append("?");
         if(Func.isNotEmpty(map)){
@@ -349,7 +351,7 @@ public class HttpClientTool {
         return httpGet;
     }
 
-    public static HttpUriRequest httpUriRequestPost(String url, Map<String, Object> map, boolean isUnicode){
+    public static HttpRequestBase httpRequestPost(String url, Map<String, Object> map, boolean isUnicode){
         HttpPost httpPost = new HttpPost(url);
         httpPost.addHeader("Connection", "close");
         httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -382,7 +384,7 @@ public class HttpClientTool {
         return httpPost;
     }
 
-    public static HttpUriRequest httpUriRequestJson(String url, String data) {
+    public static HttpRequestBase httpRequestJson(String url, String data) {
         HttpPost httpPost = new HttpPost(url);
         if (data != null) {
             httpPost.setEntity(new StringEntity(data, "UTF-8"));
