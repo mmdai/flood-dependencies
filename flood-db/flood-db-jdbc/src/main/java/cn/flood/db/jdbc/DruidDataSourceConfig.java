@@ -11,6 +11,7 @@ import com.alibaba.druid.support.http.WebStatFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -50,7 +51,7 @@ public class DruidDataSourceConfig {
         System.setProperty("druid.mysql.usePingMethod","false");
     }
 
-	@Bean // 只需要纳入动态数据源到spring容器
+	@Bean(name = "dataSource") // 只需要纳入动态数据源到spring容器
     public DruidDataSource dataSource(){
         if(dataSourceProperties.isThreadPool()) {
             DruidDataSource datasource = new DruidDataSource();

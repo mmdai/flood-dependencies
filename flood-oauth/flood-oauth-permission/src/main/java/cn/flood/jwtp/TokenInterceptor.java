@@ -61,7 +61,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             logger.debug("ACCESS_TOKEN: {} , TOKEN_KEY: {}", access_token , tokenKey);
             subject = TokenUtil.parseToken(access_token, tokenKey);
         } catch (ExpiredJwtException e) {
-            logger.debug("ERROR: ExpiredJwtException");
+            logger.error("ERROR: ExpiredJwtException");
             throw new ExpiredTokenException();
         } catch (Exception e) {
             throw new ErrorTokenException();
@@ -73,7 +73,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         // 检查token是否存在系统中
         UserToken userToken = tokenStore.findToken(PlatformEnum.valueOfEnum(type), tenantId, userId, access_token);
         if (userToken == null) {
-            logger.debug("ERROR: UserToken Not Found");
+            logger.error("ERROR: UserToken Not Found");
             throw new ErrorTokenException();
         }
         // 查询用户的角色和权限

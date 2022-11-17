@@ -21,16 +21,19 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.util.ObjectUtils;
 
 @AutoConfiguration
-@ComponentScan(basePackages = {"cn.flood.db.database.aop.impl"})
-@AutoConfigureBefore(DataSource.class)
+@Import({
+		DataSourceSpring.class
+})
 @EnableConfigurationProperties({
 		MybatisProperties.class
 })
+@ComponentScan(basePackages = {"cn.flood.db.database.aop.impl"})
 public class SqlSessionFactorySpring {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());

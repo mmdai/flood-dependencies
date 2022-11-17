@@ -21,6 +21,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.util.ObjectUtils;
@@ -30,7 +31,9 @@ import org.springframework.util.ObjectUtils;
  * @author mmdai
  */
 @AutoConfiguration
-@AutoConfigureBefore(DataSource.class)
+@Import({
+        DruidDataSourceConfig.class
+})
 @EnableConfigurationProperties({
         MybatisProperties.class
 })
