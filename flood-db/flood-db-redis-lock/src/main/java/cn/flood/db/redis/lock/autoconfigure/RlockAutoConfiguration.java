@@ -22,6 +22,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.util.ClassUtils;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  *
  * @author daimm
@@ -47,14 +50,26 @@ public class RlockAutoConfiguration {
             if(Func.isNotEmpty(rlockConfig.getPassword())){
                 config.useClusterServers().setPassword(rlockConfig.getPassword());
             }
-        }else {
+            config.useClusterServers().setMasterConnectionMinimumIdleSize(rlockConfig.getConnectionMinimumIdleSize());
+            config.useClusterServers().setMasterConnectionPoolSize(rlockConfig.getConnectionMinimumIdleSize());
+        } else if(rlockConfig.getSentinelServer()!=null){
+            config.useSentinelServers().setMasterName(rlockConfig.getSentinelServer().getMasterName()).
+                    setSentinelAddresses(Arrays.stream(rlockConfig.getSentinelServer().getNodeAddresses()).collect(Collectors.toList()));
+            if(Func.isNotEmpty(rlockConfig.getPassword())){
+                config.useSentinelServers().setPassword(rlockConfig.getPassword());
+            }
+            config.useSentinelServers().setMasterConnectionMinimumIdleSize(rlockConfig.getConnectionMinimumIdleSize());
+            config.useSentinelServers().setMasterConnectionPoolSize(rlockConfig.getConnectionPoolSize());
+            config.useSentinelServers().setSlaveConnectionMinimumIdleSize(rlockConfig.getConnectionMinimumIdleSize());
+            config.useSentinelServers().setSlaveConnectionPoolSize(rlockConfig.getConnectionPoolSize());
+        } else {
             config.useSingleServer().setAddress(rlockConfig.getAddress())
                     .setDatabase(rlockConfig.getDatabase());
             if(Func.isNotEmpty(rlockConfig.getPassword())){
                 config.useSingleServer().setPassword(rlockConfig.getPassword());
             }
-            config.useSingleServer().setConnectionMinimumIdleSize(15);
-            config.useSingleServer().setConnectionPoolSize(20);
+            config.useSingleServer().setConnectionMinimumIdleSize(rlockConfig.getConnectionMinimumIdleSize());
+            config.useSingleServer().setConnectionPoolSize(rlockConfig.getConnectionPoolSize());
         }
         Codec codec=(Codec) ClassUtils.forName(rlockConfig.getCodec(),ClassUtils.getDefaultClassLoader()).newInstance();
         config.setCodec(codec);

@@ -2,6 +2,8 @@ package cn.flood.db.redis.lock.autoconfigure.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 /**
  * Created by on 2017/12/29.
  */
@@ -14,11 +16,18 @@ public class RlockConfig {
     private String password;
     private int database = 15;
     private ClusterServer clusterServer;
+    private SentinelServer sentinelServer;
+
     private String codec = "org.redisson.codec.JsonJacksonCodec";
+
+    private int connectionMinimumIdleSize =15;
+
+    private int connectionPoolSize = 20;
 
     private int threads = 5;
     //lock
     private long waitTime = 60;
+
     private long leaseTime = 60;
 
     public String getAddress() {
@@ -69,6 +78,38 @@ public class RlockConfig {
         this.database = database;
     }
 
+    public SentinelServer getSentinelServer() {
+        return sentinelServer;
+    }
+
+    public void setSentinelServer(SentinelServer sentinelServer) {
+        this.sentinelServer = sentinelServer;
+    }
+
+    public static class SentinelServer {
+        private String masterName;
+        private String[] nodeAddresses;
+
+        public SentinelServer() {
+        }
+
+        public String getMasterName() {
+            return masterName;
+        }
+
+        public void setMasterName(String masterName) {
+            this.masterName = masterName;
+        }
+
+        public String[] getNodeAddresses() {
+            return nodeAddresses;
+        }
+
+        public void setNodeAddresses(String[] nodeAddresses) {
+            this.nodeAddresses = nodeAddresses;
+        }
+    }
+
     public ClusterServer getClusterServer() {
         return clusterServer;
     }
@@ -96,5 +137,21 @@ public class RlockConfig {
 
     public void setThreads(int threads) {
         this.threads = threads;
+    }
+
+    public int getConnectionMinimumIdleSize() {
+        return connectionMinimumIdleSize;
+    }
+
+    public void setConnectionMinimumIdleSize(int connectionMinimumIdleSize) {
+        this.connectionMinimumIdleSize = connectionMinimumIdleSize;
+    }
+
+    public int getConnectionPoolSize() {
+        return connectionPoolSize;
+    }
+
+    public void setConnectionPoolSize(int connectionPoolSize) {
+        this.connectionPoolSize = connectionPoolSize;
     }
 }
