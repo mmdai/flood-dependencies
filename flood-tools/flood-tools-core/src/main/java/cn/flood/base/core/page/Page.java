@@ -89,7 +89,7 @@ public class Page<E> implements Serializable {
     }
 
     public int getLimit() {
-        return limit;
+        return limit>100 ? 100 : limit;
     }
 
     public void setLimit(int limit) {

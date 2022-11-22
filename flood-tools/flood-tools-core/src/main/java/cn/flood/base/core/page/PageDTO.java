@@ -8,7 +8,6 @@
 */  
 package cn.flood.base.core.page;
 
-import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
@@ -19,7 +18,6 @@ import java.io.Serializable;
 * @author mmdai  
 * @date 2019年4月18日  
 */
-@Data
 @ToString
 public class PageDTO implements Serializable {
 	
@@ -30,4 +28,19 @@ public class PageDTO implements Serializable {
 	
 	private Integer pagesize = 10;
 
+	public Integer getPageno() {
+		return pageno;
+	}
+
+	public void setPageno(Integer pageno) {
+		this.pageno = pageno;
+	}
+
+	public Integer getPagesize() {
+		return pagesize>100 ? 100 : pagesize;
+	}
+
+	public void setPagesize(Integer pagesize) {
+		this.pagesize = pagesize;
+	}
 }
