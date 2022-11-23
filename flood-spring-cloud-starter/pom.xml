@@ -30,6 +30,7 @@
         <module>flood-spring-cloud-starter-pulsar</module>
         <module>flood-spring-cloud-starter-seata</module>
         <module>flood-spring-cloud-starter-nacos-gray</module>
+        <module>flood-spring-cloud-starter-actuator</module>
     </modules>
 
     <artifactId>flood-spring-cloud-starter</artifactId>

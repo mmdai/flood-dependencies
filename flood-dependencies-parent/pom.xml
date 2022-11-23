@@ -250,6 +250,12 @@
 			<artifactId>flood-spring-cloud-starter-web</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<!-- actuator 加security  -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-spring-cloud-starter-actuator</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-spring-cloud-starter-comm</artifactId>

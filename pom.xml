@@ -231,6 +231,7 @@
 			<plugin>
 		         <groupId>org.apache.maven.plugins</groupId>
 		         <artifactId>maven-dependency-plugin</artifactId>
+				<version>3.3.0</version>
         	</plugin>
         	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -241,6 +242,7 @@
 						<target>${java.version}</target>
 						<source>${java.version}</source>
 						<encoding>UTF-8</encoding>
+						<compilerArgument>-Xlint:unchecked</compilerArgument>
 					</configuration>
 			</plugin>
 			<plugin>
