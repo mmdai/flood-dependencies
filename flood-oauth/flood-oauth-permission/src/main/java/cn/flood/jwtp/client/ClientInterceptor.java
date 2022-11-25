@@ -7,6 +7,7 @@ import cn.flood.base.core.context.SpringBeanManager;
 import cn.flood.base.core.http.WebUtil;
 import cn.flood.jwtp.constants.TokenConstant;
 import cn.flood.base.core.rpc.response.Result;
+import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -126,7 +127,10 @@ public class ClientInterceptor implements HandlerInterceptor {
         MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<>();
         paramMap.add(HeaderConstant.ACCESS_TOKEN, access_token);
         HttpEntity requestEntity = new HttpEntity<>(paramMap, headers);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        logger.info("【auth http】【{}】 start", centerUrl);
         Result result = restTemplate.postForObject(url.toString(), requestEntity, Result.class);
+        logger.info("【auth http】【{}】 end, cost【{}ms】", centerUrl, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
         if(result == null){
             throw new RuntimeException("'" + authCenterUrl + "/authentication' return null");
         }

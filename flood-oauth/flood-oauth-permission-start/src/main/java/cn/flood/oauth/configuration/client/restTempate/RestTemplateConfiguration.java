@@ -167,7 +167,7 @@ public class RestTemplateConfiguration {
 			@Override
 			public boolean hasError(ClientHttpResponse response) throws IOException {
 				int rawStatusCode = response.getRawStatusCode();
-				log.info("rawStatusCode: {}",rawStatusCode);
+				log.error("rawStatusCode: {}",rawStatusCode);
 				if(rawStatusCode== HttpStatus.OK.value() || rawStatusCode==HttpStatus.CREATED.value()){
 					return false;
 				}
@@ -182,7 +182,7 @@ public class RestTemplateConfiguration {
 				try {
 					reader = new BufferedReader(new InputStreamReader(response.getBody()));
 					String body = reader.readLine();
-					log.info("handleError body: {}",body);
+					log.error("handleError body: {}",body);
 					errorMesssge = body;
 				} catch (Exception e) {
 					log.error("读取response错误异常",e);
@@ -199,6 +199,7 @@ public class RestTemplateConfiguration {
 				String message = "";
 
 				int rawStatusCode = response.getRawStatusCode();
+				log.error("rawStatusCode: {}",rawStatusCode);
 				//404
 				if(rawStatusCode == HttpStatus.NOT_FOUND.value()){
 					code = GlobalErrorCodeEnum.NOT_FOUND.getCode();
