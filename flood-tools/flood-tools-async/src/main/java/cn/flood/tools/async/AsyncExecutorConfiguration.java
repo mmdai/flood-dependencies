@@ -53,10 +53,15 @@ public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingCo
 
 	public Executor customAsync() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		//核心线程数
 		executor.setCorePoolSize(asyncProperties.getCorePoolSize());
+		//最大线程数
 		executor.setMaxPoolSize(asyncProperties.getMaxPoolSize());
+		//等待队列
 		executor.setQueueCapacity(asyncProperties.getQueueCapacity());
+		//线程前缀
 		executor.setThreadNamePrefix("flood-async-executor-");
+		//线程池维护线程所允许的空闲时间,单位为秒
 		executor.setKeepAliveSeconds(asyncProperties.getKeepAliveSeconds());
 
 		// rejection-policy：当pool已经达到max size的时候，如何处理新任务
