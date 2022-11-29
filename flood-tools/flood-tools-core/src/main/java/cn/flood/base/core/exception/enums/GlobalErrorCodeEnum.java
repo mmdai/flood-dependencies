@@ -226,6 +226,26 @@ public enum GlobalErrorCodeEnum {
      * 数据组初始化无机构信息
      */
     GROUP_INIT_DATA_ERROR("A19002", "数据组初始化无机构信息", "GROUP_INIT_DATA_ERROR"),
+    /**
+     * 接口限流
+     */
+    TOO_MANY_REQUESTS("429", "调用服务过于频繁,接口限流", "TOO_MANY_REQUESTS"),
+    /**
+     * 服务降级
+     */
+    DEGRADE_SERVER_ERROR("430", "调用服务响应异常,已进行降级", "DEGRADE_SERVER_ERROR"),
+    /**
+     * 热点参数限流
+     */
+    PARAM_FLOW_SERVER_ERROR("431", "您对热点参数访问过于频繁,请稍后重试", "PARAM_FLOW_SERVER_ERROR"),
+    /**
+     * 触发系统保护规则
+     */
+    SYSTEM_BLOCK_SERVER_ERROR("432", "已触碰系统的红线规则，请检查访问参数", "SYSTEM_BLOCK_SERVER_ERROR"),
+    /**
+     * 授权规则
+     */
+    AUTHORITY_SERVER_ERROR("433", "授权规则检测不同，请检查访问参数", "AUTHORITY_SERVER_ERROR"),
 
     /**
      * 系统异常

@@ -72,6 +72,15 @@
           <artifactId>flood-tools-core</artifactId>
           <version>${flood.version}</version>
       </dependency>
+      <!-- sentinel 异常 -->
+      <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-core</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>com.alibaba.csp</groupId>
+          <artifactId>sentinel-parameter-flow-control</artifactId>
+      </dependency>
 
   </dependencies>
 </project>

@@ -20,18 +20,18 @@ public class FloodErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
         if (response.status() == HttpStatus.BAD_REQUEST.value()) {
-            log.error("请求服务400参数错误,返回:{}", response.body());
+            log.error("请求服务 400 参数错误,返回:{}", response.body().toString());
         }
 
         if (response.status() ==  HttpStatus.CONFLICT.value()) {
-            log.error("请求服务409异常,返回:{}", response.body());
+            log.error("请求服务 409 异常, 返回:{}", response.body().toString());
         }
 
         if (response.status() == HttpStatus.NOT_FOUND.value()) {
-            log.error("请求服务404异常,返回:{}", response.body());
+            log.error("请求服务 404 异常, 返回:{}", response.body().toString());
         }
         if (response.status() == HttpStatus.SERVICE_UNAVAILABLE.value()) {
-            log.error("请求服务503异常,返回:{}", response.body());
+            log.error("请求服务 503 异常, 返回:{}", response.body().toString());
             throw new RetryableException(
                     response.status(),
                     HttpStatus.SERVICE_UNAVAILABLE.name(),

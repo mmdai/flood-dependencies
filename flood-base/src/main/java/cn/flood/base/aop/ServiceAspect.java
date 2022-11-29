@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
 * @author mmdai  
 * @date 2018年10月11日
  */
-@Aspect
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+//@Aspect
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class ServiceAspect implements LogAspect {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -30,6 +32,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
+import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 
 import cn.flood.base.core.exception.ErrorMessage;
 
@@ -233,6 +242,88 @@ public class GlobalDefaultExceptionHandler {
 		}
 		return getErrorMessage(req, error, code, message);
 	}
+	/***************************sentinel 异常***************************************/
+	@ExceptionHandler(value = UndeclaredThrowableException.class)
+	public ErrorMessage throwableErrorHandler(HttpServletRequest req, UndeclaredThrowableException ex) {
+		logger.error(GLOBAL_HANDLER_TITLE, ex.getUndeclaredThrowable());
+		return sentinelErrorHandler(req, ex.getUndeclaredThrowable());
+	}
+
+	@ExceptionHandler(value = BlockException.class)
+	public ErrorMessage blockErrorHandler(HttpServletRequest req, BlockException ex) {
+		logger.error(GLOBAL_HANDLER_TITLE, ex);
+		return sentinelErrorHandler(req, ex);
+	}
+
+	private ErrorMessage sentinelErrorHandler(HttpServletRequest req, Throwable ex){
+		String code = null;
+		String message = null;
+		if(ex instanceof FlowException) {//限流异常
+			// Return 429 (Too Many Requests) by default.
+			//降级异常
+			code = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getCode();
+			message = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getZhName();
+			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+			if(!ObjectUtils.isEmpty(langContent)){
+				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+					message = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getEnName();
+				}
+			}
+		}else if (ex instanceof DegradeException) {
+			//降级异常
+			code = GlobalErrorCodeEnum.DEGRADE_SERVER_ERROR.getCode();
+			message = GlobalErrorCodeEnum.DEGRADE_SERVER_ERROR.getZhName();
+			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+			if(!ObjectUtils.isEmpty(langContent)){
+				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+					message = GlobalErrorCodeEnum.DEGRADE_SERVER_ERROR.getEnName();
+				}
+			}
+		}else if (ex instanceof ParamFlowException) {
+			//热点参数异常
+			code = GlobalErrorCodeEnum.PARAM_FLOW_SERVER_ERROR.getCode();
+			message = GlobalErrorCodeEnum.PARAM_FLOW_SERVER_ERROR.getZhName();
+			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+			if(!ObjectUtils.isEmpty(langContent)){
+				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+					message = GlobalErrorCodeEnum.PARAM_FLOW_SERVER_ERROR.getEnName();
+				}
+			}
+		}else if (ex instanceof SystemBlockException) {
+			//系统保护规则
+			code = GlobalErrorCodeEnum.SYSTEM_BLOCK_SERVER_ERROR.getCode();
+			message = GlobalErrorCodeEnum.SYSTEM_BLOCK_SERVER_ERROR.getZhName();
+			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+			if(!ObjectUtils.isEmpty(langContent)){
+				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+					message = GlobalErrorCodeEnum.SYSTEM_BLOCK_SERVER_ERROR.getEnName();
+				}
+			}
+		}else if (ex instanceof AuthorityException) {
+			//授权规则
+			code = GlobalErrorCodeEnum.AUTHORITY_SERVER_ERROR.getCode();
+			message = GlobalErrorCodeEnum.AUTHORITY_SERVER_ERROR.getZhName();
+			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+			if(!ObjectUtils.isEmpty(langContent)){
+				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+					message = GlobalErrorCodeEnum.AUTHORITY_SERVER_ERROR.getEnName();
+				}
+			}
+		} else {
+			//其他规则
+			code = GlobalErrorCodeEnum.UNKNOWN.getCode();
+			message = GlobalErrorCodeEnum.UNKNOWN.getZhName();
+			String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+			if(!ObjectUtils.isEmpty(langContent)){
+				if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+					message = GlobalErrorCodeEnum.UNKNOWN.getEnName();
+				}
+			}
+		}
+		logger.info(">>>retCode:{}, retMsg:{}",code, message);
+		return getErrorMessage(code, message);
+	}
+	/***************************sentinel 异常***************************************/
 	/**
 	 * 
 	 * <p>Title: defaultErrorHandler</p>  

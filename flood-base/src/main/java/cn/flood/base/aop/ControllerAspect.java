@@ -50,7 +50,7 @@ public class ControllerAspect implements LogAspect {
 //		if (logger.isDebugEnabled()) {
 //			logger.debug("【controller】【{}】【{}】【{}】", uri, methodName, before(joinPoint));
 //		}
-		Object result=joinPoint.proceed();
+		Object result = joinPoint.proceed();
 //		if (logger.isDebugEnabled()) {
 //		 	logger.debug("【controller】【{}】【{}】【{}】", uri, methodName, after(result));
 //		}
