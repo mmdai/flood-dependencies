@@ -73,7 +73,7 @@ public class SwaggerConfiguration {
 	
 	@Bean
 	public Docket swaggerApi() {
-		logger.info("===============================SwaggerConfig");
+		logger.info("SwaggerConfig");
 		//添加全局响应状态码
 		List<Response> responseMessageList = new ArrayList<>();
 

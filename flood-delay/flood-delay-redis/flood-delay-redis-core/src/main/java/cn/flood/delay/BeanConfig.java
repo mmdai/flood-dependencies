@@ -104,7 +104,7 @@ public class BeanConfig {
     public RedisDelayQueueContext getRdctx(){
 
         RedisDelayQueueContext context =  new RedisDelayQueueContext(redisTemplate, delayProperties.getName(), tbDelayJobMapper);
-        log.info("=============RedisDelayQueue============");
+        log.info("RedisDelayQueue");
         return context;
     }
 
