@@ -128,6 +128,21 @@ public class StringUtils extends org.springframework.util.StringUtils {
     }
 
     /**
+     * 是否包含字符
+     * @param str
+     * @param prefixChar
+     * @param suffixChar
+     * @return
+     */
+    public static boolean isWrap(CharSequence str, char prefixChar, char suffixChar) {
+        if (null == str) {
+            return false;
+        } else {
+            return str.charAt(0) == prefixChar && str.charAt(str.length() - 1) == suffixChar;
+        }
+    }
+
+    /**
      * 判断字符串是否存在文本字符，即字符只是存在一个非空白字符。
      *
      * @param str 字符串

@@ -1,6 +1,7 @@
 package cn.flood.base.core.json;
 
 import cn.flood.base.core.lang.Exceptions;
+import cn.flood.base.core.lang.StringUtils;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
@@ -237,6 +238,24 @@ public class JsonUtils {
 			log.error(String.format("toMap exception\n%s", value), e);
 		}
 		return defaultSupplier.get();
+	}
+
+	/**
+	 * 是否是json数组
+	 * @param str
+	 * @return
+	 */
+	public static boolean isTypeJSONArray(String str) {
+		return StringUtils.isBlank(str) ? false : StringUtils.isWrap(StringUtils.trim(str), '[', ']');
+	}
+
+	/**
+	 * 是否是json对象
+	 * @param str
+	 * @return
+	 */
+	public static boolean isTypeJSONObject(String str) {
+		return StringUtils.isBlank(str) ? false : StringUtils.isWrap(StringUtils.trim(str), '{', '}');
 	}
 
 	/**
