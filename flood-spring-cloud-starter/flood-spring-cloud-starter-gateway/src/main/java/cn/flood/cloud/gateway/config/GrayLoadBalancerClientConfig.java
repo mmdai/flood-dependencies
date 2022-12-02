@@ -4,6 +4,8 @@ package cn.flood.cloud.gateway.config;
 import cn.flood.cloud.gateway.filter.GrayReactiveLoadBalancerClientFilter;
 import cn.flood.cloud.gateway.loadbalancer.GrayLoadBalancer;
 import cn.flood.cloud.gateway.loadbalancer.VersionGrayLoadBalancer;
+import cn.flood.cloud.gateway.loadbalancer.props.GrayLoadBalancerProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -22,10 +24,14 @@ import org.springframework.context.annotation.Primary;
  * @date 2021-02-24 13:41
  */
 @AutoConfiguration
-@EnableConfigurationProperties(GatewayLoadBalancerProperties.class)
+@EnableConfigurationProperties({GatewayLoadBalancerProperties.class, GrayLoadBalancerProperties.class})
 @AutoConfigureBefore(GatewayReactiveLoadBalancerClientAutoConfiguration.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GrayLoadBalancerClientConfig {
+
+	@Autowired
+	private GrayLoadBalancerProperties grayLoadBalancerProperties;
+
 
 	@Primary
 	@Bean
@@ -36,6 +42,6 @@ public class GrayLoadBalancerClientConfig {
 
 	@Bean
 	public GrayLoadBalancer grayLoadBalancer(DiscoveryClient discoveryClient) {
-		return new VersionGrayLoadBalancer(discoveryClient);
+		return new VersionGrayLoadBalancer(discoveryClient, grayLoadBalancerProperties);
 	}
 }

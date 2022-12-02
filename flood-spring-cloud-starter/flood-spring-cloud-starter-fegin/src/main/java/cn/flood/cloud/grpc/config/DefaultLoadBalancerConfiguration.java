@@ -1,13 +1,14 @@
 package cn.flood.cloud.grpc.config;
 
-import brave.Tracer;
 import brave.Tracing;
 import cn.flood.cloud.grpc.loadbalancer.RoundRobinWithRequestSeparatedPositionLoadBalancer;
 import cn.flood.cloud.grpc.loadbalancer.SameZoneOnlyServiceInstanceListSupplier;
+import cn.flood.cloud.grpc.loadbalancer.props.GrayLoadBalancerProperties;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.cache.CacheManager;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.loadbalancer.cache.LoadBalancerCacheManager;
@@ -23,7 +24,13 @@ import org.springframework.core.env.Environment;
 
 @SuppressWarnings("unchecked")
 @AutoConfiguration
+@EnableConfigurationProperties({
+        GrayLoadBalancerProperties.class
+})
 public class DefaultLoadBalancerConfiguration {
+
+    @Autowired
+    private GrayLoadBalancerProperties grayLoadBalancerProperties;
 
     @Bean
     @ConditionalOnMissingBean
@@ -66,7 +73,8 @@ public class DefaultLoadBalancerConfiguration {
         return new RoundRobinWithRequestSeparatedPositionLoadBalancer(
                 loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class),
                 name,
-                tracing
+                tracing,
+                grayLoadBalancerProperties
         );
     }
 

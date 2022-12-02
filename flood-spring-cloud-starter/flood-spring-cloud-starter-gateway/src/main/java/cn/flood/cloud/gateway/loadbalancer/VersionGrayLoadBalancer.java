@@ -4,6 +4,7 @@ import brave.Span;
 import brave.Tracing;
 import cn.flood.base.core.Func;
 import cn.flood.base.core.constants.HeaderConstant;
+import cn.flood.cloud.gateway.loadbalancer.props.GrayLoadBalancerProperties;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.gateway.support.NotFoundException;
 
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.util.PatternMatchUtils;
 
 import java.util.Comparator;
 import java.util.List;
@@ -36,8 +38,11 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 
 	private Tracing tracing = Tracing.newBuilder().build();
 
-	public VersionGrayLoadBalancer(DiscoveryClient discoveryClient){
+	private final GrayLoadBalancerProperties loadBalancerProperties;
+
+	public VersionGrayLoadBalancer(DiscoveryClient discoveryClient, GrayLoadBalancerProperties loadBalancerProperties){
 		this.discoveryClient = discoveryClient;
+		this.loadBalancerProperties = loadBalancerProperties;
 	}
 
 	//每次请求算上重试不会超过1分钟
@@ -62,9 +67,23 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 			throw new NotFoundException("No instance available for " + serviceId);
 		}
 
+		List<ServiceInstance> serviceInstancesList = serviceInstances;
+
+		// 指定ip则返回满足ip的服务
+		List<String> priorIpPattern = loadBalancerProperties.getPriorIpPattern();
+		if (!priorIpPattern.isEmpty()) {
+			String[] priorIpPatterns = priorIpPattern.toArray(new String[0]);
+			List<ServiceInstance> priorIpInstances = serviceInstances.stream().filter(
+					(i -> PatternMatchUtils.simpleMatch(priorIpPatterns, i.getPort()+""))
+			).collect(Collectors.toList());
+			if (!priorIpInstances.isEmpty()) {
+				serviceInstancesList = priorIpInstances;
+			}
+		}
+
 		// 获取请求version，无则随机返回可用实例
 		List<String> headers = request.getHeaders().get(HeaderConstant.HEADER_VERSION);
-		List<ServiceInstance> serviceInstancesList = serviceInstances;
+
 		if (Func.isNotEmpty(headers)) {
 			String reqVersion = headers.get(0);
 			//serviceInstances Flux在subscribe时才会执行map代码，所以我们只能将容错代码写在map内
