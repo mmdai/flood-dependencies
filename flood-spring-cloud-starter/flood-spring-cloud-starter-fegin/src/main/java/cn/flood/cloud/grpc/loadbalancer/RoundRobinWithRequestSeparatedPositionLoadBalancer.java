@@ -85,7 +85,7 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
         if (!priorIpPattern.isEmpty()) {
             String[] priorIpPatterns = priorIpPattern.toArray(new String[0]);
             List<ServiceInstance> priorIpInstances = serviceInstances.stream().filter(
-                    (i -> PatternMatchUtils.simpleMatch(priorIpPatterns, i.getPort()+""))
+                    (i -> PatternMatchUtils.simpleMatch(priorIpPatterns, i.getHost()))
             ).collect(Collectors.toList());
             if (!priorIpInstances.isEmpty()) {
                 serviceInstancesList = priorIpInstances;
