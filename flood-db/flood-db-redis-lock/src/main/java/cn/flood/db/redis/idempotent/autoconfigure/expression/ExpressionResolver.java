@@ -36,16 +36,6 @@ public class ExpressionResolver implements KeyResolver {
 
 	@Override
 	public String resolver(Idempotent idempotent, JoinPoint point) {
-//		Object[] arguments = point.getArgs();
-//		String[] params = DISCOVERER.getParameterNames(getMethod(point));
-//		StandardEvaluationContext context = new StandardEvaluationContext();
-//
-//		for (int len = 0; len < params.length; len++) {
-//			context.setVariable(params[len], arguments[len]);
-//		}
-//
-//		Expression expression = PARSER.parseExpression(idempotent.key());
-//		return expression.getValue(context, String.class);
 		List<String> keyList = new ArrayList<>();
 		Method method = getMethod(point);
 		List<String> definitionKeys = getSpelDefinitionKey(idempotent.keys(), method, point.getArgs());
@@ -90,17 +80,8 @@ public class ExpressionResolver implements KeyResolver {
 	private List<String> getParameterKey(Parameter[] parameters, Object[] parameterValues) {
 		List<String> parameterKey = new ArrayList<>();
 		for (int i = 0; i < parameters.length; i++) {
-			if (parameters[i].getAnnotation(RlockKey.class) != null) {
-				RlockKey keyAnnotation = parameters[i].getAnnotation(RlockKey.class);
-				if (keyAnnotation.value().isEmpty()) {
-					Object parameterValue = parameterValues[i];
-					parameterKey.add(ObjectUtils.nullSafeToString(parameterValue));
-				} else {
-					StandardEvaluationContext context = new StandardEvaluationContext(parameterValues[i]);
-					Object key = PARSER.parseExpression(keyAnnotation.value()).getValue(context);
-					parameterKey.add(ObjectUtils.nullSafeToString(key));
-				}
-			}
+			Object parameterValue = parameterValues[i];
+			parameterKey.add(ObjectUtils.nullSafeToString(parameterValue));
 		}
 		return parameterKey;
 	}

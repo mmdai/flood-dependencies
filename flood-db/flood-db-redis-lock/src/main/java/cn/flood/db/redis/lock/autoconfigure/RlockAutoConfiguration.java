@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  *
  * @author daimm
  * @date 2017/12/29
- * Content :klock自动装配
+ * Content :rlock自动装配
  */
 @AutoConfiguration
 @ConditionalOnProperty(prefix = RlockConfig.PREFIX, name = "enable", havingValue = "true", matchIfMissing = true)
