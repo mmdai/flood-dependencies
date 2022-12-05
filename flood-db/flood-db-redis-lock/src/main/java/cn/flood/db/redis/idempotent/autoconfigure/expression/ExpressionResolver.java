@@ -12,6 +12,7 @@ import org.springframework.context.expression.MethodBasedEvaluationContext;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -37,9 +38,12 @@ public class ExpressionResolver implements KeyResolver {
 		List<String> keyList = new ArrayList<>();
 		Method method = getMethod(point);
 		List<String> definitionKeys = getSpelDefinitionKey(idempotent.keys(), method, point.getArgs());
-		keyList.addAll(definitionKeys);
-		List<String> parameterKeys = getParameterKey(method.getParameters(), point.getArgs());
-		keyList.addAll(parameterKeys);
+		if(!CollectionUtils.isEmpty(definitionKeys)){
+			keyList.addAll(definitionKeys);
+		} else {
+			List<String> parameterKeys = getParameterKey(method.getParameters(), point.getArgs());
+			keyList.addAll(parameterKeys);
+		}
 		return StringUtils.collectionToDelimitedString(keyList,"","-","");
 	}
 
