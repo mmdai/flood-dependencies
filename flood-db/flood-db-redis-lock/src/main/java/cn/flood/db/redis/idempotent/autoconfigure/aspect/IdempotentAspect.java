@@ -82,7 +82,7 @@ public class IdempotentAspect {
 		}
 		else {
 			// 使用jstl 规则区分
-			key = keyResolver.resolver(idempotent, joinPoint);
+			key = method.getName() + keyResolver.resolver(idempotent, joinPoint);
 		}
 
 		long expireTime = idempotent.expireTime();
