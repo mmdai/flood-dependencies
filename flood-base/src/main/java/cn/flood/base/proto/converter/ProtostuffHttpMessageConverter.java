@@ -1,8 +1,6 @@
 package cn.flood.base.proto.converter;
 
 import cn.flood.base.proto.ProtostuffUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
@@ -21,8 +19,6 @@ import java.nio.charset.StandardCharsets;
  * @Description feign调用中protostuff编解码器
  **/
 public class ProtostuffHttpMessageConverter extends AbstractHttpMessageConverter<Object> {
-
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     public static final MediaType PROTOBUF;
 

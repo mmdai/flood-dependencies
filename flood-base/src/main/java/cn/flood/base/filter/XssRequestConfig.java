@@ -15,9 +15,8 @@
  */
 package cn.flood.base.filter;
 
-import cn.flood.base.core.support.xss.XssFilter;
+import cn.flood.base.core.support.xss.FloodRequestFilter;
 import cn.flood.base.core.support.xss.XssProperties;
-import cn.flood.base.core.support.xss.XssUrlProperties;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -35,11 +34,10 @@ import javax.servlet.DispatcherType;
  */
 @AutoConfiguration
 @AllArgsConstructor
-@EnableConfigurationProperties({XssProperties.class, XssUrlProperties.class})
-public class XssConfig {
+@EnableConfigurationProperties({XssProperties.class})
+public class XssRequestConfig {
 
 	private final XssProperties xssProperties;
-	private final XssUrlProperties xssUrlProperties;
 
 	/**
 	 * 防XSS注入
@@ -47,12 +45,12 @@ public class XssConfig {
 	 * @return FilterRegistrationBean
 	 */
 	@Bean
-	public FilterRegistrationBean<XssFilter> xssFilterRegistration() {
-		FilterRegistrationBean<XssFilter> registration = new FilterRegistrationBean<>();
+	public FilterRegistrationBean<FloodRequestFilter> xssFilterRegistration() {
+		FilterRegistrationBean<FloodRequestFilter> registration = new FilterRegistrationBean<>();
 		registration.setDispatcherTypes(DispatcherType.REQUEST);
-		registration.setFilter(new XssFilter(xssProperties, xssUrlProperties));
+		registration.setFilter(new FloodRequestFilter(xssProperties));
 		registration.addUrlPatterns("/*");
-		registration.setName("xssFilter");
+		registration.setName("floodRequestFilter");
 		registration.setOrder(Ordered.LOWEST_PRECEDENCE);
 		return registration;
 	}

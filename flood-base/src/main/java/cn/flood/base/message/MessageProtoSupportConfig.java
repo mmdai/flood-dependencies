@@ -1,7 +1,11 @@
-package cn.flood.base.proto.config;
+package cn.flood.base.message;
 
+import cn.flood.base.core.utils.Charsets;
+import cn.flood.base.jackson.MappingApiJackson2HttpMessageConverter;
 import cn.flood.base.proto.converter.ProtostuffHttpMessageConverter;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -16,22 +20,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.*;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
- * <p>Title: FeignProtoSupportConfig</p>
+ * <p>Title: MessageProtoSupportConfig</p>
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2020</p>
  *
@@ -41,19 +47,9 @@ import java.util.List;
  */
 
 @AutoConfiguration
-public class ProtoSupportConfig implements WebMvcConfigurer {
+public class MessageProtoSupportConfig implements WebMvcConfigurer {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-    /**
-     * 默认解析器 其中locale表示默认语言
-     */
-//    @Bean
-//    @Primary
-//    public LocaleResolver localeResolver() {
-//        SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-//        localeResolver.setDefaultLocale(Locale.SIMPLIFIED_CHINESE);
-//        return localeResolver;
-//    }
 
     //add the protobuf http message converter
     @Bean
@@ -69,17 +65,36 @@ public class ProtoSupportConfig implements WebMvcConfigurer {
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 //        log.info("ProtobufHttpMessageConverter:------------start------ ");
+        converters.removeIf(x -> x instanceof StringHttpMessageConverter || x instanceof AbstractJackson2HttpMessageConverter);
+        converters.add(new StringHttpMessageConverter(Charsets.UTF_8));
         //使用converters.add(xxx)会放在最低优先级（List的尾部）
         converters.add(protobufHttpMessageConverter());
-        //使用converters.add(0,xxx)会放在最高优先级（List的头部）
-        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+
+        // Jackson配置类
         ObjectMapper objectMapper = new ObjectMapper();
-        // 对于空的对象转json的时候不抛出错误
-        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        // 禁用遇到未知属性抛出异常
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        //设置地点为中国
+        objectMapper.setLocale(Locale.CHINA);
+        //去掉默认的时间戳格式
+        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //设置为中国上海时区
+        objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
         // 序列化BigDecimal时不使用科学计数法输出
         objectMapper.configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
+        //序列化时，日期的统一格式
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA));
+        //序列化处理
+        objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
+        objectMapper.configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
+        objectMapper.findAndRegisterModules();
+        //失败处理
+        // 对于空的对象转json的时候不抛出错误
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        // 禁用遇到未知属性抛出异常
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        //单引号处理
+        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+        //反序列化时，属性不存在的兼容处理
+        objectMapper.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         // 日期和时间格式化
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -89,12 +104,8 @@ public class ProtoSupportConfig implements WebMvcConfigurer {
         javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern("HH:mm:ss")));
         objectMapper.registerModule(javaTimeModule);
-        mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
-        //设置中文编码格式
-        List<MediaType> list = new ArrayList<>();
-        list.add(MediaType.APPLICATION_JSON);
-        mappingJackson2HttpMessageConverter.setSupportedMediaTypes(list);
-        converters.add(0, mappingJackson2HttpMessageConverter);
+
+        converters.add(0, new MappingApiJackson2HttpMessageConverter(objectMapper));
 
     }
 
