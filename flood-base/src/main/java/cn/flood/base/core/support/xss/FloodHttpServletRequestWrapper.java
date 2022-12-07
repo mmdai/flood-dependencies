@@ -16,9 +16,10 @@
 package cn.flood.base.core.support.xss;
 
 
+import cn.flood.base.core.http.HttpMediaType;
 import cn.flood.base.core.http.WebUtil;
+import cn.flood.base.core.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -58,11 +59,9 @@ public class FloodHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
 	@Override
 	public ServletInputStream getInputStream() throws IOException {
-		if (super.getHeader(HttpHeaders.CONTENT_TYPE) == null) {
-			return super.getInputStream();
-		}
-
-		if (super.getHeader(HttpHeaders.CONTENT_TYPE).startsWith(MediaType.MULTIPART_FORM_DATA_VALUE)) {
+		String contentType = super.getHeader(HttpHeaders.CONTENT_TYPE);
+		if (StringUtils.isBlank(contentType) || contentType.startsWith(HttpMediaType.APPLICATION_PROTO_VALUE) ||
+				contentType.startsWith(HttpMediaType.MULTIPART_FORM_DATA_VALUE)) {
 			return super.getInputStream();
 		}
 
