@@ -25,6 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -132,7 +133,7 @@ public class FloodFeignSentinel {
 						requestTemplate.header(MDCTraceUtils.TRACE_ID_HEADER, traceId);
 						//传递版本号
 						String version =  request.getHeader(HeaderConstant.HEADER_VERSION);
-						if (Func.isNotEmpty(version)) {
+						if (Func.isNotEmpty(version) && !requestTemplate.headers().containsKey(HeaderConstant.HEADER_VERSION)) {
 							requestTemplate.header(HeaderConstant.HEADER_VERSION, version);
 						}
 						//传递租户ID
