@@ -17,8 +17,8 @@ package cn.flood.base.filter;
 
 import cn.flood.base.core.support.xss.FloodRequestFilter;
 import cn.flood.base.core.support.xss.XssProperties;
-import lombok.AllArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -33,11 +33,11 @@ import javax.servlet.DispatcherType;
  * @author Chill
  */
 @AutoConfiguration
-@AllArgsConstructor
 @EnableConfigurationProperties({XssProperties.class})
 public class XssRequestConfig {
 
-	private final XssProperties xssProperties;
+	@Autowired
+	private XssProperties xssProperties;
 
 	/**
 	 * 防XSS注入

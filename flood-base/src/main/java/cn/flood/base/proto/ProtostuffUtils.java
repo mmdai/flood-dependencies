@@ -103,7 +103,7 @@ public class ProtostuffUtils {
             //将对象转换为字节流
             bytes = ProtostuffIOUtil.toByteArray(serializerObj, schema, buffer);
         } catch (Exception e) {
-            logger.info("序列化{}失败", obj, e);
+            logger.error("序列化{}失败", obj, e);
             throw new IllegalStateException(e.getMessage());
         } finally {
             //回收buffer
