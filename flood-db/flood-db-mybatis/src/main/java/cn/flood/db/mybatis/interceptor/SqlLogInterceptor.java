@@ -2,6 +2,7 @@ package cn.flood.db.mybatis.interceptor;
 
 import com.google.common.base.Stopwatch;
 import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.plugin.*;
@@ -43,7 +44,7 @@ public class SqlLogInterceptor implements Interceptor {
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		Object targetExe = invocation.getTarget();
-		if (targetExe instanceof Executor) {
+		if (targetExe instanceof Executor || targetExe instanceof RoutingStatementHandler) {
 			Statement statement;
 			Object firstArg = invocation.getArgs()[0];
 			if (Proxy.isProxyClass(firstArg.getClass())) {

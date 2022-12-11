@@ -45,8 +45,7 @@ public class FloodRequestFilter implements Filter {
 
 		// 默认 Request 包装
 		if (!xssProperties.getEnabled() || isXssSkip(path)) {
-			FloodHttpServletRequestWrapper floodRequest = new FloodHttpServletRequestWrapper((HttpServletRequest) request);
-			chain.doFilter(floodRequest, response);
+			chain.doFilter(request, response);
 		}
 		// Xss Request 包装
 		else {
