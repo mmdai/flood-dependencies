@@ -68,31 +68,33 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		}
 
 		List<ServiceInstance> serviceInstancesList = serviceInstances;
-
-		// 指定ip则返回满足ip的服务
-		List<String> priorIpPattern = loadBalancerProperties.getPriorIpPattern();
-		if (!priorIpPattern.isEmpty()) {
-			String[] priorIpPatterns = priorIpPattern.toArray(new String[0]);
-			List<ServiceInstance> priorIpInstances = serviceInstances.stream().filter(
-					(i -> PatternMatchUtils.simpleMatch(priorIpPatterns, i.getHost()))
-			).collect(Collectors.toList());
-			if (!priorIpInstances.isEmpty()) {
-				serviceInstancesList = priorIpInstances;
+		//开启灰度ip
+		if(loadBalancerProperties.isEnabled()){
+			// 指定ip则返回满足ip的服务
+			List<String> priorIpPattern = loadBalancerProperties.getPriorIpPattern();
+			if (!priorIpPattern.isEmpty()) {
+				String[] priorIpPatterns = priorIpPattern.toArray(new String[0]);
+				List<ServiceInstance> priorIpInstances = serviceInstances.stream().filter(
+						(i -> PatternMatchUtils.simpleMatch(priorIpPatterns, i.getHost()))
+				).collect(Collectors.toList());
+				if (!priorIpInstances.isEmpty()) {
+					serviceInstancesList = priorIpInstances;
+				}
 			}
 		}
 
 		// 获取请求version，无则随机返回可用实例
 		List<String> headers = request.getHeaders().get(HeaderConstant.HEADER_VERSION);
-
+		// 获取请求header灰度版本号
 		if (Func.isNotEmpty(headers)) {
 			String reqVersion = headers.get(0);
 			//serviceInstances Flux在subscribe时才会执行map代码，所以我们只能将容错代码写在map内
-			serviceInstancesList = serviceInstances.stream().filter(instance ->
+			List<ServiceInstance> versionInstancesList = serviceInstancesList.stream().filter(instance ->
 					reqVersion.equals(instance.getMetadata().get("version")))
 					.collect(Collectors.toList());
 			//容错，如header无匹配的则返回正常列表轮询
-			if(Func.isEmpty(serviceInstancesList)){
-				serviceInstancesList = serviceInstances;
+			if(!Func.isEmpty(versionInstancesList)){
+				serviceInstancesList = versionInstancesList;
 			}
 		}
 		//为了解决原始算法不同调用并发可能导致一个请求重试相同的实例

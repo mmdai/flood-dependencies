@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * LoadBalancer 配置
+ * 灰度LoadBalancer 配置
  *
  * @author mmdai
  */

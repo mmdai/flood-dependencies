@@ -79,28 +79,30 @@ public class RoundRobinWithRequestSeparatedPositionLoadBalancer implements React
             return new EmptyResponse();
         }
         List<ServiceInstance> serviceInstancesList = serviceInstances;
-
-        // 指定ip则返回满足ip的服务
-        List<String> priorIpPattern = loadBalancerProperties.getPriorIpPattern();
-        if (!priorIpPattern.isEmpty()) {
-            String[] priorIpPatterns = priorIpPattern.toArray(new String[0]);
-            List<ServiceInstance> priorIpInstances = serviceInstances.stream().filter(
-                    (i -> PatternMatchUtils.simpleMatch(priorIpPatterns, i.getHost()))
-            ).collect(Collectors.toList());
-            if (!priorIpInstances.isEmpty()) {
-                serviceInstancesList = priorIpInstances;
+        //开启灰度ip
+        if(loadBalancerProperties.isEnabled()){
+            // 指定ip则返回满足ip的服务
+            List<String> priorIpPattern = loadBalancerProperties.getPriorIpPattern();
+            if (!priorIpPattern.isEmpty()) {
+                String[] priorIpPatterns = priorIpPattern.toArray(new String[0]);
+                List<ServiceInstance> priorIpInstances = serviceInstances.stream().filter(
+                        (i -> PatternMatchUtils.simpleMatch(priorIpPatterns, i.getHost()))
+                ).collect(Collectors.toList());
+                if (!priorIpInstances.isEmpty()) {
+                    serviceInstancesList = priorIpInstances;
+                }
             }
         }
 
         // 获取请求header灰度版本号
         if (Func.isNotEmpty(requestVersion)){
             //serviceInstances Flux在subscribe时才会执行map代码，所以我们只能将容错代码写在map内
-            serviceInstancesList = serviceInstances.stream().filter(instance ->
+            List<ServiceInstance>  versionInstancesList = serviceInstancesList.stream().filter(instance ->
                     requestVersion.equalsIgnoreCase(instance.getMetadata().get("version")))
                     .collect(Collectors.toList());
             //容错，如header无匹配的则返回正常列表轮询
-            if(Func.isEmpty(serviceInstancesList)){
-                serviceInstancesList = serviceInstances;
+            if(!Func.isEmpty(versionInstancesList)){
+                serviceInstancesList = versionInstancesList;
             }
         }
 
