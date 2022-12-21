@@ -33,6 +33,7 @@ public class ResponseBodyAdviceConfig implements ResponseBodyAdvice<Object> {
 
 	@Autowired
 	private LocaleParser localeParser;
+
 	//i18默认方言
 	@Value("${spring.messages.locale:zh_CN}")
 	private String localeContent;
@@ -60,8 +61,11 @@ public class ResponseBodyAdviceConfig implements ResponseBodyAdvice<Object> {
 				return ResultWapper.wrap(message.get_code(), message.get_msg());
 			}else if(body instanceof Result){
 				Result ret = (Result) body;
-				List<String> langContentList = request.getHeaders().get(HttpHeaders.CONTENT_LANGUAGE);
+				if(ret.is_succeed() || !ret.get_msg().contains("{&")){
+					return ret;
+				}
 				String langContent = localeContent;
+				List<String> langContentList = request.getHeaders().get(HttpHeaders.CONTENT_LANGUAGE);
 				if(!CollectionUtils.isEmpty(langContentList)){
 					langContent = langContentList.get(0);
 				}
