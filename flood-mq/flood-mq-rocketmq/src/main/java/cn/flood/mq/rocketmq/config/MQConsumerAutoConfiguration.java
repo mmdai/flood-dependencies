@@ -118,6 +118,8 @@ public class MQConsumerAutoConfiguration extends MQBaseAutoConfiguration impleme
             consumer.subscribe(topic, tags);
             consumer.setInstanceName(UUID.randomUUID().toString());
             consumer.setVipChannelEnabled(mqProperties.getVipChannelEnabled());
+            // 设置最大重试次数
+            consumer.setMaxReconsumeTimes(mqProperties.getMaxReconsumeTimes());
             AbstractMQPushConsumer abstractMQPushConsumer = (AbstractMQPushConsumer) bean;
             if (MessageExtConst.CONSUME_MODE_CONCURRENTLY.equals(mqConsumer.consumeMode())) {
                 if(MessageExtConst.DEDUP_DISABLE == mqConsumer.dedup()){

@@ -37,6 +37,10 @@ public class MQProperties {
      * 默认存在生产者
      */
     private Boolean existProducer = Boolean.TRUE;
+    /**
+     * config 最大重试次数
+     */
+    private Integer maxReconsumeTimes = 6;
 
     public String getNameServerAddress() {
         return nameServerAddress;
@@ -92,5 +96,13 @@ public class MQProperties {
 
     public void setDedupType(String dedupType) {
         this.dedupType = dedupType;
+    }
+
+    public Integer getMaxReconsumeTimes() {
+        return maxReconsumeTimes;
+    }
+
+    public void setMaxReconsumeTimes(Integer maxReconsumeTimes) {
+        this.maxReconsumeTimes = maxReconsumeTimes;
     }
 }
