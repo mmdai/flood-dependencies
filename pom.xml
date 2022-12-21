@@ -4,7 +4,7 @@
 
   <groupId>io.github.mmdai</groupId>
   <artifactId>flood-dependencies</artifactId>
-  <version> 2.7.6.0-SNAPSHOT</version>
+  <version> 2.7.6.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>flood-dependencies</name>
@@ -27,7 +27,7 @@
 	  <!-- seata -->
 	  <seata.version>1.5.2</seata.version>
 	  <!-- flood 版本 -->
-	  <flood.version>2.7.6.0-SNAPSHOT</flood.version>
+	  <flood.version>2.7.6.1-SNAPSHOT</flood.version>
 	  <!-- log -->
 	  <commons.io.version>2.11.0</commons.io.version>
 	  <disruptor.version>3.4.4</disruptor.version>
@@ -129,19 +129,6 @@
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
     </dependency>
-	<!-- test -->
-	<!--spring-boot单元测试 mockito扩展-->
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-test</artifactId>
-		<scope>test</scope>
-		<exclusions>
-			<exclusion>
-				<groupId>org.junit.vintage</groupId>
-				<artifactId>junit-vintage-engine</artifactId>
-			</exclusion>
-		</exclusions>
-	</dependency>
   </dependencies>
   
   <repositories>
@@ -182,22 +169,7 @@
 		    <version>${spring-cloud-alibaba-dependencies.version}</version>
 		    <type>pom</type>
 		    <scope>import</scope>
-<!--			<exclusions>-->
-<!--				<exclusion>-->
-<!--					<artifactId>seata-spring-boot-starter</artifactId>-->
-<!--					<groupId>io.seata</groupId>-->
-<!--				</exclusion>-->
-<!--				<exclusion>-->
-<!--					<groupId>com.alibaba.cloud</groupId>-->
-<!--					<artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
-<!--				</exclusion>-->
-<!--			</exclusions>-->
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.seata</groupId>-->
-<!--			<artifactId>seata-spring-boot-starter</artifactId>-->
-<!--			<version>${seata.version}</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>io.spring.platform</groupId>
 			<artifactId>platform-bom</artifactId>
@@ -249,7 +221,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>3.3.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
