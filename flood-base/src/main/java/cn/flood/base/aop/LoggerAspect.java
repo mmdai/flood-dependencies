@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * * <p>Title: LoggerAspect</p>
- * * <p>Description: 相对具体的业务逻辑服务层</p>
+ * * <p>Description: 相对具体的业务响应时间</p>
  */
 @Aspect
 @Component
