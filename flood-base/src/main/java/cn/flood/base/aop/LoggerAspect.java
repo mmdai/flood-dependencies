@@ -1,5 +1,7 @@
 package cn.flood.base.aop;
 
+import cn.flood.base.core.lang.StringPool;
+import cn.flood.base.core.lang.StringUtils;
 import com.google.common.base.Stopwatch;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -25,7 +27,8 @@ public class LoggerAspect implements LogAspect {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Pointcut(
-            "@within(cn.flood.base.aop.annotation.Logger))"
+            "@within(org.springframework.web.bind.annotation.RestController) ||" +
+                    " @within(cn.flood.base.aop.annotation.Logger)"
     )
     public void log() {
 
@@ -34,11 +37,18 @@ public class LoggerAspect implements LogAspect {
     @Around("log()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Stopwatch stopwatch = Stopwatch.createStarted();
+        String className = StringUtils.subAfter(joinPoint.getSignature().getDeclaringTypeName(), StringPool.DOT, true);
         String methodName = joinPoint.getSignature().getName();
-        logger.info("【service】【{}】 start", methodName);
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("【{}】【{}】【{}】【{}】", className, methodName, before(joinPoint));
+//		}
+        logger.info("【{}】【{}】 start", className, methodName);
 
         Object result = joinPoint.proceed();
-        logger.info("【service】【{}】 end,cost【{}ms】", methodName, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
+//		if (logger.isDebugEnabled()) {
+//		 	logger.debug("【{}】【{}】【{}】【{}】", className, methodName, after(result));
+//		}
+        logger.info("【{}】【{}】 end,cost【{}ms】", className, methodName, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
         return result;
     }
 }
