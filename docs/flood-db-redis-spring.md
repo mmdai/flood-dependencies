@@ -164,7 +164,12 @@ spring:
           host: 10.218.223.99
           port: 6379
           database: 0
-          
+           #lettuce连接池配置
+            lettuce: 
+              pool: 
+                max-idle: 10
+                max-wait: 100000
+                min-idle: 5
 
 ####多数据源使用 默认是默认数据源
 
