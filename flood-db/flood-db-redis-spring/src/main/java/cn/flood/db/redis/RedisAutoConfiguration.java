@@ -8,7 +8,6 @@ import cn.flood.db.redis.provider.impl.DynamicRedisProvider;
 import cn.flood.db.redis.util.ApplicationContextUtil;
 import cn.flood.db.redis.service.RedisService;
 import cn.flood.db.redis.service.impl.RedisServiceImpl;
-import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +25,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.ObjectUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -133,7 +133,7 @@ public class RedisAutoConfiguration {
         if (fb.getRedisTemplateMap() != null) {
             //如果配置了默认的数据源，则使用默认的数据源
             String defaultDataSource = drp.getDefaultDataSource();
-            if (!ObjectUtil.isEmpty(defaultDataSource)) {
+            if (!ObjectUtils.isEmpty(defaultDataSource)) {
                 redisTemplate = fb.getRedisTemplaterByName(defaultDataSource);
             }else {
                 //如果没有配置默认的数据源，则从所有配置的数据源中，选择最后一个配置作为数据源
