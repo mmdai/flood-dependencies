@@ -38,9 +38,17 @@ public class MQProperties {
      */
     private Boolean existProducer = Boolean.TRUE;
     /**
-     * config 最大重试次数
+     * config 消费最大重试次数
      */
     private Integer maxReconsumeTimes = 6;
+    /**
+     * 消息发送失败重试次数
+     */
+    private Integer retryTimesWhenSendFailed = 3;
+    /**
+     * 异步发送失败重试次数
+     */
+    private Integer retryTimesWhenSendAsyncFailed = 3;
 
     public String getNameServerAddress() {
         return nameServerAddress;
@@ -104,5 +112,21 @@ public class MQProperties {
 
     public void setMaxReconsumeTimes(Integer maxReconsumeTimes) {
         this.maxReconsumeTimes = maxReconsumeTimes;
+    }
+
+    public Integer getRetryTimesWhenSendFailed() {
+        return retryTimesWhenSendFailed;
+    }
+
+    public void setRetryTimesWhenSendFailed(Integer retryTimesWhenSendFailed) {
+        this.retryTimesWhenSendFailed = retryTimesWhenSendFailed;
+    }
+
+    public Integer getRetryTimesWhenSendAsyncFailed() {
+        return retryTimesWhenSendAsyncFailed;
+    }
+
+    public void setRetryTimesWhenSendAsyncFailed(Integer retryTimesWhenSendAsyncFailed) {
+        this.retryTimesWhenSendAsyncFailed = retryTimesWhenSendAsyncFailed;
     }
 }

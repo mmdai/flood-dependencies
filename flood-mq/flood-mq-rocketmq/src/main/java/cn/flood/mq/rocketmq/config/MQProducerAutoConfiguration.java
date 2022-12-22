@@ -46,9 +46,9 @@ public class MQProducerAutoConfiguration extends MQBaseAutoConfiguration {
             producer.setSendMsgTimeout(mqProperties.getSendMsgTimeout());
             producer.setSendMessageWithVIPChannel(mqProperties.getVipChannelEnabled());
             //消息发送失败重试次数
-            producer.setRetryTimesWhenSendFailed(3);
+            producer.setRetryTimesWhenSendFailed(mqProperties.getRetryTimesWhenSendFailed());
             //异步发送失败重试次数
-            producer.setRetryTimesWhenSendAsyncFailed(3);
+            producer.setRetryTimesWhenSendAsyncFailed(mqProperties.getRetryTimesWhenSendAsyncFailed());
             //消息没有发送成功，是否发送到另一个Broker中
 //            producer.setRetryAnotherBrokerWhenNotStoreOK(true);
             producer.start();

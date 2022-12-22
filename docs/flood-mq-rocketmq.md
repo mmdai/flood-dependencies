@@ -29,6 +29,14 @@ spring:
       #trace-enabled: false
       # 是否启用VIP通道，默认打开
       #vip-channel-enabled: false
+      # 消息发送失败重试次数
+      retry-times-when-send-failed: 3
+      # 异步发送失败重试次数
+      retry-times-when-send-async-failed: 3
+      # 消费最大重试次数
+      max-reconsume-times: 6
+      # 去重介质（redis/db）
+      dedup-type: db
 ```
 
 ##### 4. 构建消息体
