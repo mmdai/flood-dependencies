@@ -4,6 +4,8 @@ import cn.flood.db.redis.builder.RedisConnectionFactoryBuilder;
 import cn.flood.db.redis.config.RedisConnectionConfiguration;
 import cn.flood.db.redis.config.properties.DynamicRedisProperties;
 import io.lettuce.core.RedisClient;
+import io.lettuce.core.cluster.ClusterClientOptions;
+import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
 import org.apache.commons.pool2.impl.GenericObjectPool;
@@ -17,10 +19,7 @@ import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurat
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.RedisClusterConfiguration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisSentinelConfiguration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
@@ -119,6 +118,29 @@ public class LettuceConnectionConfiguration extends RedisConnectionConfiguration
         LettucePoolingClientConfiguration lettuceClientConfiguration = builder.build();
 
         if (properties.getCluster() != null) {
+            /**
+             * ClusterTopologyRefreshOptions配置用于开启自适应刷新和定时刷新。如自适应刷新不开启，
+             * Redis集群变更时将会导致连接异常！
+             */
+            ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+                    // 开启自适应刷新
+                    .enableAdaptiveRefreshTrigger(ClusterTopologyRefreshOptions.RefreshTrigger.MOVED_REDIRECT,
+                            ClusterTopologyRefreshOptions.RefreshTrigger.PERSISTENT_RECONNECTS)
+                    // 开启所有自适应刷新，MOVED，ASK，PERSISTENT都会触发
+                    // .enableAllAdaptiveRefreshTriggers()
+                    // 自适应刷新超时时间(默认30秒)
+                    .adaptiveRefreshTriggersTimeout(Duration.ofSeconds(25)) // 默认关闭开启后时间为30秒
+                    // 开周期刷新
+                    .enablePeriodicRefresh(Duration.ofSeconds(20)) // 默认关闭开启后时间为60秒
+                    // ClusterTopologyRefreshOptions.DEFAULT_REFRESH_PERIOD
+                    // 60 .enablePeriodicRefresh(Duration.ofSeconds(2)) =
+                    // .enablePeriodicRefresh().refreshPeriod(Duration.ofSeconds(2))
+                    .build();
+            lettuceClientConfiguration = builder.clientOptions(
+                            ClusterClientOptions.builder().topologyRefreshOptions(topologyRefreshOptions).build())
+                    // 将appID传入连接，方便Redis监控中查看
+                    // .clientName(appName + "_lettuce")
+                    .build();
             LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisClusterConfiguration, lettuceClientConfiguration);
             lettuceConnectionFactory.afterPropertiesSet();
             return lettuceConnectionFactory;
@@ -145,6 +167,31 @@ public class LettuceConnectionConfiguration extends RedisConnectionConfiguration
         }
         builder.clientResources(clientResources);
         builderCustomizers.orderedStream().forEach((customizer) -> customizer.customize(builder));
+        //集群模式
+        if(getProperties().getCluster()!=null){
+            /**
+             * ClusterTopologyRefreshOptions配置用于开启自适应刷新和定时刷新。如自适应刷新不开启，
+             * Redis集群变更时将会导致连接异常！
+             */
+            ClusterTopologyRefreshOptions topologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
+                    // 开启自适应刷新
+                    .enableAdaptiveRefreshTrigger(ClusterTopologyRefreshOptions.RefreshTrigger.MOVED_REDIRECT,
+                            ClusterTopologyRefreshOptions.RefreshTrigger.PERSISTENT_RECONNECTS)
+                    // 开启所有自适应刷新，MOVED，ASK，PERSISTENT都会触发
+                    // .enableAllAdaptiveRefreshTriggers()
+                    // 自适应刷新超时时间(默认30秒)
+                    .adaptiveRefreshTriggersTimeout(Duration.ofSeconds(25)) // 默认关闭开启后时间为30秒
+                    // 开周期刷新
+                    .enablePeriodicRefresh(Duration.ofSeconds(20)) // 默认关闭开启后时间为60秒
+                    // ClusterTopologyRefreshOptions.DEFAULT_REFRESH_PERIOD
+                    // 60 .enablePeriodicRefresh(Duration.ofSeconds(2)) =
+                    // .enablePeriodicRefresh().refreshPeriod(Duration.ofSeconds(2))
+                    .build();
+            builder.clientOptions(
+                    ClusterClientOptions.builder().topologyRefreshOptions(topologyRefreshOptions).build());
+                    // 将appID传入连接，方便Redis监控中查看
+                    // .clientName(appName + "_lettuce");
+        }
         return builder.build();
     }
 
