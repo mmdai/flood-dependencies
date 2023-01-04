@@ -138,6 +138,7 @@ List execute = RedisUtil.getTransactionHandler(2).execute(handler -> {
 spring:
   redis:
     dynamic: 
+      enabled: true
       #defaultDataSource可配可不配，不配的话，系统产生一个默认的数据源
       defaultDataSource: redisDataSoure1
       connection:

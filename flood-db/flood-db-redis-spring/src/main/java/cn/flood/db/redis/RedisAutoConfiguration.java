@@ -68,9 +68,11 @@ public class RedisAutoConfiguration {
     public RedisTemplaterFactoryBuild getRedisTemplaterFactoryBuild(DynamicRedisProperties dynamicRedisProperties) {
         RedisTemplaterFactoryBuild redisTemplaterFactoryBuild = new RedisTemplaterFactoryBuild();
         //如果开启多数据源配置，则获取多数据源对应构造出来的RedisTemplate
-        DynamicRedisProvider yamlRedisProvider = new DynamicRedisProvider(dynamicRedisProperties);
-        Map<String, RedisTemplate<String, Object>> stringRedisTemplateMap = redisTemplatesMap(yamlRedisProvider);
-        redisTemplaterFactoryBuild.setRedisTemplateMap(stringRedisTemplateMap);
+        if (dynamicRedisProperties.isEnabled()) {
+            DynamicRedisProvider yamlRedisProvider = new DynamicRedisProvider(dynamicRedisProperties);
+            Map<String, RedisTemplate<String, Object>> stringRedisTemplateMap = redisTemplatesMap(yamlRedisProvider);
+            redisTemplaterFactoryBuild.setRedisTemplateMap(stringRedisTemplateMap);
+        }
         return redisTemplaterFactoryBuild;
     }
 
