@@ -14,8 +14,6 @@ public class DynamicRedisProperties {
 
     public static final String PREFIX = "spring.redis.dynamic";
 
-    /*是否开启多数据源*/
-    private boolean enabled;
     /*多数据源指定默认数据源*/
     private String defaultDataSource;
     /*多数据源配置属性*/
@@ -23,14 +21,6 @@ public class DynamicRedisProperties {
 
     public static String getPREFIX() {
         return PREFIX;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public String getDefaultDataSource() {
