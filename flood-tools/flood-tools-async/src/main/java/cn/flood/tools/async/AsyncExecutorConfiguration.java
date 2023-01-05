@@ -33,19 +33,6 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingConfigurer {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-//	/** Set the ThreadPoolExecutor's core pool size. */
-//	@Value("${async.corePoolSize:50}")
-//	private int corePoolSize;
-//	/** Set the ThreadPoolExecutor's maximum pool size. */
-//	@Value("${async.maxPoolSize:50}")
-//	private int maxPoolSize;
-//	/** Set the capacity for the ThreadPoolExecutor's BlockingQueue. */
-//	@Value("${async.queueCapacity:1024}")
-//	private int queueCapacity;
-//
-//	@Value("${async.keepAliveSeconds:10}")
-//	private int keepAliveSeconds;
 
 	@Autowired
 	private AsyncProperties asyncProperties;
@@ -87,7 +74,6 @@ public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingCo
 
 	@Override
 	public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-		// TODO Auto-generated method stub
 		TaskScheduler scheduler = this.taskScheduler();
 		taskRegistrar.setTaskScheduler(scheduler);
 	}
@@ -97,10 +83,10 @@ public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingCo
 
 		ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
 		scheduler.setPoolSize(asyncProperties.getMaxPoolSize());
-//		scheduler.set
 		scheduler.setThreadNamePrefix("flood-async-schedule-executor-");
 		scheduler.setAwaitTerminationSeconds(60);//default 0
 		scheduler.setWaitForTasksToCompleteOnShutdown(true);
+		scheduler.initialize();
 		return scheduler;
 
 	}
