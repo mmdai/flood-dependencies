@@ -93,7 +93,7 @@ public class MessageProtoSupportConfig implements WebMvcConfigurer {
         // 序列化BigDecimal时不使用科学计数法输出
         objectMapper.configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
         //序列化时，日期的统一格式
-        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA));
+        objectMapper.setDateFormat(new SimpleDateFormat(NORM_DATETIME_PATTERN, Locale.CHINA));
         //序列化处理
         objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
         objectMapper.configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
