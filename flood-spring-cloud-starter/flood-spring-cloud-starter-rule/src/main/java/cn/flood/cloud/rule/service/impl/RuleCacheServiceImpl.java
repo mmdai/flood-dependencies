@@ -2,10 +2,10 @@ package cn.flood.cloud.rule.service.impl;
 
 
 import cn.flood.base.core.Func;
-import cn.flood.db.redis.util.RedisUtil;
 import cn.flood.cloud.rule.constant.RuleConstant;
 import cn.flood.cloud.rule.entity.BlackList;
 import cn.flood.cloud.rule.service.RuleCacheService;
+import cn.flood.db.redis.service.RedisService;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Set;
@@ -17,28 +17,42 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public class RuleCacheServiceImpl implements RuleCacheService {
 
+    private RedisService redisService;
+
+    public RuleCacheServiceImpl(RedisService redisService){
+        this.redisService = redisService;
+    }
+
 
     @Override
     public Set<Object> getBlackList(String ip) {
-        return RedisUtil.getZsetHandler().getAllAsObj(RuleConstant.getBlackListCacheKey(ip));
+        return redisService.getAllZSet(RuleConstant.getBlackListCacheKey(ip));
     }
 
     @Override
     public Set<Object> getBlackList() {
-        return RedisUtil.getZsetHandler().getAllAsObj(RuleConstant.getBlackListCacheKey());
+        return redisService.getAllZSet(RuleConstant.getBlackListCacheKey());
     }
 
     @Override
     public void setBlackList(BlackList blackList) {
         String key = StringUtils.isNotBlank(blackList.getIp()) ? RuleConstant.getBlackListCacheKey(blackList.getIp())
                 : RuleConstant.getBlackListCacheKey();
-        RedisUtil.getZsetHandler().add(key, Func.toJson(blackList));
+        redisService.addZSet(key, Func.toJson(blackList));
     }
 
     @Override
     public void deleteBlackList(BlackList blackList) {
         String key = StringUtils.isNotBlank(blackList.getIp()) ? RuleConstant.getBlackListCacheKey(blackList.getIp())
                 : RuleConstant.getBlackListCacheKey();
-        RedisUtil.getZsetHandler().remove(key, Func.toJson(blackList));
+        redisService.removeZSet(key, Func.toJson(blackList));
+    }
+
+    public RedisService getRedisService() {
+        return redisService;
+    }
+
+    public void setRedisService(RedisService redisService) {
+        this.redisService = redisService;
     }
 }

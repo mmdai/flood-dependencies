@@ -1,9 +1,9 @@
 package cn.flood.redisdelayqueuespringdemo.controller;
 
+import cn.flood.db.redis.service.RedisService;
 import cn.flood.delay.core.RedisDelayQueueContext;
 import cn.flood.delay.entity.DelayQueueJob;
 import cn.flood.delay.service.RedisDelayQueue;
-import cn.flood.db.redis.util.RedisUtil;
 import cn.flood.redisdelayqueuespringdemo.bo.User;
 import cn.flood.redisdelayqueuespringdemo.delayqueues.DelayQueueDemo2;
 import cn.flood.redisdelayqueuespringdemo.delayqueues.TopicEnums;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.Clock;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +41,9 @@ public class IndexController {
 
     @Autowired
     RedisTemplate redisTemplate;
+
+    @Autowired
+    RedisService redisService;
 
     /**
      *
@@ -78,21 +83,26 @@ public class IndexController {
         user.setId("1234");
         user.setDate(new Date());
         user.setName("哈哈");
-        RedisUtil.getStringHandler().setAsObj("test", user, 3, TimeUnit.MINUTES);
+        redisService.set("test", user, 3L, TimeUnit.MINUTES);
     }
     @GetMapping("/get")
     public void get(){
-        User user = RedisUtil.getStringHandler().getAsObj("test");
+        User user = redisService.get("test");
         System.out.println(user.getId());
     }
 
     @GetMapping("/save1")
     public void save1(){
-        RedisUtil.getZsetHandler().addAsObj("test1", "22", "44","33", 3, TimeUnit.MINUTES);
+        redisService.addZSet("test1", "22", "44","33","22");
     }
     @GetMapping("/get1")
     public void get1(){
-        System.out.println(RedisUtil.getZsetHandler().popMax("test"));
+        Map<Double, Object> value = redisService.popMaxByScoreZSet("test1", 2);
+        System.out.println(value);
+//        for(Object v: set ){
+//            System.out.println(v);
+//        }
+
     }
 
 

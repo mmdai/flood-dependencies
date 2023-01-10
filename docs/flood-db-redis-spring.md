@@ -1,6 +1,6 @@
 # redis-spring-boot-starter redis的spring整合
 
-整合RedisTemplate与StringRedisTemplate，开箱即用，提供更友好更完善的API，更方便的调用，支持Jedis、Lettuce、Redisson等主流客户端，并且在非集群模式下支持分片操作
+整合RedisTemplate与StringRedisTemplate，开箱即用，提供更友好更完善的API，更方便的调用，支持Lettuce客户端，并且在非集群模式下支持分片操作
 
 ##### 1. 添加maven依赖：
 ```
@@ -11,6 +11,10 @@
     </dependency>
 ```
 ##### 2. 使用说明：
+
+@Autowired
+private RedisService redisService
+
 
 yml方式：
 ```yaml
@@ -79,59 +83,8 @@ spring.redis.lettuce.pool.min-idle=0
 
 获取操作实例：
 ```
-// 获取默认数据库实例(DB)
-DBHandler dbHandler = RedisUtil.getDBHandler();
-...
 
-// 获取数据库索引为2的数据库实例(DB)
-DBHandler dbHandler = RedisUtil.getDBHandler(2);
-...
-```
-#### 实例说明
-| 实例 | 数据类型 | 获取方式 |
-| :------: | :------: | :------: |
-| NumberHandler | 数字(Number) | RedisUtil.getNumberHandler()<br>RedisUtil.getNumberHandler(dbIndex) |
-| StringHandler | 字符串(String) | RedisUtil.getStringHandler()<br>RedisUtil.getStringHandler(dbIndex) |
-| HashHandler | 哈希(Hash) | RedisUtil.getHashHandler()<br>RedisUtil.getHashHandler(dbIndex) |
-| SetHandler | 无序集合(Set) | RedisUtil.getSetHandler()<br>RedisUtil.getSetHandler(dbIndex) |
-| ZsetHandler | 有序集合(Zset) | RedisUtil.getZsetHandler()<br>RedisUtil.getZsetHandler(dbIndex) |
-| HyperLogLogHandler | 基数(HyperLogLog) | RedisUtil.getHyperLogLogHandler()<br>RedisUtil.getHyperLogLogHandler(dbIndex) |
-| BitmapHandler | 位图(Bitmap) | RedisUtil.getBitmapHandler()<br>RedisUtil.getBitmapHandler(dbIndex) |
-| GeoHandler | 地理位置(Geo) | RedisUtil.getGeoHandler()<br>RedisUtil.getGeoHandler(dbIndex) |
-| KeyHandler | 键(Key) | RedisUtil.getKeyHandler()<br>RedisUtil.getKeyHandler(dbIndex) |
-| ScriptHandler | 脚本(Lua Script) | RedisUtil.getScriptHandler()<br>RedisUtil.getScriptHandler(dbIndex) |
-| PubSubHandler | 发布订阅(Pubsub) | RedisUtil.getPubSubHandler()<br>RedisUtil.getPubSubHandler(dbIndex) |
-| StreamHandler | 流(Stream) | RedisUtil.getStreamHandler()<br>RedisUtil.getStreamHandler(dbIndex)<br>RedisUtil.getStreamHandler(dbIndex, mapper) |
-| DBHandler | 数据库(DB) | RedisUtil.getDBHandler()<br>RedisUtil.getDBHandler(dbIndex) |
-| SentinelHandler | 哨兵(Sentinel) | RedisUtil.getSentinelHandler()<br>RedisUtil.getSentinelHandler(dbIndex) |
-| ClusterHandler | 集群(Cluster) | RedisUtil.getClusterHandler() |
-| CustomCommandHandler | 自定义命令(CustomCommand) | RedisUtil.getCustomCommandHandler()<br>RedisUtil.getCustomCommandHandler(dbIndex) |
-| RedisLockHandler | 分布式锁(Lock) | RedisUtil.getRedisLockHandler()<br>RedisUtil.getRedisLockHandler(dbIndex) |
-| TransactionHandler | 事务(Transaction) | RedisUtil.getTransactionHandler()<br>RedisUtil.getTransactionHandler(dbIndex) |
 
-#### 事务使用示例
-```
-List execute = RedisUtil.getTransactionHandler(2).execute(handler -> {
-    // 开启监控
-    handler.watch("xx", "test");
-    // 开启事务
-    handler.beginTransaction();
-    // 获取对应事务字符串助手
-    StringHandler stringHandler = handler.getStringHandler();
-    // 执行操作
-    stringHandler.set("xx", "hello");
-    stringHandler.append("xx", "world");
-    stringHandler.append("xx", "!");
-    // 获取对应事务数字助手
-    NumberHandler numberHandler = handler.getNumberHandler();
-    numberHandler.addLong("test", 100);
-    numberHandler.incrementLong("test");
-    numberHandler.incrementLong("test");
-    numberHandler.incrementLong("test");
-    // 提交事务返回结果
-    return handler.commit();
-});
-```
 
 ####多数据源配置
 ---

@@ -1,9 +1,6 @@
 package cn.flood.db.redis.util;
 
-import cn.hutool.core.util.NumberUtil;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import cn.flood.db.redis.enums.StreamDataType;
 import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Point;
@@ -13,11 +10,6 @@ import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
-import cn.flood.db.redis.handler.StreamHandler;
-
-import javax.management.openmbean.SimpleType;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.*;
 
 /**
@@ -165,6 +157,23 @@ public class ConvertUtil {
     }
 
     /**
+     * 将TypedTuple类型的集合转为字典
+     * @param set TypedTuple类型的集合
+
+     * @return 返回TypedTuple类型的集合
+     */
+    public static Map<Double, Object> toObjectMap(Set<ZSetOperations.TypedTuple<Object>> set) {
+        if(set==null){
+            return null;
+        }
+        Map<Double, Object> map = new LinkedHashMap<>(set.size());
+        for (ZSetOperations.TypedTuple typedTuple : set) {
+            map.put(typedTuple.getScore(), typedTuple.getValue());
+        }
+        return map;
+    }
+
+    /**
      * 将对象转为字典
      * @param values 对象
      * @param <T> 对象类型
@@ -188,14 +197,14 @@ public class ConvertUtil {
      * @param type 数据类型
      * @return 返回字典
      */
-    public static <T> Map<String, T> toMap(List<? extends Record<String, T>> list, StreamHandler.StreamDataType type) {
+    public static <T> Map<String, T> toMap(List<? extends Record<String, T>> list, StreamDataType type) {
         Map<String, T> data;
         if (list!=null&&list.size()>0) {
-            if (type== StreamHandler.StreamDataType.LATEST) {
+            if (type== StreamDataType.LATEST) {
                 data = new HashMap<>(1);
                 Record<String, T> record = list.get(list.size()-1);
                 data.put(record.getId().getValue(), record.getValue());
-            }else if (type== StreamHandler.StreamDataType.EARLIEST) {
+            }else if (type== StreamDataType.EARLIEST) {
                 data = new HashMap<>(1);
                 Record<String, T> record = list.get(0);
                 data.put(record.getId().getValue(), record.getValue());
@@ -238,45 +247,6 @@ public class ConvertUtil {
 
         Object o = serializer.deserialize(bytes);
         return o==null?null:o.toString();
-    }
-
-    /**
-     * 转为java类型
-     * @param t 对象
-     * @param type 返回类型
-     * @param <T> 返回类型
-     * @return 返回对应的java对象
-     */
-    public static <T> Object toJavaType(Object t, Class<T> type) {
-        if (t==null) {
-            return null;
-        }
-        if (t instanceof JSONObject) {
-            return JSONUtil.toBean((JSONObject) t, type);
-        }else if (t instanceof JSONArray) {
-            return JSONUtil.toList((JSONArray) t, type);
-        }
-        String str = t.toString();
-        if (NumberUtil.isNumber(str)) {
-            String typeName = type.getName();
-            if (NumberUtil.isDouble(str)) {
-                BigDecimal value = new BigDecimal(str);
-                if (SimpleType.FLOAT.getTypeName().equals(typeName)) {
-                    return value.floatValue();
-                }
-                return value.doubleValue();
-            }else {
-                BigInteger value = new BigInteger(str);
-                if (SimpleType.INTEGER.getTypeName().equals(typeName)) {
-                    return value.intValue();
-                }else if (SimpleType.SHORT.getTypeName().equals(typeName)) {
-                    return value.shortValue();
-                }
-                return value.longValue();
-            }
-        }else {
-            return t;
-        }
     }
 
     /**

@@ -8,6 +8,7 @@ import cn.flood.db.redis.provider.impl.DynamicRedisProvider;
 import cn.flood.db.redis.util.ApplicationContextUtil;
 import cn.flood.db.redis.service.RedisService;
 import cn.flood.db.redis.service.impl.RedisServiceImpl;
+import cn.flood.db.redis.util.RedisLockUtil;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -220,7 +221,12 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
-    public RedisService getRedisService(RedisTemplate<String, Object> redisTemplate) {
-        return new RedisServiceImpl(redisTemplate);
+    public RedisLockUtil redisLockUtil(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisLockUtil(redisTemplate);
+    }
+
+    @Bean
+    public RedisService getRedisService(RedisTemplate<String, Object> redisTemplate, RedisLockUtil redisLockUtil) {
+        return new RedisServiceImpl(redisTemplate, redisLockUtil);
     }
 }

@@ -47,7 +47,7 @@
         </dependency>
         <dependency>
             <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-db-database</artifactId>
+            <artifactId>flood-db-jdbc</artifactId>
             <version>${flood.version}</version>
         </dependency>
         <dependency>

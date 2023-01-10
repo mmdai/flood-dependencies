@@ -58,7 +58,6 @@
 	  <redisson.version>3.17.7</redisson.version>
 	  <joda-time.version>2.10.14</joda-time.version>
 	  <persistence.version>1.0.2</persistence.version>
-	  <hutool-json.version>5.8.1</hutool-json.version>
 	  <!-- elasticsearch -->
 	  <elasticsearch.version>7.17.3</elasticsearch.version>
 	  <!-- mq -->
