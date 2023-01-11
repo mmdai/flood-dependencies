@@ -79,6 +79,7 @@ public class RepositoryFactorySupport<T extends ESCRepository<S, ID>, S, ID> imp
      *
      * @param target
      */
+    @SuppressWarnings("unchecked")
     private void getMetadata(SimpleESCRepository target) throws Exception {
         Type[] types = repositoryInterface.getGenericInterfaces();
         ParameterizedType parameterized = (ParameterizedType) types[0];

@@ -20,6 +20,7 @@ public class RedisResultHolder implements ResultHolder {
      * @param xid
      * @param context
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void setResult(String actionClass, String xid, String context) {
         HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
@@ -32,6 +33,7 @@ public class RedisResultHolder implements ResultHolder {
      * @param xid
      * @return
      */
+    @SuppressWarnings("unchecked")
     @Override
     public boolean getResult(String actionClass, String xid) {
         HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
@@ -43,6 +45,7 @@ public class RedisResultHolder implements ResultHolder {
      * @param actionClass
      * @param xid
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void removeResult(String actionClass, String xid) {
         HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();

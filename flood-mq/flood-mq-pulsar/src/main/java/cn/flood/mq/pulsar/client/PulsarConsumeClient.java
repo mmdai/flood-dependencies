@@ -187,7 +187,7 @@ public class PulsarConsumeClient implements BeanPostProcessor {
         return deadLetterPolicyBuilder.build();
     }
 
-
+    @SuppressWarnings("unchecked")
     private ConsumerProperties getConsumerConfig(TopicBinding topicBinding) {
         ConsumerProperties consumerConfig = new ConsumerProperties();
         BeanUtils.copyProperties(pulsarProperties.getConsumer(), consumerConfig);

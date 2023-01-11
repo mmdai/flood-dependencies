@@ -25,7 +25,7 @@ public class KafkaCanalClient extends AbstractCanalClient {
         return Builder.builder();
     }
 
-
+    @SuppressWarnings("unchecked")
     @Override
     public void process() {
         KafkaCanalConnector connector = (KafkaCanalConnector) getConnector();

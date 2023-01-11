@@ -48,12 +48,12 @@ public class RedisBaseOperation {
         }
         return false;
     }
-
+    @SuppressWarnings("unchecked")
     public static <T> T get(RedisTemplate<String, Object> redisTemplate, String key) {
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
         return (T) operations.get(key);
     }
-
+    @SuppressWarnings("unchecked")
     public static <T> boolean set(RedisTemplate<String, Object> redisTemplate, String key, T value) {
         boolean result = false;
         try {
@@ -65,7 +65,7 @@ public class RedisBaseOperation {
         }
         return result;
     }
-
+    @SuppressWarnings("unchecked")
     public static <T> boolean set(RedisTemplate<String, Object> redisTemplate, String key, T value, Long expireTime, TimeUnit timeUnit) {
         boolean result = false;
         try {
@@ -91,7 +91,7 @@ public class RedisBaseOperation {
         }
         return false;
     }
-
+    @SuppressWarnings("unchecked")
     public static <T> T getHash(RedisTemplate<String, Object> redisTemplate, String key, String field) {
         HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
         return (T) hash.get(key, field);
@@ -101,7 +101,7 @@ public class RedisBaseOperation {
         HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
         return hash.entries(key);
     }
-
+    @SuppressWarnings("unchecked")
     public static <T> boolean setHash(RedisTemplate<String, Object> redisTemplate, String key, String field, T value) {
         try {
             HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
@@ -111,7 +111,7 @@ public class RedisBaseOperation {
             return false;
         }
     }
-
+    @SuppressWarnings("unchecked")
     public static <T> boolean setHash(RedisTemplate<String, Object> redisTemplate, String key, String field, T value, Long expireTime, TimeUnit timeUnit) {
         try {
             HashOperations<String, String, Object> hash = redisTemplate.opsForHash();
@@ -195,8 +195,7 @@ public class RedisBaseOperation {
         }
     }
 
-
-
+    @SuppressWarnings("unchecked")
     public static <T> boolean setIfPresent(RedisTemplate<String, Object> redisTemplate, String key, T value, Long expireTime, TimeUnit timeUnit) {
         try {
             ValueOperations<String, Object> operations = redisTemplate.opsForValue();

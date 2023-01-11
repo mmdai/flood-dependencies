@@ -130,6 +130,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @return  
 	 * @see cn.flood.cache.service.RedisService#set(java.lang.String, java.lang.Object)  
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> boolean set(String key, T value) {
 		boolean result = false;
@@ -153,6 +154,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @return  
 	 * @see cn.flood.cache.service.RedisService#set(java.lang.String, java.lang.Object, java.lang.Long, java.util.concurrent.TimeUnit)  
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> boolean set(String key, T value, Long expireTime, TimeUnit timeUnit) {
 		boolean result = false;
@@ -207,6 +209,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @return  
 	 * @see cn.flood.cache.service.RedisService#getHash(java.lang.String, java.lang.String)  
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getHash(String key, String field) {
 		HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
@@ -235,6 +238,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @return  
 	 * @see cn.flood.cache.service.RedisService#setHash(java.lang.String, java.lang.String, java.lang.Object)  
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> boolean setHash(String key, String field, T value) {
 		try {
@@ -257,6 +261,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @return  
 	 * @see cn.flood.cache.service.RedisService#setHash(java.lang.String, java.lang.String, java.lang.Object, java.lang.Long, java.util.concurrent.TimeUnit)  
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> boolean setHash(String key, String field, T value, Long expireTime, TimeUnit timeUnit) {
 		try {
@@ -403,6 +408,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @return  
 	 * @see cn.flood.redis.service.RedisService#existAndUpdtime(java.lang.String, java.lang.Long, java.util.concurrent.TimeUnit)  
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> boolean setIfPresent(String key, T value, Long expireTime, TimeUnit timeUnit) {
 		try {
@@ -570,6 +576,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T lget(String key, Long index){
 		return (T) this.redisTemplate.opsForList().index(key, index);
@@ -585,6 +592,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T rget(String key, Long index){
 		return  (T) this.redisTemplate.opsForList().index(key, -index-1);
@@ -651,6 +659,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T lpop(String key){
 		return (T) this.redisTemplate.opsForList().leftPop(key);
@@ -667,6 +676,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T blpop(String key, Long timeout, TimeUnit unit){
 		return (T) this.redisTemplate.opsForList().leftPop(key, timeout, unit);
@@ -733,6 +743,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T rpop(String key){
 		return (T) this.redisTemplate.opsForList().rightPop(key);
@@ -748,6 +759,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T brpop(String key, Long timeout, TimeUnit unit){
 		return (T) this.redisTemplate.opsForList().rightPop(key, timeout, unit);
@@ -763,6 +775,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T lpopAndlpush(String key, String otherKey){
 		T t = this.lpop(key);
@@ -779,6 +792,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T rpopAndlpush(String key, String otherKey){
 		return (T) this.redisTemplate.opsForList().rightPopAndLeftPush(key, otherKey);
@@ -794,6 +808,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T rpopAndrpush(String key, String otherKey){
 		T t = this.rpop(key);
@@ -811,6 +826,7 @@ public class RedisServiceImpl implements RedisService {
 	 * @param <T> 对象类型
 	 * @return 返回对象
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T lpopAndrpush(String key, String otherKey){
 		T t = this.lpop(key);

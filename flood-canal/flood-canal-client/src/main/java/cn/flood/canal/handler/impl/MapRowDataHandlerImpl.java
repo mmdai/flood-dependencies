@@ -20,6 +20,7 @@ public class MapRowDataHandlerImpl implements RowDataHandler<List<Map<String, St
         this.modelFactory = modelFactory;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <R> void handlerRowData(List<Map<String, String>> list, EntryHandler<R> entryHandler, CanalEntry.EventType eventType) throws Exception{
         if (entryHandler != null) {

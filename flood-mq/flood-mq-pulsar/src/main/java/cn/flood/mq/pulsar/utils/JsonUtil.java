@@ -34,7 +34,7 @@ public class JsonUtil {
             )
             .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
-
+    @SuppressWarnings("unchecked")
     public static <T> String toJson(T obj) {
         String serialValue = null;
         try {
@@ -54,6 +54,7 @@ public class JsonUtil {
      * @param <T>
      * @return
      */
+    @SuppressWarnings("unchecked")
     public static <T> T fromStr(String json, Class<T> clz) {
         T deSerialObj = null;
         try {
@@ -65,6 +66,7 @@ public class JsonUtil {
         return deSerialObj;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T fromStr(String json, TypeReference<?> valueTypeRef) {
         T deSerialObj = null;
         try {
@@ -75,6 +77,7 @@ public class JsonUtil {
         return deSerialObj;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T fromStr(String json, JavaType javaType) {
         T deSerialObj = null;
         try {
@@ -85,6 +88,7 @@ public class JsonUtil {
         return deSerialObj;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T fromStrByPath(String json, String path, Class<T> clz) {
         if (path == null || path.length() == 0) {
             return fromStr(json, clz);
@@ -104,6 +108,7 @@ public class JsonUtil {
         return deSerialObj;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T fromStrByPath(String json, String path, TypeReference<?> valueTypeRef) {
         if (path == null || path.length() == 0) {
             return fromStr(json, valueTypeRef);
@@ -151,6 +156,7 @@ public class JsonUtil {
         return result;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T fromInputStream(InputStream inputStream, Class<T> clazz) throws IOException {
         if (inputStream == null) {
             return null;
@@ -159,6 +165,7 @@ public class JsonUtil {
         return MAPPER.readValue(inputStream, clazz);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T fromInputStream(InputStream inputStream, JavaType type) throws IOException {
         if (inputStream == null) {
             return null;
@@ -234,6 +241,7 @@ public class JsonUtil {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T fromNode(JsonNode node, Class<T> clazz) {
         try {
             return MAPPER.treeToValue(node, clazz);

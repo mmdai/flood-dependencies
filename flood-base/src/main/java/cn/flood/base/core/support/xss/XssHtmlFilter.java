@@ -177,6 +177,7 @@ public final class XssHtmlFilter {
 	 *
 	 * @param conf map containing configuration. keys match field names.
 	 */
+	@SuppressWarnings("unchecked")
 	public XssHtmlFilter(final Map<String, Object> conf) {
 
 		assert conf.containsKey("vAllowed") : "configuration requires vAllowed";

@@ -37,6 +37,7 @@ public class CreateIndex implements ApplicationListener<ContextRefreshedEvent>, 
      * 扫描ESMetaData注解的类，并自动创建索引mapping
      * @param event
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if(event.getApplicationContext().getParent() != null){
