@@ -79,7 +79,7 @@ public class RedisConnectionFactoryBuilder {
     }
 
     /**
-     * 单机配置信息
+     * 哨兵配置信息
      *
      * @param properties
      * @return
