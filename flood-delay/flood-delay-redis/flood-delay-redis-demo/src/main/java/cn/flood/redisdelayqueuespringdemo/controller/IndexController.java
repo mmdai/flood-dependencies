@@ -8,7 +8,6 @@ import cn.flood.redisdelayqueuespringdemo.bo.User;
 import cn.flood.redisdelayqueuespringdemo.delayqueues.DelayQueueDemo2;
 import cn.flood.redisdelayqueuespringdemo.delayqueues.TopicEnums;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,9 +37,6 @@ public class IndexController {
 
     @Autowired
     DelayQueueDemo2 delayQueueDemo2;
-
-    @Autowired
-    RedisTemplate redisTemplate;
 
     @Autowired
     RedisService redisService;
@@ -99,12 +95,17 @@ public class IndexController {
     public void get1(){
         Map<Double, Object> value = redisService.popMaxByScoreZSet("test1", 2);
         System.out.println(value);
-//        for(Object v: set ){
-//            System.out.println(v);
-//        }
-
+    }
+    @GetMapping("/save2")
+    public void save2(){
+        redisService.lpushAll("test2", "22", "44","33", "22");
     }
 
+    @GetMapping("/get2")
+    public void get2(){
+        String value = redisService.lpop("test2");
+        System.out.println(value);
+    }
 
 
     private Date getDate(long millis){

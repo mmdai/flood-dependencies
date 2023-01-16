@@ -17,7 +17,6 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.config.Registry;
 import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -63,7 +62,7 @@ public class HttpClientTool {
     private static HttpClient httpClientLogin = null;
 
     private static CloseableHttpClient getHttpClient(HttpClientBuilder httpClientBuilder) {
-        RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.<ConnectionSocketFactory>create();
+        RegistryBuilder<ConnectionSocketFactory> registryBuilder = RegistryBuilder.create();
         ConnectionSocketFactory plainSF = new PlainConnectionSocketFactory();
         registryBuilder.register("http", plainSF);
         //指定信任密钥存储对象和连接套接字工厂
@@ -97,7 +96,7 @@ public class HttpClientTool {
         connManager.setDefaultMaxPerRoute(Constants.DEFAULTMAXPERROUTE);
         /*三、为HttpClientBuilder设置从连接池获取连接的超时时间、连接超时时间、获取数据响应超时时间
          */
-        RequestConfig requestConfig=RequestConfig.custom().
+        RequestConfig requestConfig = RequestConfig.custom().
                 setConnectionRequestTimeout(Constants.CONMANTIMEOUT).
                 setConnectTimeout(Constants.CONTIMEOUT).
                 setSocketTimeout(Constants.SOTIMEOUT).build();
