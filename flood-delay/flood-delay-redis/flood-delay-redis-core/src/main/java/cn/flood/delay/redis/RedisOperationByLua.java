@@ -132,7 +132,6 @@ public class RedisOperationByLua extends RedisOperationByNormal{
         }else if(values instanceof List) {
             list = (List<String>)values;
         }
-//        logger.info("========================list:{}", list);
         return list;
     }
 }

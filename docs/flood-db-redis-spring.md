@@ -33,6 +33,7 @@ spring:
         max-active: 8
         max-idle: 8
         min-idle: 0
+
 ```
 #集群配置    
 ---

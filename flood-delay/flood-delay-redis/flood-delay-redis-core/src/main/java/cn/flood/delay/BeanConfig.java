@@ -3,11 +3,6 @@ package cn.flood.delay;
 import cn.flood.delay.core.RedisDelayQueueContext;
 import cn.flood.delay.mapper.TbDelayJobMapper;
 import cn.flood.delay.service.RedisDelayQueue;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +11,6 @@ import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.PostConstruct;
@@ -41,7 +33,7 @@ public class BeanConfig {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public BeanConfig(@Autowired(required = false)DataSource dataSource){
+    public BeanConfig(@Autowired(required = false) DataSource dataSource){
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -50,22 +42,6 @@ public class BeanConfig {
     @Autowired(required = false)
     public void setRedisTemplate(RedisTemplate redisTemplate) {
         log.info("------>delay redisTemplate 加载完成");
-        // 设置序列化
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<Object>(
-                Object.class);
-        ObjectMapper om = new ObjectMapper();
-        om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-//	    om.enableDefaultTyping(DefaultTyping.NON_FINAL);
-        om.activateDefaultTyping(LaissezFaireSubTypeValidator.instance ,
-                ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
-        jackson2JsonRedisSerializer.setObjectMapper(om);
-        // 配置redisTemplate
-        RedisSerializer<?> stringSerializer = new StringRedisSerializer();
-        redisTemplate.setKeySerializer(stringSerializer);// key序列化
-        redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);// value序列化
-        redisTemplate.setHashKeySerializer(stringSerializer);// Hash key序列化
-        redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);// Hash value序列化
-        redisTemplate.afterPropertiesSet();
         this.redisTemplate = redisTemplate;
     }
 

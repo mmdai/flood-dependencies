@@ -8,6 +8,7 @@ import cn.flood.redisdelayqueuespringdemo.bo.User;
 import cn.flood.redisdelayqueuespringdemo.delayqueues.DelayQueueDemo2;
 import cn.flood.redisdelayqueuespringdemo.delayqueues.TopicEnums;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,6 +41,8 @@ public class IndexController {
 
     @Autowired
     RedisService redisService;
+    @Autowired
+    RedisTemplate redisTemplate;
 
     /**
      *
@@ -47,7 +50,7 @@ public class IndexController {
     @GetMapping("/addJob")
     public void addJob(Long rt,Integer type ){
         if(rt ==null){
-            rt = Clock.systemDefaultZone().millis() + 120000;
+            rt = Clock.systemDefaultZone().millis() + 300000;
         }
         DelayQueueJob myArgs = new DelayQueueJob();
         String id = UUID.randomUUID().toString();
@@ -58,14 +61,14 @@ public class IndexController {
 
     @GetMapping("/addJob3")
     public void addJob3(){
-        delayQueueDemo2.addDemo2DelayQueue(UUID.randomUUID().toString(),30000);
+        delayQueueDemo2.addDemo2DelayQueue(UUID.randomUUID().toString(),300000);
     }
 
 
     @GetMapping("/addJob2")
     public void addJob2(Long delayTime,String userId ){
 
-        delayQueueDemo2.addDemo2DelayQueue(userId,30000);
+        delayQueueDemo2.addDemo2DelayQueue(userId,300000);
     }
 
     @GetMapping("/delJob2")
@@ -106,6 +109,12 @@ public class IndexController {
         String value = redisService.lpop("test2");
         System.out.println(value);
     }
+
+    @GetMapping("/save3")
+    public void save3(){
+        Object object = redisTemplate.opsForList().leftPop("mmdai", 30, TimeUnit.SECONDS);
+    }
+
 
 
     private Date getDate(long millis){
