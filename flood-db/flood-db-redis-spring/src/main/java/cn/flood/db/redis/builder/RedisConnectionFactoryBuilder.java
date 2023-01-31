@@ -85,19 +85,19 @@ public class RedisConnectionFactoryBuilder {
      * @return
      */
     public static RedisSentinelConfiguration getRedisSentinelConfiguration(RedisProperties properties) {
-        RedisSentinelConfiguration redisStandaloneConfiguration = new RedisSentinelConfiguration();
+        RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration();
         RedisProperties.Sentinel sentinelProperties = properties.getSentinel();
         if (properties.getSentinel() != null) {
-            redisStandaloneConfiguration.master(sentinelProperties.getMaster());
-            redisStandaloneConfiguration.setSentinels(createSentinels(sentinelProperties));
+            redisSentinelConfiguration.master(sentinelProperties.getMaster());
+            redisSentinelConfiguration.setSentinels(createSentinels(sentinelProperties));
             if (!ObjectUtils.isEmpty(properties.getPassword())) {
-                redisStandaloneConfiguration.setPassword(properties.getPassword());
+                redisSentinelConfiguration.setPassword(properties.getPassword());
             }
             if (properties.getDatabase() != 0) {
-                redisStandaloneConfiguration.setDatabase(properties.getDatabase());
+                redisSentinelConfiguration.setDatabase(properties.getDatabase());
             }
         }
-        return redisStandaloneConfiguration;
+        return redisSentinelConfiguration;
     }
 
     private static List<RedisNode> createSentinels(RedisProperties.Sentinel sentinel) {

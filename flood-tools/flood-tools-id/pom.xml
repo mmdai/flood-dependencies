@@ -74,7 +74,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Test -->
+        <!-- TestClient -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

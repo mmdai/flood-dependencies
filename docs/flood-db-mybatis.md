@@ -129,7 +129,7 @@ conditions.add(Restrictions.or(Restrictions.eq("count",18),Restrictions.eq("coun
 // output: ((age=18 AND name='zhangsan') AND (count=18 OR count=29))
 ```
 
-@Test
+@TestClient
 public void testSimpleExpression()
 {
     Conditions conditions = new Conditions();
@@ -150,7 +150,7 @@ public void testSimpleExpression()
     System.out.println(conditions1.toSqlString());
 }
 
-@Test
+@TestClient
 public void testBetweenExpression()
 {
     Conditions conditions = new Conditions();
@@ -159,7 +159,7 @@ public void testBetweenExpression()
     System.out.println(conditions.toSqlString());
 }
 
-@Test
+@TestClient
 public void testConjunction()
 {
     Conditions conditions = new Conditions();
@@ -168,7 +168,7 @@ public void testConjunction()
     System.out.println(conditions.toSqlString());
 }
 
-@Test
+@TestClient
 public void testOneConjunction()
 {
     Conditions conditions = new Conditions();
@@ -176,7 +176,7 @@ public void testOneConjunction()
     System.out.println(conditions.toSqlString());
 }
 
-@Test
+@TestClient
 public void testSqlRestriction()
 {
     Conditions conditions = new Conditions();

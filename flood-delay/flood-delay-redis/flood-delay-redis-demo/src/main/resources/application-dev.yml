@@ -73,7 +73,7 @@ management:
 spring:
   redis:
     database: 1  #Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
-    timeout: 310000ms  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
+    timeout: 610000ms  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
     #单机配置
     host: 127.0.0.1
     port: 6379
@@ -89,8 +89,8 @@ spring:
         # 最小空闲连接数
         min-idle: 1
         # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
-        max-wait: 310000ms
-      shutdown-timeout: 310000ms
+        max-wait: -1
+      shutdown-timeout: 610000ms
 
 ########################################################
 

@@ -105,8 +105,8 @@ spring:
         #Redis哨兵模式
   #       database: 1        #选择redis的第二个数据库
   #       password: 123456   #redis密码
-  #       sentinel:
-  #         master: mymaster #哨兵的名字 #下面是所有哨兵集群节点
+  #       sentinel:ster #哨兵的名字 #下面是所有哨兵
+  #         master: myma集群节点
   #         nodes: 
   #           - 192.168.217.151:26379
   #           - 192.168.217.129:26379
