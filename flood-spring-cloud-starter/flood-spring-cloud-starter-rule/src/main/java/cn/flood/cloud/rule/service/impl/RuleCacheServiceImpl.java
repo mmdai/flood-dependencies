@@ -7,6 +7,7 @@ import cn.flood.cloud.rule.entity.BlackList;
 import cn.flood.cloud.rule.service.RuleCacheService;
 import cn.flood.db.redis.service.RedisService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
@@ -17,10 +18,10 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public class RuleCacheServiceImpl implements RuleCacheService {
 
+    @Autowired
     private RedisService redisService;
 
-    public RuleCacheServiceImpl(RedisService redisService){
-        this.redisService = redisService;
+    public RuleCacheServiceImpl(){
     }
 
 
