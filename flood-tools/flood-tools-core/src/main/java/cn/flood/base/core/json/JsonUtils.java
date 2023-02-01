@@ -7,12 +7,26 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.InstantDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +53,39 @@ public class JsonUtils {
 
 	private static ObjectMapper defaultMapper;
 
+	/**
+	 * yyyy-MM-dd HH:mm:ss 格式
+	 */
+	private static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	/**
+	 * yyyy-MM-dd 格式
+	 */
+	private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
+	/**
+	 * HH:mm:ss 格式
+	 */
+	private static final String NORM_TIME_PATTERN = "HH:mm:ss";
+
 	static {
 		// 默认的ObjectMapper
 		defaultMapper = new ObjectMapper();
 		// 设置输入时忽略在JSON字符串中存在但Java对象实际没有的属性
 		defaultMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-
+		// 日期和时间格式化
+		JavaTimeModule javaTimeModule = new JavaTimeModule();
+		//时间序列化规则
+		javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
+		javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
+		javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
+		//Instant 类型序列化
+		javaTimeModule.addSerializer(Instant.class, InstantSerializer.INSTANCE);
+		//时间反序列化规则
+		javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
+		javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
+		javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
+		//Instant 类型反序列化
+		javaTimeModule.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
+		defaultMapper.registerModule(javaTimeModule);
 		// 如果存在未知属性，则忽略不报错
 		defaultMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		// 允许key没有双引号
