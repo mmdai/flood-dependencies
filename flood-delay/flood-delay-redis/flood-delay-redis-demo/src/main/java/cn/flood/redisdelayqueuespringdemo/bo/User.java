@@ -2,6 +2,7 @@ package cn.flood.redisdelayqueuespringdemo.bo;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -15,9 +16,10 @@ import java.util.Date;
  */
 @Data
 public class User {
-    private String id;
-
-    private Date date;
-
+    private int id;
     private String name;
+
+    private String content;
+
+    private LocalDateTime dateTime;
 }

@@ -106,6 +106,26 @@ public interface RedisService {
 	* @throws  
 	*/ 
 	<T> boolean setIfPresent(final String key,T value, Long expireTime, TimeUnit timeUnit);
+
+	/**
+	 * @Title: incrementLong
+	 * @Description: (将key的整数值按给定数字增加,为散了中某个值加上 long delta)
+	 * @param @param key  (key对应的字段)
+	 * @param @param value (加，减值)
+	 * @return Long    返回类型
+	 * @throws
+	 */
+	Long incrementLong(final String key, Long value);
+
+	/**
+	 * @Title: incrementDouble
+	 * @Description: (将key的整数值按给定数字增加,为散了中某个值加上 double delta)
+	 * @param @param key  (key对应的字段)
+	 * @param @param value (加，减值)
+	 * @return Long    返回类型
+	 * @throws
+	 */
+	Double incrementDouble(final String key, Double value);
 	
 	//////////////////////////////////////////////HASH///////////////////////////////////////////////////
 	/**  

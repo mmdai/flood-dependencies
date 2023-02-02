@@ -18,10 +18,6 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.github.mmdai</groupId>
             <artifactId>flood-spring-cloud-starter-rule</artifactId>
             <version>${flood.version}</version>
@@ -88,12 +84,6 @@
         <dependency>
             <groupId>io.github.mmdai</groupId>
             <artifactId>flood-tools-banner</artifactId>
-            <version>${flood.version}</version>
-        </dependency>
-        <!-- redis ratelimit 集成 -->
-        <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-db-redis-spring</artifactId>
             <version>${flood.version}</version>
         </dependency>
     </dependencies>

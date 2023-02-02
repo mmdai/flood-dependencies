@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.data.redis.LettuceClientConfigurat
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.connection.*;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
@@ -60,6 +61,21 @@ public class LettuceConnectionConfiguration extends RedisConnectionConfiguration
     @Scope("prototype")
     @ConditionalOnMissingBean({RedisConnectionFactory.class})
     public RedisConnectionFactory redisConnectionFactory(
+            ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
+            ClientResources clientResources, DynamicRedisProperties dynamicRedisProperties
+    ) {
+        LettuceClientConfiguration clientConfig = this.getLettuceClientConfiguration(
+                builderCustomizers,
+                clientResources,
+                this.getProperties().getLettuce().getPool()
+        );
+        return createLettuceConnectionFactory(clientConfig, dynamicRedisProperties);
+    }
+
+    @Primary
+    @Bean
+    @ConditionalOnMissingBean({LettuceConnectionFactory.class})
+    public LettuceConnectionFactory redisLettuceConnectionFactory(
             ObjectProvider<LettuceClientConfigurationBuilderCustomizer> builderCustomizers,
             ClientResources clientResources, DynamicRedisProperties dynamicRedisProperties
     ) {

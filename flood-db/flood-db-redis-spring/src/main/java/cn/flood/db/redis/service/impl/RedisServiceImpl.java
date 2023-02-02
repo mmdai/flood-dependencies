@@ -420,6 +420,30 @@ public class RedisServiceImpl implements RedisService {
 		}
 	}
 
+	/**
+	 *
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public Long incrementLong(String key, Long value) {
+		ValueOperations<String, Object> operations = this.redisTemplate.opsForValue();
+		return operations.increment(key, value);
+	}
+
+	/**
+	 *
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public Double incrementDouble(String key, Double value) {
+		ValueOperations<String, Object> operations = this.redisTemplate.opsForValue();
+		return operations.increment(key, value);
+	}
+
 	/****************************** LIST START ***********************************/
 	/**
 	 * 获取对象列表数量

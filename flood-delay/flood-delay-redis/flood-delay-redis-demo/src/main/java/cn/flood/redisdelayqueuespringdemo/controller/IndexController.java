@@ -1,5 +1,6 @@
 package cn.flood.redisdelayqueuespringdemo.controller;
 
+import cn.flood.base.core.json.JsonUtils;
 import cn.flood.db.redis.service.RedisService;
 import cn.flood.delay.core.RedisDelayQueueContext;
 import cn.flood.delay.entity.DelayQueueJob;
@@ -14,10 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.Clock;
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -79,15 +78,18 @@ public class IndexController {
     @GetMapping("/save")
     public void save(){
         User user = new User();
-        user.setId("1234");
-        user.setDate(new Date());
+        user.setId(1234);
+        user.setDateTime(LocalDateTime.now());
         user.setName("哈哈");
-        redisService.set("test", user, 3L, TimeUnit.MINUTES);
+        user.setContent("我猜你是ABC");
+        List<User> list = new ArrayList<>();
+        list.add(user);
+        redisService.set("test", list, 30L, TimeUnit.MINUTES);
     }
     @GetMapping("/get")
     public void get(){
-        User user = redisService.get("test");
-        System.out.println(user.getId());
+        List<User> user = redisService.get("test");
+        System.out.println(JsonUtils.toJSONString(user));
     }
 
     @GetMapping("/save1")
