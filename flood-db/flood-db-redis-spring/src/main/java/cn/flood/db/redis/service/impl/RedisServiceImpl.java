@@ -340,7 +340,7 @@ public class RedisServiceImpl implements RedisService {
 	}
 	
 	/* (non-Javadoc)  
-	 * <p>Title: hIncrBy</p>  
+	 * <p>Title: hIncrementLong</p>
 	 * <p>Description: </p>  
 	 * @param hKey
 	 * @param field
@@ -349,13 +349,13 @@ public class RedisServiceImpl implements RedisService {
 	 * @see cn.flood.cache.service.RedisService#hIncrBy(java.lang.String, java.lang.String, java.lang.Long)  
 	 */
 	@Override
-	public Long hIncrBy(String hKey, String field, Long value) {
+	public Long hIncrementLong(String hKey, String field, Long value) {
 		HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
 		return hash.increment(hKey, field, value);
 	}
 
 	/* (non-Javadoc)  
-	 * <p>Title: hIncrBy</p>  
+	 * <p>Title: hIncrementDouble</p>
 	 * <p>Description: </p>  
 	 * @param hKey
 	 * @param field
@@ -364,11 +364,11 @@ public class RedisServiceImpl implements RedisService {
 	 * @see cn.flood.cache.service.RedisService#hIncrBy(java.lang.String, java.lang.String, java.lang.Double)  
 	 */
 	@Override
-	public Double hIncrBy(String hKey, String field, Double value) {
+	public Double hIncrementDouble(String hKey, String field, Double value) {
 		HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
 		return hash.increment(hKey, field, value);
 	}
-	
+
 	/**
      * 指定缓存失效时间
      * @param key 键
@@ -442,6 +442,18 @@ public class RedisServiceImpl implements RedisService {
 	public Double incrementDouble(String key, Double value) {
 		ValueOperations<String, Object> operations = this.redisTemplate.opsForValue();
 		return operations.increment(key, value);
+	}
+
+	/**
+	 *
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	@Override
+	public Long decrementLong(String key, Long value) {
+		ValueOperations<String, Object> operations = this.redisTemplate.opsForValue();
+		return operations.decrement(key, value);
 	}
 
 	/****************************** LIST START ***********************************/

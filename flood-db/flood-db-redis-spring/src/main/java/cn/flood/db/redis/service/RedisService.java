@@ -126,6 +126,18 @@ public interface RedisService {
 	 * @throws
 	 */
 	Double incrementDouble(final String key, Double value);
+
+	/**
+	 * @Title: decrementLong
+	 * @Description: (将key的整数值按给定数字减少,为散了中某个值加上 long delta)
+	 * @param @param key  (key对应的字段)
+	 * @param @param value (加，减值)
+	 * @return Long    返回类型
+	 * @throws
+	 */
+	Long decrementLong(final String key, Long value);
+
+
 	
 	//////////////////////////////////////////////HASH///////////////////////////////////////////////////
 	/**  
@@ -216,7 +228,7 @@ public interface RedisService {
 	boolean setAllHash(final String key, Map<String, Object> value, Long expireTime, TimeUnit timeUnit);
 	
 	/**  
-	* @Title: hIncrBy  
+	* @Title: hIncrementLong
 	* @Description: (将哈希字段的整数值按给定数字增加,为散了中某个值加上 long delta)
 	* @param @param hKey  (key对应的字段)
 	* @param @param field (value对应的字段)
@@ -225,10 +237,10 @@ public interface RedisService {
 	* @return Long    返回类型  
 	* @throws  
 	*/ 
-	Long hIncrBy(String hKey, final String field, Long value);
+	Long hIncrementLong(String hKey, final String field, Long value);
 
 	/**  
-	* @Title: hIncrBy  
+	* @Title: hIncrementDouble
 	* @Description: (将哈希字段的整数值按给定数字增加,为散了中某个值加上 double delta)
 	* @param @param hKey  (key对应的字段)
 	* @param @param field (value对应的字段)
@@ -237,7 +249,8 @@ public interface RedisService {
 	* @return Long    返回类型  
 	* @throws  
 	*/ 
-	Double hIncrBy(String hKey, final String field, Double value);
+	Double hIncrementDouble(String hKey, final String field, Double value);
+
 	/****************************** LIST START ***********************************/
 	/**
 	 * 获取对象列表数量
