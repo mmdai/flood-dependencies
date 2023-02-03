@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.util.ObjectUtils;
 
 @Builder
 @Data
@@ -39,7 +40,7 @@ public class Result<T>{
 
 	@JsonIgnore
 	public boolean is_succeed(){
-		if ((this._code == null) || (this._code == "")) {
+		if (ObjectUtils.isEmpty(this._code)) {
 			return false;
 		}
 		return this._code.equals(SUCCESS_CODE);
