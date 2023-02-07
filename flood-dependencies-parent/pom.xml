@@ -75,7 +75,6 @@
 					<include>**/*.*</include>
 					<include>**/*.yml</include>
 					<include>**/*.xml</include>
-					<include>**/*.lua</include>
 					<include>**/*.tld</include>
 					<include>**/*.p12</include>
 					<include>**/*.conf</include>

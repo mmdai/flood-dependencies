@@ -2,19 +2,15 @@ package cn.flood.redisdelayqueuespringdemo.controller;
 
 import cn.flood.base.core.json.JsonUtils;
 import cn.flood.db.redis.service.RedisService;
-import cn.flood.delay.core.RedisDelayQueueContext;
-import cn.flood.delay.entity.DelayQueueJob;
-import cn.flood.delay.service.RedisDelayQueue;
+import cn.flood.delay.redis.RDQueueTemplate;
+import cn.flood.delay.redis.core.Message;
+import cn.flood.delay.redis.exception.RDQException;
 import cn.flood.redisdelayqueuespringdemo.bo.User;
-import cn.flood.redisdelayqueuespringdemo.delayqueues.DelayQueueDemo2;
-import cn.flood.redisdelayqueuespringdemo.delayqueues.TopicEnums;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -23,57 +19,35 @@ import java.util.concurrent.TimeUnit;
  * @Description TODO
  * @Date 2019/8/1 9:40 AM
  **/
-@Controller
-@ResponseBody
+@RestController
 public class IndexController {
-
-
-    @Autowired
-    RedisDelayQueue redisDelayQueue;
-
-
-    @Autowired
-    RedisDelayQueueContext redisDelayQueueContext;
-
-    @Autowired
-    DelayQueueDemo2 delayQueueDemo2;
 
     @Autowired
     RedisService redisService;
     @Autowired
     RedisTemplate redisTemplate;
 
+    @Autowired
+    private RDQueueTemplate rdQueueTemplate;
     /**
      *
      */
-    @GetMapping("/addJob")
-    public void addJob(Long rt,Integer type ){
-        if(rt ==null){
-            rt = Clock.systemDefaultZone().millis() + 300000;
-        }
-        DelayQueueJob myArgs = new DelayQueueJob();
-        String id = UUID.randomUUID().toString();
-        myArgs.setId(id);
-        myArgs.setBody("lalalalala");
-        redisDelayQueue.add(myArgs,TopicEnums.DEMO_TOPIC.getTopic(),rt);
+    @GetMapping("/push")
+    public String addJob() throws RDQException {
+        Message<String> message = new Message<>();
+        message.setTopic("order-cancel");
+        message.setPayload(UUID.randomUUID().toString().replaceAll("-",""));
+        message.setDelayTime(60);
+        rdQueueTemplate.asyncPush(message, (s, throwable) -> {
+            if (null != throwable) {
+                throwable.printStackTrace();
+            } else {
+                System.out.println("s" + s);
+            }
+        });
+        return "推送成功";
     }
 
-    @GetMapping("/addJob3")
-    public void addJob3(){
-        delayQueueDemo2.addDemo2DelayQueue(UUID.randomUUID().toString(),300000);
-    }
-
-
-    @GetMapping("/addJob2")
-    public void addJob2(Long delayTime,String userId ){
-
-        delayQueueDemo2.addDemo2DelayQueue(userId,300000);
-    }
-
-    @GetMapping("/delJob2")
-    public void delJob2(Long delayTime,String userId ){
-        delayQueueDemo2.delDemo2Queue(userId);
-    }
 
     @GetMapping("/save")
     public void save(){

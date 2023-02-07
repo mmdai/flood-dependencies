@@ -1,1 +1,1 @@
-cn.flood.delay.BeanConfig
+cn.flood.delay.redis.RDQueueAutoConfiguration

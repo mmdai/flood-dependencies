@@ -12,35 +12,15 @@
     <artifactId>flood-delay-redis-core</artifactId>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.lettuce</groupId>
-                    <artifactId>lettuce-core</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.code.findbugs/annotations -->
+
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>${google.annotations.version}</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-        <!-- mybatis 依赖 -->
-        <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-db-mybatis</artifactId>
-            <version>${flood.version}</version>
-        </dependency>
-        <!-- mybatis 依赖 -->
 
     </dependencies>
 </project>
