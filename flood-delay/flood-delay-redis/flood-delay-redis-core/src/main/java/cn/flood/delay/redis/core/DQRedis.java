@@ -9,6 +9,8 @@ import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.masterreplica.MasterReplica;
 import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
+import io.lettuce.core.resource.ClientResources;
+import io.lettuce.core.resource.DefaultClientResources;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -41,6 +43,10 @@ public class DQRedis {
 
 	public DQRedis(String ip, int port, String password, Duration timeout,
 				   Config.Cluster cluster, Config.Sentinel sentinel) {
+		ClientResources resources = DefaultClientResources.builder()
+				.ioThreadPoolSize(2) //I/O线程数
+				.computationThreadPoolSize(2) //任务线程数
+				.build();
 		if (null != cluster && !CollectionUtils.isEmpty(cluster.getNodes())) {
 			Set<RedisURI> uris = new HashSet<>();
 			List<String> nodes = cluster.getNodes();
@@ -59,8 +65,9 @@ public class DQRedis {
 					.autoReconnect(true)//是否自动重连
 					.pingBeforeActivateConnection(true)//连接激活之前是否执行PING命令
 					.validateClusterNodeMembership(true)//是否校验集群节点的成员关系
+					.maxRedirects(cluster.getMaxRedirects())
 					.build();
-			this.clusterClient = RedisClusterClient.create(uris);
+			this.clusterClient = RedisClusterClient.create(resources, uris);
 			this.clusterClient.setOptions(options);
 			this.isCluster = true;
 			this.clusterConnection = clusterClient.connect();
@@ -78,7 +85,7 @@ public class DQRedis {
 				}
 				uris.add(uri.build());
 			}
-			RedisClient client = RedisClient.create();
+			RedisClient client = RedisClient.create(resources);
 			StatefulRedisMasterReplicaConnection<String, String> connection = MasterReplica.connect(client, StringCodec.UTF8, uris);
 			//从节点读取数据
 			connection.setReadFrom(ReadFrom.REPLICA);
@@ -89,7 +96,7 @@ public class DQRedis {
 			if (!ObjectUtils.isEmpty(password)) {
 				redisURI.withPassword(password.toCharArray());
 			}
-			this.redisClient = RedisClient.create(redisURI.build());
+			this.redisClient = RedisClient.create(resources, redisURI.build());
 			this.connection = redisClient.connect();
 		}
 	}

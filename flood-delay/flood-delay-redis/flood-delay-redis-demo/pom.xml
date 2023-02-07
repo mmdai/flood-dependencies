@@ -39,28 +39,19 @@
             <artifactId>flood-db-redis-spring</artifactId>
             <version>${flood.version}</version>
         </dependency>
-        <!--添加db-->
-        <!-- mysql驱动 -->
-        <dependency>
-            <groupId> mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.mmdai</groupId>
-            <artifactId>flood-db-jdbc</artifactId>
-            <version>${flood.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>io.github.mmdai</groupId>
             <artifactId>flood-delay-redis-core</artifactId>
             <version>${flood.version}</version>
         </dependency>
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>1.5.0.RELEASE</version>
-        </dependency>-->
+
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-tools-core</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
