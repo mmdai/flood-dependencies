@@ -19,26 +19,32 @@ import java.util.concurrent.TimeUnit;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message<T extends Serializable> implements Serializable {
-
+	/**
+	 * topic
+	 */
 	private String topic;
-
-	private T payload;
+	/**
+	 * 消息对象
+	 */
+	private T msg;
 
 	private int retries = 3;
+
+	private transient String msgId;
 
 	private transient int delayTime;
 
 	private transient TimeUnit timeUnit = TimeUnit.SECONDS;
 
-	public Message(String topic, T payload, int delayTime) {
+	public Message(String topic, T msg, int delayTime) {
 		this.topic = topic;
-		this.payload = payload;
+		this.msg = msg;
 		this.delayTime = delayTime;
 	}
 
 	@Override
 	public String toString() {
-		return "(payload=" + payload +
+		return "(msg=" + msg +
 				", topic=" + topic +
 				", retries=" + retries +
 				", delayTime=" + timeUnit.toSeconds(delayTime) +

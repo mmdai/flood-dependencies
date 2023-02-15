@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.UUID;
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 
@@ -57,12 +56,34 @@ public class RDQueue {
 		jobThreadPool.scheduleAtFixedRate(new ErrorMessageJob(config, dqRedis), 0, 1000, TimeUnit.MILLISECONDS);
 	}
 
-	public void asyncPush(Message message, BiConsumer<String, ? super Throwable> action) throws RDQException {
+	/**
+	 * 异步推送消息到延时队列
+	 * @param message
+	 * @param action
+	 * @throws RDQException
+	 */
+	public void asyncPushDelayQueue(Message message, BiConsumer<String, ? super Throwable> action) throws RDQException {
 		this.push(message, action, true);
 	}
 
-	public void syncPush(Message message) throws RDQException {
+	/**
+	 * 同步推送消息到延时队列
+	 * @param message
+	 * @throws RDQException
+	 */
+	public void syncPushDelayQueue(Message message) throws RDQException {
 		this.push(message, null, false);
+	}
+
+	/**
+	 * 删除延时队列里的消息
+	 * @param key
+	 * @throws RDQException
+	 */
+	public void delDelayQueue(String key) {
+		dqRedis.zrem(config.getDelayKey(), key);
+		dqRedis.zrem(config.getAckKey(), key);
+		dqRedis.hdel(config.getHashKey(), key);
 	}
 
 	private void push(Message message, BiConsumer<String, ? super Throwable> action, boolean asyncExecute) throws RDQException {
@@ -71,7 +92,7 @@ public class RDQueue {
 		String queueKey = config.getDelayKey();
 		log.info("push message {}", message);
 
-		String key = UUID.randomUUID().toString().replace("-", "");
+		String key = message.getMsgId();
 
 		RawMessage rawMessage = buildTask(key, message);
 		String     hashValue  = GsonUtil.toJson(rawMessage);
@@ -101,11 +122,11 @@ public class RDQueue {
 		rawMessage.setCreateTime(now);
 		rawMessage.setExecuteTime(executeTime);
 		rawMessage.setTopic(message.getTopic());
-		Class<? extends Serializable> type = message.getPayload().getClass();
+		Class<? extends Serializable> type = message.getMsg().getClass();
 		if (ClassUtil.isBasicType(type)) {
-			rawMessage.setPayload(message.getPayload().toString());
+			rawMessage.setMsg(message.getMsg().toString());
 		} else {
-			rawMessage.setPayload(GsonUtil.toJson(message.getPayload()));
+			rawMessage.setMsg(GsonUtil.toJson(message.getMsg()));
 		}
 		rawMessage.setMaxRetries(message.getRetries());
 		rawMessage.setHasRetries(0);
@@ -121,8 +142,8 @@ public class RDQueue {
 			throw new RDQException("message can not be null.");
 		}
 
-		if (null == message.getPayload()) {
-			throw new RDQException("message payload can not be null.");
+		if (null == message.getMsg()) {
+			throw new RDQException("message msg can not be null.");
 		}
 	}
 

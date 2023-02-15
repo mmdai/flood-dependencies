@@ -2,7 +2,6 @@ package cn.flood.redisdelayqueuespringdemo.listener;
 
 import cn.flood.delay.redis.enums.ConsumeStatus;
 import cn.flood.delay.redis.MessageListener;
-import cn.flood.redisdelayqueuespringdemo.bo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,7 @@ public class OrderCancelListener implements MessageListener<Map> {
 
 	@Override
 	public String topic() {
-		return "order-cancel1";
+		return "order-cancel";
 	}
 
 	@Override

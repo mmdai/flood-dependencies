@@ -15,7 +15,7 @@ public class RawMessage implements Serializable {
 
 	private String key;
 	private String topic;
-	private String payload;
+	private String msg;
 
 	private int maxRetries;
 	private int hasRetries;

@@ -14,6 +14,7 @@
     <modules>
         <module>flood-delay-redis-core</module>
         <module>flood-delay-redis-demo</module>
+        <module>flood-delay-redis-consume-demo</module>
         <module>flood-delay-redis-lock</module>
     </modules>
 

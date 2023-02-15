@@ -34,9 +34,40 @@ public class IndexController {
      */
     @GetMapping("/push")
     public String addJob() throws RDQException {
-        Message<String> message = new Message<>();
+        Message<User> message = new Message<>();
         message.setTopic("order-cancel");
-        message.setPayload(UUID.randomUUID().toString().replaceAll("-",""));
+        User user = new User();
+        user.setId(1234);
+//        user.setDateTime(LocalDateTime.now());
+        user.setName("哈哈");
+        user.setContent("我猜你是ABC");
+        message.setMsg(user);
+        message.setMsgId(UUID.randomUUID().toString().replaceAll("-",""));
+        message.setDelayTime(60);
+        rdQueueTemplate.asyncPush(message, (s, throwable) -> {
+            if (null != throwable) {
+                throwable.printStackTrace();
+            } else {
+                System.out.println("s" + s);
+            }
+        });
+        return "推送成功";
+    }
+
+    /**
+     *
+     */
+    @GetMapping("/push1")
+    public String addJob1() throws RDQException {
+        Message<User> message = new Message<>();
+        message.setTopic("order-cancel1");
+        User user = new User();
+        user.setId(1234);
+//        user.setDateTime(LocalDateTime.now());
+        user.setName("哈哈");
+        user.setContent("我猜你是CCCCCCCCCC");
+        message.setMsg(user);
+        message.setMsgId(UUID.randomUUID().toString().replaceAll("-",""));
         message.setDelayTime(60);
         rdQueueTemplate.asyncPush(message, (s, throwable) -> {
             if (null != throwable) {
@@ -53,7 +84,7 @@ public class IndexController {
     public void save(){
         User user = new User();
         user.setId(1234);
-        user.setDateTime(LocalDateTime.now());
+//        user.setDateTime(LocalDateTime.now());
         user.setName("哈哈");
         user.setContent("我猜你是ABC");
         List<User> list = new ArrayList<>();

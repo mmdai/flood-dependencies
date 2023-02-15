@@ -83,9 +83,9 @@ public class DelayMessageJob extends BaseJob implements Runnable {
 
 		T payload;
 		if (ClassUtil.isBasicType(type)) {
-			payload = (T) ClassUtil.convert(type, rawMessage.getPayload());
+			payload = (T) ClassUtil.convert(type, rawMessage.getMsg());
 		} else {
-			payload = GsonUtil.fromJson(rawMessage.getPayload(), type);
+			payload = GsonUtil.fromJson(rawMessage.getMsg(), type);
 		}
 
 		// when the confirmed result to retry, configure a retry sending the limited time
