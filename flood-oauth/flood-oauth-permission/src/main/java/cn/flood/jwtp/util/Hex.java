@@ -1,6 +1,7 @@
 package cn.flood.jwtp.util;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 16进制编码
@@ -32,7 +33,7 @@ public class Hex {
     }
 
     public static byte[] decode(byte[] array) throws IllegalArgumentException, UnsupportedEncodingException {
-        String s = new String(array, "UTF-8");
+        String s = new String(array, StandardCharsets.UTF_8);
         return decode(s);
     }
 

@@ -15,13 +15,13 @@
  */
 package cn.flood.base.core.lang;
 
-import cn.flood.base.core.utils.Charsets;
 import org.springframework.lang.Nullable;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * IoUtil
@@ -52,7 +52,7 @@ public class IoUtil extends org.springframework.util.StreamUtils {
 	 * @return the requested String
 	 */
 	public static String toString(InputStream input) {
-		return toString(input, Charsets.UTF_8);
+		return toString(input, StandardCharsets.UTF_8);
 	}
 
 	/**

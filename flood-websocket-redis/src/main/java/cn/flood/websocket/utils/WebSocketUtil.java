@@ -5,6 +5,7 @@ import cn.flood.base.core.http.UrlUtils;
 import javax.websocket.Session;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Future;
 
 
@@ -14,7 +15,7 @@ public class WebSocketUtil {
      */
     public static boolean sendMessage(Session session, String message) {
         try {
-            session.getBasicRemote().sendText(UrlUtils.getURLDecoderString(message, "UTF-8"));
+            session.getBasicRemote().sendText(UrlUtils.getURLDecoderString(message,  StandardCharsets.UTF_8.name()));
             return true;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -25,7 +26,7 @@ public class WebSocketUtil {
      * 异步发送消息
      */
     public static boolean sendMessageAsync(Session session, String message) {
-        Future<Void> voidFuture = session.getAsyncRemote().sendText(UrlUtils.getURLDecoderString(message, "UTF-8"));
+        Future<Void> voidFuture = session.getAsyncRemote().sendText(UrlUtils.getURLDecoderString(message,  StandardCharsets.UTF_8.name()));
         return voidFuture.isDone();
     }
 

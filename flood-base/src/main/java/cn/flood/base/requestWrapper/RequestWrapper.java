@@ -44,7 +44,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
     public String getRequestPostStr(HttpServletRequest request) {
         String charSetStr = request.getCharacterEncoding();
         if (charSetStr == null) {
-            charSetStr = "UTF-8";
+            charSetStr = StandardCharsets.UTF_8.name();
         }
         charSet = Charset.forName(charSetStr);
         try {

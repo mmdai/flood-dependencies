@@ -1,6 +1,5 @@
 package cn.flood.base.message;
 
-import cn.flood.base.core.utils.Charsets;
 import cn.flood.base.jackson.MappingApiJackson2HttpMessageConverter;
 import cn.flood.base.proto.converter.ProtostuffHttpMessageConverter;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -28,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -78,7 +78,7 @@ public class MessageProtoSupportConfig implements WebMvcConfigurer {
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 //        log.info("ProtobufHttpMessageConverter:------------start------ ");
         converters.removeIf(x -> x instanceof StringHttpMessageConverter || x instanceof AbstractJackson2HttpMessageConverter);
-        converters.add(new StringHttpMessageConverter(Charsets.UTF_8));
+        converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
         //使用converters.add(xxx)会放在最低优先级（List的尾部）
         converters.add(protobufHttpMessageConverter());
 

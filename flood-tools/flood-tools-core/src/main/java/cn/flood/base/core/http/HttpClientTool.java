@@ -3,7 +3,6 @@ package cn.flood.base.core.http;
 import cn.flood.base.core.Func;
 import cn.flood.base.core.exception.CoreException;
 import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
-import cn.flood.base.core.utils.Charsets;
 import com.google.common.base.Stopwatch;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -41,6 +40,7 @@ import javax.net.ssl.SSLContext;
 import java.io.UnsupportedEncodingException;
 import java.net.SocketTimeoutException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -294,7 +294,7 @@ public class HttpClientTool {
             HttpResponse response = httpClient.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
             log.info("【http】【{}】,statuscode: {} end, cost【{}ms】", request.getURI(), statusCode, stopwatch.stop().elapsed(TimeUnit.MILLISECONDS));
-            String res = EntityUtils.toString(response.getEntity(), Charsets.UTF_8).trim();
+            String res = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8).trim();
             log.info("http return: {}", res);
             if (statusCode != HttpStatus.SC_OK){
                 throw new CoreException(GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode(), "ERROR【"+statusCode+"】");
@@ -331,7 +331,7 @@ public class HttpClientTool {
                 if(!Func.isEmpty(value)){
                     if(isUnicode){
                         try {
-                            value = URLEncoder.encode(value, "utf-8");
+                            value = URLEncoder.encode(value,  StandardCharsets.UTF_8.name());
                         } catch (UnsupportedEncodingException e) {
                             log.error("{}", e);
                             value = "";
@@ -377,7 +377,7 @@ public class HttpClientTool {
                     getParam.append(key).append("=").append(value).append("&");
                 }
                 getParam.deleteCharAt(getParam.length()-1);
-                httpPost.setEntity(new StringEntity(getParam.toString(), "UTF-8"));
+                httpPost.setEntity(new StringEntity(getParam.toString(),  StandardCharsets.UTF_8));
             }
         }
         return httpPost;
@@ -386,7 +386,7 @@ public class HttpClientTool {
     public static HttpRequestBase httpRequestJson(String url, String data) {
         HttpPost httpPost = new HttpPost(url);
         if (data != null) {
-            httpPost.setEntity(new StringEntity(data, "UTF-8"));
+            httpPost.setEntity(new StringEntity(data,  StandardCharsets.UTF_8));
         }
         httpPost.addHeader("Connection", "close");
         httpPost.addHeader("Content-Type", "application/json");

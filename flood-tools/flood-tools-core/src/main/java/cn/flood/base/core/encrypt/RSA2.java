@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -151,13 +152,7 @@ public class RSA2 {
 		}
 		PrivateKey pk = getPrivateKey(privateKey);
 		byte[] data = decryptByPrivateKey(content, pk);
-		String res = null;
-		try {
-			res = new String(data, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String res =  new String(data, StandardCharsets.UTF_8);
 		return res;
 	}
 
@@ -165,7 +160,7 @@ public class RSA2 {
 	 * 对内容进行加密
 	 * 
 	 * @param content
-	 * @param publicKey公钥
+	 * @param publicKey 公钥
 	 * @return
 	 */
 	public static String encrypt(String content, String publicKey) {
@@ -272,7 +267,7 @@ public class RSA2 {
 		try {
 			Cipher ch = Cipher.getInstance(KEY_ALGORITHM);
 			ch.init(Cipher.ENCRYPT_MODE, pk);
-			return ch.doFinal(content.getBytes("UTF-8"));
+			return ch.doFinal(content.getBytes( StandardCharsets.UTF_8));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("通过公钥加密出错");

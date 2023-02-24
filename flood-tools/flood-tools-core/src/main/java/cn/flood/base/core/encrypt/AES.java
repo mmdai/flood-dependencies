@@ -5,6 +5,7 @@ import cn.flood.base.core.binary.Base64;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -19,7 +20,7 @@ import java.security.SecureRandom;
  */
 public class AES {
 	
-	private final static String ENCODING = "UTF-8"; 
+	private final static String ENCODING = StandardCharsets.UTF_8.name();
 	
 	/**
 	 * 
@@ -112,7 +113,7 @@ public class AES {
 			SecretKeySpec key = new SecretKeySpec(enCodeFormat, "AES");
 			// 创建密码器
 			Cipher cipher = Cipher.getInstance("AES");
-			byte[] byteContent = content.getBytes("utf-8");
+			byte[] byteContent = content.getBytes(StandardCharsets.UTF_8);
 			// 初始化
 			cipher.init(Cipher.ENCRYPT_MODE, key);
 			byte[] result = cipher.doFinal(byteContent);

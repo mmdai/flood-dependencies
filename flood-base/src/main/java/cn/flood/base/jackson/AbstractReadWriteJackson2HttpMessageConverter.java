@@ -15,7 +15,6 @@
  */
 package cn.flood.base.jackson;
 
-import cn.flood.base.core.utils.Charsets;
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,6 +35,7 @@ import org.springframework.util.TypeUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,7 +46,6 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author L.cm
  */
 public abstract class AbstractReadWriteJackson2HttpMessageConverter extends AbstractJackson2HttpMessageConverter {
-	private static final java.nio.charset.Charset DEFAULT_CHARSET = Charsets.UTF_8;
 
 	private ObjectMapper writeObjectMapper;
 	@Nullable
@@ -70,7 +69,7 @@ public abstract class AbstractReadWriteJackson2HttpMessageConverter extends Abst
 	}
 
 	private void initSsePrettyPrinter() {
-		setDefaultCharset(DEFAULT_CHARSET);
+		setDefaultCharset(StandardCharsets.UTF_8);
 		DefaultPrettyPrinter prettyPrinter = new DefaultPrettyPrinter();
 		prettyPrinter.indentObjectsWith(new DefaultIndenter("  ", "\ndata:"));
 		this.ssePrettyPrinter = prettyPrinter;

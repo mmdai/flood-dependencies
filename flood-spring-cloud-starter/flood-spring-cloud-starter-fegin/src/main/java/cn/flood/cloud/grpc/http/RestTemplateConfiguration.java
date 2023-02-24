@@ -4,7 +4,6 @@ import cn.flood.base.core.constants.AppConstant;
 import cn.flood.base.core.exception.CoreException;
 import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
 import cn.flood.base.proto.converter.ProtostuffHttpMessageConverter;
-import cn.flood.base.core.utils.Charsets;
 import lombok.AllArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -31,6 +30,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -204,7 +204,7 @@ public class RestTemplateConfiguration {
 
 	private void configMessageConverters(List<HttpMessageConverter<?>> converters) {
 		converters.removeIf(x -> x instanceof StringHttpMessageConverter || x instanceof MappingJackson2HttpMessageConverter);
-		converters.add(new StringHttpMessageConverter(Charsets.UTF_8));
+		converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
 		converters.add(new ProtostuffHttpMessageConverter());
 	}
 }

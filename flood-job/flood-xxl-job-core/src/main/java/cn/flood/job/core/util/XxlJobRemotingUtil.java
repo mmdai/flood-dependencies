@@ -10,6 +10,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Map;
@@ -103,7 +104,7 @@ public class XxlJobRemotingUtil {
                 String requestBody = GsonTool.toJson(requestObj);
 
                 DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
-                dataOutputStream.write(requestBody.getBytes("UTF-8"));
+                dataOutputStream.write(requestBody.getBytes(StandardCharsets.UTF_8));
                 dataOutputStream.flush();
                 dataOutputStream.close();
             }
@@ -122,7 +123,7 @@ public class XxlJobRemotingUtil {
             }
 
             // result
-            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+            bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder result = new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {

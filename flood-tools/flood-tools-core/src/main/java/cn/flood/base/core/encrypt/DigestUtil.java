@@ -16,9 +16,9 @@
 package cn.flood.base.core.encrypt;
 
 import cn.flood.base.core.lang.StringPool;
-import cn.flood.base.core.utils.Charsets;
 import org.springframework.lang.Nullable;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -36,7 +36,7 @@ public class DigestUtil extends org.springframework.util.DigestUtils {
 	 * @return MD5 digest as a hex string
 	 */
 	public static String md5Hex(final String data) {
-		return md5DigestAsHex(data.getBytes(Charsets.UTF_8));
+		return md5DigestAsHex(data.getBytes(StandardCharsets.UTF_8));
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class DigestUtil extends org.springframework.util.DigestUtils {
 	public static String hash(String algorithm, String srcStr) {
 		try {
 			MessageDigest md = MessageDigest.getInstance(algorithm);
-			byte[] bytes = md.digest(srcStr.getBytes(Charsets.UTF_8));
+			byte[] bytes = md.digest(srcStr.getBytes(StandardCharsets.UTF_8));
 			return toHex(bytes);
 		} catch (NoSuchAlgorithmException e) {
 			return StringPool.EMPTY;
@@ -90,7 +90,7 @@ public class DigestUtil extends org.springframework.util.DigestUtils {
 		if (a == null || b == null) {
 			return false;
 		}
-		return slowEquals(a.getBytes(Charsets.UTF_8), b.getBytes(Charsets.UTF_8));
+		return slowEquals(a.getBytes(StandardCharsets.UTF_8), b.getBytes(StandardCharsets.UTF_8));
 	}
 
 	public static boolean slowEquals(@Nullable byte[] a, @Nullable byte[] b) {

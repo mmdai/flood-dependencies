@@ -19,6 +19,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Sentinel统一限流策略
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class FloodBlockExceptionHandler implements BlockExceptionHandler {
 
-	private static final String UTF_8 = "UTF-8";
+	private static final String UTF_8 = StandardCharsets.UTF_8.name();
 
 	private static final String ZH_CN_1 = "zh-CN";
 

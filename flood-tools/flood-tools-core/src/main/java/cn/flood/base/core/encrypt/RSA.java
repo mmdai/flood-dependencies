@@ -6,7 +6,7 @@ import javax.crypto.Cipher;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -43,7 +43,7 @@ public class RSA {
 					.getInstance(SIGN_ALGORITHMS);
 
 			signature.initSign(priKey);
-			signature.update(content.getBytes("UTF-8"));
+			signature.update(content.getBytes(StandardCharsets.UTF_8));
 
 			byte[] signed = signature.sign();
 
@@ -75,7 +75,7 @@ public class RSA {
 					.getInstance(SIGN_ALGORITHMS);
 
 			signature.initVerify(pubKey);
-			signature.update(content.getBytes("UTF-8"));
+			signature.update(content.getBytes(StandardCharsets.UTF_8));
 
 			boolean bverify = signature.verify(Base64.decode(sign));
 			return bverify;
@@ -90,8 +90,8 @@ public class RSA {
 	/**
 	 * 通过公钥解密
 	 * 
-	 * @param content待解密数据
-	 * @param pk公钥
+	 * @param content 待解密数据
+	 * @param pk 公钥
 	 * @return 返回 解密后的数据
 	 */
 	protected static byte[] decryptByPublicKey(String content, PublicKey pk) {
@@ -141,7 +141,7 @@ public class RSA {
 		try {
 			Cipher ch = Cipher.getInstance(ALGORITHM);
 			ch.init(Cipher.ENCRYPT_MODE, pk);
-			return ch.doFinal(content.getBytes("UTF-8"));
+			return ch.doFinal(content.getBytes(StandardCharsets.UTF_8));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("通过私钥加密出错");
@@ -163,13 +163,7 @@ public class RSA {
 		}
 		PublicKey pk = getPublicKey(key);
 		byte[] data = decryptByPublicKey(content, pk);
-		String res = null;
-		try {
-			res = new String(data, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String res = new String(data, StandardCharsets.UTF_8);
 		return res;
 	}
 
@@ -177,7 +171,7 @@ public class RSA {
 	 * 对内容进行加密
 	 * 
 	 * @param content
-	 * @param key私钥
+	 * @param key 私钥
 	 * @return
 	 */
 	public static String encrypt(String content, String key) {
@@ -221,7 +215,7 @@ public class RSA {
 	 
     /**
 	* 获取公钥对象
-	* @param key 密钥字符串（经过base64编码秘钥字节）
+	* @param publicKey 密钥字符串（经过base64编码秘钥字节）
 	* @throws Exception
 	*/
 	public static PublicKey getPublicKey(String publicKey) {

@@ -26,6 +26,7 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.conn.ssl.TrustStrategy;
 
+import java.nio.charset.StandardCharsets;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.io.UnsupportedEncodingException;
@@ -44,7 +45,7 @@ import javax.net.ssl.SSLContext;
  **/
 public class HttpClientTool {
 
-    private static final String UTF_8 = "UTF-8";
+    private static final String UTF_8 = StandardCharsets.UTF_8.name();
     private static HttpClient mHttpClient = null;
 
     private static CloseableHttpClient getHttpClient(HttpClientBuilder httpClientBuilder) {
@@ -198,7 +199,7 @@ public class HttpClientTool {
             throws UnsupportedEncodingException {
         HttpPost httpPost = new HttpPost(url);
         if (data != null) {
-            httpPost.setEntity(new StringEntity(data, "UTF-8"));
+            httpPost.setEntity(new StringEntity(data, StandardCharsets.UTF_8));
         }
         httpPost.addHeader("Content-Type", "application/json");
         return httpPost;

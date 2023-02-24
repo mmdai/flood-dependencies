@@ -6,6 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 
 
@@ -60,20 +61,20 @@ public class DES {
 
     public String encrypt(String input) throws Exception {
     	System.out.println(input);
-        return new String(Base64.encode(desEncrypt(input.getBytes("UTF-8"))));
+        return new String(Base64.encode(desEncrypt(input.getBytes(StandardCharsets.UTF_8))));
     }
 
     public String decrypt(String input) throws Exception {
         byte[] result = Base64.decode(input);
-        return new String(desDecrypt(result),"UTF-8");
+        return new String(desDecrypt(result), StandardCharsets.UTF_8);
     }
 
     public String encrypt2(String input) throws Exception {
-    	return new String(desEncrypt(input.getBytes("UTF-8")));
+    	return new String(desEncrypt(input.getBytes(StandardCharsets.UTF_8)));
     }
     
     public String decrypt2(String input) throws Exception {
-    	return new String(desDecrypt(input.getBytes()),"UTF-8");
+    	return new String(desDecrypt(input.getBytes()),StandardCharsets.UTF_8);
     }
 
     public static void main(String[] args) throws Exception {
