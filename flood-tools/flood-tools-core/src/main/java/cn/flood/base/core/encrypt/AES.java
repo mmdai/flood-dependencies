@@ -124,9 +124,7 @@ public class AES {
 		} catch (NoSuchPaddingException e) {   
 			e.printStackTrace();   
 		} catch (InvalidKeyException e) {   
-			e.printStackTrace();   
-		} catch (UnsupportedEncodingException e) {   
-			e.printStackTrace();   
+			e.printStackTrace();
 		} catch (IllegalBlockSizeException e) {   
 			e.printStackTrace();   
 		} catch (BadPaddingException e) {   
