@@ -253,14 +253,19 @@ public enum GlobalErrorCodeEnum {
     INTERNAL_SERVER_ERROR("500", "系统出错了", "INTERNAL_SERVER_ERROR"),
 
     /**
-     *
+     * 连接超时
      */
     CONNECTION_TIME_OUT("501","服务连接超时", "CONNECTION_TIME_OUT"),
 
     /**
-     *
+     * 响应超时
      */
     READ_TIME_OUT("502","服务响应超时", "READ_TIME_OUT"),
+
+    /**
+     * 服务不可用
+     */
+    SERVICE_UNAVAILABLE("503", "服务不可用", "SERVICE_UNAVAILABLE"),
     /**
      * 未知错误
      */

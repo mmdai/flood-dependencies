@@ -1,8 +1,8 @@
 package cn.flood.base.core.http;
 
 import cn.flood.base.core.Func;
-import cn.flood.base.core.constants.CoreConstant;
 import cn.flood.base.core.exception.CoreException;
+import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
 import cn.flood.base.core.utils.Charsets;
 import com.google.common.base.Stopwatch;
 import org.apache.http.HttpResponse;
@@ -297,7 +297,7 @@ public class HttpClientTool {
             String res = EntityUtils.toString(response.getEntity(), Charsets.UTF_8).trim();
             log.info("http return: {}", res);
             if (statusCode != HttpStatus.SC_OK){
-                throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00500, "ERROR【"+statusCode+"】");
+                throw new CoreException(GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode(), "ERROR【"+statusCode+"】");
             }
             return res;
         }catch(Exception e){
@@ -307,14 +307,14 @@ public class HttpClientTool {
                 throw (CoreException) e;
             }else if(e instanceof SocketTimeoutException || e instanceof ConnectTimeoutException){
                 if(message.indexOf("connect timed out")>-1){
-                    throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【Connection timed out】");
+                    throw new CoreException(GlobalErrorCodeEnum.CONNECTION_TIME_OUT.getCode(), GlobalErrorCodeEnum.CONNECTION_TIME_OUT.getEnName());
                 }else if(message.indexOf("Read timed out")>-1){
-                    throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00502,"ERROR【Read timed out】");
+                    throw new CoreException(GlobalErrorCodeEnum.READ_TIME_OUT.getCode(), GlobalErrorCodeEnum.READ_TIME_OUT.getEnName());
                 }else{
-                    throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【"+message+"】");
+                    throw new CoreException(GlobalErrorCodeEnum.CONNECTION_TIME_OUT.getCode(),"ERROR【"+message+"】");
                 }
             }else{
-                throw new CoreException(CoreConstant.HTTP_ERROR_CODE.A00501,"ERROR【"+message+"】");
+                throw new CoreException(GlobalErrorCodeEnum.CONNECTION_TIME_OUT.getCode(),"ERROR【"+message+"】");
             }
         }finally {
             request.releaseConnection();
