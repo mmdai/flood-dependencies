@@ -34,6 +34,9 @@ public class ExceptionHandlerAdvice {
     } else if (ex.getMessage().contains(HttpStatus.GATEWAY_TIMEOUT.toString())) {
       return ResultWapper.wrap(ResultCode.GATEWAY_TIMEOUT.getCode(),
           ResultCode.GATEWAY_TIMEOUT.getMsg());
+    } else if (ex.getMessage().contains(HttpStatus.TOO_MANY_REQUESTS.toString())) {
+      return ResultWapper.wrap(ResultCode.TOO_MANY_REQUESTS.getCode(),
+          ResultCode.TOO_MANY_REQUESTS.getMsg());
     } else {
       return ResultWapper.error();
     }
