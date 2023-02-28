@@ -11,10 +11,10 @@ import org.slf4j.LoggerFactory;
  */
 public class OkHttpSlf4jLogger implements HttpLoggingInterceptor.Logger {
 
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public void log(String message) {
-		log.info(message);
-	}
+  @Override
+  public void log(String message) {
+    log.info(message);
+  }
 }

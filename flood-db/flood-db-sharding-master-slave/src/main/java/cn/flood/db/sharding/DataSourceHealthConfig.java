@@ -1,6 +1,10 @@
 package cn.flood.db.sharding;
 
 import cn.flood.db.sharding.properties.DruidDbProperties;
+import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.sql.DataSource;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthContributorAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.jdbc.DataSourceHealthIndicatorProperties;
@@ -18,66 +22,66 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-
-import javax.sql.DataSource;
-import java.util.Collection;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @SuppressWarnings("unchecked")
 @AutoConfiguration
 @EnableConfigurationProperties(DruidDbProperties.class)
 public class DataSourceHealthConfig extends DataSourceHealthContributorAutoConfiguration {
 
-    private Collection<DataSourcePoolMetadataProvider> metadataProviders;
+  private Collection<DataSourcePoolMetadataProvider> metadataProviders;
 
-    private DataSourcePoolMetadataProvider poolMetadataProvider;
+  private DataSourcePoolMetadataProvider poolMetadataProvider;
 
-    private DruidDbProperties druidDbProperties;
+  private DruidDbProperties druidDbProperties;
 
-    public DataSourceHealthConfig(ObjectProvider<DataSourcePoolMetadataProvider> metadataProviders,
-                                  DruidDbProperties druidDbProperties) {
-        super(metadataProviders);
-        this.druidDbProperties = druidDbProperties;
+  public DataSourceHealthConfig(ObjectProvider<DataSourcePoolMetadataProvider> metadataProviders,
+      DruidDbProperties druidDbProperties) {
+    super(metadataProviders);
+    this.druidDbProperties = druidDbProperties;
+  }
+
+
+  @Override
+  public void afterPropertiesSet() {
+    this.poolMetadataProvider = new CompositeDataSourcePoolMetadataProvider(this.metadataProviders);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean(
+      name = {"dbHealthIndicator", "dbHealthContributor"}
+  )
+  @Override
+  public HealthContributor dbHealthContributor(Map<String, DataSource> dataSources,
+      DataSourceHealthIndicatorProperties dataSourceHealthIndicatorProperties) {
+    if (dataSourceHealthIndicatorProperties.isIgnoreRoutingDataSources()) {
+      Map<String, DataSource> filteredDatasources = (Map) dataSources.entrySet().stream()
+          .filter((e) -> {
+            return !(e.getValue() instanceof AbstractRoutingDataSource);
+          }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+      return this.createContributor(filteredDatasources);
+    } else {
+      DataSourceHealthIndicator indicator = (DataSourceHealthIndicator) this
+          .createContributor(dataSources);
+      if (!StringUtils.hasText(indicator.getQuery())) {
+        indicator.setQuery(druidDbProperties.getValidationQuery());
+      }
+      return indicator;
     }
+  }
 
+  private HealthContributor createContributor(Map<String, DataSource> beans) {
+    Assert.notEmpty(beans, "Beans must not be empty");
+    return (HealthContributor) (beans.size() == 1 ? this
+        .createContributor((DataSource) beans.values().iterator().next())
+        : CompositeHealthContributor.fromMap(beans, this::createContributor));
+  }
 
-    @Override
-    public void afterPropertiesSet() {
-        this.poolMetadataProvider = new CompositeDataSourcePoolMetadataProvider(this.metadataProviders);
-    }
+  private HealthContributor createContributor(DataSource source) {
+    return new DataSourceHealthIndicator(source, this.getValidationQuery(source));
+  }
 
-    @Bean
-    @ConditionalOnMissingBean(
-            name = {"dbHealthIndicator", "dbHealthContributor"}
-    )
-    @Override
-    public HealthContributor dbHealthContributor(Map<String, DataSource> dataSources, DataSourceHealthIndicatorProperties dataSourceHealthIndicatorProperties) {
-        if (dataSourceHealthIndicatorProperties.isIgnoreRoutingDataSources()) {
-            Map<String, DataSource> filteredDatasources = (Map)dataSources.entrySet().stream().filter((e) -> {
-                return !(e.getValue() instanceof AbstractRoutingDataSource);
-            }).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-            return this.createContributor(filteredDatasources);
-        } else {
-            DataSourceHealthIndicator indicator = (DataSourceHealthIndicator) this.createContributor(dataSources);
-            if (!StringUtils.hasText(indicator.getQuery())) {
-                indicator.setQuery(druidDbProperties.getValidationQuery());
-            }
-            return indicator;
-        }
-    }
-
-    private HealthContributor createContributor(Map<String, DataSource> beans) {
-        Assert.notEmpty(beans, "Beans must not be empty");
-        return (HealthContributor)(beans.size() == 1 ? this.createContributor((DataSource)beans.values().iterator().next()) : CompositeHealthContributor.fromMap(beans, this::createContributor));
-    }
-
-    private HealthContributor createContributor(DataSource source) {
-        return new DataSourceHealthIndicator(source, this.getValidationQuery(source));
-    }
-
-    private String getValidationQuery(DataSource source) {
-        DataSourcePoolMetadata poolMetadata = this.poolMetadataProvider.getDataSourcePoolMetadata(source);
-        return poolMetadata != null ? poolMetadata.getValidationQuery() : null;
-    }
+  private String getValidationQuery(DataSource source) {
+    DataSourcePoolMetadata poolMetadata = this.poolMetadataProvider
+        .getDataSourcePoolMetadata(source);
+    return poolMetadata != null ? poolMetadata.getValidationQuery() : null;
+  }
 }

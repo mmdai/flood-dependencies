@@ -5,8 +5,8 @@ import cn.flood.db.mybatis.plus.plugins.tenant.MultiTenancyQueryValueFactory;
 
 public class TenancyQueryValue implements MultiTenancyQueryValueFactory {
 
-    @Override
-    public Object buildMultiTenancyQueryValue() {
-        return TenantContextHolder.getTenantId();
-    }
+  @Override
+  public Object buildMultiTenancyQueryValue() {
+    return TenantContextHolder.getTenantId();
+  }
 }

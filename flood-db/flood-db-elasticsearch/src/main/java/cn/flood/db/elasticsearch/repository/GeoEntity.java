@@ -7,41 +7,42 @@ package cn.flood.db.elasticsearch.repository;
  * @create: 2020-09-10 11:24
  **/
 public class GeoEntity {
-    private double lat;
-    private double lon;
 
-    @Override
-    public String toString() {
-        return "GeoEntity{" +
-                "lat=" + lat +
-                ", lon=" + lon +
-                '}';
-    }
+  private double lat;
+  private double lon;
 
-    public double getLat() {
-        return lat;
-    }
+  public GeoEntity(double lat, double lon) {
 
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
+    this.lat = lat;
+    this.lon = lon;
+  }
 
-    public double getLon() {
-        return lon;
-    }
+  public GeoEntity() {
 
-    public void setLon(double lon) {
-        this.lon = lon;
-    }
+  }
 
-    public GeoEntity(double lat, double lon) {
+  @Override
+  public String toString() {
+    return "GeoEntity{" +
+        "lat=" + lat +
+        ", lon=" + lon +
+        '}';
+  }
 
-        this.lat = lat;
-        this.lon = lon;
-    }
+  public double getLat() {
+    return lat;
+  }
 
-    public GeoEntity(){
+  public void setLat(double lat) {
+    this.lat = lat;
+  }
 
-    }
+  public double getLon() {
+    return lon;
+  }
+
+  public void setLon(double lon) {
+    this.lon = lon;
+  }
 
 }

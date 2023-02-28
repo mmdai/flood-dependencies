@@ -1,123 +1,120 @@
 package cn.flood.tools.captcha;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import java.time.Clock;
 
 public class TokenImpl implements Token {
 
-	private static final long serialVersionUID = -4225747109239671522L;
+  public static final String DEFAULT_TYPE = "VALIDATE_TOKEN";
+  private static final long serialVersionUID = -4225747109239671522L;
+  private String type;
 
-	public static final String DEFAULT_TYPE = "VALIDATE_TOKEN";
-	
-	private String type;
+  private String token;
 
-	private String token;
+  private long date;
 
-	private long date;
+  private long delay;
 
-	private long delay;
-	
-	private String base64Image;
-	
-	@JsonBackReference
-	@Override
-	public String getBase64Image() {
-		return base64Image;
-	}
+  private String base64Image;
 
-	@JsonBackReference
-	public void setBase64Image(String image) {
-		this.base64Image = image;
-	}
+  public TokenImpl(String type, String token, long date, long delay) {
+    this.type = type;
+    this.token = token;
+    this.date = date;
+    this.delay = delay;
+  }
 
-	@Override
-	public String getType() {
-		return type;
-	}
+  public TokenImpl(String token, long date, long delay) {
+    this.type = DEFAULT_TYPE;
+    this.token = token;
+    this.date = date;
+    this.delay = delay;
+  }
 
-	@Override
-	public void setType(String type) {
-		this.type = type;
-	}
+  public TokenImpl(String token, long date, long delay, String image) {
+    this.type = DEFAULT_TYPE;
+    this.token = token;
+    this.date = date;
+    this.delay = delay;
+    this.base64Image = image;
+  }
 
-	@Override
-	public String getToken() {
-		return token;
-	}
+  public TokenImpl() {
+    super();
+  }
 
-	@Override
-	public void setToken(String uid) {
-		this.token = uid;
-	}
+  @JsonBackReference
+  @Override
+  public String getBase64Image() {
+    return base64Image;
+  }
 
-	@Override
-	public long getDate() {
-		return date;
-	}
+  @JsonBackReference
+  public void setBase64Image(String image) {
+    this.base64Image = image;
+  }
 
-	@Override
-	public void setDate(long date) {
-		this.date = date;
-	}
+  @Override
+  public String getType() {
+    return type;
+  }
 
-	@Override
-	public long getDelay() {
-		return delay;
-	}
+  @Override
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	@Override
-	public void setDelay(long delay) {
-		this.delay = delay;
-	}
+  @Override
+  public String getToken() {
+    return token;
+  }
 
-	@Override
-	public boolean isValid(String token) {
-		if (token.equalsIgnoreCase(this.token)){
-			return Clock.systemDefaultZone().millis() - this.date < this.delay;
-		}
-		return false;
-	}
+  @Override
+  public void setToken(String uid) {
+    this.token = uid;
+  }
 
-	public TokenImpl(String type, String token, long date, long delay) {
-		this.type = type;
-		this.token = token;
-		this.date = date;
-		this.delay = delay;
-	}
+  @Override
+  public long getDate() {
+    return date;
+  }
 
-	public TokenImpl(String token, long date, long delay) {
-		this.type = DEFAULT_TYPE;
-		this.token = token;
-		this.date = date;
-		this.delay = delay;
-	}
-	
-	public TokenImpl(String token, long date, long delay, String image) {
-		this.type = DEFAULT_TYPE;
-		this.token = token;
-		this.date = date;
-		this.delay = delay;
-		this.base64Image = image;
-	}
+  @Override
+  public void setDate(long date) {
+    this.date = date;
+  }
 
-	public void setToken(String token, long date, long delay) {
-		this.type = DEFAULT_TYPE;
-		this.token = token;
-		this.date = date;
-		this.delay = delay;
-	}
-	
-	public void setToken(String token, long date, long delay, String image) {
-		this.type = DEFAULT_TYPE;
-		this.token = token;
-		this.date = date;
-		this.delay = delay;
-		this.base64Image = image;
-	}
+  @Override
+  public long getDelay() {
+    return delay;
+  }
 
-	public TokenImpl() {
-		super();
-	}
+  @Override
+  public void setDelay(long delay) {
+    this.delay = delay;
+  }
+
+  @Override
+  public boolean isValid(String token) {
+    if (token.equalsIgnoreCase(this.token)) {
+      return Clock.systemDefaultZone().millis() - this.date < this.delay;
+    }
+    return false;
+  }
+
+  public void setToken(String token, long date, long delay) {
+    this.type = DEFAULT_TYPE;
+    this.token = token;
+    this.date = date;
+    this.delay = delay;
+  }
+
+  public void setToken(String token, long date, long delay, String image) {
+    this.type = DEFAULT_TYPE;
+    this.token = token;
+    this.date = date;
+    this.delay = delay;
+    this.base64Image = image;
+  }
 
 }

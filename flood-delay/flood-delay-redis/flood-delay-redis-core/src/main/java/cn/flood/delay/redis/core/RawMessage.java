@@ -1,8 +1,7 @@
 package cn.flood.delay.redis.core;
 
-import lombok.Data;
-
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * RawMessage
@@ -13,18 +12,18 @@ import java.io.Serializable;
 @Data
 public class RawMessage implements Serializable {
 
-	private String key;
-	private String topic;
-	private String msg;
+  private String key;
+  private String topic;
+  private String msg;
 
-	private int maxRetries;
-	private int hasRetries;
+  private int maxRetries;
+  private int hasRetries;
 
-	private long executeTime;
-	private long createTime;
+  private long executeTime;
+  private long createTime;
 
-	public void addHasRetries() {
-		this.hasRetries++;
-	}
+  public void addHasRetries() {
+    this.hasRetries++;
+  }
 
 }

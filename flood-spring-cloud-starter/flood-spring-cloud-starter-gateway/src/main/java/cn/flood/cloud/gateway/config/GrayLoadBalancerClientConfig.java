@@ -24,24 +24,26 @@ import org.springframework.context.annotation.Primary;
  * @date 2021-02-24 13:41
  */
 @AutoConfiguration
-@EnableConfigurationProperties({GatewayLoadBalancerProperties.class, GrayLoadBalancerProperties.class})
+@EnableConfigurationProperties({GatewayLoadBalancerProperties.class,
+    GrayLoadBalancerProperties.class})
 @AutoConfigureBefore(GatewayReactiveLoadBalancerClientAutoConfiguration.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GrayLoadBalancerClientConfig {
 
-	@Autowired
-	private GrayLoadBalancerProperties grayLoadBalancerProperties;
+  @Autowired
+  private GrayLoadBalancerProperties grayLoadBalancerProperties;
 
 
-	@Primary
-	@Bean
-	public ReactiveLoadBalancerClientFilter gatewayLoadBalancerClientFilter(GrayLoadBalancer grayLoadBalancer,
-																			GatewayLoadBalancerProperties properties) {
-		return new GrayReactiveLoadBalancerClientFilter(properties, grayLoadBalancer);
-	}
+  @Primary
+  @Bean
+  public ReactiveLoadBalancerClientFilter gatewayLoadBalancerClientFilter(
+      GrayLoadBalancer grayLoadBalancer,
+      GatewayLoadBalancerProperties properties) {
+    return new GrayReactiveLoadBalancerClientFilter(properties, grayLoadBalancer);
+  }
 
-	@Bean
-	public GrayLoadBalancer grayLoadBalancer(DiscoveryClient discoveryClient) {
-		return new VersionGrayLoadBalancer(discoveryClient, grayLoadBalancerProperties);
-	}
+  @Bean
+  public GrayLoadBalancer grayLoadBalancer(DiscoveryClient discoveryClient) {
+    return new VersionGrayLoadBalancer(discoveryClient, grayLoadBalancerProperties);
+  }
 }

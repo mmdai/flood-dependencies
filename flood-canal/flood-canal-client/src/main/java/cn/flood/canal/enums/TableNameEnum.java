@@ -6,10 +6,10 @@ package cn.flood.canal.enums;
  */
 public enum TableNameEnum {
 
-    ALL;
+  ALL;
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+  @Override
+  public String toString() {
+    return super.toString();
+  }
 }

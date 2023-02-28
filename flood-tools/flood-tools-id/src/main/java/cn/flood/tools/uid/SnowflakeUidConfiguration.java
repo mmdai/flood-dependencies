@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Bean;
 public class SnowflakeUidConfiguration {
 
 
-    @Bean
-    public UidSnowflake getUidSnowflake(){
-        return new UidSnowflake(new TwitterSnowflakeStrategy());
-    }
+  @Bean
+  public UidSnowflake getUidSnowflake() {
+    return new UidSnowflake(new TwitterSnowflakeStrategy());
+  }
 }

@@ -6,15 +6,17 @@ import java.lang.annotation.Target;
 
 /**
  * Topic, retry topic and dead letter topic binding
+ *
  * @author pig
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
 public @interface TopicBinding {
 
-    /**
-     * consumer config
-     * @return the consumer
-     */
-    Consume value();
+  /**
+   * consumer config
+   *
+   * @return the consumer
+   */
+  Consume value();
 }

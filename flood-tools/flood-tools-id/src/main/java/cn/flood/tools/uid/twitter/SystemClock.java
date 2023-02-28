@@ -1,12 +1,11 @@
 package cn.flood.tools.uid.twitter;
 
+import cn.flood.tools.uid.baidu.utils.NamingThreadFactory;
 import java.sql.Timestamp;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-
-import cn.flood.tools.uid.baidu.utils.NamingThreadFactory;
 
 /**
  * 高并发场景下System.currentTimeMillis()的性能问题的优化
@@ -26,50 +25,52 @@ import cn.flood.tools.uid.baidu.utils.NamingThreadFactory;
  * <p>
  * 100万：50,10,5.0%
  * <p>
- * 
+ *
  * @author lry
  */
 public class SystemClock {
 
-    /**
-     * 线程名--系统时钟
-     */
-    public static final String THREAD_CLOCK_NAME="System Clock";
-    
-    private final long period;
-    
-    private final AtomicLong now;
-    
-    private SystemClock(long period) {
-        this.period = period;
-        this.now = new AtomicLong(System.currentTimeMillis());
-        scheduleClockUpdating();
-    }
-    
-    private static class InstanceHolder {
-        public static final SystemClock INSTANCE = new SystemClock(1);
-    }
-    
-    private static SystemClock instance() {
-        return InstanceHolder.INSTANCE;
-    }
-    
-    private void scheduleClockUpdating() {
-        ScheduledExecutorService scheduledpool = new ScheduledThreadPoolExecutor(1, new NamingThreadFactory(THREAD_CLOCK_NAME, true));
-        scheduledpool.scheduleAtFixedRate(() -> {
-            now.set(System.currentTimeMillis());
-        }, period, period, TimeUnit.MILLISECONDS);
-    }
-    
-    private long currentTimeMillis() {
-        return now.get();
-    }
-    
-    public static long now() {
-        return instance().currentTimeMillis();
-    }
-    
-    public static String nowDate() {
-        return new Timestamp(instance().currentTimeMillis()).toString();
-    }
+  /**
+   * 线程名--系统时钟
+   */
+  public static final String THREAD_CLOCK_NAME = "System Clock";
+
+  private final long period;
+
+  private final AtomicLong now;
+
+  private SystemClock(long period) {
+    this.period = period;
+    this.now = new AtomicLong(System.currentTimeMillis());
+    scheduleClockUpdating();
+  }
+
+  private static SystemClock instance() {
+    return InstanceHolder.INSTANCE;
+  }
+
+  public static long now() {
+    return instance().currentTimeMillis();
+  }
+
+  public static String nowDate() {
+    return new Timestamp(instance().currentTimeMillis()).toString();
+  }
+
+  private void scheduleClockUpdating() {
+    ScheduledExecutorService scheduledpool = new ScheduledThreadPoolExecutor(1,
+        new NamingThreadFactory(THREAD_CLOCK_NAME, true));
+    scheduledpool.scheduleAtFixedRate(() -> {
+      now.set(System.currentTimeMillis());
+    }, period, period, TimeUnit.MILLISECONDS);
+  }
+
+  private long currentTimeMillis() {
+    return now.get();
+  }
+
+  private static class InstanceHolder {
+
+    public static final SystemClock INSTANCE = new SystemClock(1);
+  }
 }

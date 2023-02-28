@@ -5,11 +5,11 @@
 ########################################################
 spring:
   datasource:
-     #数据库组件 druid相关配置
+    #数据库组件 druid相关配置
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       # JDBC 配置(驱动类自动从url的mysql识别,数据源类型自动识别)
-      url: jdbc:mysql://127.0.0.1:3306/winsunion_access?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false 
+      url: jdbc:mysql://127.0.0.1:3306/winsunion_access?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
       username: root
       password: root
       driver-class-name:  com.mysql.cj.jdbc.Driver

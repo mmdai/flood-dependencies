@@ -4,12 +4,12 @@ import java.util.Map;
 
 public interface RequestContext {
 
-    RequestContext add(String key, Object value);
+  RequestContext add(String key, Object value);
 
-    Object get(String key);
+  Object get(String key);
 
-    RequestContext remove(String key);
+  RequestContext remove(String key);
 
-    Map<String, Object> getAttributes();
+  Map<String, Object> getAttributes();
 
 }

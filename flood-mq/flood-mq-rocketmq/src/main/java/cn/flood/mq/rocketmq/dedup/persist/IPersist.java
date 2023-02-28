@@ -5,19 +5,19 @@ package cn.flood.mq.rocketmq.dedup.persist;
  */
 public interface IPersist {
 
-     String CONSUME_STATUS_CONSUMING = "CONSUMING";
-     String CONSUME_STATUS_CONSUMED = "CONSUMED";
+  String CONSUME_STATUS_CONSUMING = "CONSUMING";
+  String CONSUME_STATUS_CONSUMED = "CONSUMED";
 
 
-    boolean setConsumingIfNX(DedupElement dedupElement, long dedupProcessingExpireMilliSeconds);
+  boolean setConsumingIfNX(DedupElement dedupElement, long dedupProcessingExpireMilliSeconds);
 
-    void delete(DedupElement dedupElement);
+  void delete(DedupElement dedupElement);
 
-    void markConsumed(DedupElement dedupElement, long dedupRecordReserveMinutes);
+  void markConsumed(DedupElement dedupElement, long dedupRecordReserveMinutes);
 
-    String get(DedupElement dedupElement);
+  String get(DedupElement dedupElement);
 
-    default String toPrintInfo(DedupElement dedupElement) {
-        return dedupElement.toString();
-    }
+  default String toPrintInfo(DedupElement dedupElement) {
+    return dedupElement.toString();
+  }
 }

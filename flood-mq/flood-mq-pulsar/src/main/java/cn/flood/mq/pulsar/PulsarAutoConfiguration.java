@@ -21,36 +21,38 @@ import org.springframework.context.annotation.Bean;
 @ConditionalOnExpression("'${pulsar.serviceUrl}'!=null")
 public class PulsarAutoConfiguration {
 
-    protected PulsarProperties pulsarProperties;
+  protected PulsarProperties pulsarProperties;
 
-    @Autowired
-    public void setPulsarProperties(PulsarProperties pulsarProperties) {
-        this.pulsarProperties = pulsarProperties;
-    }
+  @Autowired
+  public void setPulsarProperties(PulsarProperties pulsarProperties) {
+    this.pulsarProperties = pulsarProperties;
+  }
 
 
-    /**
-     * create Pulsar client Bean
-     */
-    @Bean(value = "pulsarClient")
-    public PulsarClient pulsarClient() throws PulsarClientException {
-        return PulsarClient.builder().serviceUrl(pulsarProperties.getServiceUrl()).build();
-    }
+  /**
+   * create Pulsar client Bean
+   */
+  @Bean(value = "pulsarClient")
+  public PulsarClient pulsarClient() throws PulsarClientException {
+    return PulsarClient.builder().serviceUrl(pulsarProperties.getServiceUrl()).build();
+  }
 
-    /**
-     * create Pulsar Template Bean
-     */
-    @Bean(value = "pulsarTemplate")
-    public PulsarTemplate pulsarClient(@Autowired PulsarClient pulsarClient) throws PulsarClientException {
-        return new PulsarTemplate(pulsarClient, pulsarProperties);
-    }
+  /**
+   * create Pulsar Template Bean
+   */
+  @Bean(value = "pulsarTemplate")
+  public PulsarTemplate pulsarClient(@Autowired PulsarClient pulsarClient)
+      throws PulsarClientException {
+    return new PulsarTemplate(pulsarClient, pulsarProperties);
+  }
 
-    /**
-     * create Pulsar Template Bean
-     */
-    @Bean(value = "pulsarConsumeClient")
-    public PulsarConsumeClient pulsarConsumeClient(@Autowired PulsarClient pulsarClient) throws PulsarClientException {
-        return new PulsarConsumeClient(pulsarClient, pulsarProperties);
-    }
+  /**
+   * create Pulsar Template Bean
+   */
+  @Bean(value = "pulsarConsumeClient")
+  public PulsarConsumeClient pulsarConsumeClient(@Autowired PulsarClient pulsarClient)
+      throws PulsarClientException {
+    return new PulsarConsumeClient(pulsarClient, pulsarProperties);
+  }
 
 }

@@ -1,8 +1,11 @@
 package cn.flood.base.core.enums.annotation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.atteo.classindex.IndexAnnotated;
-
-import java.lang.annotation.*;
 
 @IndexAnnotated
 @Target(ElementType.TYPE)
@@ -10,6 +13,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface EnumHandler {
 
-    String value() default "code";
+  String value() default "code";
 
 }

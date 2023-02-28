@@ -13,10 +13,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @AutoConfiguration
 public class CorsConfig implements WebMvcConfigurer {
-    /**
-     * gateway 网关已经添加 所以注释掉该代码
-     * @param registry
-     */
+
+  /**
+   * gateway 网关已经添加 所以注释掉该代码
+   *
+   * @param registry
+   */
 //    private final Long ACCESS_CONTROL_MAX_AGE = 3600L;
 //
 //    @Override
@@ -29,17 +31,17 @@ public class CorsConfig implements WebMvcConfigurer {
 //                        "content-language", "client_id", "version", "tenant_id")//允许跨域的请求头
 //                .maxAge(ACCESS_CONTROL_MAX_AGE);//单位为秒, 重新预检验跨域的缓存时间,表示该时间内，不用重新检验跨域
 //    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/");
-        /** swagger-ui 地址 */
-        registry.addResourceHandler("/swagger-ui/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
-                .resourceChain(false);
-    }
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
+    registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+    registry.addResourceHandler("/webjars/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/");
+    /** swagger-ui 地址 */
+    registry.addResourceHandler("/swagger-ui/**")
+        .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
+        .resourceChain(false);
+  }
 
 }

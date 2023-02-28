@@ -20,7 +20,7 @@ server:
       suffix: log
     # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
     #每块buffer的空间大小,越小的空间被利用越充分，不要设置太大，以免影响其他应用，合适即可
-    buffer-size: 1024 
+    buffer-size: 1024
     # Allocate buffers outside the Java heap. The default is derived from the maximum amount of memory that is available to the JVM. 
     direct-buffers: true
     # Whether servlet filters should be initialized on startup.
@@ -30,7 +30,7 @@ server:
     # Maximum size in bytes of the HTTP post content. When the value is -1, the default, the size is unlimited.
     max-http-post-size: -1
     # Number of worker threads. The default is 8 times the number of I/O threads.默认值是IO线程数*8
-    worker-threads: 16 
+    worker-threads: 16
 
 ########################################################
 

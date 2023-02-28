@@ -6,68 +6,69 @@ package cn.flood.db.elasticsearch.repository;
  * @author: X-Pacific zhang
  * @create: 2019-10-14 10:42
  **/
-public class Attach{
-    private PageSortHighLight pageSortHighLight = null;
-    private String[] includes;
-    private String[] excludes;
-    private String routing;
-    private boolean searchAfter = false;
-    private boolean trackTotalHits = false;
-    private Object[] sortValues;
+public class Attach {
 
-    public String[] getIncludes() {
-        return includes;
-    }
+  private PageSortHighLight pageSortHighLight = null;
+  private String[] includes;
+  private String[] excludes;
+  private String routing;
+  private boolean searchAfter = false;
+  private boolean trackTotalHits = false;
+  private Object[] sortValues;
 
-    public void setIncludes(String[] includes) {
-        this.includes = includes;
-    }
+  public String[] getIncludes() {
+    return includes;
+  }
 
-    public String[] getExcludes() {
-        return excludes;
-    }
+  public void setIncludes(String[] includes) {
+    this.includes = includes;
+  }
 
-    public void setExcludes(String[] excludes) {
-        this.excludes = excludes;
-    }
+  public String[] getExcludes() {
+    return excludes;
+  }
 
-    public PageSortHighLight getPageSortHighLight() {
-        return pageSortHighLight;
-    }
+  public void setExcludes(String[] excludes) {
+    this.excludes = excludes;
+  }
 
-    public void setPageSortHighLight(PageSortHighLight pageSortHighLight) {
-        this.pageSortHighLight = pageSortHighLight;
-    }
+  public PageSortHighLight getPageSortHighLight() {
+    return pageSortHighLight;
+  }
 
-    public String getRouting() {
-        return routing;
-    }
+  public void setPageSortHighLight(PageSortHighLight pageSortHighLight) {
+    this.pageSortHighLight = pageSortHighLight;
+  }
 
-    public void setRouting(String routing) {
-        this.routing = routing;
-    }
+  public String getRouting() {
+    return routing;
+  }
 
-    public boolean isSearchAfter() {
-        return searchAfter;
-    }
+  public void setRouting(String routing) {
+    this.routing = routing;
+  }
 
-    public void setSearchAfter(boolean searchAfter) {
-        this.searchAfter = searchAfter;
-    }
+  public boolean isSearchAfter() {
+    return searchAfter;
+  }
 
-    public Object[] getSortValues() {
-        return sortValues;
-    }
+  public void setSearchAfter(boolean searchAfter) {
+    this.searchAfter = searchAfter;
+  }
 
-    public void setSortValues(Object[] sortValues) {
-        this.sortValues = sortValues;
-    }
+  public Object[] getSortValues() {
+    return sortValues;
+  }
 
-    public boolean isTrackTotalHits() {
-        return trackTotalHits;
-    }
+  public void setSortValues(Object[] sortValues) {
+    this.sortValues = sortValues;
+  }
 
-    public void setTrackTotalHits(boolean trackTotalHits) {
-        this.trackTotalHits = trackTotalHits;
-    }
+  public boolean isTrackTotalHits() {
+    return trackTotalHits;
+  }
+
+  public void setTrackTotalHits(boolean trackTotalHits) {
+    this.trackTotalHits = trackTotalHits;
+  }
 }

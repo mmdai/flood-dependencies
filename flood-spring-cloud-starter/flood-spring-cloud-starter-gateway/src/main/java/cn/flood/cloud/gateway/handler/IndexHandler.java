@@ -14,21 +14,21 @@ import reactor.core.publisher.Mono;
 @RestController
 public class IndexHandler {
 
-	@Value("${spring.profiles.active}")
-	private String env;
+  @Value("${spring.profiles.active}")
+  private String env;
 
-	@GetMapping("/")
-	public Mono<String> index() {
-		return Mono.just(desc());
-	}
+  @GetMapping("/")
+  public Mono<String> index() {
+    return Mono.just(desc());
+  }
 
-	private String desc() {
-		StringBuilder sb = new StringBuilder(100);
-		sb.append("<div style='color: blue'>FloodCloud gateway has been started!</div>");
-		if (!EnvType.PROD.getCode().equals(env)) {
-			sb.append("<br/>");
-			sb.append("<div><ul><li>文档地址：<a href='doc.html'>doc.html</a></li></ul></div>");
-		}
-		return sb.toString();
-	}
+  private String desc() {
+    StringBuilder sb = new StringBuilder(100);
+    sb.append("<div style='color: blue'>FloodCloud gateway has been started!</div>");
+    if (!EnvType.PROD.getCode().equals(env)) {
+      sb.append("<br/>");
+      sb.append("<div><ul><li>文档地址：<a href='doc.html'>doc.html</a></li></ul></div>");
+    }
+    return sb.toString();
+  }
 }

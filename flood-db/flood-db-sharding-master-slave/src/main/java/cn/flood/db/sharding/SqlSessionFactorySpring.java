@@ -1,13 +1,12 @@
 package cn.flood.db.sharding;
 
-import javax.sql.DataSource;
-
 import cn.flood.db.mybatis.interceptor.SqlLogInterceptor;
 import cn.flood.db.mybatis.plus.EnumConfigurationHelper;
 import cn.flood.db.mybatis.plus.plugins.page.PaginationInterceptor;
 import cn.flood.db.mybatis.plus.plugins.tenant.MultiTenancyProperties;
 import cn.flood.db.mybatis.plus.plugins.tenant.MultiTenancyQueryInterceptor;
 import cn.flood.db.mybatis.spring.MybatisSqlSessionFactoryBean;
+import javax.sql.DataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -29,67 +28,71 @@ import org.springframework.util.ObjectUtils;
 @AutoConfiguration
 @ConditionalOnClass(DataSource.class)
 @EnableConfigurationProperties({
-        MybatisProperties.class
+    MybatisProperties.class
 })
 public class SqlSessionFactorySpring {
-  
-	private Logger log = LoggerFactory.getLogger(this.getClass());
-  
-    //  配置mapper的扫描，找到所有的mapper.xml映射文件  
+
+  private Logger log = LoggerFactory.getLogger(this.getClass());
+
+  //  配置mapper的扫描，找到所有的mapper.xml映射文件  
 //        @Value("${mybatis.mapperLocations : classpath:com/fei/springboot/dao/*.xml}")  
 //    @Value("${mybatis.mapper-locations:classpath*:/mapper/**/*Mapper.xml}")
 //    private String mapperLocations;
 //
-    //  加载全局的配置文件  
-    @Value("${mybatis.config-location:classpath:/mybatis-config.xml}")
-    private String configLocation;
+  //  加载全局的配置文件  
+  @Value("${mybatis.config-location:classpath:/mybatis-config.xml}")
+  private String configLocation;
 
-    @Autowired
-    private MybatisProperties mybatisProperties;
+  @Autowired
+  private MybatisProperties mybatisProperties;
 
-    @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource)
-            throws Exception {
-        MybatisSqlSessionFactoryBean sessionFactoryBean = new MybatisSqlSessionFactoryBean();
-        sessionFactoryBean.setDataSource(dataSource);
-        log.debug("---------------------------------------------configLocation:{}", configLocation);
-        //设置mybatis-config.xml配置文件位置
-        sessionFactoryBean.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
-        if (mybatisProperties.getConfigurationProperties() != null) {
-            sessionFactoryBean.setConfigurationProperties(mybatisProperties.getConfigurationProperties());
-        }
-        try {
-            if (ObjectUtils.isEmpty(mybatisProperties.resolveMapperLocations())) {
-                mybatisProperties.setMapperLocations(new String[]{"classpath*:/mapper/**/*.xml"});
-            }
-            sessionFactoryBean.setMapperLocations(mybatisProperties.resolveMapperLocations());
-            //多租户查询设置
-            MultiTenancyQueryInterceptor multiTenancyQueryInterceptor = new MultiTenancyQueryInterceptor();
-            MultiTenancyProperties multiTenancyProperties = new MultiTenancyProperties();
-            // 数据库查询字段（tenant_id为租户id）
-            multiTenancyProperties.setMultiTenancyQueryColumn("tenant_id");
-            multiTenancyQueryInterceptor.setMultiTenancyProperties(multiTenancyProperties);
-            //添加分页
-            sessionFactoryBean.setPlugins(new Interceptor[]{new PaginationInterceptor(), multiTenancyQueryInterceptor, new SqlLogInterceptor()});
-            sessionFactoryBean.afterPropertiesSet();
-            //添加通用枚举类型
-            SqlSessionFactory sessionFactory = sessionFactoryBean.getObject();
-            EnumConfigurationHelper.loadEnumHandler(sessionFactory);
-            return sessionFactory;
-        } catch (Exception e) {
-            log.error("mybatis sqlSessionFactoryBean create error",e);
-            return null;
-        }
+  @Bean(name = "sqlSessionFactory")
+  public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource)
+      throws Exception {
+    MybatisSqlSessionFactoryBean sessionFactoryBean = new MybatisSqlSessionFactoryBean();
+    sessionFactoryBean.setDataSource(dataSource);
+    log.debug("---------------------------------------------configLocation:{}", configLocation);
+    //设置mybatis-config.xml配置文件位置
+    sessionFactoryBean.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
+    if (mybatisProperties.getConfigurationProperties() != null) {
+      sessionFactoryBean.setConfigurationProperties(mybatisProperties.getConfigurationProperties());
     }
-
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate(@Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
-        return new SqlSessionTemplate(sqlSessionFactory);
+    try {
+      if (ObjectUtils.isEmpty(mybatisProperties.resolveMapperLocations())) {
+        mybatisProperties.setMapperLocations(new String[]{"classpath*:/mapper/**/*.xml"});
+      }
+      sessionFactoryBean.setMapperLocations(mybatisProperties.resolveMapperLocations());
+      //多租户查询设置
+      MultiTenancyQueryInterceptor multiTenancyQueryInterceptor = new MultiTenancyQueryInterceptor();
+      MultiTenancyProperties multiTenancyProperties = new MultiTenancyProperties();
+      // 数据库查询字段（tenant_id为租户id）
+      multiTenancyProperties.setMultiTenancyQueryColumn("tenant_id");
+      multiTenancyQueryInterceptor.setMultiTenancyProperties(multiTenancyProperties);
+      //添加分页
+      sessionFactoryBean.setPlugins(
+          new Interceptor[]{new PaginationInterceptor(), multiTenancyQueryInterceptor,
+              new SqlLogInterceptor()});
+      sessionFactoryBean.afterPropertiesSet();
+      //添加通用枚举类型
+      SqlSessionFactory sessionFactory = sessionFactoryBean.getObject();
+      EnumConfigurationHelper.loadEnumHandler(sessionFactory);
+      return sessionFactory;
+    } catch (Exception e) {
+      log.error("mybatis sqlSessionFactoryBean create error", e);
+      return null;
     }
+  }
 
-    @Bean // 将数据源纳入spring事物管理
-    public DataSourceTransactionManager transactionManager(@Qualifier("dataSource") DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
+  @Bean
+  public SqlSessionTemplate sqlSessionTemplate(
+      @Qualifier("sqlSessionFactory") SqlSessionFactory sqlSessionFactory) {
+    return new SqlSessionTemplate(sqlSessionFactory);
+  }
+
+  @Bean // 将数据源纳入spring事物管理
+  public DataSourceTransactionManager transactionManager(
+      @Qualifier("dataSource") DataSource dataSource) {
+    return new DataSourceTransactionManager(dataSource);
+  }
 
 }

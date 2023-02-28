@@ -8,17 +8,17 @@ import cn.flood.base.core.exception.CoreException;
  **/
 public class RlockTimeoutException extends CoreException {
 
-    private static final String ErrorCode = "S10001";
+  private static final String ErrorCode = "S10001";
 
-    public RlockTimeoutException() {
-        super(ErrorCode);
-    }
+  public RlockTimeoutException() {
+    super(ErrorCode);
+  }
 
-    public RlockTimeoutException(String message) {
-        super(ErrorCode, message);
-    }
+  public RlockTimeoutException(String message) {
+    super(ErrorCode, message);
+  }
 
-    public RlockTimeoutException(String message, Throwable cause) {
-        super(ErrorCode, message, cause);
-    }
+  public RlockTimeoutException(String message, Throwable cause) {
+    super(ErrorCode, message, cause);
+  }
 }

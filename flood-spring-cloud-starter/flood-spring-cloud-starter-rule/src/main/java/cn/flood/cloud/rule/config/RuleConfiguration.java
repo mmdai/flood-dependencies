@@ -7,13 +7,14 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * 规则配置
+ *
  * @author pangu
  */
 @AutoConfiguration
 public class RuleConfiguration {
 
-    @Bean
-    public RuleCacheService ruleCacheService() {
-        return new RuleCacheServiceImpl();
-    }
+  @Bean
+  public RuleCacheService ruleCacheService() {
+    return new RuleCacheServiceImpl();
+  }
 }

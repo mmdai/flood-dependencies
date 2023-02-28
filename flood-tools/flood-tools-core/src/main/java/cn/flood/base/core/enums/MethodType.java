@@ -7,28 +7,23 @@ package cn.flood.base.core.enums;
  */
 public enum MethodType {
 
-	/**
-	 * 方法类型
-	 * GET
-	 * PUT
-	 * POST
-	 * DELETE
-	 * OPTIONS
-	 */
-	GET(false),
-	PUT(true),
-	POST(true),
-	DELETE(false),
-	HEAD(false),
-	OPTIONS(false);
+  /**
+   * 方法类型 GET PUT POST DELETE OPTIONS
+   */
+  GET(false),
+  PUT(true),
+  POST(true),
+  DELETE(false),
+  HEAD(false),
+  OPTIONS(false);
 
-	private final boolean code;
+  private final boolean code;
 
-	MethodType(boolean code) {
-		this.code = code;
-	}
+  MethodType(boolean code) {
+    this.code = code;
+  }
 
-	public boolean isCode() {
-		return code;
-	}
+  public boolean isCode() {
+    return code;
+  }
 }

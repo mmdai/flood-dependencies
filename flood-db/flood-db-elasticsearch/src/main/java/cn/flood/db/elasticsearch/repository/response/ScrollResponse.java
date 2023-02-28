@@ -9,27 +9,28 @@ import java.util.List;
  * @create: 2019-10-15 17:58
  **/
 public class ScrollResponse<T> {
-    private List<T> list;
-    private String scrollId;
 
-    public ScrollResponse(List<T> list, String scrollId) {
-        this.list = list;
-        this.scrollId = scrollId;
-    }
+  private List<T> list;
+  private String scrollId;
 
-    public List<T> getList() {
-        return list;
-    }
+  public ScrollResponse(List<T> list, String scrollId) {
+    this.list = list;
+    this.scrollId = scrollId;
+  }
 
-    public void setList(List<T> list) {
-        this.list = list;
-    }
+  public List<T> getList() {
+    return list;
+  }
 
-    public String getScrollId() {
-        return scrollId;
-    }
+  public void setList(List<T> list) {
+    this.list = list;
+  }
 
-    public void setScrollId(String scrollId) {
-        this.scrollId = scrollId;
-    }
+  public String getScrollId() {
+    return scrollId;
+  }
+
+  public void setScrollId(String scrollId) {
+    this.scrollId = scrollId;
+  }
 }

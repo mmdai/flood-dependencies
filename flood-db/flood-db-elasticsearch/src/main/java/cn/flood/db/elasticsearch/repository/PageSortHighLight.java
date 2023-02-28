@@ -1,58 +1,56 @@
 package cn.flood.db.elasticsearch.repository;
 
 /**
- * program: esdemo
- * description: 分页+排序+高亮对象封装
- * author: X-Pacific zhang
- * create: 2019-01-21 17:09
+ * program: esdemo description: 分页+排序+高亮对象封装 author: X-Pacific zhang create: 2019-01-21 17:09
  **/
 public class PageSortHighLight {
-    private int currentPage;
-    private int pageSize;
-    Sort sort = new Sort();
-    private HighLight highLight = new HighLight();
 
-    public PageSortHighLight(int currentPage, int pageSize) {
-        this.currentPage = currentPage;
-        this.pageSize = pageSize;
-    }
+  Sort sort = new Sort();
+  private int currentPage;
+  private int pageSize;
+  private HighLight highLight = new HighLight();
 
-    public PageSortHighLight(int currentPage, int pageSize, Sort sort) {
-        this.currentPage = currentPage;
-        this.pageSize = pageSize;
-        this.sort = sort;
-    }
+  public PageSortHighLight(int currentPage, int pageSize) {
+    this.currentPage = currentPage;
+    this.pageSize = pageSize;
+  }
 
-    public int getCurrentPage() {
-        return currentPage;
-    }
+  public PageSortHighLight(int currentPage, int pageSize, Sort sort) {
+    this.currentPage = currentPage;
+    this.pageSize = pageSize;
+    this.sort = sort;
+  }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
+  public int getCurrentPage() {
+    return currentPage;
+  }
 
-    public int getPageSize() {
-        return pageSize;
-    }
+  public void setCurrentPage(int currentPage) {
+    this.currentPage = currentPage;
+  }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
+  public int getPageSize() {
+    return pageSize;
+  }
 
-    public Sort getSort() {
-        return sort;
-    }
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
 
-    public void setSort(Sort sort) {
-        this.sort = sort;
-    }
+  public Sort getSort() {
+    return sort;
+  }
 
-    public HighLight getHighLight() {
-        return highLight;
-    }
+  public void setSort(Sort sort) {
+    this.sort = sort;
+  }
 
-    public void setHighLight(HighLight highLight) {
-        this.highLight = highLight;
-    }
+  public HighLight getHighLight() {
+    return highLight;
+  }
+
+  public void setHighLight(HighLight highLight) {
+    this.highLight = highLight;
+  }
 
 }

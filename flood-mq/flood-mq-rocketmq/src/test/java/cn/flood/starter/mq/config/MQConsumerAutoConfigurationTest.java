@@ -2,6 +2,7 @@ package cn.flood.starter.mq.config;
 
 //import org.junit.After;
 //import org.junit.Test;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 //import static org.junit.Assert.assertEquals;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class MQConsumerAutoConfigurationTest {
 
-    private AnnotationConfigApplicationContext context;
+  private AnnotationConfigApplicationContext context;
 
 //    private void prepareApplicationContext() {
 //        this.context = new AnnotationConfigApplicationContext();

@@ -10,7 +10,10 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
-import org.springframework.cloud.openfeign.support.*;
+import org.springframework.cloud.openfeign.support.HttpMessageConverterCustomizer;
+import org.springframework.cloud.openfeign.support.ResponseEntityDecoder;
+import org.springframework.cloud.openfeign.support.SpringDecoder;
+import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -27,43 +30,44 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class FeignProtoSupportConfig {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+  private static final String PROTO_TYPE = "prototype";
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
+  /**
+   * Autowire the message converters.
+   */
+  @Autowired
+  private ObjectFactory<HttpMessageConverters> messageConverters;
+  @Autowired
+  private ObjectProvider<HttpMessageConverterCustomizer> customizers;
 
-    private static final String PROTO_TYPE = "prototype";
-    /**
-     * Autowire the message converters.
-     */
-    @Autowired
-    private ObjectFactory<HttpMessageConverters> messageConverters;
-    @Autowired
-    private ObjectProvider<HttpMessageConverterCustomizer> customizers;
+  /**
+   * override the encoder
+   *
+   * @return
+   */
+  @Bean
+  @Primary
+  public Encoder springEncoder() {
+    return new SpringEncoder(this.messageConverters);
+  }
 
-    /**
-     * override the encoder
-     * @return
-     */
-    @Bean
-    @Primary
-    public Encoder springEncoder(){
-        return new SpringEncoder(this.messageConverters);
-    }
+  /**
+   * override the encoder
+   *
+   * @return
+   */
+  @Bean
+  public Decoder springDecoder() {
+    return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters, customizers));
+  }
 
-    /**
-     * override the encoder
-     * @return
-     */
-    @Bean
-    public Decoder springDecoder(){
-        return new ResponseEntityDecoder(new SpringDecoder(this.messageConverters, customizers));
-    }
-
-    /**
-     * 覆盖FeignClientsConfiguration默认
-     */
-    @Bean
-    @Primary
-    public Contract feignContract() {
-        return new FloodSpringMvcContract();
-    }
+  /**
+   * 覆盖FeignClientsConfiguration默认
+   */
+  @Bean
+  @Primary
+  public Contract feignContract() {
+    return new FloodSpringMvcContract();
+  }
 
 }

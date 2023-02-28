@@ -13,15 +13,15 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 public class LogElasticsearchProperties {
 
 
-    private String hostNames;
-    /**
-     * 用户名
-     */
-    private String username;
+  private String hostNames;
+  /**
+   * 用户名
+   */
+  private String username;
 
-    /**
-     * 密码
-     */
-    private String password;
+  /**
+   * 密码
+   */
+  private String password;
 
 }

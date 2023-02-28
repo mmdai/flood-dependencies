@@ -4,23 +4,23 @@ import java.io.Serializable;
 
 public interface Token extends Serializable {
 
-	public String getType();
+  public String getType();
 
-	public void setType(String type);
+  public void setType(String type);
 
-	public long getDate();
+  public long getDate();
 
-	public void setDate(long date);
+  public void setDate(long date);
 
-	public long getDelay();
+  public long getDelay();
 
-	public void setDelay(long delay);
+  public void setDelay(long delay);
 
-	public String getToken();
+  public String getToken();
 
-	public void setToken(String token);
+  public void setToken(String token);
 
-	public String getBase64Image();
+  public String getBase64Image();
 
-	public boolean isValid(String token);
+  public boolean isValid(String token);
 }

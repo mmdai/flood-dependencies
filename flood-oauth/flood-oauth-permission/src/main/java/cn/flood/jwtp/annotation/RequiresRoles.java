@@ -7,16 +7,17 @@ import java.lang.annotation.Target;
 
 /**
  * 角色判断注解
+ *
  * @author mmdai
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiresRoles {
 
-    String[] value();
+  String[] value();
 
-    /**
-     * 多个权限的逻辑操作，是and还是or，默认是and
-     */
-    Logical logical() default Logical.AND;
+  /**
+   * 多个权限的逻辑操作，是and还是or，默认是and
+   */
+  Logical logical() default Logical.AND;
 }

@@ -8,125 +8,126 @@ import org.apache.rocketmq.common.message.MessageType;
  * Created by alvin on 16-3-9.
  */
 public class OnsTraceBean {
-    private static String LOCAL_ADDRESS = MixUtils.getLocalAddress();
-    private String topic = "";
-    private String msgId = "";
-    private String offsetMsgId = "";
-    private String tags = "";
-    private String keys = "";
-    private String storeHost = LOCAL_ADDRESS;
-    private String clientHost = LOCAL_ADDRESS;
-    private long storeTime;
-    private int retryTimes;
-    private int bodyLength;
-    private MessageType msgType;
+
+  private static String LOCAL_ADDRESS = MixUtils.getLocalAddress();
+  private String topic = "";
+  private String msgId = "";
+  private String offsetMsgId = "";
+  private String tags = "";
+  private String keys = "";
+  private String storeHost = LOCAL_ADDRESS;
+  private String clientHost = LOCAL_ADDRESS;
+  private long storeTime;
+  private int retryTimes;
+  private int bodyLength;
+  private MessageType msgType;
 
 
-    public MessageType getMsgType() {
-        return msgType;
-    }
+  public MessageType getMsgType() {
+    return msgType;
+  }
 
 
-    public void setMsgType(final MessageType msgType) {
-        this.msgType = msgType;
-    }
+  public void setMsgType(final MessageType msgType) {
+    this.msgType = msgType;
+  }
 
 
-    public String getOffsetMsgId() {
-        return offsetMsgId;
-    }
+  public String getOffsetMsgId() {
+    return offsetMsgId;
+  }
 
 
-    public void setOffsetMsgId(final String offsetMsgId) {
-        this.offsetMsgId = offsetMsgId;
-    }
+  public void setOffsetMsgId(final String offsetMsgId) {
+    this.offsetMsgId = offsetMsgId;
+  }
 
-    public String getTopic() {
-        return topic;
-    }
-
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
+  public String getTopic() {
+    return topic;
+  }
 
 
-    public String getMsgId() {
-        return msgId;
-    }
+  public void setTopic(String topic) {
+    this.topic = topic;
+  }
 
 
-    public void setMsgId(String msgId) {
-        this.msgId = msgId;
-    }
+  public String getMsgId() {
+    return msgId;
+  }
 
 
-    public String getTags() {
-        return tags;
-    }
+  public void setMsgId(String msgId) {
+    this.msgId = msgId;
+  }
 
 
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
+  public String getTags() {
+    return tags;
+  }
 
 
-    public String getKeys() {
-        return keys;
-    }
+  public void setTags(String tags) {
+    this.tags = tags;
+  }
 
 
-    public void setKeys(String keys) {
-        this.keys = keys;
-    }
+  public String getKeys() {
+    return keys;
+  }
 
 
-    public String getStoreHost() {
-        return storeHost;
-    }
+  public void setKeys(String keys) {
+    this.keys = keys;
+  }
 
 
-    public void setStoreHost(String storeHost) {
-        this.storeHost = storeHost;
-    }
+  public String getStoreHost() {
+    return storeHost;
+  }
 
 
-    public String getClientHost() {
-        return clientHost;
-    }
+  public void setStoreHost(String storeHost) {
+    this.storeHost = storeHost;
+  }
 
 
-    public void setClientHost(String clientHost) {
-        this.clientHost = clientHost;
-    }
+  public String getClientHost() {
+    return clientHost;
+  }
 
 
-    public long getStoreTime() {
-        return storeTime;
-    }
+  public void setClientHost(String clientHost) {
+    this.clientHost = clientHost;
+  }
 
 
-    public void setStoreTime(long storeTime) {
-        this.storeTime = storeTime;
-    }
+  public long getStoreTime() {
+    return storeTime;
+  }
 
 
-    public int getRetryTimes() {
-        return retryTimes;
-    }
+  public void setStoreTime(long storeTime) {
+    this.storeTime = storeTime;
+  }
 
 
-    public void setRetryTimes(int retryTimes) {
-        this.retryTimes = retryTimes;
-    }
+  public int getRetryTimes() {
+    return retryTimes;
+  }
 
 
-    public int getBodyLength() {
-        return bodyLength;
-    }
+  public void setRetryTimes(int retryTimes) {
+    this.retryTimes = retryTimes;
+  }
 
 
-    public void setBodyLength(int bodyLength) {
-        this.bodyLength = bodyLength;
-    }
+  public int getBodyLength() {
+    return bodyLength;
+  }
+
+
+  public void setBodyLength(int bodyLength) {
+    this.bodyLength = bodyLength;
+  }
 }

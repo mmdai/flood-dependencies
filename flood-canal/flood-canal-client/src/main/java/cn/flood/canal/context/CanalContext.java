@@ -10,23 +10,20 @@ import cn.flood.canal.model.CanalModel;
 public class CanalContext {
 
 
-
-    private static ThreadLocal<CanalModel> threadLocal = new ThreadLocal<>();
-
+  private static ThreadLocal<CanalModel> threadLocal = new ThreadLocal<>();
 
 
-
-    public static CanalModel getModel(){
-       return threadLocal.get();
-    }
-
-
-    public static void setModel(CanalModel canalModel){
-        threadLocal.set(canalModel);
-    }
+  public static CanalModel getModel() {
+    return threadLocal.get();
+  }
 
 
-    public  static void removeModel(){
-        threadLocal.remove();
-    }
+  public static void setModel(CanalModel canalModel) {
+    threadLocal.set(canalModel);
+  }
+
+
+  public static void removeModel() {
+    threadLocal.remove();
+  }
 }

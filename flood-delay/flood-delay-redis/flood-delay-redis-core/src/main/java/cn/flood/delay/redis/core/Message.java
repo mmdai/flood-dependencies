@@ -1,12 +1,11 @@
 package cn.flood.delay.redis.core;
 
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Delay Queue Message
@@ -19,36 +18,37 @@ import java.util.concurrent.TimeUnit;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message<T extends Serializable> implements Serializable {
-	/**
-	 * topic
-	 */
-	private String topic;
-	/**
-	 * 消息对象
-	 */
-	private T msg;
 
-	private int retries = 3;
+  /**
+   * topic
+   */
+  private String topic;
+  /**
+   * 消息对象
+   */
+  private T msg;
 
-	private transient String msgId;
+  private int retries = 3;
 
-	private transient int delayTime;
+  private transient String msgId;
 
-	private transient TimeUnit timeUnit = TimeUnit.SECONDS;
+  private transient int delayTime;
 
-	public Message(String topic, T msg, int delayTime) {
-		this.topic = topic;
-		this.msg = msg;
-		this.delayTime = delayTime;
-	}
+  private transient TimeUnit timeUnit = TimeUnit.SECONDS;
 
-	@Override
-	public String toString() {
-		return "(msg=" + msg +
-				", topic=" + topic +
-				", retries=" + retries +
-				", delayTime=" + timeUnit.toSeconds(delayTime) +
-				"seconds)";
-	}
+  public Message(String topic, T msg, int delayTime) {
+    this.topic = topic;
+    this.msg = msg;
+    this.delayTime = delayTime;
+  }
+
+  @Override
+  public String toString() {
+    return "(msg=" + msg +
+        ", topic=" + topic +
+        ", retries=" + retries +
+        ", delayTime=" + timeUnit.toSeconds(delayTime) +
+        "seconds)";
+  }
 
 }

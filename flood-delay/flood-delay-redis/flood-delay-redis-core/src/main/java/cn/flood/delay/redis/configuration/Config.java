@@ -1,14 +1,13 @@
 package cn.flood.delay.redis.configuration;
 
 import cn.flood.delay.redis.core.Callback;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Config
@@ -20,282 +19,282 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ConfigurationProperties("spring.redis")
 public class Config {
 
-	private static final String DEFAULT_DQUEUE_PREFIX_NAME = "delay-queue-";
+  private static final String DEFAULT_DQUEUE_PREFIX_NAME = "delay-queue-";
 
-	private String keyPrefix = DEFAULT_DQUEUE_PREFIX_NAME;
+  private String keyPrefix = DEFAULT_DQUEUE_PREFIX_NAME;
 
-	private String host;
+  private String host;
 
-	private int port = 6379;
+  private int port = 6379;
 
-	private String password;
+  private String password;
 
-	private Sentinel sentinel;
+  private Sentinel sentinel;
 
-	private Cluster cluster;
+  private Cluster cluster;
 
 
-	private Duration timeout;
+  private Duration timeout;
 
-	private int retryInterval = 10;
+  private int retryInterval = 10;
 
-	private int taskTtl = 24 * 3600;
+  private int taskTtl = 24 * 3600;
 
-	private int callbackTtl = 3;
+  private int callbackTtl = 3;
 
-	private int maxJobCoreSize = Runtime.getRuntime().availableProcessors() * 2;
+  private int maxJobCoreSize = Runtime.getRuntime().availableProcessors() * 2;
 
-	private int maxCallbackCoreSize = Runtime.getRuntime().availableProcessors() * 2;
+  private int maxCallbackCoreSize = Runtime.getRuntime().availableProcessors() * 2;
 
-	/**
-	 * Delay of message consumer callback processing mapping.
-	 * <p>
-	 * ::key   -> TOPIC
-	 * ::VALUE -> CALLBACK INSTANCE
-	 */
-	private Map<String, Callback> callbacks = new ConcurrentHashMap<>();
+  /**
+   * Delay of message consumer callback processing mapping.
+   * <p>
+   * ::key   -> TOPIC ::VALUE -> CALLBACK INSTANCE
+   */
+  private Map<String, Callback> callbacks = new ConcurrentHashMap<>();
 
-	/**
-	 * The key in the processing in a single JVM is managed in the collection,
-	 * to ensure that only a task in the implementation
-	 */
-	private Set<String> processedKeys = new CopyOnWriteArraySet<>();
+  /**
+   * The key in the processing in a single JVM is managed in the collection, to ensure that only a
+   * task in the implementation
+   */
+  private Set<String> processedKeys = new CopyOnWriteArraySet<>();
 
-	public Config() {
-	}
+  public Config() {
+  }
 
-	public Config(String keyPrefix, String host, int port, String password, Sentinel sentinel,
-                  Cluster cluster, Duration timeout, int retryInterval, int taskTtl, int callbackTtl,
-                  int maxJobCoreSize, int maxCallbackCoreSize, Map<String, Callback> callbacks,
-                  Set<String> processedKeys) {
-		this.keyPrefix = keyPrefix;
-		this.host = host;
-		this.port = port;
-		this.password = password;
-		this.sentinel = sentinel;
-		this.cluster = cluster;
-		this.timeout = timeout;
-		this.retryInterval = retryInterval;
-		this.taskTtl = taskTtl;
-		this.callbackTtl = callbackTtl;
-		this.maxJobCoreSize = maxJobCoreSize;
-		this.maxCallbackCoreSize = maxCallbackCoreSize;
-		this.callbacks = callbacks;
-		this.processedKeys = processedKeys;
-	}
+  public Config(String keyPrefix, String host, int port, String password, Sentinel sentinel,
+      Cluster cluster, Duration timeout, int retryInterval, int taskTtl, int callbackTtl,
+      int maxJobCoreSize, int maxCallbackCoreSize, Map<String, Callback> callbacks,
+      Set<String> processedKeys) {
+    this.keyPrefix = keyPrefix;
+    this.host = host;
+    this.port = port;
+    this.password = password;
+    this.sentinel = sentinel;
+    this.cluster = cluster;
+    this.timeout = timeout;
+    this.retryInterval = retryInterval;
+    this.taskTtl = taskTtl;
+    this.callbackTtl = callbackTtl;
+    this.maxJobCoreSize = maxJobCoreSize;
+    this.maxCallbackCoreSize = maxCallbackCoreSize;
+    this.callbacks = callbacks;
+    this.processedKeys = processedKeys;
+  }
 
-	public static class Sentinel {
-		private String master;
-		private List<String> nodes;
-		private String username;
-		private String password;
+  public static String getDefaultDqueuePrefixName() {
+    return DEFAULT_DQUEUE_PREFIX_NAME;
+  }
 
-		public Sentinel() {
-		}
+  public String getDelayKey() {
+    return this.keyPrefix + "keys";
+  }
 
-		public String getMaster() {
-			return this.master;
-		}
+  public String getAckKey() {
+    return this.keyPrefix + "acks";
+  }
 
-		public void setMaster(String master) {
-			this.master = master;
-		}
+  public String getErrorKey() {
+    return this.keyPrefix + "errors";
+  }
 
-		public List<String> getNodes() {
-			return this.nodes;
-		}
+  public String getHashKey() {
+    return this.keyPrefix + "hash";
+  }
 
-		public void setNodes(List<String> nodes) {
-			this.nodes = nodes;
-		}
+  public boolean isProcessing(String key) {
+    return processedKeys.contains(key);
+  }
 
-		public String getUsername() {
-			return this.username;
-		}
+  public boolean waitProcessing(String key) {
+    return !isProcessing(key);
+  }
 
-		public void setUsername(String username) {
-			this.username = username;
-		}
+  public void addProcessed(String key) {
+    processedKeys.add(key);
+  }
 
-		public String getPassword() {
-			return this.password;
-		}
+  public void processed(String key) {
+    processedKeys.remove(key);
+  }
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
-	}
+  public String getKeyPrefix() {
+    return keyPrefix;
+  }
+
+  public void setKeyPrefix(String keyPrefix) {
+    this.keyPrefix = keyPrefix;
+  }
+
+  public int getRetryInterval() {
+    return retryInterval;
+  }
+
+  public void setRetryInterval(int retryInterval) {
+    this.retryInterval = retryInterval;
+  }
 
-	public static class Cluster {
-		private List<String> nodes;
-		private Integer maxRedirects;
+  public int getTaskTtl() {
+    return taskTtl;
+  }
 
-		public Cluster() {
-		}
+  public void setTaskTtl(int taskTtl) {
+    this.taskTtl = taskTtl;
+  }
 
-		public List<String> getNodes() {
-			return this.nodes;
-		}
+  public int getCallbackTtl() {
+    return callbackTtl;
+  }
 
-		public void setNodes(List<String> nodes) {
-			this.nodes = nodes;
-		}
+  public void setCallbackTtl(int callbackTtl) {
+    this.callbackTtl = callbackTtl;
+  }
 
-		public Integer getMaxRedirects() {
-			return this.maxRedirects;
-		}
+  public int getMaxJobCoreSize() {
+    return maxJobCoreSize;
+  }
 
-		public void setMaxRedirects(Integer maxRedirects) {
-			this.maxRedirects = maxRedirects;
-		}
-	}
+  public void setMaxJobCoreSize(int maxJobCoreSize) {
+    this.maxJobCoreSize = maxJobCoreSize;
+  }
 
-	public String getDelayKey() {
-		return this.keyPrefix + "keys";
-	}
+  public int getMaxCallbackCoreSize() {
+    return maxCallbackCoreSize;
+  }
 
-	public String getAckKey() {
-		return this.keyPrefix + "acks";
-	}
+  public void setMaxCallbackCoreSize(int maxCallbackCoreSize) {
+    this.maxCallbackCoreSize = maxCallbackCoreSize;
+  }
 
-	public String getErrorKey() {
-		return this.keyPrefix + "errors";
-	}
+  public Map<String, Callback> getCallbacks() {
+    return callbacks;
+  }
 
-	public String getHashKey() {
-		return this.keyPrefix + "hash";
-	}
+  public void setCallbacks(Map<String, Callback> callbacks) {
+    this.callbacks = callbacks;
+  }
 
-	public boolean isProcessing(String key) {
-		return processedKeys.contains(key);
-	}
+  public Set<String> getProcessedKeys() {
+    return processedKeys;
+  }
 
-	public boolean waitProcessing(String key) {
-		return !isProcessing(key);
-	}
+  public void setProcessedKeys(Set<String> processedKeys) {
+    this.processedKeys = processedKeys;
+  }
 
-	public void addProcessed(String key) {
-		processedKeys.add(key);
-	}
+  public String getHost() {
+    return host;
+  }
 
-	public void processed(String key) {
-		processedKeys.remove(key);
-	}
+  public void setHost(String host) {
+    this.host = host;
+  }
 
-	public static String getDefaultDqueuePrefixName() {
-		return DEFAULT_DQUEUE_PREFIX_NAME;
-	}
+  public int getPort() {
+    return port;
+  }
 
-	public String getKeyPrefix() {
-		return keyPrefix;
-	}
+  public void setPort(int port) {
+    this.port = port;
+  }
 
-	public void setKeyPrefix(String keyPrefix) {
-		this.keyPrefix = keyPrefix;
-	}
+  public String getPassword() {
+    return password;
+  }
 
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public int getRetryInterval() {
-		return retryInterval;
-	}
+  public Sentinel getSentinel() {
+    return sentinel;
+  }
 
-	public void setRetryInterval(int retryInterval) {
-		this.retryInterval = retryInterval;
-	}
+  public void setSentinel(Sentinel sentinel) {
+    this.sentinel = sentinel;
+  }
 
-	public int getTaskTtl() {
-		return taskTtl;
-	}
+  public Cluster getCluster() {
+    return cluster;
+  }
 
-	public void setTaskTtl(int taskTtl) {
-		this.taskTtl = taskTtl;
-	}
+  public void setCluster(Cluster cluster) {
+    this.cluster = cluster;
+  }
 
-	public int getCallbackTtl() {
-		return callbackTtl;
-	}
+  public Duration getTimeout() {
+    return timeout;
+  }
 
-	public void setCallbackTtl(int callbackTtl) {
-		this.callbackTtl = callbackTtl;
-	}
+  public void setTimeout(Duration timeout) {
+    this.timeout = timeout;
+  }
 
-	public int getMaxJobCoreSize() {
-		return maxJobCoreSize;
-	}
+  public static class Sentinel {
 
-	public void setMaxJobCoreSize(int maxJobCoreSize) {
-		this.maxJobCoreSize = maxJobCoreSize;
-	}
+    private String master;
+    private List<String> nodes;
+    private String username;
+    private String password;
 
-	public int getMaxCallbackCoreSize() {
-		return maxCallbackCoreSize;
-	}
+    public Sentinel() {
+    }
 
-	public void setMaxCallbackCoreSize(int maxCallbackCoreSize) {
-		this.maxCallbackCoreSize = maxCallbackCoreSize;
-	}
+    public String getMaster() {
+      return this.master;
+    }
 
-	public Map<String, Callback> getCallbacks() {
-		return callbacks;
-	}
+    public void setMaster(String master) {
+      this.master = master;
+    }
 
-	public void setCallbacks(Map<String, Callback> callbacks) {
-		this.callbacks = callbacks;
-	}
+    public List<String> getNodes() {
+      return this.nodes;
+    }
 
-	public Set<String> getProcessedKeys() {
-		return processedKeys;
-	}
+    public void setNodes(List<String> nodes) {
+      this.nodes = nodes;
+    }
 
-	public void setProcessedKeys(Set<String> processedKeys) {
-		this.processedKeys = processedKeys;
-	}
+    public String getUsername() {
+      return this.username;
+    }
 
-	public String getHost() {
-		return host;
-	}
+    public void setUsername(String username) {
+      this.username = username;
+    }
 
-	public void setHost(String host) {
-		this.host = host;
-	}
+    public String getPassword() {
+      return this.password;
+    }
 
-	public int getPort() {
-		return port;
-	}
+    public void setPassword(String password) {
+      this.password = password;
+    }
+  }
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+  public static class Cluster {
 
-	public String getPassword() {
-		return password;
-	}
+    private List<String> nodes;
+    private Integer maxRedirects;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public Cluster() {
+    }
 
-	public Sentinel getSentinel() {
-		return sentinel;
-	}
+    public List<String> getNodes() {
+      return this.nodes;
+    }
 
-	public void setSentinel(Sentinel sentinel) {
-		this.sentinel = sentinel;
-	}
+    public void setNodes(List<String> nodes) {
+      this.nodes = nodes;
+    }
 
-	public Cluster getCluster() {
-		return cluster;
-	}
+    public Integer getMaxRedirects() {
+      return this.maxRedirects;
+    }
 
-	public void setCluster(Cluster cluster) {
-		this.cluster = cluster;
-	}
-
-	public Duration getTimeout() {
-		return timeout;
-	}
-
-	public void setTimeout(Duration timeout) {
-		this.timeout = timeout;
-	}
+    public void setMaxRedirects(Integer maxRedirects) {
+      this.maxRedirects = maxRedirects;
+    }
+  }
 }

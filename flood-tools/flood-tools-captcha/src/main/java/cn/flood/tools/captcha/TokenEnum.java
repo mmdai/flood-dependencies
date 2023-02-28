@@ -7,43 +7,44 @@ import java.util.stream.Stream;
  */
 public enum TokenEnum {
 
-    CAPTCHA("0", "captcha"), //图片验证码
+  CAPTCHA("0", "captcha"), //图片验证码
 
-    EMAIL("1", "email"), //email
+  EMAIL("1", "email"), //email
 
-    MOBILE("2", "mobile"), //手机
+  MOBILE("2", "mobile"), //手机
 
-    OTHER("3", "other"); //其他
+  OTHER("3", "other"); //其他
 
-    // 成员变量
-    private String code;
+  // 成员变量
+  private String code;
 
-    private String name;
-    // 构造方法
-    TokenEnum(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+  private String name;
 
-    public String getCode() {
-        return code;
-    }
+  // 构造方法
+  TokenEnum(String code, String name) {
+    this.code = code;
+    this.name = name;
+  }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+  public static TokenEnum valueOfEnum(String code) {
+    return Stream.of(TokenEnum.values()).
+        filter(em -> em.code.equals(code)).
+        findFirst().orElse(null);
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-    public static TokenEnum valueOfEnum(String code) {
-        return Stream.of(TokenEnum.values()).
-                filter(em -> em.code.equals(code)).
-                findFirst().orElse(null);
-    }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

@@ -9,7 +9,7 @@ package cn.flood.cloud.gateway.init;
 //import com.alibaba.nacos.api.config.listener.Listener;
 //import com.alibaba.nacos.api.exception.NacosException;
 //import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 //import org.springframework.cloud.gateway.route.RouteDefinitionWriter;
 //import org.springframework.context.annotation.Configuration;
 //import org.yaml.snakeyaml.Yaml;
@@ -20,8 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 //import java.util.concurrent.Executor;
 
 /**
- * 动态路由初始化类
- * 请将/doc/nacos目录下的flood-dynamic-routes.yaml配置至nacos
+ * 动态路由初始化类 请将/doc/nacos目录下的flood-dynamic-routes.yaml配置至nacos
  *
  * @author mmdai
  * @since 2.3.8

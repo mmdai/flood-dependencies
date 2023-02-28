@@ -8,18 +8,18 @@ import cn.flood.base.core.exception.CoreException;
  **/
 public class RlockInvocationException extends CoreException {
 
-    private static final String ErrorCode = "S10002";
+  private static final String ErrorCode = "S10002";
 
 
-    public RlockInvocationException() {
-        super(ErrorCode);
-    }
+  public RlockInvocationException() {
+    super(ErrorCode);
+  }
 
-    public RlockInvocationException( String message) {
-        super(ErrorCode, message);
-    }
+  public RlockInvocationException(String message) {
+    super(ErrorCode, message);
+  }
 
-    public RlockInvocationException(String message, Throwable cause) {
-        super(ErrorCode, message, cause);
-    }
+  public RlockInvocationException(String message, Throwable cause) {
+    super(ErrorCode, message, cause);
+  }
 }

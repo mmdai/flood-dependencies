@@ -19,18 +19,18 @@ import org.springframework.context.annotation.Scope;
 @AutoConfiguration
 public class FloodCloudAutoConfiguration {
 
-	@Bean
-	@Scope("prototype")
-	@ConditionalOnMissingBean
-	@ConditionalOnProperty(name = "feign.sentinel.enabled")
-	public Feign.Builder feignSentinelBuilder() {
-		return FloodFeignSentinel.builder();
-	}
+  @Bean
+  @Scope("prototype")
+  @ConditionalOnMissingBean
+  @ConditionalOnProperty(name = "feign.sentinel.enabled")
+  public Feign.Builder feignSentinelBuilder() {
+    return FloodFeignSentinel.builder();
+  }
 
-	@Bean
-	@ConditionalOnMissingBean
-	public BlockExceptionHandler blockExceptionHandler() {
-		return new FloodBlockExceptionHandler();
-	}
+  @Bean
+  @ConditionalOnMissingBean
+  public BlockExceptionHandler blockExceptionHandler() {
+    return new FloodBlockExceptionHandler();
+  }
 
 }

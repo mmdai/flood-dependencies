@@ -11,53 +11,56 @@ import org.apache.ibatis.session.SqlSession;
  *
  * @author mmdai
  */
-public class MybatisConfiguration extends Configuration{
-    /** 自动注入工具 */
-    private MybatisAutoMapperBuilder mybatisAutoMapperBuilder;
-    // fixed for mybatis-3.5.1
-    protected final MapperRegistry mapperRegistry;
+public class MybatisConfiguration extends Configuration {
 
-    public MybatisConfiguration() {
-        super();
-        getLanguageRegistry().register(ConditionsLanguageDriver.class);
-        this.mapperRegistry = new MybatisMapperRegistry(this);
-        this.mybatisAutoMapperBuilder = new MybatisAutoMapperBuilder(this);
-    }
+  // fixed for mybatis-3.5.1
+  protected final MapperRegistry mapperRegistry;
+  /**
+   * 自动注入工具
+   */
+  private MybatisAutoMapperBuilder mybatisAutoMapperBuilder;
 
-    public MybatisAutoMapperBuilder getMybatisAutoMapperBuilder() {
-        return mybatisAutoMapperBuilder;
-    }
+  public MybatisConfiguration() {
+    super();
+    getLanguageRegistry().register(ConditionsLanguageDriver.class);
+    this.mapperRegistry = new MybatisMapperRegistry(this);
+    this.mybatisAutoMapperBuilder = new MybatisAutoMapperBuilder(this);
+  }
 
-    /**
-     * 以下代码都是从 org.apache.ibatis.session.Configuration 直接搬过来用的
-     */
-    @Override
-    public MapperRegistry getMapperRegistry() {
-        return mapperRegistry;
-    }
+  public MybatisAutoMapperBuilder getMybatisAutoMapperBuilder() {
+    return mybatisAutoMapperBuilder;
+  }
 
-    @Override
-    public void addMappers(String packageName, Class<?> superType) {
-        mapperRegistry.addMappers(packageName, superType);
-    }
+  /**
+   * 以下代码都是从 org.apache.ibatis.session.Configuration 直接搬过来用的
+   */
+  @Override
+  public MapperRegistry getMapperRegistry() {
+    return mapperRegistry;
+  }
 
-    @Override
-    public void addMappers(String packageName) {
-        mapperRegistry.addMappers(packageName);
-    }
+  @Override
+  public void addMappers(String packageName, Class<?> superType) {
+    mapperRegistry.addMappers(packageName, superType);
+  }
 
-    @Override
-    public <T> void addMapper(Class<T> type) {
-        mapperRegistry.addMapper(type);
-    }
+  @Override
+  public void addMappers(String packageName) {
+    mapperRegistry.addMappers(packageName);
+  }
 
-    @Override
-    public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
-        return mapperRegistry.getMapper(type, sqlSession);
-    }
+  @Override
+  public <T> void addMapper(Class<T> type) {
+    mapperRegistry.addMapper(type);
+  }
 
-    @Override
-    public boolean hasMapper(Class<?> type) {
-        return mapperRegistry.hasMapper(type);
-    }
+  @Override
+  public <T> T getMapper(Class<T> type, SqlSession sqlSession) {
+    return mapperRegistry.getMapper(type, sqlSession);
+  }
+
+  @Override
+  public boolean hasMapper(Class<?> type) {
+    return mapperRegistry.hasMapper(type);
+  }
 }

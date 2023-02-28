@@ -8,13 +8,13 @@ package cn.flood.delay.redis.enums;
  */
 public enum ConsumeStatus {
 
-	/**
-	 * 消费完成
-	 */
-	CONSUMED,
-	/**
-	 * 重试
-	 */
-	RETRY
+  /**
+   * 消费完成
+   */
+  CONSUMED,
+  /**
+   * 重试
+   */
+  RETRY
 
 }

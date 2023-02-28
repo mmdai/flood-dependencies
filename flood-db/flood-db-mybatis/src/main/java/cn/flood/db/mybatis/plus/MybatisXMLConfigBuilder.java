@@ -1,34 +1,32 @@
 package cn.flood.db.mybatis.plus;
 
 import cn.flood.db.mybatis.xml.XMLConfigBuilder;
+import java.io.InputStream;
+import java.util.Properties;
 import org.apache.ibatis.builder.xml.XMLMapperEntityResolver;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.parsing.XPathParser;
 
-import java.io.InputStream;
-import java.util.Properties;
-
 /**
- *
  * config xml 文件构建 config对象
  *
  * @author mmdai
- *
  */
 public class MybatisXMLConfigBuilder extends XMLConfigBuilder {
 
-    public MybatisXMLConfigBuilder(InputStream inputStream, String environment, Properties props) {
-        this(new XPathParser(inputStream, true, props, new XMLMapperEntityResolver()), environment, props);
-    }
+  public MybatisXMLConfigBuilder(InputStream inputStream, String environment, Properties props) {
+    this(new XPathParser(inputStream, true, props, new XMLMapperEntityResolver()), environment,
+        props);
+  }
 
-    protected MybatisXMLConfigBuilder(XPathParser parser, String environment, Properties props) {
-        super(new MybatisConfiguration());
-        ErrorContext.instance().resource("SQL Mapper Configuration");
-        this.configuration.setVariables(props);
-        this.parsed = false;
-        this.environment = environment;
-        this.parser = parser;
-    }
+  protected MybatisXMLConfigBuilder(XPathParser parser, String environment, Properties props) {
+    super(new MybatisConfiguration());
+    ErrorContext.instance().resource("SQL Mapper Configuration");
+    this.configuration.setVariables(props);
+    this.parsed = false;
+    this.environment = environment;
+    this.parser = parser;
+  }
 
 //    @Override
 //    protected void mapperElement(XNode parent) throws Exception {

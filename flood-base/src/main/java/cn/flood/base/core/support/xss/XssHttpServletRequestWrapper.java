@@ -1,35 +1,32 @@
 /**
  * Copyright (c) 2018-2028, Chill Zhuang 庄骞 (smallchill@163.com).
  * <p>
- * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE 3.0;
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE 3.0; you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
  * <p>
  * http://www.gnu.org/licenses/lgpl.html
  * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 package cn.flood.base.core.support.xss;
 
 import cn.flood.base.core.http.HttpMediaType;
 import cn.flood.base.core.http.WebUtil;
 import cn.flood.base.core.lang.StringUtils;
-import org.springframework.http.HttpHeaders;
-
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.servlet.ReadListener;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import org.springframework.http.HttpHeaders;
 
 /**
  * XSS过滤
@@ -38,135 +35,136 @@ import java.util.Map;
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
-	/**
-	 * 没被包装过的HttpServletRequest（特殊场景,需要自己过滤）
-	 */
-	private final HttpServletRequest orgRequest;
-	/**
-	 * 缓存报文,支持多次读取流
-	 */
-	private byte[] body;
-	/**
-	 * html过滤
-	 */
-	private final static XssHtmlFilter HTML_FILTER = new XssHtmlFilter();
+  /**
+   * html过滤
+   */
+  private final static XssHtmlFilter HTML_FILTER = new XssHtmlFilter();
+  /**
+   * 没被包装过的HttpServletRequest（特殊场景,需要自己过滤）
+   */
+  private final HttpServletRequest orgRequest;
+  /**
+   * 缓存报文,支持多次读取流
+   */
+  private byte[] body;
 
-	public XssHttpServletRequestWrapper(HttpServletRequest request) {
-		super(request);
-		orgRequest = request;
-	}
+  public XssHttpServletRequestWrapper(HttpServletRequest request) {
+    super(request);
+    orgRequest = request;
+  }
 
-	@Override
-	public BufferedReader getReader() throws IOException {
-		return new BufferedReader(new InputStreamReader(getInputStream()));
-	}
+  /**
+   * 获取初始request
+   *
+   * @param request request
+   * @return HttpServletRequest
+   */
+  public static HttpServletRequest getOrgRequest(HttpServletRequest request) {
+    if (request instanceof XssHttpServletRequestWrapper) {
+      return ((XssHttpServletRequestWrapper) request).getOrgRequest();
+    }
+    return request;
+  }
 
-	@Override
-	public ServletInputStream getInputStream() throws IOException {
-		String contentType = super.getHeader(HttpHeaders.CONTENT_TYPE);
-		if (StringUtils.isBlank(contentType) || contentType.startsWith(HttpMediaType.APPLICATION_PROTO_VALUE) ||
-				contentType.startsWith(HttpMediaType.MULTIPART_FORM_DATA_VALUE)) {
-			return super.getInputStream();
-		}
+  @Override
+  public BufferedReader getReader() throws IOException {
+    return new BufferedReader(new InputStreamReader(getInputStream()));
+  }
 
-		if (body == null) {
-			body = xssEncode(WebUtil.getRequestBody(super.getInputStream())).getBytes();
-		}
+  @Override
+  public ServletInputStream getInputStream() throws IOException {
+    String contentType = super.getHeader(HttpHeaders.CONTENT_TYPE);
+    if (StringUtils.isBlank(contentType) || contentType
+        .startsWith(HttpMediaType.APPLICATION_PROTO_VALUE) ||
+        contentType.startsWith(HttpMediaType.MULTIPART_FORM_DATA_VALUE)) {
+      return super.getInputStream();
+    }
 
-		final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
+    if (body == null) {
+      body = xssEncode(WebUtil.getRequestBody(super.getInputStream())).getBytes();
+    }
 
-		return new ServletInputStream() {
+    final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(body);
 
-			@Override
-			public int read() {
-				return byteArrayInputStream.read();
-			}
+    return new ServletInputStream() {
 
-			@Override
-			public boolean isFinished() {
-				return false;
-			}
+      @Override
+      public int read() {
+        return byteArrayInputStream.read();
+      }
 
-			@Override
-			public boolean isReady() {
-				return false;
-			}
+      @Override
+      public boolean isFinished() {
+        return false;
+      }
 
-			@Override
-			public void setReadListener(ReadListener readListener) {
-			}
-		};
-	}
+      @Override
+      public boolean isReady() {
+        return false;
+      }
 
-	@Override
-	public String getParameter(String name) {
-		String value = super.getParameter(xssEncode(name));
-		if (StringUtils.isNotBlank(value)) {
-			value = xssEncode(value);
-		}
-		return value;
-	}
+      @Override
+      public void setReadListener(ReadListener readListener) {
+      }
+    };
+  }
 
-	@Override
-	public String[] getParameterValues(String name) {
-		String[] parameters = super.getParameterValues(name);
-		if (parameters == null || parameters.length == 0) {
-			return null;
-		}
+  @Override
+  public String getParameter(String name) {
+    String value = super.getParameter(xssEncode(name));
+    if (StringUtils.isNotBlank(value)) {
+      value = xssEncode(value);
+    }
+    return value;
+  }
 
-		for (int i = 0; i < parameters.length; i++) {
-			parameters[i] = xssEncode(parameters[i]);
-		}
-		return parameters;
-	}
+  @Override
+  public String[] getParameterValues(String name) {
+    String[] parameters = super.getParameterValues(name);
+    if (parameters == null || parameters.length == 0) {
+      return null;
+    }
 
-	@Override
-	public Map<String, String[]> getParameterMap() {
-		Map<String, String[]> map = new LinkedHashMap<>();
-		Map<String, String[]> parameters = super.getParameterMap();
-		for (String key : parameters.keySet()) {
-			String[] values = parameters.get(key);
-			for (int i = 0; i < values.length; i++) {
-				values[i] = xssEncode(values[i]);
-			}
-			map.put(key, values);
-		}
-		return map;
-	}
+    for (int i = 0; i < parameters.length; i++) {
+      parameters[i] = xssEncode(parameters[i]);
+    }
+    return parameters;
+  }
 
-	@Override
-	public String getHeader(String name) {
-		String value = super.getHeader(xssEncode(name));
-		if (StringUtils.isNotBlank(value)) {
-			value = xssEncode(value);
-		}
-		return value;
-	}
+  @Override
+  public Map<String, String[]> getParameterMap() {
+    Map<String, String[]> map = new LinkedHashMap<>();
+    Map<String, String[]> parameters = super.getParameterMap();
+    for (String key : parameters.keySet()) {
+      String[] values = parameters.get(key);
+      for (int i = 0; i < values.length; i++) {
+        values[i] = xssEncode(values[i]);
+      }
+      map.put(key, values);
+    }
+    return map;
+  }
 
-	private String xssEncode(String input) {
-		return HTML_FILTER.filter(input);
-	}
+  @Override
+  public String getHeader(String name) {
+    String value = super.getHeader(xssEncode(name));
+    if (StringUtils.isNotBlank(value)) {
+      value = xssEncode(value);
+    }
+    return value;
+  }
 
-	/**
-	 * 获取初始request
-	 *
-	 * @return HttpServletRequest
-	 */
-	public HttpServletRequest getOrgRequest() {
-		return orgRequest;
-	}
+  private String xssEncode(String input) {
+    return HTML_FILTER.filter(input);
+  }
 
-	/**
-	 * 获取初始request
-	 *
-	 * @param request request
-	 * @return HttpServletRequest
-	 */
-	public static HttpServletRequest getOrgRequest(HttpServletRequest request) {
-		if (request instanceof XssHttpServletRequestWrapper) {
-			return ((XssHttpServletRequestWrapper) request).getOrgRequest();
-		}
-		return request;
-	}
+  /**
+   * 获取初始request
+   *
+   * @return HttpServletRequest
+   */
+  public HttpServletRequest getOrgRequest() {
+    return orgRequest;
+  }
 
 }

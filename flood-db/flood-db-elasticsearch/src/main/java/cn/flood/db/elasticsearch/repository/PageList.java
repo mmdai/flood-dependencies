@@ -3,69 +3,67 @@ package cn.flood.db.elasticsearch.repository;
 import java.util.List;
 
 /**
- * program: esdemo
- * description: 分页对象封装
- * author: X-Pacific zhang
- * create: 2019-01-21 17:06
+ * program: esdemo description: 分页对象封装 author: X-Pacific zhang create: 2019-01-21 17:06
  **/
 public class PageList<T> {
-    List<T> list;
 
-    private int totalPages = 0;
+  List<T> list;
 
-    private long totalElements = 0;
+  private int totalPages = 0;
 
-    private Object[] sortValues;
+  private long totalElements = 0;
 
-    private int currentPage;
+  private Object[] sortValues;
 
-    private int pageSize;
+  private int currentPage;
 
-    public int getPageSize() {
-        return pageSize;
-    }
+  private int pageSize;
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
+  public int getPageSize() {
+    return pageSize;
+  }
 
-    public int getCurrentPage() {
-        return currentPage;
-    }
+  public void setPageSize(int pageSize) {
+    this.pageSize = pageSize;
+  }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
+  public int getCurrentPage() {
+    return currentPage;
+  }
 
-    public List<T> getList() {
-        return list;
-    }
+  public void setCurrentPage(int currentPage) {
+    this.currentPage = currentPage;
+  }
 
-    public void setList(List<T> list) {
-        this.list = list;
-    }
+  public List<T> getList() {
+    return list;
+  }
 
-    public int getTotalPages() {
-        return totalPages;
-    }
+  public void setList(List<T> list) {
+    this.list = list;
+  }
 
-    public void setTotalPages(int totalPages) {
-        this.totalPages = totalPages;
-    }
+  public int getTotalPages() {
+    return totalPages;
+  }
 
-    public long getTotalElements() {
-        return totalElements;
-    }
+  public void setTotalPages(int totalPages) {
+    this.totalPages = totalPages;
+  }
 
-    public void setTotalElements(long totalElements) {
-        this.totalElements = totalElements;
-    }
+  public long getTotalElements() {
+    return totalElements;
+  }
 
-    public Object[] getSortValues() {
-        return sortValues;
-    }
+  public void setTotalElements(long totalElements) {
+    this.totalElements = totalElements;
+  }
 
-    public void setSortValues(Object[] sortValues) {
-        this.sortValues = sortValues;
-    }
+  public Object[] getSortValues() {
+    return sortValues;
+  }
+
+  public void setSortValues(Object[] sortValues) {
+    this.sortValues = sortValues;
+  }
 }

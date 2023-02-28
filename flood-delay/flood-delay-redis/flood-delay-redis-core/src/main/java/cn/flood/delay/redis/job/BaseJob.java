@@ -9,7 +9,6 @@ import cn.flood.delay.redis.utils.GsonUtil;
 import io.lettuce.core.Limit;
 import io.lettuce.core.Range;
 import io.lettuce.core.ScriptOutputType;
-
 import java.util.List;
 
 /**
@@ -18,37 +17,38 @@ import java.util.List;
  */
 class BaseJob {
 
-	DQRedis redis;
-	Config config;
+  DQRedis redis;
+  Config config;
 
-	BaseJob(Config config, DQRedis dqRedis) {
-		this.config = config;
-		this.redis = dqRedis;
-	}
+  BaseJob(Config config, DQRedis dqRedis) {
+    this.config = config;
+    this.redis = dqRedis;
+  }
 
-	List<String> zrangebyscore(String key, long begin, long end) {
-		return redis.zrangebyscore(key, Range.create(begin, end), Limit.create(0L, 1000L));
-	}
+  List<String> zrangebyscore(String key, long begin, long end) {
+    return redis.zrangebyscore(key, Range.create(begin, end), Limit.create(0L, 1000L));
+  }
 
-	RawMessage getTask(String key) {
-		String value = redis.hget(config.getHashKey(), key);
-		if (null == value) {
-			return null;
-		}
-		return GsonUtil.fromJson(value, RawMessage.class);
-	}
+  RawMessage getTask(String key) {
+    String value = redis.hget(config.getHashKey(), key);
+    if (null == value) {
+      return null;
+    }
+    return GsonUtil.fromJson(value, RawMessage.class);
+  }
 
-	boolean transferMessage(String key, String from, String to, long score) {
-		String[] keys  = new String[]{from, to, key};
-		String[] args  = new String[]{score + ""};
-		Long     count = redis.syncEval(LuaScriptConst.TRANSFER_MESSAGE, ScriptOutputType.INTEGER, keys, args);
-		return null != count && count == 1;
-	}
+  boolean transferMessage(String key, String from, String to, long score) {
+    String[] keys = new String[]{from, to, key};
+    String[] args = new String[]{score + ""};
+    Long count = redis
+        .syncEval(LuaScriptConst.TRANSFER_MESSAGE, ScriptOutputType.INTEGER, keys, args);
+    return null != count && count == 1;
+  }
 
-	void deleteMessage(String key) {
-		redis.zrem(config.getDelayKey(), key);
-		redis.zrem(config.getAckKey(), key);
-		redis.hdel(config.getHashKey(), key);
-	}
+  void deleteMessage(String key) {
+    redis.zrem(config.getDelayKey(), key);
+    redis.zrem(config.getAckKey(), key);
+    redis.hdel(config.getHashKey(), key);
+  }
 
 }

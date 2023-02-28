@@ -11,58 +11,59 @@ import java.util.stream.Stream;
  */
 public enum DbTypeEnum {
 
-    /**
-     * mysql
-     */
-    MYSQL("mysql", "mysql"),
+  /**
+   * mysql
+   */
+  MYSQL("mysql", "mysql"),
 
-    /**
-     * pgsql
-     */
-    PG_SQL("pgsql", "postgresql"),
+  /**
+   * pgsql
+   */
+  PG_SQL("pgsql", "postgresql"),
 
-    /**
-     * oracle
-     */
-    ORACLE("oracle", "oracle"),
+  /**
+   * oracle
+   */
+  ORACLE("oracle", "oracle"),
 
-    /**
-     * mssql
-     */
-    MS_SQL("mssql", "sqlserver");
+  /**
+   * mssql
+   */
+  MS_SQL("mssql", "sqlserver");
 
-    private final String code;
+  private final String code;
 
-    private final String name;
+  private final String name;
 
-    DbTypeEnum(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+  DbTypeEnum(String code, String name) {
+    this.code = code;
+    this.name = name;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  /**
+   * 根据code获取枚举
+   */
+  public static DbTypeEnum valueOfEnum(String code) {
+    return Stream.of(DbTypeEnum.values()).
+        filter(eu -> eu.code.equals(code)).
+        findFirst().orElse(null);
+  }
 
-    public String getName() {
-        return name;
-    }
+  /**
+   * 编码转化成中文含义
+   */
+  public static String getName(String code) {
+    DbTypeEnum em = Stream.of(DbTypeEnum.values()).
+        filter(eu -> eu.code.equals(code)).
+        findFirst().orElse(null);
+    return em == null ? "" : em.name;
+  }
 
-    /**
-     * 根据code获取枚举
-     */
-    public static DbTypeEnum valueOfEnum(String code) {
-        return Stream.of(DbTypeEnum.values()).
-                filter(eu -> eu.code.equals(code)).
-                findFirst().orElse(null);
-    }
-    /**
-     * 编码转化成中文含义
-     */
-    public static String getName(String code) {
-        DbTypeEnum em = Stream.of(DbTypeEnum.values()).
-                filter(eu -> eu.code.equals(code)).
-                findFirst().orElse(null);
-        return em == null? "" : em.name;
-    }
+  public String getCode() {
+    return code;
+  }
+
+  public String getName() {
+    return name;
+  }
 }

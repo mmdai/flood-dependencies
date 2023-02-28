@@ -17,23 +17,27 @@ import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.*;
-import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
-
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 /**
  * <p>Title: MessageProtoSupportConfig</p>
@@ -48,91 +52,100 @@ import java.util.TimeZone;
 @AutoConfiguration
 public class MessageProtoSupportConfig implements WebMvcConfigurer {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+  /**
+   * yyyy-MM-dd HH:mm:ss 格式
+   */
+  private static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+  /**
+   * yyyy-MM-dd 格式
+   */
+  private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
+  /**
+   * HH:mm:ss 格式
+   */
+  private static final String NORM_TIME_PATTERN = "HH:mm:ss";
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    /**
-     * yyyy-MM-dd HH:mm:ss 格式
-     */
-    private static final String NORM_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
-    /**
-     * yyyy-MM-dd 格式
-     */
-    private static final String NORM_DATE_PATTERN = "yyyy-MM-dd";
-    /**
-     * HH:mm:ss 格式
-     */
-    private static final String NORM_TIME_PATTERN = "HH:mm:ss";
+  //add the protobuf http message converter
+  @Bean
+  public ProtostuffHttpMessageConverter protobufHttpMessageConverter() {
+    log.info("ProtostuffHttpMessageConverter");
+    return new ProtostuffHttpMessageConverter();
+  }
 
-    //add the protobuf http message converter
-    @Bean
-    public ProtostuffHttpMessageConverter protobufHttpMessageConverter() {
-        log.info("ProtostuffHttpMessageConverter");
-        return new ProtostuffHttpMessageConverter();
-    }
-
-    /**
-     * 同一个WebMvcConfigurerAdapter中的configureMessageConverters方法先于extendMessageConverters方法执行
-     * @param converters
-     */
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+  /**
+   * 同一个WebMvcConfigurerAdapter中的configureMessageConverters方法先于extendMessageConverters方法执行
+   *
+   * @param converters
+   */
+  @Override
+  public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 //        log.info("ProtobufHttpMessageConverter:------------start------ ");
-        converters.removeIf(x -> x instanceof StringHttpMessageConverter || x instanceof AbstractJackson2HttpMessageConverter);
-        converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
-        //使用converters.add(xxx)会放在最低优先级（List的尾部）
-        converters.add(protobufHttpMessageConverter());
+    converters.removeIf(x -> x instanceof StringHttpMessageConverter
+        || x instanceof AbstractJackson2HttpMessageConverter);
+    converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
+    //使用converters.add(xxx)会放在最低优先级（List的尾部）
+    converters.add(protobufHttpMessageConverter());
 
-        // Jackson配置类
-        ObjectMapper objectMapper = new ObjectMapper();
-        //设置地点为中国
-        objectMapper.setLocale(Locale.CHINA);
-        //去掉默认的时间戳格式
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        //设置为中国上海时区
-        objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
-        // 序列化BigDecimal时不使用科学计数法输出
-        objectMapper.configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
-        //序列化时，日期的统一格式
-        objectMapper.setDateFormat(new SimpleDateFormat(NORM_DATETIME_PATTERN, Locale.CHINA));
-        //序列化处理
-        objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
-        objectMapper.configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
-        objectMapper.findAndRegisterModules();
-        //失败处理
-        // 对于空的对象转json的时候不抛出错误
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        // 禁用遇到未知属性抛出异常
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        //单引号处理
-        objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-        //反序列化时，属性不存在的兼容处理
-        objectMapper.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-        // 日期和时间格式化
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        //时间序列化规则
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
-        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
-        javaTimeModule.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
-        //Instant 类型序列化
-        javaTimeModule.addSerializer(Instant.class, InstantSerializer.INSTANCE);
-        //时间反序列化规则
-        javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
-        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
-        javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
-        //Instant 类型反序列化
-        javaTimeModule.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
-        objectMapper.registerModule(javaTimeModule);
+    // Jackson配置类
+    ObjectMapper objectMapper = new ObjectMapper();
+    //设置地点为中国
+    objectMapper.setLocale(Locale.CHINA);
+    //去掉默认的时间戳格式
+    objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    //设置为中国上海时区
+    objectMapper.setTimeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+    // 序列化BigDecimal时不使用科学计数法输出
+    objectMapper.configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
+    //序列化时，日期的统一格式
+    objectMapper.setDateFormat(new SimpleDateFormat(NORM_DATETIME_PATTERN, Locale.CHINA));
+    //序列化处理
+    objectMapper.configure(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature(), true);
+    objectMapper
+        .configure(JsonReadFeature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.mappedFeature(), true);
+    objectMapper.findAndRegisterModules();
+    //失败处理
+    // 对于空的对象转json的时候不抛出错误
+    objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    // 禁用遇到未知属性抛出异常
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    //单引号处理
+    objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+    //反序列化时，属性不存在的兼容处理
+    objectMapper.getDeserializationConfig()
+        .withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+    // 日期和时间格式化
+    JavaTimeModule javaTimeModule = new JavaTimeModule();
+    //时间序列化规则
+    javaTimeModule.addSerializer(LocalDateTime.class,
+        new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
+    javaTimeModule.addSerializer(LocalDate.class,
+        new LocalDateSerializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
+    javaTimeModule.addSerializer(LocalTime.class,
+        new LocalTimeSerializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
+    //Instant 类型序列化
+    javaTimeModule.addSerializer(Instant.class, InstantSerializer.INSTANCE);
+    //时间反序列化规则
+    javaTimeModule.addDeserializer(LocalDateTime.class,
+        new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(NORM_DATETIME_PATTERN)));
+    javaTimeModule.addDeserializer(LocalDate.class,
+        new LocalDateDeserializer(DateTimeFormatter.ofPattern(NORM_DATE_PATTERN)));
+    javaTimeModule.addDeserializer(LocalTime.class,
+        new LocalTimeDeserializer(DateTimeFormatter.ofPattern(NORM_TIME_PATTERN)));
+    //Instant 类型反序列化
+    javaTimeModule.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
+    objectMapper.registerModule(javaTimeModule);
 
-        converters.add(0, new MappingApiJackson2HttpMessageConverter(objectMapper));
+    converters.add(0, new MappingApiJackson2HttpMessageConverter(objectMapper));
 
-    }
+  }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
-        localeInterceptor.setParamName("lang");
-        registry.addInterceptor(localeInterceptor);
-    }
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
+    localeInterceptor.setParamName("lang");
+    registry.addInterceptor(localeInterceptor);
+  }
 
 
 }

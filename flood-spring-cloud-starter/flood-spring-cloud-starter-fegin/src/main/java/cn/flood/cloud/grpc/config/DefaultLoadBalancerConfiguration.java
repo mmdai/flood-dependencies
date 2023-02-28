@@ -25,57 +25,58 @@ import org.springframework.core.env.Environment;
 @SuppressWarnings("unchecked")
 @AutoConfiguration
 @EnableConfigurationProperties({
-        GrayLoadBalancerProperties.class
+    GrayLoadBalancerProperties.class
 })
 public class DefaultLoadBalancerConfiguration {
 
-    @Autowired
-    private GrayLoadBalancerProperties grayLoadBalancerProperties;
+  @Autowired
+  private GrayLoadBalancerProperties grayLoadBalancerProperties;
 
-    @Bean
-    @ConditionalOnMissingBean
-    public LoadBalancerZoneConfig zoneConfig(Environment environment) {
-        return new LoadBalancerZoneConfig(environment.getProperty("spring.cloud.loadbalancer.zone")==null? "local":
-                environment.getProperty("spring.cloud.loadbalancer.zone"));
-    }
+  @Bean
+  @ConditionalOnMissingBean
+  public LoadBalancerZoneConfig zoneConfig(Environment environment) {
+    return new LoadBalancerZoneConfig(
+        environment.getProperty("spring.cloud.loadbalancer.zone") == null ? "local" :
+            environment.getProperty("spring.cloud.loadbalancer.zone"));
+  }
 
-    @Bean
-    public ServiceInstanceListSupplier serviceInstanceListSupplier(
-            DiscoveryClient discoveryClient,
-            Environment env,
-            ConfigurableApplicationContext context,
-            LoadBalancerZoneConfig zoneConfig
-    ) {
-        ObjectProvider<LoadBalancerCacheManager> cacheManagerProvider = context
-                .getBeanProvider(LoadBalancerCacheManager.class);
-        return  //开启服务实例缓存
-                new CachingServiceInstanceListSupplier(
-                        //只能返回同一个 zone 的服务实例
-                        new SameZoneOnlyServiceInstanceListSupplier(
-                                //启用通过 discoveryClient 的服务发现
-                                new DiscoveryClientServiceInstanceListSupplier(
-                                        discoveryClient, env
-                                ),
-                                zoneConfig
-                        )
-                        , cacheManagerProvider.getIfAvailable()
-                );
-    }
-
-
-    @Bean
-    public ReactorLoadBalancer<ServiceInstance> reactorServiceInstanceLoadBalancer(
-            Environment environment,
-            LoadBalancerClientFactory loadBalancerClientFactory
-    ) {
-        String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
-        Tracing tracing = Tracing.newBuilder().build();
-        return new RoundRobinWithRequestSeparatedPositionLoadBalancer(
-                loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class),
-                name,
-                tracing,
-                grayLoadBalancerProperties
+  @Bean
+  public ServiceInstanceListSupplier serviceInstanceListSupplier(
+      DiscoveryClient discoveryClient,
+      Environment env,
+      ConfigurableApplicationContext context,
+      LoadBalancerZoneConfig zoneConfig
+  ) {
+    ObjectProvider<LoadBalancerCacheManager> cacheManagerProvider = context
+        .getBeanProvider(LoadBalancerCacheManager.class);
+    return  //开启服务实例缓存
+        new CachingServiceInstanceListSupplier(
+            //只能返回同一个 zone 的服务实例
+            new SameZoneOnlyServiceInstanceListSupplier(
+                //启用通过 discoveryClient 的服务发现
+                new DiscoveryClientServiceInstanceListSupplier(
+                    discoveryClient, env
+                ),
+                zoneConfig
+            )
+            , cacheManagerProvider.getIfAvailable()
         );
-    }
+  }
+
+
+  @Bean
+  public ReactorLoadBalancer<ServiceInstance> reactorServiceInstanceLoadBalancer(
+      Environment environment,
+      LoadBalancerClientFactory loadBalancerClientFactory
+  ) {
+    String name = environment.getProperty(LoadBalancerClientFactory.PROPERTY_NAME);
+    Tracing tracing = Tracing.newBuilder().build();
+    return new RoundRobinWithRequestSeparatedPositionLoadBalancer(
+        loadBalancerClientFactory.getLazyProvider(name, ServiceInstanceListSupplier.class),
+        name,
+        tracing,
+        grayLoadBalancerProperties
+    );
+  }
 
 }

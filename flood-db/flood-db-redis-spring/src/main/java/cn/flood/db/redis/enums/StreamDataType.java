@@ -5,16 +5,16 @@ package cn.flood.db.redis.enums;
  */
 public enum StreamDataType {
 
-    /**
-     * 全部
-     */
-    ALL,
-    /**
-     * 最新
-     */
-    LATEST,
-    /**
-     * 最早
-     */
-    EARLIEST
+  /**
+   * 全部
+   */
+  ALL,
+  /**
+   * 最新
+   */
+  LATEST,
+  /**
+   * 最早
+   */
+  EARLIEST
 }

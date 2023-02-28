@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 //@ConditionalOnClass(RestHighLevelClient.class)
 public class ElasticsearchServiceImpl implements IAuditService {
 
-//    private final ElasticsearchRestTemplate searchRestTemplate;
+  //    private final ElasticsearchRestTemplate searchRestTemplate;
 //
 //    public ElasticsearchServiceImpl(@Autowired(required = false) LogElasticsearchProperties elasticsearchProperties,
 //                                    @Autowired(required = false) LogRestClientPoolProperties poolProperties,
@@ -55,14 +55,15 @@ public class ElasticsearchServiceImpl implements IAuditService {
 //    }
 //
 //    @Async
-    @Override
-    public void save(Audit audit) {
-        //es插入
+  @Override
+  public void save(Audit audit) {
+    //es插入
 //        restHighLevelClient.
-    }
-//
+  }
+
+  //
 //    @PostConstruct
-    public void init() {
-        //初始化es表结果
-    }
+  public void init() {
+    //初始化es表结果
+  }
 }

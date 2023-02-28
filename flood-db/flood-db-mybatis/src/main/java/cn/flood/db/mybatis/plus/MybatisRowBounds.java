@@ -8,14 +8,14 @@ import org.apache.ibatis.session.RowBounds;
  */
 public class MybatisRowBounds extends RowBounds {
 
-    private Page<?> page;
+  private Page<?> page;
 
-    public MybatisRowBounds(Page<?> page) {
+  public MybatisRowBounds(Page<?> page) {
 //        super((page.getPageNo()-1)*page.getPageSize(), page.getPageSize());
-        this.page = page;
-    }
+    this.page = page;
+  }
 
-    public Page<?> getPage() {
-        return page;
-    }
+  public Page<?> getPage() {
+    return page;
+  }
 }

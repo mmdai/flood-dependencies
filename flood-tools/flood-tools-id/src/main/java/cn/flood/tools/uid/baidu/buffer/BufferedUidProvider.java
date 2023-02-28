@@ -19,16 +19,16 @@ import java.util.List;
 
 /**
  * Buffered UID provider(Lambda supported), which provides UID in the same one second
- * 
+ *
  * @author yutianbao
  */
 public interface BufferedUidProvider {
 
-    /**
-     * Provides UID in one second
-     * 
-     * @param momentInSecond
-     * @return
-     */
-    List<Long> provide(long momentInSecond);
+  /**
+   * Provides UID in one second
+   *
+   * @param momentInSecond
+   * @return
+   */
+  List<Long> provide(long momentInSecond);
 }

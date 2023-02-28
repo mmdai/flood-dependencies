@@ -17,24 +17,25 @@ import org.springframework.context.annotation.Bean;
  * @version 1.0
  * @date 2021/4/3
  * <p>
- * Blog: https://zlt2000.gitee.io
- * Github: https://github.com/zlt2000
+ * Blog: https://zlt2000.gitee.io Github: https://github.com/zlt2000
  */
 @EnableConfigurationProperties(ZookeeperProperty.class)
 @AutoConfiguration
 public class ZookeeperAutoConfiguration {
-    /**
-     * 初始化连接
-     */
-    @Bean(initMethod = "start", destroyMethod = "close")
-    @ConditionalOnMissingBean
-    public CuratorFramework curatorFramework(ZookeeperProperty property) {
-        RetryPolicy retryPolicy = new ExponentialBackoffRetry(property.getBaseSleepTime(), property.getMaxRetries());
-        return CuratorFrameworkFactory.builder()
-                .connectString(property.getConnectString())
-                .connectionTimeoutMs(property.getConnectionTimeout())
-                .sessionTimeoutMs(property.getSessionTimeout())
-                .retryPolicy(retryPolicy)
-                .build();
-    }
+
+  /**
+   * 初始化连接
+   */
+  @Bean(initMethod = "start", destroyMethod = "close")
+  @ConditionalOnMissingBean
+  public CuratorFramework curatorFramework(ZookeeperProperty property) {
+    RetryPolicy retryPolicy = new ExponentialBackoffRetry(property.getBaseSleepTime(),
+        property.getMaxRetries());
+    return CuratorFrameworkFactory.builder()
+        .connectString(property.getConnectString())
+        .connectionTimeoutMs(property.getConnectionTimeout())
+        .sessionTimeoutMs(property.getSessionTimeout())
+        .retryPolicy(retryPolicy)
+        .build();
+  }
 }

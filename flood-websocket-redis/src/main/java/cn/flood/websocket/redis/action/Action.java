@@ -6,10 +6,11 @@ import com.alibaba.fastjson2.JSONObject;
 
 
 public interface Action {
-    String IDENTIFIER = "identifier";
-    String USER_ACCOUNT = "userAccount";
-    String MESSAGE    = "message";
-    String ACTION     = "action";
 
-    void doMessage(WebSocketManager manager, JSONObject object);
+  String IDENTIFIER = "identifier";
+  String USER_ACCOUNT = "userAccount";
+  String MESSAGE = "message";
+  String ACTION = "action";
+
+  void doMessage(WebSocketManager manager, JSONObject object);
 }

@@ -1,111 +1,108 @@
 package cn.flood.canal.configuration.properties;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.concurrent.TimeUnit;
+import org.apache.commons.lang.StringUtils;
 
 
 public class CanalProperties {
 
 
-    public static final String CANAL_PREFIX = "canal";
+  public static final String CANAL_PREFIX = "canal";
 
 
-    public static final String CANAL_ASYNC = CANAL_PREFIX + "." + "async";
+  public static final String CANAL_ASYNC = CANAL_PREFIX + "." + "async";
 
 
-    public static final String CANAL_MODE = CANAL_PREFIX + "." + "mode";
+  public static final String CANAL_MODE = CANAL_PREFIX + "." + "mode";
 
-    /**
-     * simple,cluster,zk(zookeeper),kafka
-     */
-    private String mode;
-
-
-    private Boolean async;
+  /**
+   * simple,cluster,zk(zookeeper),kafka
+   */
+  private String mode;
 
 
-
-    private String server;
-
+  private Boolean async;
 
 
-    private String destination;
+  private String server;
 
 
-    private String filter = StringUtils.EMPTY;
-
-    private Integer batchSize = 1;
-
-    private Long timeout = 1L;
-
-    private TimeUnit unit = TimeUnit.SECONDS;
+  private String destination;
 
 
-    public Boolean getAsync() {
-        return async;
-    }
+  private String filter = StringUtils.EMPTY;
 
-    public void setAsync(Boolean async) {
-        this.async = async;
-    }
+  private Integer batchSize = 1;
 
+  private Long timeout = 1L;
 
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
+  private TimeUnit unit = TimeUnit.SECONDS;
 
 
-    public String getFilter() {
-        return filter;
-    }
+  public Boolean getAsync() {
+    return async;
+  }
 
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
-
-    public Integer getBatchSize() {
-        return batchSize;
-    }
-
-    public void setBatchSize(Integer batchSize) {
-        this.batchSize = batchSize;
-    }
-
-    public Long getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Long timeout) {
-        this.timeout = timeout;
-    }
-
-    public TimeUnit getUnit() {
-        return unit;
-    }
-
-    public void setUnit(TimeUnit unit) {
-        this.unit = unit;
-    }
+  public void setAsync(Boolean async) {
+    this.async = async;
+  }
 
 
-    public String getServer() {
-        return server;
-    }
+  public String getMode() {
+    return mode;
+  }
 
-    public void setServer(String server) {
-        this.server = server;
-    }
+  public void setMode(String mode) {
+    this.mode = mode;
+  }
 
-    public String getDestination() {
-        return destination;
-    }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
+  public String getFilter() {
+    return filter;
+  }
+
+  public void setFilter(String filter) {
+    this.filter = filter;
+  }
+
+  public Integer getBatchSize() {
+    return batchSize;
+  }
+
+  public void setBatchSize(Integer batchSize) {
+    this.batchSize = batchSize;
+  }
+
+  public Long getTimeout() {
+    return timeout;
+  }
+
+  public void setTimeout(Long timeout) {
+    this.timeout = timeout;
+  }
+
+  public TimeUnit getUnit() {
+    return unit;
+  }
+
+  public void setUnit(TimeUnit unit) {
+    this.unit = unit;
+  }
+
+
+  public String getServer() {
+    return server;
+  }
+
+  public void setServer(String server) {
+    this.server = server;
+  }
+
+  public String getDestination() {
+    return destination;
+  }
+
+  public void setDestination(String destination) {
+    this.destination = destination;
+  }
 }

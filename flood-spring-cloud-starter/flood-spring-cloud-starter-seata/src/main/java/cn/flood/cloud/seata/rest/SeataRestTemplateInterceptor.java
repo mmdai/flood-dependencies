@@ -12,11 +12,11 @@ import io.seata.core.context.RootContext;
  */
 public class SeataRestTemplateInterceptor implements RequestInterceptor {
 
-    @Override
-    public void apply(RequestTemplate requestTemplate) {
-        String xid = RootContext.getXID();
-        if(Func.isNotEmpty(xid)){
-            requestTemplate.header(RootContext.KEY_XID, xid);
-        }
+  @Override
+  public void apply(RequestTemplate requestTemplate) {
+    String xid = RootContext.getXID();
+    if (Func.isNotEmpty(xid)) {
+      requestTemplate.header(RootContext.KEY_XID, xid);
     }
+  }
 }

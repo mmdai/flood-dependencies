@@ -14,8 +14,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
- * Created by yipin on 2017/6/28.
- * RocketMQ配置文件
+ * Created by yipin on 2017/6/28. RocketMQ配置文件
  */
 @AutoConfiguration
 @ConditionalOnBean(annotation = EnableMQConfiguration.class)
@@ -23,19 +22,18 @@ import org.springframework.context.ConfigurableApplicationContext;
 @EnableConfigurationProperties(MQProperties.class)
 public class MQBaseAutoConfiguration implements ApplicationContextAware {
 
-    protected MQProperties mqProperties;
+  protected MQProperties mqProperties;
+  protected ConfigurableApplicationContext applicationContext;
 
-    @Autowired
-    public void setMqProperties(MQProperties mqProperties) {
-        this.mqProperties = mqProperties;
-    }
+  @Autowired
+  public void setMqProperties(MQProperties mqProperties) {
+    this.mqProperties = mqProperties;
+  }
 
-    protected ConfigurableApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = (ConfigurableApplicationContext) applicationContext;
-    }
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = (ConfigurableApplicationContext) applicationContext;
+  }
 
 }
 

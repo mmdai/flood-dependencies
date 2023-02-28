@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Import;
 
 
 @AutoConfiguration
-@Import({SendMessageAction.class , BroadCastAction.class , RemoveAction.class , NoActionAction.class})
+@Import({SendMessageAction.class, BroadCastAction.class, RemoveAction.class, NoActionAction.class})
 public class ActionConfig {
+
 }

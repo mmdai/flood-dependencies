@@ -2,13 +2,14 @@ package cn.flood.starter.mq.config;
 
 //import org.junit.After;
 //import org.junit.Test;
+
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 //import static org.junit.Assert.*;
 
 public class MQProducerAutoConfigurationTest {
 
-    private AnnotationConfigApplicationContext context;
+  private AnnotationConfigApplicationContext context;
 
 //    private void prepareApplicationContextEmpty() {
 //        this.context = new AnnotationConfigApplicationContext();
@@ -98,7 +99,6 @@ public class MQProducerAutoConfigurationTest {
 //    @MQProducer
 //    static class TestProducerNoParent{
 //    }
-
 
 
 }

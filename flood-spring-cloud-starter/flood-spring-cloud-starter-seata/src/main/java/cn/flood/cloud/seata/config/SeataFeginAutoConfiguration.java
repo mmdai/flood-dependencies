@@ -20,10 +20,10 @@ public class SeataFeginAutoConfiguration {
 //    }
 
 
-    @Bean
-    public SeataRestTemplateInterceptor seataRestTemplateInterceptor(){
-        return new SeataRestTemplateInterceptor();
-    }
+  @Bean
+  public SeataRestTemplateInterceptor seataRestTemplateInterceptor() {
+    return new SeataRestTemplateInterceptor();
+  }
 
 
 }

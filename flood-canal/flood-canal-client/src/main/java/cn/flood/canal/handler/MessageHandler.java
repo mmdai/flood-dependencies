@@ -7,6 +7,5 @@ package cn.flood.canal.handler;
 public interface MessageHandler<T> {
 
 
-
-     void handleMessage(T t);
+  void handleMessage(T t);
 }

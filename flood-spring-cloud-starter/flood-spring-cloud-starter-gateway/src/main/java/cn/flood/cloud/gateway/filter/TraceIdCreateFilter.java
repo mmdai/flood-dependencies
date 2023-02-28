@@ -22,21 +22,22 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class TraceIdCreateFilter implements GlobalFilter, Ordered {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // 开启traceId追踪ID生成
-        String traceId = MDCTraceUtils.createTraceId();
-        ServerHttpRequest newRequest = exchange.getRequest().mutate().header(MDCTraceUtils.TRACE_ID_HEADER, traceId).build();
-        ServerWebExchange build = exchange.mutate().request(newRequest).build();
-        MDCTraceUtils.putTraceId(traceId);
-        return chain.filter(build);
-    }
+  @Override
+  public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+    // 开启traceId追踪ID生成
+    String traceId = MDCTraceUtils.createTraceId();
+    ServerHttpRequest newRequest = exchange.getRequest().mutate()
+        .header(MDCTraceUtils.TRACE_ID_HEADER, traceId).build();
+    ServerWebExchange build = exchange.mutate().request(newRequest).build();
+    MDCTraceUtils.putTraceId(traceId);
+    return chain.filter(build);
+  }
 
 
-    @Override
-    public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
-    }
+  @Override
+  public int getOrder() {
+    return Ordered.HIGHEST_PRECEDENCE;
+  }
 }

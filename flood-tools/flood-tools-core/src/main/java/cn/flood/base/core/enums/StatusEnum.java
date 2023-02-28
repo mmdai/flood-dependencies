@@ -10,47 +10,47 @@ import java.util.stream.Stream;
  */
 public enum StatusEnum {
 
-    /**
-     * 启用
-     */
-    ENABLE("enable", "启用"),
+  /**
+   * 启用
+   */
+  ENABLE("enable", "启用"),
 
-    /**
-     * 禁用
-     */
-    DISABLE("disable", "禁用");
+  /**
+   * 禁用
+   */
+  DISABLE("disable", "禁用");
 
-    private final String code;
+  private final String code;
 
-    private final String name;
+  private final String name;
 
-    StatusEnum(String code, String name) {
-        this.code = code;
-        this.name = name;
-    }
+  StatusEnum(String code, String name) {
+    this.code = code;
+    this.name = name;
+  }
 
-    /**
-     * 根据code获取枚举
-     */
-    public static StatusEnum valueOfEnum(String code) {
-        return Stream.of(StatusEnum.values()).
-                filter(eu -> eu.code.equals(code)).
-                findFirst().orElse(null);
-    }
+  /**
+   * 根据code获取枚举
+   */
+  public static StatusEnum valueOfEnum(String code) {
+    return Stream.of(StatusEnum.values()).
+        filter(eu -> eu.code.equals(code)).
+        findFirst().orElse(null);
+  }
 
-    // 普通方法
-    public static String getName(String code) {
-        StatusEnum em = Stream.of(StatusEnum.values()).
-                filter(eu -> eu.code.equals(code)).
-                findFirst().orElse(null);
-        return em == null? "" : em.name;
-    }
+  // 普通方法
+  public static String getName(String code) {
+    StatusEnum em = Stream.of(StatusEnum.values()).
+        filter(eu -> eu.code.equals(code)).
+        findFirst().orElse(null);
+    return em == null ? "" : em.name;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public String getCode() {
+    return code;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 }

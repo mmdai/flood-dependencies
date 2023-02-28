@@ -5,8 +5,8 @@ package cn.flood.db.redis.lock.autoconfigure.lock;
  */
 public interface Lock {
 
-    boolean acquire();
+  boolean acquire();
 
-    boolean release();
+  boolean release();
 }
 

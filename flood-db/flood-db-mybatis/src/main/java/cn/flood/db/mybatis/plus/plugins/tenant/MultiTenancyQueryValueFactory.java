@@ -8,5 +8,5 @@ package cn.flood.db.mybatis.plus.plugins.tenant;
  **/
 public interface MultiTenancyQueryValueFactory {
 
-    Object buildMultiTenancyQueryValue();
+  Object buildMultiTenancyQueryValue();
 }

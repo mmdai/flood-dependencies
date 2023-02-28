@@ -7,11 +7,11 @@ import cn.flood.db.mybatis.plus.support.Criterion;
  */
 public class Disjunction extends Junction {
 
-    protected Disjunction() {
-        super( Nature.OR );
-    }
+  protected Disjunction() {
+    super(Nature.OR);
+  }
 
-    protected Disjunction(Criterion[] conditions) {
-        super( Nature.OR, conditions );
-    }
+  protected Disjunction(Criterion[] conditions) {
+    super(Nature.OR, conditions);
+  }
 }

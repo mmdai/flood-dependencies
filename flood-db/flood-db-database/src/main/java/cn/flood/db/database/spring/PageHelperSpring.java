@@ -1,31 +1,23 @@
-/**  
-* <p>Title: PageHelperConfig.java</p>  
-* <p>Description: </p>  
-* <p>Copyright: Copyright (c) 2018</p>   
-* @author mmdai  
-* @date 2018年12月12日  
-* @version 1.0  
-*/  
+/**
+ * <p>Title: PageHelperConfig.java</p>
+ * <p>Description: </p>
+ * <p>Copyright: Copyright (c) 2018</p>
+ *
+ * @author mmdai
+ * @date 2018年12月12日
+ * @version 1.0
+ */
 package cn.flood.db.database.spring;
 
-import java.util.Properties;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-
-import com.github.pagehelper.PageHelper;
-
-/**  
-* <p>Title: PageHelperConfig</p>  
-* <p>Description: 分页插件引入</p>  
-* @author mmdai  
-* @date 2018年12月12日  
-*/
+/**
+ * <p>Title: PageHelperConfig</p>  
+ * <p>Description: 分页插件引入</p>  
+ * @author mmdai
+ * @date 2018年12月12日
+ */
 //@Configuration
 public class PageHelperSpring {
-	
+
 //	@Value("${spring.pagehelper.helperDialect:}")
 //	private String helperDialect;
 //

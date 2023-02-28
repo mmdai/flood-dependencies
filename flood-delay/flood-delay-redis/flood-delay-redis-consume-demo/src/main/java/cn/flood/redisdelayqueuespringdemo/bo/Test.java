@@ -4,9 +4,9 @@ import java.time.Clock;
 
 public class Test {
 
-    public static void main(String[] args){
-        System.out.println(Clock.systemDefaultZone().millis());
-        System.out.println(System.currentTimeMillis());
-    }
+  public static void main(String[] args) {
+    System.out.println(Clock.systemDefaultZone().millis());
+    System.out.println(System.currentTimeMillis());
+  }
 
 }

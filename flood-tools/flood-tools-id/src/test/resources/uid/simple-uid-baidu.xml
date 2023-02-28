@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	
-    <!-- UID generator -->
-    <bean id="simpleWorkerIdAssigner" class="cn.flood.tools.uid.worker.SimpleWorkerIdAssigner"/>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="defaultUidGenerator" class="cn.flood.tools.uid.baidu.impl.DefaultUidGenerator" lazy-init="false" scope="prototype" >
-        <property name="workerIdAssigner" ref="simpleWorkerIdAssigner"/>
-        <!-- Specified bits & epoch as your demand. No specified the default value will be used -->
-        <property name="timeBits" value="40"/>
-        <property name="workerBits" value="10"/>
-        <property name="seqBits" value="13"/>
-        <property name="epochStr" value="2016-09-20"/>
-    </bean>
-	<bean id="baiduUidStrategy" class="cn.flood.tools.uid.extend.strategy.BaiduUidStrategy" />
-	<bean class="cn.flood.tools.uid.UidContext">
-		<property name="uidStrategy" ref="baiduUidStrategy" />
-	</bean>
+  <!-- UID generator -->
+  <bean class="cn.flood.tools.uid.worker.SimpleWorkerIdAssigner" id="simpleWorkerIdAssigner"/>
+
+  <bean class="cn.flood.tools.uid.baidu.impl.DefaultUidGenerator" id="defaultUidGenerator"
+    lazy-init="false" scope="prototype">
+    <property name="workerIdAssigner" ref="simpleWorkerIdAssigner"/>
+    <!-- Specified bits & epoch as your demand. No specified the default value will be used -->
+    <property name="timeBits" value="40"/>
+    <property name="workerBits" value="10"/>
+    <property name="seqBits" value="13"/>
+    <property name="epochStr" value="2016-09-20"/>
+  </bean>
+  <bean class="cn.flood.tools.uid.extend.strategy.BaiduUidStrategy" id="baiduUidStrategy"/>
+  <bean class="cn.flood.tools.uid.UidContext">
+    <property name="uidStrategy" ref="baiduUidStrategy"/>
+  </bean>
 
 </beans>

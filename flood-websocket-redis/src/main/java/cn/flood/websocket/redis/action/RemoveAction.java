@@ -5,14 +5,15 @@ import cn.flood.websocket.WebSocketManager;
 import com.alibaba.fastjson2.JSONObject;
 
 
-public class RemoveAction implements Action{
-    @Override
-    public void doMessage(WebSocketManager manager, JSONObject object) {
-        if(!object.containsKey(IDENTIFIER)){
-            return;
-        }
+public class RemoveAction implements Action {
 
-        String identifier = object.getString(IDENTIFIER);
-        manager.remove(identifier);
+  @Override
+  public void doMessage(WebSocketManager manager, JSONObject object) {
+    if (!object.containsKey(IDENTIFIER)) {
+      return;
     }
+
+    String identifier = object.getString(IDENTIFIER);
+    manager.remove(identifier);
+  }
 }

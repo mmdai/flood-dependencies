@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 //"cn.flood.filter","cn.flood.base.handle"})
 public class FloodAutoConfiguration {
 
-    @Bean
-    public ValidCodeService validCodeService(){
-        return new ValidCodeServiceImpl();
-    }
+  @Bean
+  public ValidCodeService validCodeService() {
+    return new ValidCodeServiceImpl();
+  }
 
 }

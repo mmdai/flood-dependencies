@@ -9,25 +9,27 @@ import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import org.apache.ibatis.session.Configuration;
 
 /**
- *
  * 处理 conditions 的 LanguageDriver
  *
  * @author mmdai
  */
 public class ConditionsLanguageDriver extends XMLLanguageDriver {
 
-    @Override
-    public ParameterHandler createParameterHandler(MappedStatement mappedStatement, Object parameterObject, BoundSql boundSql) {
-        return new ConditionsParameterHandler(mappedStatement, parameterObject, boundSql);
-    }
+  @Override
+  public ParameterHandler createParameterHandler(MappedStatement mappedStatement,
+      Object parameterObject, BoundSql boundSql) {
+    return new ConditionsParameterHandler(mappedStatement, parameterObject, boundSql);
+  }
 
-    @Override
-    public SqlSource createSqlSource(Configuration configuration, XNode script, Class<?> parameterType) {
-        return super.createSqlSource(configuration, script, parameterType);
-    }
+  @Override
+  public SqlSource createSqlSource(Configuration configuration, XNode script,
+      Class<?> parameterType) {
+    return super.createSqlSource(configuration, script, parameterType);
+  }
 
-    @Override
-    public SqlSource createSqlSource(Configuration configuration, String script, Class<?> parameterType) {
-        return super.createSqlSource(configuration, script, parameterType);
-    }
+  @Override
+  public SqlSource createSqlSource(Configuration configuration, String script,
+      Class<?> parameterType) {
+    return super.createSqlSource(configuration, script, parameterType);
+  }
 }

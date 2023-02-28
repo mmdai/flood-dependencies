@@ -10,49 +10,46 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 public class RedisResultHolder implements ResultHolder {
 
-    private final RedisTemplate redisTemplate;
-    //seata-tcc 存储key
-    private static final String KEY_SEATA_KEY = "seata_tcc:";
+  //seata-tcc 存储key
+  private static final String KEY_SEATA_KEY = "seata_tcc:";
+  private final RedisTemplate redisTemplate;
 
-    /**
-     *
-     * @param actionClass
-     * @param xid
-     * @param context
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void setResult(String actionClass, String xid, String context) {
-        HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
-        hash.put(KEY_SEATA_KEY + actionClass, xid, context);
-    }
+  public RedisResultHolder(RedisTemplate redisTemplate) {
+    this.redisTemplate = redisTemplate;
+  }
 
-    /**
-     *
-     * @param actionClass
-     * @param xid
-     * @return
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean getResult(String actionClass, String xid) {
-        HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
-        return hash.hasKey(KEY_SEATA_KEY + actionClass, xid);
-    }
+  /**
+   * @param actionClass
+   * @param xid
+   * @param context
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public void setResult(String actionClass, String xid, String context) {
+    HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
+    hash.put(KEY_SEATA_KEY + actionClass, xid, context);
+  }
 
-    /**
-     *
-     * @param actionClass
-     * @param xid
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public void removeResult(String actionClass, String xid) {
-        HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
-        hash.delete(KEY_SEATA_KEY + actionClass, xid);
-    }
+  /**
+   * @param actionClass
+   * @param xid
+   * @return
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean getResult(String actionClass, String xid) {
+    HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
+    return hash.hasKey(KEY_SEATA_KEY + actionClass, xid);
+  }
 
-    public RedisResultHolder(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
+  /**
+   * @param actionClass
+   * @param xid
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public void removeResult(String actionClass, String xid) {
+    HashOperations<String, String, Object> hash = this.redisTemplate.opsForHash();
+    hash.delete(KEY_SEATA_KEY + actionClass, xid);
+  }
 }

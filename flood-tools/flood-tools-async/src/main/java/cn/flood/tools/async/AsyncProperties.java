@@ -12,51 +12,51 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2021/3/20
  */
 @ConfigurationProperties(
-        prefix = "async"
+    prefix = "async"
 )
 public class AsyncProperties {
 
-    private int corePoolSize = 10;
+  private int corePoolSize = 10;
 
-    private int maxPoolSize = 50;
+  private int maxPoolSize = 50;
 
-    private int queueCapacity = 1024;
+  private int queueCapacity = 1024;
 
-    private int keepAliveSeconds = 10;
+  private int keepAliveSeconds = 10;
 
-    public AsyncProperties() {
-    }
+  public AsyncProperties() {
+  }
 
 
-    public int getCorePoolSize() {
-        return corePoolSize;
-    }
+  public int getCorePoolSize() {
+    return corePoolSize;
+  }
 
-    public void setCorePoolSize(int corePoolSize) {
-        this.corePoolSize = corePoolSize;
-    }
+  public void setCorePoolSize(int corePoolSize) {
+    this.corePoolSize = corePoolSize;
+  }
 
-    public int getMaxPoolSize() {
-        return maxPoolSize;
-    }
+  public int getMaxPoolSize() {
+    return maxPoolSize;
+  }
 
-    public void setMaxPoolSize(int maxPoolSize) {
-        this.maxPoolSize = maxPoolSize;
-    }
+  public void setMaxPoolSize(int maxPoolSize) {
+    this.maxPoolSize = maxPoolSize;
+  }
 
-    public int getQueueCapacity() {
-        return queueCapacity;
-    }
+  public int getQueueCapacity() {
+    return queueCapacity;
+  }
 
-    public void setQueueCapacity(int queueCapacity) {
-        this.queueCapacity = queueCapacity;
-    }
+  public void setQueueCapacity(int queueCapacity) {
+    this.queueCapacity = queueCapacity;
+  }
 
-    public int getKeepAliveSeconds() {
-        return keepAliveSeconds;
-    }
+  public int getKeepAliveSeconds() {
+    return keepAliveSeconds;
+  }
 
-    public void setKeepAliveSeconds(int keepAliveSeconds) {
-        this.keepAliveSeconds = keepAliveSeconds;
-    }
+  public void setKeepAliveSeconds(int keepAliveSeconds) {
+    this.keepAliveSeconds = keepAliveSeconds;
+  }
 }

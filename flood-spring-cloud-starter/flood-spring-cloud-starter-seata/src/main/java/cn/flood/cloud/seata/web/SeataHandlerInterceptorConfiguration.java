@@ -11,11 +11,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @ConditionalOnWebApplication
 public class SeataHandlerInterceptorConfiguration implements WebMvcConfigurer {
-    public SeataHandlerInterceptorConfiguration() {
-    }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new SeataHandlerInterceptor()).addPathPatterns(new String[]{"/**"});
-    }
+  public SeataHandlerInterceptorConfiguration() {
+  }
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new SeataHandlerInterceptor()).addPathPatterns(new String[]{"/**"});
+  }
 }

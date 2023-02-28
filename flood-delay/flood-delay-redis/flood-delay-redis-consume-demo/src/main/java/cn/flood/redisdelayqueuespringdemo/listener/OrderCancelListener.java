@@ -1,11 +1,10 @@
 package cn.flood.redisdelayqueuespringdemo.listener;
 
-import cn.flood.delay.redis.enums.ConsumeStatus;
 import cn.flood.delay.redis.MessageListener;
+import cn.flood.delay.redis.enums.ConsumeStatus;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 /**
  * @author mmdai
@@ -15,15 +14,15 @@ import java.util.Map;
 @Component
 public class OrderCancelListener implements MessageListener<Map> {
 
-	@Override
-	public String topic() {
-		return "order-cancel";
-	}
+  @Override
+  public String topic() {
+    return "order-cancel";
+  }
 
-	@Override
-	public ConsumeStatus execute(Map data) {
-		log.info("取消订单: {}", data.toString());
-		return ConsumeStatus.CONSUMED;
-	}
+  @Override
+  public ConsumeStatus execute(Map data) {
+    log.info("取消订单: {}", data.toString());
+    return ConsumeStatus.CONSUMED;
+  }
 
 }

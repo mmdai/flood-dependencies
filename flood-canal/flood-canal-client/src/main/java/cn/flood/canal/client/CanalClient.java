@@ -7,13 +7,11 @@ package cn.flood.canal.client;
 public interface CanalClient {
 
 
-    void start();
+  void start();
 
 
-
-    void stop();
-
+  void stop();
 
 
-    void process();
+  void process();
 }

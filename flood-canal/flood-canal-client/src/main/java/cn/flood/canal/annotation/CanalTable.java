@@ -14,12 +14,7 @@ import java.lang.annotation.Target;
 public @interface CanalTable {
 
 
-       String value() default "";
-
-
-
-
-
+  String value() default "";
 
 
 }

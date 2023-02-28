@@ -1,6 +1,7 @@
 package cn.flood.cloud.gateway.handler;
 
 import cn.flood.cloud.gateway.props.ResourceProperties;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,30 +11,31 @@ import org.springframework.boot.web.reactive.error.ErrorAttributes;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.server.*;
+import org.springframework.web.reactive.function.server.RequestPredicates;
+import org.springframework.web.reactive.function.server.RouterFunction;
+import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerRequest;
+import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-
-import java.util.Map;
 
 /**
  * 自定义的JsonErrorWebExceptionHandler异常处理类
- * @author xuzf
- * date: 2020-4-20
- * 参考文档：https://www.cnblogs.com/throwable/p/10848879.html
+ *
+ * @author xuzf date: 2020-4-20 参考文档：https://www.cnblogs.com/throwable/p/10848879.html
  */
 public class JsonErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+  private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private ExceptionHandlerAdvice exceptionHandlerAdvice;
+  @Autowired
+  private ExceptionHandlerAdvice exceptionHandlerAdvice;
 
-    public JsonErrorExceptionHandler(ErrorAttributes errorAttributes,
-                                     ResourceProperties resourceProperties,
-                                     ErrorProperties errorProperties,
-                                     ApplicationContext applicationContext) {
-        super(errorAttributes, resourceProperties, errorProperties, applicationContext);
-    }
+  public JsonErrorExceptionHandler(ErrorAttributes errorAttributes,
+      ResourceProperties resourceProperties,
+      ErrorProperties errorProperties,
+      ApplicationContext applicationContext) {
+    super(errorAttributes, resourceProperties, errorProperties, applicationContext);
+  }
 
 //    @Override
 //    protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
@@ -56,24 +58,25 @@ public class JsonErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
 //        return errorAttributes;
 //    }
 
-    @Override
-    @SuppressWarnings("all")
-    protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
-        return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
-    }
+  @Override
+  @SuppressWarnings("all")
+  protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
+    return RouterFunctions.route(RequestPredicates.all(), this::renderErrorResponse);
+  }
 
 //    @Override
 //    protected int getHttpStatus(Map<String, Object> errorAttributes) {
 //        return HttpStatus.INTERNAL_SERVER_ERROR.value();
 //    }
 
-    @Override
-    protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
-        Map<String, Object> error = getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.ALL));
-        int errorStatus = getHttpStatus(error);
-        Throwable throwable = getError(request);
-        return ServerResponse.status(errorStatus)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(BodyInserters.fromValue(exceptionHandlerAdvice.handle(throwable)));
-    }
+  @Override
+  protected Mono<ServerResponse> renderErrorResponse(ServerRequest request) {
+    Map<String, Object> error = getErrorAttributes(request,
+        getErrorAttributeOptions(request, MediaType.ALL));
+    int errorStatus = getHttpStatus(error);
+    Throwable throwable = getError(request);
+    return ServerResponse.status(errorStatus)
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(exceptionHandlerAdvice.handle(throwable)));
+  }
 }

@@ -11,14 +11,15 @@ import org.apache.ibatis.session.SqlSession;
 public class MybatisMapperProxyFactory<T> extends MapperProxyFactory<T> {
 
 
-    public MybatisMapperProxyFactory(Class<T> mapperInterface) {
-        super(mapperInterface);
-    }
+  public MybatisMapperProxyFactory(Class<T> mapperInterface) {
+    super(mapperInterface);
+  }
 
-    @Override
-    public T newInstance(SqlSession sqlSession) {
-        final MapperProxy<T> mapperProxy = new MybatisMapperProxy<T>(sqlSession, getMapperInterface(), getMethodCache());
-        return newInstance(mapperProxy);
-    }
+  @Override
+  public T newInstance(SqlSession sqlSession) {
+    final MapperProxy<T> mapperProxy = new MybatisMapperProxy<T>(sqlSession, getMapperInterface(),
+        getMethodCache());
+    return newInstance(mapperProxy);
+  }
 
 }

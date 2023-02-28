@@ -11,6 +11,6 @@ import cn.flood.delay.redis.enums.ConsumeStatus;
  */
 public interface Callback<T> {
 
-	ConsumeStatus execute(T data);
+  ConsumeStatus execute(T data);
 
 }

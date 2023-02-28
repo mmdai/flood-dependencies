@@ -20,23 +20,25 @@ import org.springframework.context.annotation.Bean;
 @AutoConfigureAfter(RlockAutoConfiguration.class)
 public class IdempotentAutoConfiguration {
 
-	/**
-	 * 切面 拦截处理所有 @Idempotent
-	 * @return Aspect
-	 */
-	@Bean
-	public IdempotentAspect idempotentAspect() {
-		return new IdempotentAspect();
-	}
+  /**
+   * 切面 拦截处理所有 @Idempotent
+   *
+   * @return Aspect
+   */
+  @Bean
+  public IdempotentAspect idempotentAspect() {
+    return new IdempotentAspect();
+  }
 
-	/**
-	 * key 解析器
-	 * @return KeyResolver
-	 */
-	@Bean
-	@ConditionalOnMissingBean(KeyResolver.class)
-	public KeyResolver keyResolver() {
-		return new ExpressionResolver();
-	}
+  /**
+   * key 解析器
+   *
+   * @return KeyResolver
+   */
+  @Bean
+  @ConditionalOnMissingBean(KeyResolver.class)
+  public KeyResolver keyResolver() {
+    return new ExpressionResolver();
+  }
 
 }

@@ -3,57 +3,54 @@ package cn.flood.db.elasticsearch.util;
 import java.util.List;
 
 /**
- * program: esdemo
- * description: mapping注解对应的数据载体类
- * author: X-Pacific zhang
- * create: 2019-01-29 15:09
+ * program: esdemo description: mapping注解对应的数据载体类 author: X-Pacific zhang create: 2019-01-29 15:09
  **/
 public class MappingData {
 
-    String field_name;
-    /**
-     * 数据类型（包含 关键字类型）
-     *
-     * @return
-     */
-    String datatype;
-    /**
-     * 间接关键字
-     *
-     * @return
-     */
-    boolean keyword;
+  String field_name;
+  /**
+   * 数据类型（包含 关键字类型）
+   *
+   * @return
+   */
+  String datatype;
+  /**
+   * 间接关键字
+   *
+   * @return
+   */
+  boolean keyword;
 
-    /**
-     * 关键字忽略字数
-     *
-     * @return
-     */
-    int ignore_above;
-    /**
-     * 是否支持ngram，高效全文搜索提示
-     *
-     * @return
-     */
-    boolean ngram;
-    /**
-     * 是否支持suggest，高效前缀搜索提示
-     *
-     * @return
-     */
-    boolean suggest;
-    /**
-     * 索引分词器设置
-     *
-     * @return
-     */
-    String analyzer;
-    /**
-     * 搜索内容分词器设置
-     *
-     * @return
-     */
-    String search_analyzer;
+  /**
+   * 关键字忽略字数
+   *
+   * @return
+   */
+  int ignore_above;
+  /**
+   * 是否支持ngram，高效全文搜索提示
+   *
+   * @return
+   */
+  boolean ngram;
+  /**
+   * 是否支持suggest，高效前缀搜索提示
+   *
+   * @return
+   */
+  boolean suggest;
+  /**
+   * 索引分词器设置
+   *
+   * @return
+   */
+  String analyzer;
+  /**
+   * 搜索内容分词器设置
+   *
+   * @return
+   */
+  String search_analyzer;
 
 //    /**
 //     * 是否分析字段
@@ -62,99 +59,97 @@ public class MappingData {
 //    String analyzedtype;
 
 
+  private boolean allow_search;
+
+  private String copy_to;
+
+  private String null_value;
+
+  private Class nested_class;
 
 
-    private boolean allow_search;
+  /**
+   * 时间格式
+   */
+  private List<String> dateFormat;
 
-    private String copy_to;
+  /**
+   * normalizer名称指定，需要配合自定义settings使用
+   */
+  private String normalizer;
 
-    private String null_value;
+  public List<String> getDateFormat() {
+    return dateFormat;
+  }
 
-    private Class nested_class;
-
-
-    /**
-     * 时间格式
-     */
-    private List<String> dateFormat;
-
-    /**
-     * normalizer名称指定，需要配合自定义settings使用
-     */
-    private String normalizer;
-
-    public List<String> getDateFormat() {
-        return dateFormat;
-    }
-
-    public void setDateFormat(List<String> dateFormat) {
-        this.dateFormat = dateFormat;
-    }
+  public void setDateFormat(List<String> dateFormat) {
+    this.dateFormat = dateFormat;
+  }
 
 
-    public String getField_name() {
-        return field_name;
-    }
+  public String getField_name() {
+    return field_name;
+  }
 
-    public void setField_name(String field_name) {
-        this.field_name = field_name;
-    }
+  public void setField_name(String field_name) {
+    this.field_name = field_name;
+  }
 
-    public String getDatatype() {
-        return datatype;
-    }
+  public String getDatatype() {
+    return datatype;
+  }
 
-    public void setDatatype(String datatype) {
-        this.datatype = datatype;
-    }
+  public void setDatatype(String datatype) {
+    this.datatype = datatype;
+  }
 
-    public boolean isKeyword() {
-        return keyword;
-    }
+  public boolean isKeyword() {
+    return keyword;
+  }
 
-    public void setKeyword(boolean keyword) {
-        this.keyword = keyword;
-    }
+  public void setKeyword(boolean keyword) {
+    this.keyword = keyword;
+  }
 
-    public int getIgnore_above() {
-        return ignore_above;
-    }
+  public int getIgnore_above() {
+    return ignore_above;
+  }
 
-    public void setIgnore_above(int ignore_above) {
-        this.ignore_above = ignore_above;
-    }
+  public void setIgnore_above(int ignore_above) {
+    this.ignore_above = ignore_above;
+  }
 
-    public boolean isNgram() {
-        return ngram;
-    }
+  public boolean isNgram() {
+    return ngram;
+  }
 
-    public void setNgram(boolean ngram) {
-        this.ngram = ngram;
-    }
+  public void setNgram(boolean ngram) {
+    this.ngram = ngram;
+  }
 
-    public boolean isSuggest() {
-        return suggest;
-    }
+  public boolean isSuggest() {
+    return suggest;
+  }
 
-    public void setSuggest(boolean suggest) {
-        this.suggest = suggest;
-    }
+  public void setSuggest(boolean suggest) {
+    this.suggest = suggest;
+  }
 
-    public String getAnalyzer() {
-        return analyzer;
-    }
+  public String getAnalyzer() {
+    return analyzer;
+  }
 
-    public void setAnalyzer(String analyzer) {
-        this.analyzer = analyzer;
-    }
+  public void setAnalyzer(String analyzer) {
+    this.analyzer = analyzer;
+  }
 
-    public String getSearch_analyzer() {
-        return search_analyzer;
-    }
+  public String getSearch_analyzer() {
+    return search_analyzer;
+  }
 
-    public void setSearch_analyzer(String search_analyzer) {
-        this.search_analyzer = search_analyzer;
-    }
+  public void setSearch_analyzer(String search_analyzer) {
+    this.search_analyzer = search_analyzer;
+  }
 
 //    public String getAnalyzedtype() {
 //        return analyzedtype;
@@ -165,43 +160,43 @@ public class MappingData {
 //    }
 
 
-    public String getCopy_to() {
-        return copy_to;
-    }
+  public String getCopy_to() {
+    return copy_to;
+  }
 
-    public void setCopy_to(String copy_to) {
-        this.copy_to = copy_to;
-    }
+  public void setCopy_to(String copy_to) {
+    this.copy_to = copy_to;
+  }
 
-    public boolean isAllow_search() {
-        return allow_search;
-    }
+  public boolean isAllow_search() {
+    return allow_search;
+  }
 
-    public void setAllow_search(boolean allow_search) {
-        this.allow_search = allow_search;
-    }
+  public void setAllow_search(boolean allow_search) {
+    this.allow_search = allow_search;
+  }
 
-    public String getNull_value() {
-        return null_value;
-    }
+  public String getNull_value() {
+    return null_value;
+  }
 
-    public void setNull_value(String null_value) {
-        this.null_value = null_value;
-    }
+  public void setNull_value(String null_value) {
+    this.null_value = null_value;
+  }
 
-    public Class getNested_class() {
-        return nested_class;
-    }
+  public Class getNested_class() {
+    return nested_class;
+  }
 
-    public void setNested_class(Class nested_class) {
-        this.nested_class = nested_class;
-    }
+  public void setNested_class(Class nested_class) {
+    this.nested_class = nested_class;
+  }
 
-    public String getNormalizer() {
-        return normalizer;
-    }
+  public String getNormalizer() {
+    return normalizer;
+  }
 
-    public void setNormalizer(String normalizer) {
-        this.normalizer = normalizer;
-    }
+  public void setNormalizer(String normalizer) {
+    this.normalizer = normalizer;
+  }
 }

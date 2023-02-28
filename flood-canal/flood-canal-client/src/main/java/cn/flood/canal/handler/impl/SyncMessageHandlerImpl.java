@@ -1,12 +1,10 @@
 package cn.flood.canal.handler.impl;
 
-import com.alibaba.otter.canal.protocol.CanalEntry;
-import com.alibaba.otter.canal.protocol.Message;
 import cn.flood.canal.handler.AbstractMessageHandler;
 import cn.flood.canal.handler.EntryHandler;
 import cn.flood.canal.handler.RowDataHandler;
-
-
+import com.alibaba.otter.canal.protocol.CanalEntry;
+import com.alibaba.otter.canal.protocol.Message;
 import java.util.List;
 
 /**
@@ -16,14 +14,15 @@ import java.util.List;
 public class SyncMessageHandlerImpl extends AbstractMessageHandler {
 
 
-    public SyncMessageHandlerImpl(List<? extends EntryHandler> entryHandlers, RowDataHandler<CanalEntry.RowData> rowDataHandler) {
-        super(entryHandlers, rowDataHandler);
-    }
+  public SyncMessageHandlerImpl(List<? extends EntryHandler> entryHandlers,
+      RowDataHandler<CanalEntry.RowData> rowDataHandler) {
+    super(entryHandlers, rowDataHandler);
+  }
 
-    @Override
-    public void handleMessage(Message message) {
-        super.handleMessage(message);
-    }
+  @Override
+  public void handleMessage(Message message) {
+    super.handleMessage(message);
+  }
 
 
 }

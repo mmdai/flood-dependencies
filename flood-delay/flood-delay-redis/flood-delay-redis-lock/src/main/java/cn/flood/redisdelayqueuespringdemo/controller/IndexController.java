@@ -19,24 +19,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class IndexController {
 
 
-    @Autowired
-    private TestService testService;
+  @Autowired
+  private TestService testService;
 
-    @Autowired
-    private TimeoutService timeoutService;
+  @Autowired
+  private TimeoutService timeoutService;
 
-    @RequestMapping(value = "/lock")
-    public void testLock(){
-        timeoutService.foo2();
-    }
+  @RequestMapping(value = "/lock")
+  public void testLock() {
+    timeoutService.foo2();
+  }
 
-    @RequestMapping(value = "/idempotent/{param}")
-    public void apiIdempotent(@PathVariable("param") String param) throws Exception {
+  @RequestMapping(value = "/idempotent/{param}")
+  public void apiIdempotent(@PathVariable("param") String param) throws Exception {
 
-        System.out.println(testService.getValue(param));
-    }
-
-
+    System.out.println(testService.getValue(param));
+  }
 
 
 }

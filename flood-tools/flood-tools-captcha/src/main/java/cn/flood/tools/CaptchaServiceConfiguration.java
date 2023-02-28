@@ -10,14 +10,14 @@ import org.springframework.context.annotation.Bean;
 @AutoConfiguration
 public class CaptchaServiceConfiguration {
 
-    @Bean
-    public TokenFactory getTokenFactory(){
-        return new TokenFactory();
-    }
+  @Bean
+  public TokenFactory getTokenFactory() {
+    return new TokenFactory();
+  }
 
-    @Bean
-    public TokenService getTokenService(@Autowired TokenFactory tokenFactory){
-        return new TokenService(tokenFactory);
-    }
+  @Bean
+  public TokenService getTokenService(@Autowired TokenFactory tokenFactory) {
+    return new TokenService(tokenFactory);
+  }
 
 }

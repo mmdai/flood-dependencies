@@ -2,19 +2,16 @@ package cn.flood.db.elasticsearch.auto.autoindex;
 
 import cn.flood.db.elasticsearch.annotation.EnableESTools;
 import cn.flood.db.elasticsearch.auto.util.GetBasePackage;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.type.AnnotationMetadata;
 
 /**
- * program: esdemo
- * description: spring初始化完成后通过读取启动类EnableESTools注解上entity的路径（或者不配置，取启动类所在包），得到路径后委托ESEntityScanner扫描相关路径
- * ESCRegistrar进行调用
- * author: X-Pacific zhang
- * create: 2019-01-30 17:22
+ * program: esdemo description: spring初始化完成后通过读取启动类EnableESTools注解上entity的路径（或者不配置，取启动类所在包），得到路径后委托ESEntityScanner扫描相关路径
+ * ESCRegistrar进行调用 author: X-Pacific zhang create: 2019-01-30 17:22
  **/
 //@Configuration
 public class ESIndexProcessor {//implements BeanFactoryPostProcessor, ApplicationContextAware, BeanFactoryAware {
@@ -24,27 +21,31 @@ public class ESIndexProcessor {//implements BeanFactoryPostProcessor, Applicatio
 //    private BeanFactory beanFactory;
 
 
-    /**
-     * 扫描ESMetaData注解的类entitypath或根路径的entity托管给spring
-     * @param beanFactory
-     * @throws BeansException
-     */
-    public void scan(AnnotationMetadata annotationMetadata,BeanFactory beanFactory,ApplicationContext applicationContext){
-        GetBasePackage getBasePackage = new GetBasePackage(EnableESTools.class);
-        ESEntityScanner scanner = new ESEntityScanner((BeanDefinitionRegistry) beanFactory);
-        scanner.setResourceLoader(applicationContext);
-        scanner.scan(getBasePackage.getEntityPackage(annotationMetadata).toArray(String[]::new));
-    }
+  /**
+   * 扫描ESMetaData注解的类entitypath或根路径的entity托管给spring
+   *
+   * @param beanFactory
+   * @throws BeansException
+   */
+  public void scan(AnnotationMetadata annotationMetadata, BeanFactory beanFactory,
+      ApplicationContext applicationContext) {
+    GetBasePackage getBasePackage = new GetBasePackage(EnableESTools.class);
+    ESEntityScanner scanner = new ESEntityScanner((BeanDefinitionRegistry) beanFactory);
+    scanner.setResourceLoader(applicationContext);
+    scanner.scan(getBasePackage.getEntityPackage(annotationMetadata).toArray(String[]::new));
+  }
 
 
-    /**
-     * 扫描ESMetaData注解的类托管给spring
-     * @param beanFactory
-     * @throws BeansException
-     */
+  /**
+   * 扫描ESMetaData注解的类托管给spring
+   *
+   * @param beanFactory
+   * @throws BeansException
+   */
 //    @Override
-    @Deprecated
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+  @Deprecated
+  public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+      throws BeansException {
 //        Map<String,Object> beans = applicationContext.getBeansWithAnnotation(EnableESTools.class);
 //        List<String> basePackages = AutoConfigurationPackages.get(this.beanFactory);
 //        //根据@EnableESTools的配置获取要扫描的包，最终获得配置了ESMetaData注解的Entity
@@ -81,7 +82,7 @@ public class ESIndexProcessor {//implements BeanFactoryPostProcessor, Applicatio
 //            scanner.setResourceLoader(this.applicationContext);
 //            scanner.scan(eps);
 //        }
-    }
+  }
 
 //    @Override
 //    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

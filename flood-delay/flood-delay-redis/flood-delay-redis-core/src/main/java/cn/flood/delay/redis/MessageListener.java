@@ -11,6 +11,6 @@ import cn.flood.delay.redis.core.Callback;
  */
 public interface MessageListener<T> extends Callback<T> {
 
-	String topic();
+  String topic();
 
 }

@@ -8,8 +8,9 @@ import org.springframework.context.annotation.Bean;
 @AutoConfiguration
 public class StringContextConfiguration {
 
-    @Bean
-    public SpringBeanManager getSpringContextManager(@Autowired ApplicationContext applicationContext){
-        return new SpringBeanManager(applicationContext);
-    }
+  @Bean
+  public SpringBeanManager getSpringContextManager(
+      @Autowired ApplicationContext applicationContext) {
+    return new SpringBeanManager(applicationContext);
+  }
 }

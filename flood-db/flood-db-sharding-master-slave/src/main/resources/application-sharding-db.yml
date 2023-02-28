@@ -6,12 +6,12 @@
 sharding:
   jdbc:
     data-sources:
-      ds_master: 
+      ds_master:
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/flood_mgr?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         username: 'root'
         password: 'root'
-      ds_slave0: 
+      ds_slave0:
         driverClassName: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://localhost:3306/sharding_flood-mgr?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
         username: 'root'

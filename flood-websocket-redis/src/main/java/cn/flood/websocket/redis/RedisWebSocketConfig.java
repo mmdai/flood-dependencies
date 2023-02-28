@@ -1,7 +1,6 @@
 package cn.flood.websocket.redis;
 
 
-
 import cn.flood.websocket.WebSocketManager;
 import cn.flood.websocket.redis.action.ActionConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,43 +20,45 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 
 @AutoConfiguration
 @Import({ActionConfig.class})
-public class RedisWebSocketConfig implements ApplicationContextAware{
-    private ApplicationContext applicationContext;
+public class RedisWebSocketConfig implements ApplicationContextAware {
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+  private ApplicationContext applicationContext;
 
-    public ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
+  public ApplicationContext getApplicationContext() {
+    return applicationContext;
+  }
 
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) {
+    this.applicationContext = applicationContext;
+  }
 
+  @Bean(WebSocketManager.WEBSOCKET_MANAGER_NAME)
+  @ConditionalOnMissingBean(name = WebSocketManager.WEBSOCKET_MANAGER_NAME)
+  public RedisWebSocketManager webSocketManager(
+      @Autowired RedisTemplate<String, Object> redisTemplate) {
+    return new RedisWebSocketManager(redisTemplate);
+  }
 
-    @Bean(WebSocketManager.WEBSOCKET_MANAGER_NAME)
-    @ConditionalOnMissingBean(name = WebSocketManager.WEBSOCKET_MANAGER_NAME)
-    public RedisWebSocketManager webSocketManager(@Autowired RedisTemplate<String, Object> redisTemplate) {
-        return new RedisWebSocketManager(redisTemplate);
-    }
+  @Bean(RedisReceiver.REDIS_RECEIVER_NAME)
+  public RedisReceiver redisReceiver() {
+    return new DefaultRedisReceiver(getApplicationContext());
+  }
 
-    @Bean(RedisReceiver.REDIS_RECEIVER_NAME)
-    public RedisReceiver redisReceiver() {
-        return new DefaultRedisReceiver(getApplicationContext());
-    }
+  @Bean
+  public MessageListenerAdapter listenerAdapter(
+      @Qualifier(RedisReceiver.REDIS_RECEIVER_NAME) RedisReceiver redisReceiver) {
+    return new MessageListenerAdapter(redisReceiver, RedisReceiver.RECEIVER_METHOD_NAME);
+  }
 
-    @Bean
-    public MessageListenerAdapter listenerAdapter(@Qualifier(RedisReceiver.REDIS_RECEIVER_NAME) RedisReceiver redisReceiver) {
-        return new MessageListenerAdapter(redisReceiver, RedisReceiver.RECEIVER_METHOD_NAME);
-    }
+  @Bean("redisMessageListenerContainer")
+  public RedisMessageListenerContainer redisMessageListenerContainer(
+      RedisConnectionFactory connectionFactory,
+      MessageListenerAdapter listenerAdapter) {
 
-    @Bean("redisMessageListenerContainer")
-    public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory,
-            MessageListenerAdapter listenerAdapter) {
-
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(listenerAdapter, new PatternTopic(RedisWebSocketManager.CHANNEL));
-        return container;
-    }
+    RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+    container.setConnectionFactory(connectionFactory);
+    container.addMessageListener(listenerAdapter, new PatternTopic(RedisWebSocketManager.CHANNEL));
+    return container;
+  }
 }

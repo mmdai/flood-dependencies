@@ -16,16 +16,18 @@
 package cn.flood.tools.uid.baidu.utils;
 
 /**
- * {@code ValuedEnum} defines an enumeration which is bounded to a value, you
- * may implements this interface when you defines such kind of enumeration, that
- * you can use {@link EnumUtils} to simplify parse and valueOf operation.
- *  
+ * {@code ValuedEnum} defines an enumeration which is bounded to a value, you may implements this
+ * interface when you defines such kind of enumeration, that you can use {@link EnumUtils} to
+ * simplify parse and valueOf operation.
+ *
  * @author yutianbao
  */
 public interface ValuedEnum<T> {
-    /**
-     * 获取值
-     * @return 枚举映射的值
-     */
-    T value();
+
+  /**
+   * 获取值
+   *
+   * @return 枚举映射的值
+   */
+  T value();
 }

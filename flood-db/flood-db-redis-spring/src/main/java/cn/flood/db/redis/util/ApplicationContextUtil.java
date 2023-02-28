@@ -6,32 +6,35 @@ import org.springframework.context.ApplicationContextAware;
 
 /**
  * 上下文工具
-* @author daimm
+ *
+ * @author daimm
  * @date 2019/4/8
  * @since 1.8
  */
 public class ApplicationContextUtil implements ApplicationContextAware {
-    /**
-     * 上下文
-     */
-    private static ApplicationContext applicationContext;
 
-    /**
-     * 设置上下文
-     * @param applicationContext 上下文实例
-     * @throws BeansException
-     */
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        ApplicationContextUtil.applicationContext = applicationContext;
-    }
+  /**
+   * 上下文
+   */
+  private static ApplicationContext applicationContext;
 
-    /**
-     * 获取上下文
-     *
-     * @return 返回上下文工具
-     */
-    public static ApplicationContext getContext() {
-        return ApplicationContextUtil.applicationContext;
-    }
+  /**
+   * 获取上下文
+   *
+   * @return 返回上下文工具
+   */
+  public static ApplicationContext getContext() {
+    return ApplicationContextUtil.applicationContext;
+  }
+
+  /**
+   * 设置上下文
+   *
+   * @param applicationContext 上下文实例
+   * @throws BeansException
+   */
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    ApplicationContextUtil.applicationContext = applicationContext;
+  }
 }

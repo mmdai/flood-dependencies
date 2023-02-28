@@ -9,27 +9,24 @@ package cn.flood.cloud.seata.idempotent;
  */
 public interface ResultHolder {
 
-    /**
-     *
-     * @param actionClass
-     * @param xid
-     * @param context
-     */
-    void setResult(String actionClass, String xid, String context);
+  /**
+   * @param actionClass
+   * @param xid
+   * @param context
+   */
+  void setResult(String actionClass, String xid, String context);
 
-    /**
-     *
-     * @param actionClass
-     * @param xid
-     * @return
-     */
-    boolean getResult(String actionClass, String xid);
+  /**
+   * @param actionClass
+   * @param xid
+   * @return
+   */
+  boolean getResult(String actionClass, String xid);
 
-    /**
-     *
-     * @param actionClass
-     * @param xid
-     */
-    void removeResult(String actionClass, String xid);
+  /**
+   * @param actionClass
+   * @param xid
+   */
+  void removeResult(String actionClass, String xid);
 
 }

@@ -3,7 +3,6 @@ package cn.flood.delay.redis;
 import cn.flood.delay.redis.core.Message;
 import cn.flood.delay.redis.core.RDQueue;
 import cn.flood.delay.redis.exception.RDQException;
-
 import java.io.Serializable;
 import java.util.function.BiConsumer;
 
@@ -13,40 +12,44 @@ import java.util.function.BiConsumer;
  */
 public class RDQueueTemplate {
 
-	private RDQueue rdQueue;
+  private RDQueue rdQueue;
 
-	public RDQueueTemplate(RDQueue rdQueue) {
-		this.rdQueue = rdQueue;
-	}
+  public RDQueueTemplate(RDQueue rdQueue) {
+    this.rdQueue = rdQueue;
+  }
 
-	/**
-	 * 同步推送消息到延时队列
-	 * @param message
-	 * @param <T>
-	 * @throws RDQException
-	 */
-	public <T extends Serializable> void syncPush(Message<T> message) throws RDQException {
-		rdQueue.syncPushDelayQueue(message);
-	}
+  /**
+   * 同步推送消息到延时队列
+   *
+   * @param message
+   * @param <T>
+   * @throws RDQException
+   */
+  public <T extends Serializable> void syncPush(Message<T> message) throws RDQException {
+    rdQueue.syncPushDelayQueue(message);
+  }
 
-	/**
-	 * 异步推送消息到延时队列
-	 * @param message
-	 * @param action
-	 * @param <T>
-	 * @throws RDQException
-	 */
-	public <T extends Serializable> void asyncPush(Message<T> message, BiConsumer<String, ? super Throwable> action) throws RDQException {
-		rdQueue.asyncPushDelayQueue(message, action);
-	}
+  /**
+   * 异步推送消息到延时队列
+   *
+   * @param message
+   * @param action
+   * @param <T>
+   * @throws RDQException
+   */
+  public <T extends Serializable> void asyncPush(Message<T> message,
+      BiConsumer<String, ? super Throwable> action) throws RDQException {
+    rdQueue.asyncPushDelayQueue(message, action);
+  }
 
-	/**
-	 * 删除延时队列里的消息
-	 * @param key
-	 * @throws RDQException
-	 */
-	public void delete(String key) throws RDQException {
-		rdQueue.delDelayQueue(key);
-	}
+  /**
+   * 删除延时队列里的消息
+   *
+   * @param key
+   * @throws RDQException
+   */
+  public void delete(String key) throws RDQException {
+    rdQueue.delDelayQueue(key);
+  }
 
 }

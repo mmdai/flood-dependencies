@@ -18,25 +18,25 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(Config.class)
 public class RDQueueAutoConfiguration {
 
-	@Autowired
-	private Config config;
+  @Autowired
+  private Config config;
 
 
-	@Bean(destroyMethod = "shutdown")
-	@ConditionalOnMissingBean
-	public RDQueue rdQueue() {
-		return new RDQueue(config);
-	}
+  @Bean(destroyMethod = "shutdown")
+  @ConditionalOnMissingBean
+  public RDQueue rdQueue() {
+    return new RDQueue(config);
+  }
 
-	@Bean
-	@ConditionalOnMissingBean
-	public RDQueueTemplate rdQueueTemplate(@Autowired RDQueue rdQueue) {
-		return new RDQueueTemplate(rdQueue);
-	}
+  @Bean
+  @ConditionalOnMissingBean
+  public RDQueueTemplate rdQueueTemplate(@Autowired RDQueue rdQueue) {
+    return new RDQueueTemplate(rdQueue);
+  }
 
-	@Bean
-	public MessageListenerContainer messageListenerContainer(@Autowired Config config) {
-		return new MessageListenerContainer(config);
-	}
+  @Bean
+  public MessageListenerContainer messageListenerContainer(@Autowired Config config) {
+    return new MessageListenerContainer(config);
+  }
 
 }

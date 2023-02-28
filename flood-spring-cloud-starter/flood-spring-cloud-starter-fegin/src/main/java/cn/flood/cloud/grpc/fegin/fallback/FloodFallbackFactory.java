@@ -13,17 +13,18 @@ import org.springframework.cloud.openfeign.FallbackFactory;
  */
 @AllArgsConstructor
 public class FloodFallbackFactory<T> implements FallbackFactory<T> {
-	private final Target<T> target;
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public T create(Throwable cause) {
-		final Class<T> targetType = target.type();
-		final String targetName = target.name();
-		Enhancer enhancer = new Enhancer();
-		enhancer.setSuperclass(targetType);
-		enhancer.setUseCache(true);
-		enhancer.setCallback(new FloodFeignFallback<>(targetType, targetName, cause));
-		return (T) enhancer.create();
-	}
+  private final Target<T> target;
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public T create(Throwable cause) {
+    final Class<T> targetType = target.type();
+    final String targetName = target.name();
+    Enhancer enhancer = new Enhancer();
+    enhancer.setSuperclass(targetType);
+    enhancer.setUseCache(true);
+    enhancer.setCallback(new FloodFeignFallback<>(targetType, targetName, cause));
+    return (T) enhancer.create();
+  }
 }

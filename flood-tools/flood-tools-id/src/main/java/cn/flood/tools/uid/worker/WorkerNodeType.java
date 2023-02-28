@@ -21,34 +21,34 @@ import cn.flood.tools.uid.baidu.utils.ValuedEnum;
  * WorkerNodeType
  * <li>CONTAINER: Such as Docker
  * <li>ACTUAL: Actual machine
- * 
+ *
  * @author yutianbao
  */
 public enum WorkerNodeType implements ValuedEnum<Integer> {
-    /**
-     * docker容器节点
-     */
-    CONTAINER(1),
-    /**
-     * 普通节点
-     */
-    ACTUAL(2);
-    
-    /**
-     * Lock type
-     */
-    private final Integer type;
+  /**
+   * docker容器节点
+   */
+  CONTAINER(1),
+  /**
+   * 普通节点
+   */
+  ACTUAL(2);
 
-    /**
-     * Constructor with field of type
-     */
-    private WorkerNodeType(Integer type) {
-        this.type = type;
-    }
+  /**
+   * Lock type
+   */
+  private final Integer type;
 
-    @Override
-    public Integer value() {
-        return type;
-    }
+  /**
+   * Constructor with field of type
+   */
+  private WorkerNodeType(Integer type) {
+    this.type = type;
+  }
+
+  @Override
+  public Integer value() {
+    return type;
+  }
 
 }

@@ -7,19 +7,19 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 /**
  * 审计日志配置
- *
  */
 @Setter
 @Getter
 @ConfigurationProperties(prefix = "spring.audit-log")
 @RefreshScope
 public class AuditLogProperties {
-    /**
-     * 是否开启审计日志
-     */
-    private Boolean enabled = false;
-    /**
-     * 日志记录类型(logger/redis/db/es)
-     */
-    private String logType;
+
+  /**
+   * 是否开启审计日志
+   */
+  private Boolean enabled = false;
+  /**
+   * 日志记录类型(logger/redis/db/es)
+   */
+  private String logType;
 }

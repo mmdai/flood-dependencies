@@ -12,14 +12,14 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class GsonUtil {
 
-	private static final Gson GSON = new Gson();
+  private static final Gson GSON = new Gson();
 
-	public String toJson(Object value) {
-		return GSON.toJson(value);
-	}
+  public String toJson(Object value) {
+    return GSON.toJson(value);
+  }
 
-	public <T> T fromJson(String value, Class<T> type) {
-		return GSON.fromJson(value, type);
-	}
+  public <T> T fromJson(String value, Class<T> type) {
+    return GSON.fromJson(value, type);
+  }
 
 }

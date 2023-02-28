@@ -1,11 +1,8 @@
 package cn.flood.redisdelayqueuespringdemo.bo;
 
+import java.io.Serializable;
 import lombok.Data;
 import lombok.ToString;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * <p>Title: User</p>
@@ -19,10 +16,11 @@ import java.util.Date;
 @Data
 @ToString
 public class User implements Serializable {
-    private int id;
-    private String name;
 
-    private String content;
+  private int id;
+  private String name;
+
+  private String content;
 
 //    private LocalDateTime dateTime;
 }

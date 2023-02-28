@@ -8,9 +8,10 @@ import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
  * @author mmdai
  */
 public class UnauthorizedException extends TokenException {
-    private static final long serialVersionUID = 8109117719383003891L;
 
-    public UnauthorizedException() {
-        super(GlobalErrorCodeEnum.FORBIDDEN.getCode(), GlobalErrorCodeEnum.FORBIDDEN.getZhName());
-    }
+  private static final long serialVersionUID = 8109117719383003891L;
+
+  public UnauthorizedException() {
+    super(GlobalErrorCodeEnum.FORBIDDEN.getCode(), GlobalErrorCodeEnum.FORBIDDEN.getZhName());
+  }
 }

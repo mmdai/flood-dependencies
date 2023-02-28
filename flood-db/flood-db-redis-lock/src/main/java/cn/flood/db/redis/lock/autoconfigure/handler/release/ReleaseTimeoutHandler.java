@@ -11,5 +11,5 @@ import cn.flood.db.redis.lock.autoconfigure.model.LockInfo;
  **/
 public interface ReleaseTimeoutHandler {
 
-    void handle(LockInfo lockInfo) throws RlockTimeoutException;
+  void handle(LockInfo lockInfo) throws RlockTimeoutException;
 }
