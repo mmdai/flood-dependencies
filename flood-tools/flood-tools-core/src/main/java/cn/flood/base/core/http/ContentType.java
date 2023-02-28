@@ -23,10 +23,7 @@ import org.springframework.util.ObjectUtils;
  * @date 2019年7月19日
  */
 public class ContentType {
-
-  // defaults
-  public static final ContentType DEFAULT_TEXT = TEXT_PLAIN;
-  public static final ContentType DEFAULT_BINARY = APPLICATION_OCTET_STREAM;
+  
   // constants、
   public static final ContentType ALL = create("*/*", (Charset) null);
   public static final ContentType TEXT_XML = create("text/xml", StandardCharsets.UTF_8);
@@ -109,7 +106,7 @@ public class ContentType {
    * @return {@link ContentType}
    */
   public static ContentType create(final String mimeType, final Charset charset) {
-    return ObjectUtils.isEmpty(mimeType) ? ContentType.DEFAULT_BINARY :
+    return ObjectUtils.isEmpty(mimeType) ? ContentType.APPLICATION_OCTET_STREAM :
         new ContentType(mimeType.toLowerCase(Locale.CHINESE), charset);
   }
 
@@ -142,11 +139,11 @@ public class ContentType {
    */
   public static ContentType parseByFileExt(String fileExt) {
     if (ObjectUtils.isEmpty(fileExt)) {
-      return DEFAULT_BINARY;
+      return APPLICATION_OCTET_STREAM;
     }
     fileExt = fileExt.toLowerCase();
     ContentType contentType = SUPPORT_FILE_EXTS.get(fileExt);
-    return (contentType == null) ? DEFAULT_BINARY : contentType;
+    return (contentType == null) ? APPLICATION_OCTET_STREAM : contentType;
   }
 
   /**
