@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    status : 这个用于设置log4j2自身内部的信息输出,可以不设置,当设置成TRACE时,会看到log4j2内部各种详细输出
+    monitorInterval : Log4j能够自动检测修改配置文件和重新配置本身, 设置间隔秒数。此处表示每隔几秒重读一次配置文件.
+        日志级别：TRACE < DEBUG < INFO < WARN < ERROR < FATAL
+        如果设置为WARN，则低于WARN的信息都不会输出
+-->
+<configuration status="info" monitorInterval="1800">
+     <!-- 参数配置 -->
+     <properties>
+        <!-- 配置日志文件输出目录 -->
+        <property name="LOG_HOME">/app/data-platform/log/powderjob-server</property>
+        <!-- info日志路径 -->
+        <property name="INFO_LOG_HOME">${LOG_HOME}/info</property>
+        <!-- error日志路径 -->
+        <property name="ERROR_LOG_HOME">${LOG_HOME}/error</property>
+        <!-- 日志输出日志级别-->
+        <property name="OUT_LOG_LEVEL">INFO</property>
+        <!-- 日志输出文件名 -->
+        <property name="FILE_NAME">logger</property>
+        <!-- 日志格式化 -->
+        <Property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [job-admin] [%thread] %-5level %X{requestId} %logger - %msg%n</Property>
+    </properties>
+    
+    <!-- 日志配置Appender -->
+    <appenders>
+        <!-- 输出控制台的配置 -->
+        <console name="Console" target="SYSTEM_OUT">
+        	<!-- ThresholdFilter：配置的日志过滤
+                如果要输出的日志级别在当前级别及以上，则为match，否则走mismatch
+                ACCEPT： 执行日志输出；DENY： 不执行日志输出，结束过滤；NEUTRAL： 不执行日志输出，执行下一个过滤器 -->
+            <!--<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>-->
+            <!-- 日志输出的格式
+                %d{yyyy-MM-dd HH:mm:ss, SSS} : 日志生产时间,输出到毫秒的时间
+                %-5p (level) : 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0
+                %c (logger) : logger的名称(%logger)
+                %t (thread) : 输出当前线程名称
+                %m : 日志内容，即 logger.info("message")
+                %n : 换行符
+                %C : Java类名(%F)
+                %L : 行号
+                %M : 方法名
+                %l : 输出语句所在的行数, 包括类名、方法名、文件名、行数
+                hostName : 本地机器名
+                hostAddress : 本地ip地址
+             -->
+            <!--输出日志的格式-->
+            <PatternLayout pattern="${PATTERN}"/>
+        </console>
+        
+        <!-- 文件输出配置，文件会打印出所有信息，这个log每次运行程序会自动清空，由append属性决定，适合临时测试用 -->
+        <!--<File name="log" fileName="log/test.log" append="false">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </File>-->
+        
+        <!--
+            	循环日志文件配置：日志文件大于阀值的时候，就开始写一个新的日志文件
+           		这个会打印出所有的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档
+            	fileName    : 指定当前日志文件的位置和文件名称
+            	filePattern : 指定当发生Rolling时，文件的转移和重命名规则
+            	SizeBasedTriggeringPolicy : 指定当文件体积大于size指定的值时，触发Rolling
+            	DefaultRolloverStrategy : 指定最多保存的文件个数
+            	TimeBasedTriggeringPolicy : 这个配置需要和filePattern结合使用
+                                注意filePattern中配置的文件重命名规则是${FILE_NAME}_%d{yyyy-MM-dd}_%i，最小的时间粒度是dd，即天，
+                TimeBasedTriggeringPolicy指定的size是1，结合起来就是每1天生成一个新文件
+        -->
+        <RollingRandomAccessFile name="RollingFileInfo" fileName="${INFO_LOG_HOME}/${FILE_NAME}-info.log" filePattern="${INFO_LOG_HOME}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd-HH}-%i.log.zip">
+            <PatternLayout pattern="${PATTERN}"/>
+            <!-- <Filters>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="WARN" onMatch="NEUTRAL" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters> -->
+            <Policies>
+            	  <!-- 每1天更新一次，此处查阅网上和官方示例中，都是以小时出现，我测试是以天为单位。（官方文档中说明按item类型是否是小时，但没找到在哪里设置item类型）另有其他各类型策略，请参阅官方文档 --> 
+				  <!-- TimeBasedTriggeringPolicy需要和filePattern配套使用，由于filePattern配置的时间最小粒度是dd天，所以表示每一天新建一个文件保存日志。SizeBasedTriggeringPolicy表示当文件大小大于指定size时，生成新的文件保存日志。 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 M"/>
+            </Policies>	
+            <!-- 最多备份30天以内的日志，此处为策略限制，Delete中可以按自己需要用正则表达式编写 -->  
+        	<!-- DefaultRolloverStrategy字段中加入max=“30”经测试是配合SizeBasedTriggeringPolicy限制%i的存在数量，并没有发现是网上流传的是最多保存多少个文件的限制，也或许是我写的有问题 -->  
+            <DefaultRolloverStrategy max="100">  
+            	<!--!Note: 这里的age必须和filePattern协调, 后者是精确到HH, 这里就要写成xH, xd就不起作用 另外, 数字最好>2, 否则可能造成删除的时候, 最近的文件还处于被占用状态,导致删除不成功!-->
+                <!--7天-->
+            	<Delete basePath="${INFO_LOG_HOME}/" maxDepth="2">  
+                     <IfFileName glob="*/info-*.log.zip" />
+                     <IfLastModified age="168H" />
+            	</Delete>  
+            </DefaultRolloverStrategy> 
+        </RollingRandomAccessFile>
+        
+        <RollingRandomAccessFile name="RollingFileError" fileName="${ERROR_LOG_HOME}/${FILE_NAME}-error.log" filePattern="${ERROR_LOG_HOME}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd-HH}-%i.log.zip">
+            <PatternLayout pattern="${PATTERN}"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+            	  <!-- 每1天更新一次，此处查阅网上和官方示例中，都是以小时出现，我测试是以天为单位。（官方文档中说明按item类型是否是小时，但没找到在哪里设置item类型）另有其他各类型策略，请参阅官方文档 --> 
+				  <!-- TimeBasedTriggeringPolicy需要和filePattern配套使用，由于filePattern配置的时间最小粒度是dd天，所以表示每一天新建一个文件保存日志。SizeBasedTriggeringPolicy表示当文件大小大于指定size时，生成新的文件保存日志。 -->
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 M"/>
+            </Policies>	
+            <!-- 最多备份30天以内的日志，此处为策略限制，Delete中可以按自己需要用正则表达式编写 -->  
+        	<!-- DefaultRolloverStrategy字段中加入max=“30”经测试是配合SizeBasedTriggeringPolicy限制%i的存在数量，并没有发现是网上流传的是最多保存多少个文件的限制，也或许是我写的有问题 -->  
+            <DefaultRolloverStrategy max="10">  
+            	<!--!Note: 这里的age必须和filePattern协调, 后者是精确到HH, 这里就要写成xH, xd就不起作用
+                    另外, 数字最好>2, 否则可能造成删除的时候, 最近的文件还处于被占用状态,导致删除不成功!-->
+                <!--7天-->
+            	<Delete basePath="${ERROR_LOG_HOME}/" maxDepth="2">  
+                    <IfFileName glob="*/error-*.log.zip" />
+	            	<IfLastModified age="168H" />
+            	</Delete>  
+            </DefaultRolloverStrategy>  
+        </RollingRandomAccessFile>
+        
+        <!-- 异步日志配置 -->
+        <Async name="AsyncAll">
+        	 <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileError"/>
+            <AppenderRef ref="RollingFileInfo"/>
+        </Async>
+
+        <!-- 同步日志配置 -->
+        <Async name="SyncAll">
+        	 <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFileError"/>
+            <AppenderRef ref="RollingFileInfo"/>
+        </Async>
+        
+    </appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <!--过滤掉spring和hibernate的一些无用的debug信息-->
+        <Logger name="org.springframework" level="${OUT_LOG_LEVEL}" includeLocation="true" additivity="false">
+			<AppenderRef ref="AsyncAll"/>
+		</Logger>
+		<Logger name="druid.sql" level="${OUT_LOG_LEVEL}" includeLocation="true" additivity="false">
+            <AppenderRef ref="AsyncAll"/>
+        </Logger>
+		<Logger name="org.mybatis" level="${OUT_LOG_LEVEL}" includeLocation="true" additivity="false">
+			<AppenderRef ref="AsyncAll"/>
+		</Logger>
+		
+		<Logger name="com.netflix" level="${OUT_LOG_LEVEL}" includeLocation="true" additivity="false">
+			<AppenderRef ref="AsyncAll"/>
+		</Logger>
+       
+       <!--
+            Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。
+            level:日志输出级别，共有8个级别，按照从低到高为：All < Trace < Debug < Info < Warn < Error < Fatal < OFF.
+            name:用来指定该Logger所适用的类或者类所在的包全路径,继承自Root节点.
+        　　　　   AppenderRef：Logger的子节点，用来指定该日志输出到哪个Appender,如果没有指定，就会默认继承自Root.
+                        如果指定了，那么会在指定的这个Appender和Root的Appender中都会输出，
+                        此时我们可以设置Logger的additivity="false"只在自定义的Appender中进行输出。
+        -->
+        <Root level="${OUT_LOG_LEVEL}">
+            <AppenderRef ref="AsyncAll"/>
+        </Root>
+    </loggers>
+
+</configuration>

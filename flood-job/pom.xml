@@ -13,6 +13,7 @@
 
     <modules>
         <module>flood-xxl-job</module>
+        <module>flood-power-job</module>
     </modules>
 
 

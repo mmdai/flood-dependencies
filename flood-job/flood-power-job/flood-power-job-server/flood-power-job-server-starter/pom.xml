@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>flood-power-job-server</artifactId>
+        <groupId>io.github.mmdai</groupId>
+        <version>2.7.8.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>flood-power-job-server-starter</artifactId>
+
+    <dependencies>
+
+        <!-- SpringBoot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <!-- swagger2 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>guava</artifactId>
+                    <groupId>com.google.guava</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- swagger2 ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <!-- banner -->
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-tools-banner</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-power-job-server-extension</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-power-job-server-remote</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-power-job-server-common</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-power-job-server-monitor</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-power-job-server-persistence</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-power-job-server-core</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mmdai</groupId>
+            <artifactId>flood-power-job-server-migrate</artifactId>
+            <version>${flood.version}</version>
+        </dependency>
+    </dependencies>
+</project>
