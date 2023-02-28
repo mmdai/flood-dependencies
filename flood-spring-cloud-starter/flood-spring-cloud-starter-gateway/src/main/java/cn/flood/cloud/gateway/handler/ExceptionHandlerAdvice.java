@@ -10,7 +10,6 @@ import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 
@@ -36,7 +35,7 @@ public class ExceptionHandlerAdvice {
       return ResultWapper.wrap(ResultCode.GATEWAY_TIMEOUT.getCode(),
           ResultCode.GATEWAY_TIMEOUT.getMsg());
     } else {
-      return ResultWapper.wrap(ResultCode.ERROR.getCode(), ResultCode.ERROR.getMsg());
+      return ResultWapper.error();
     }
   }
 
@@ -47,28 +46,24 @@ public class ExceptionHandlerAdvice {
   }
 
   @ExceptionHandler(value = {NotFoundException.class})
-  @ResponseStatus(HttpStatus.NOT_FOUND)
   public Result<?> handle(NotFoundException ex) {
     log.error("not found exception:{}", ex.getMessage());
     return ResultWapper.wrap(ResultCode.NOT_FOUND.getCode(), ResultCode.NOT_FOUND.getMsg());
   }
 
   @ExceptionHandler(value = {RuntimeException.class})
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Result<?> handle(RuntimeException ex) {
     log.error("runtime exception:{}", ex.getMessage());
-    return ResultWapper.error(ex.getMessage());
+    return ResultWapper.error();
   }
 
   @ExceptionHandler(value = {Exception.class})
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Result<?> handle(Exception ex) {
     log.error("exception:{}", ex.getMessage());
     return ResultWapper.error();
   }
 
   @ExceptionHandler(value = {Throwable.class})
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Result<?> handle(Throwable throwable) {
     Result result = ResultWapper.error();
     if (throwable instanceof ResponseStatusException) {

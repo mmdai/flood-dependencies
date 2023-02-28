@@ -25,7 +25,7 @@ public class Result<T> {
   /**
    * 错误信息.
    */
-  public static final String ERROR_MESSAGE = "系统内部错误";
+  public static final String ERROR_MESSAGE = "系统内部错误，请稍后再试";
   /**
    * 编号
    **/
