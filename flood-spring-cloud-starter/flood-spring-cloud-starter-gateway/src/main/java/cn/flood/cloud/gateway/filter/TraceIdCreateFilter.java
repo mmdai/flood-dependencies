@@ -28,11 +28,12 @@ public class TraceIdCreateFilter implements GlobalFilter, Ordered {
   public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
     // 开启traceId追踪ID生成
     String traceId = MDCTraceUtils.createTraceId();
-    ServerHttpRequest newRequest = exchange.getRequest().mutate()
-        .header(MDCTraceUtils.TRACE_ID_HEADER, traceId).build();
-    ServerWebExchange build = exchange.mutate().request(newRequest).build();
+    ServerHttpRequest newRequest = exchange.getRequest().mutate().headers(httpHeaders -> {
+      httpHeaders.add(MDCTraceUtils.TRACE_ID_HEADER, traceId);
+    }).build();
+    exchange.mutate().request(newRequest);
     MDCTraceUtils.putTraceId(traceId);
-    return chain.filter(build);
+    return chain.filter(exchange);
   }
 
 

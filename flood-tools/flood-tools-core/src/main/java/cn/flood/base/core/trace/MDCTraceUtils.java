@@ -18,6 +18,11 @@ public class MDCTraceUtils {
    */
   public static final String TRACE_ID_HEADER = "x-traceId-header";
 
+  /**
+   * 上下文
+   */
+  public static final String CONTEXT_KEY = "CONTEXT_KEY";
+
 
   /**
    * filter的优先级，值越低越优先

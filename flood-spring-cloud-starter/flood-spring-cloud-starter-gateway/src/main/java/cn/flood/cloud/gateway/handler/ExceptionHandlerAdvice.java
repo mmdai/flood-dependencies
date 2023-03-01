@@ -44,25 +44,25 @@ public class ExceptionHandlerAdvice {
 
   @ExceptionHandler(value = {ConnectTimeoutException.class})
   public Result<?> handle(ConnectTimeoutException ex) {
-    log.error("connect timeout exception:{}", ex.getMessage());
+    log.error("connect timeout exception:{}", ex.getLocalizedMessage());
     return ResultWapper.wrap(ResultCode.TIME_ERROR.getCode(), ResultCode.TIME_ERROR.getMsg());
   }
 
   @ExceptionHandler(value = {NotFoundException.class})
   public Result<?> handle(NotFoundException ex) {
-    log.error("not found exception:{}", ex.getMessage());
+    log.error("not found exception:{}", ex.getLocalizedMessage());
     return ResultWapper.wrap(ResultCode.NOT_FOUND.getCode(), ResultCode.NOT_FOUND.getMsg());
   }
 
   @ExceptionHandler(value = {RuntimeException.class})
   public Result<?> handle(RuntimeException ex) {
-    log.error("runtime exception:{}", ex.getMessage());
+    log.error("runtime exception:{}", ex.getLocalizedMessage());
     return ResultWapper.error();
   }
 
   @ExceptionHandler(value = {Exception.class})
   public Result<?> handle(Exception ex) {
-    log.error("exception:{}", ex.getMessage());
+    log.error("exception:{}", ex.getLocalizedMessage());
     return ResultWapper.error();
   }
 
