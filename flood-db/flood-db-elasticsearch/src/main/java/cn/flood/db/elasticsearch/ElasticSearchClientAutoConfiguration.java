@@ -21,7 +21,7 @@ import org.springframework.util.StringUtils;
  * ES 自动配置
  */
 @EnableConfigurationProperties({ElasticsearchProperties.class, RestClientPoolProperties.class})
-@ComponentScan("cn.flood.elasticsearch")
+@ComponentScan("cn.flood.db.elasticsearch")
 public class ElasticSearchClientAutoConfiguration {
 
   @Bean(destroyMethod = "close")//这个close是调用RestHighLevelClient中的close
