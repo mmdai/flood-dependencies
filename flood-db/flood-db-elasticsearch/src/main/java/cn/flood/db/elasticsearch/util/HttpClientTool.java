@@ -218,11 +218,11 @@ public class HttpClientTool {
      */
     public static final String CHARSET = UTF_8;
     /*从连接池中取连接的超时时间*/
-    public static final int CONMANTIMEOUT = 2000;
+    public static final int CONMANTIMEOUT = 5000;
     /*连接超时*/
-    public static final int CONTIMEOUT = 2000;
+    public static final int CONTIMEOUT = 5000;
     /*请求超时*/
-    public static final int SOTIMEOUT = 5000;
+    public static final int SOTIMEOUT = 20000;
     /*设置整个连接池最大连接数*/
     public static final int MAXTOTAL = 64;
     /*根据连接到的主机对MaxTotal的一个细分*/
