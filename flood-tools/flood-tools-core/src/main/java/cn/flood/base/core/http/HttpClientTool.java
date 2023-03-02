@@ -439,8 +439,8 @@ public class HttpClientTool {
     /*请求超时*/
     public static final int SOTIMEOUT = 20000;
     /*设置整个连接池最大连接数*/
-    public static final int MAXTOTAL = 256;
+    public static final int MAXTOTAL = 64;
     /*根据连接到的主机对MaxTotal的一个细分*/
-    public static final int DEFAULTMAXPERROUTE = 64;
+    public static final int DEFAULTMAXPERROUTE = 32;
   }
 }

@@ -226,6 +226,6 @@ public class HttpClientTool {
     /*设置整个连接池最大连接数*/
     public static final int MAXTOTAL = 64;
     /*根据连接到的主机对MaxTotal的一个细分*/
-    public static final int DEFAULTMAXPERROUTE = 6;
+    public static final int DEFAULTMAXPERROUTE = 16;
   }
 }
