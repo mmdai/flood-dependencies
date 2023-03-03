@@ -62,7 +62,6 @@
       <dependency>
           <groupId>com.fasterxml.jackson.datatype</groupId>
           <artifactId>jackson-datatype-jsr310</artifactId>
-          <version>${jackson.datatype.version}</version>
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->

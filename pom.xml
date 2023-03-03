@@ -36,7 +36,6 @@
 	  <google.annotations.version>3.0.1</google.annotations.version>
 	  <!-- base -->
 	  <commons.collections4.version>4.4</commons.collections4.version>
-	  <jackson.datatype.version>2.14.2</jackson.datatype.version>
 	  <transmittable.thread.local.version>2.14.2</transmittable.thread.local.version>
 	  <classindex.version>3.13</classindex.version>
 	  <protostuff.version>1.2.2</protostuff.version>
