@@ -16,9 +16,9 @@ import org.springframework.data.redis.core.ValueOperations;
 
 public class RedisWebSocketManager extends MemWebSocketManager {
 
-  public static final String CHANNEL = "websocket";
+  public static final String CHANNEL = "ws";
 
-  private static final String COUNT_KEY = "RedisWebSocketManagerCountKey";
+  private static final String COUNT_KEY = "countKey";
 
   protected RedisTemplate<String, Object> redisTemplate;
 
@@ -59,7 +59,7 @@ public class RedisWebSocketManager extends MemWebSocketManager {
     ResponseData responseData = new ResponseData("message", message);
     map.put(Action.MESSAGE, responseData);
     // 发布消息到redis频道上 redis转发到订阅的各个socket实例上 收到信息 根据标识 获取到session 发给自己对应的客户端
-    redisTemplate.convertAndSend(getChannel(), Func.toJson(map));
+    redisTemplate.convertAndSend(getChannel(),  Func.toJson(map));
   }
 
   @Override
@@ -71,7 +71,7 @@ public class RedisWebSocketManager extends MemWebSocketManager {
     ResponseData responseData = new ResponseData("message", bytes);
     map.put(Action.MESSAGE, responseData);
     // 发布消息到redis频道上 redis转发到订阅的各个socket实例上 收到信息 根据标识 获取到session 发给自己对应的客户端
-    redisTemplate.convertAndSend(getChannel(), Func.toJson(map));
+    redisTemplate.convertAndSend(getChannel(),  Func.toJson(map));
   }
 
 

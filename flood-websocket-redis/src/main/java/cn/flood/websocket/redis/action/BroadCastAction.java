@@ -3,7 +3,7 @@ package cn.flood.websocket.redis.action;
 
 import cn.flood.websocket.WebSocketManager;
 import cn.flood.websocket.utils.WebSocketUtil;
-import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * { "action":"broadcast", "message":"xxxxxxxxxxxxx" } 广播给所有的websocket发送消息 action
