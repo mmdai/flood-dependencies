@@ -115,6 +115,7 @@ public class FloodFeignSentinel {
           return fallbackInstance;
         }
       });
+      super.options(options);
       super.contract(new SentinelContractHolder(contract));
       super.requestInterceptor(new RequestInterceptor() {
         @Override
