@@ -253,32 +253,30 @@
 	</pluginRepositories>
   
   <modules>
+		<!-- flood对外依赖包 -->
+		<module>flood-dependencies-parent</module>
     <!-- 基础base -->
     <module>flood-base</module>
     <!-- 基础swagger -->
-    <module>flood-api</module>
-	<!-- 基础flood 数据库 -->
-	<module>flood-db</module>
-	<!-- 基础flood-oauth -->
-	<module>flood-oauth</module>
-	<!-- flood 工具 -->
-	<module>flood-tools</module>
-	<!-- flood mq -->
-	<module>flood-mq</module>
-    <!-- flood对外依赖包 -->
-    <module>flood-dependencies-parent</module>
-	<!-- socket -->
-	<module>flood-websocket-redis</module>
-	<!-- flood-delay 延时消息队列中心 -->
-	<module>flood-delay</module>
-	<!-- flood-job 调度中心 -->
-	<module>flood-job</module>
-	  <!-- canal-client-->
-	<module>flood-canal</module>
-	<!-- flood cloud -->
-	<module>flood-spring-cloud-starter</module>
-
-
+  	<module>flood-api</module>
+		<!-- 基础flood 数据库 -->
+		<module>flood-db</module>
+		<!-- 基础flood-oauth -->
+		<module>flood-oauth</module>
+		<!-- flood 工具 -->
+		<module>flood-tools</module>
+		<!-- flood mq -->
+		<module>flood-mq</module>
+		<!-- socket -->
+		<module>flood-websocket-redis</module>
+		<!-- flood-delay 延时消息队列中心 -->
+		<module>flood-delay</module>
+		<!-- flood-job 调度中心 -->
+		<module>flood-job</module>
+		<!-- canal-client-->
+		<module>flood-canal</module>
+		<!-- flood cloud -->
+		<module>flood-spring-cloud-starter</module>
   </modules>
 
 
