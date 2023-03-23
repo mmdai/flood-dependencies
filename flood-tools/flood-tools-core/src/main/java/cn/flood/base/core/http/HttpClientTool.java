@@ -52,6 +52,7 @@ import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 /**
  * http客户端工具
@@ -147,9 +148,13 @@ public class HttpClientTool {
     return getHttpClient(credential(username, password));
   }
 
-  //设置头信息，e.g. content-type 等
+  /**
+   * 设置头信息，e.g. content-type 等
+   * @param req
+   * @param headers
+   */
   private static void setHeaders(HttpRequestBase req, Map<String, String> headers) {
-    if (headers == null) {
+    if (CollectionUtils.isEmpty(headers)) {
       return;
     }
     for (Map.Entry<String, String> header : headers.entrySet()) {
@@ -168,9 +173,21 @@ public class HttpClientTool {
    * @throws CoreException
    */
   public static String getMethod(String url, Map<String, Object> map) throws CoreException {
-    return getMethod(url, map, null, null);
+    return getMethod(url, map, null, null, null);
   }
 
+  /**
+   * 执行http get Unicode请求
+   *
+   * @param url
+   * @param map
+   * @param headers
+   * @return
+   * @throws CoreException
+   */
+  public static String getMethod(String url, Map<String, Object> map, Map<String, String> headers) throws CoreException {
+    return getMethod(url, map, headers, null, null);
+  }
   /**
    * 执行http get Unicode请求
    *
@@ -183,8 +200,25 @@ public class HttpClientTool {
    */
   public static String getMethod(String url, Map<String, Object> map, String username,
       String password) throws CoreException {
+    return getMethod(url, map, null, username, password);
+  }
+
+  /**
+   * 执行http get Unicode请求
+   *
+   * @param url      请求地址
+   * @param map      请求参数
+   * @param headers  headers
+   * @param username 用户名
+   * @param password 密码
+   * @return
+   * @throws CoreException
+   */
+  public static String getMethod(String url, Map<String, Object> map, Map<String, String> headers, String username,
+      String password) throws CoreException {
     HttpClient httpClient = getHttpClientMethod(username, password);
     HttpRequestBase request = httpRequestGet(url, map, true);
+    setHeaders(request, headers);
     return excute(request, httpClient);
   }
 
@@ -198,7 +232,21 @@ public class HttpClientTool {
    */
   public static String getMethodUnUnicode(String url, Map<String, Object> map)
       throws CoreException {
-    return getMethodUnUnicode(url, map, null, null);
+    return getMethodUnUnicode(url, map, null, null, null);
+  }
+
+  /**
+   * 执行http get 不Unicode请求
+   *
+   * @param url
+   * @param map
+   * @param headers
+   * @return
+   * @throws CoreException
+   */
+  public static String getMethodUnUnicode(String url, Map<String, Object> map, Map<String, String> headers)
+      throws CoreException {
+    return getMethodUnUnicode(url, map,  headers, null, null);
   }
 
   /**
@@ -213,8 +261,25 @@ public class HttpClientTool {
    */
   public static String getMethodUnUnicode(String url, Map<String, Object> map, String username,
       String password) throws CoreException {
+    return getMethodUnUnicode(url, map, null, username, password);
+  }
+
+  /**
+   * 执行http get 不Unicode请求
+   *
+   * @param url      请求地址
+   * @param map      请求参数
+   * @param headers  headers
+   * @param username 用户名
+   * @param password 密码
+   * @return
+   * @throws CoreException
+   */
+  public static String getMethodUnUnicode(String url, Map<String, Object> map, Map<String, String> headers, String username,
+      String password) throws CoreException {
     HttpClient httpClient = getHttpClientMethod(username, password);
     HttpRequestBase request = httpRequestGet(url, map, false);
+    setHeaders(request, headers);
     return excute(request, httpClient);
   }
 
@@ -227,7 +292,20 @@ public class HttpClientTool {
    * @throws CoreException
    */
   public static String postMethod(String url, Map<String, Object> map) throws CoreException {
-    return postMethod(url, map, null, null);
+    return postMethod(url, map, null,null, null);
+  }
+
+  /**
+   * 执行http post 请求
+   *
+   * @param url 请求地址
+   * @param map 请求参数
+   * @param headers headers
+   * @return
+   * @throws CoreException
+   */
+  public static String postMethod(String url, Map<String, Object> map, Map<String, String> headers) throws CoreException {
+    return postMethod(url, map, headers, null, null);
   }
 
   /**
@@ -242,8 +320,25 @@ public class HttpClientTool {
    */
   public static String postMethod(String url, Map<String, Object> map, String username,
       String password) throws CoreException {
+    return postMethod(url, map, null, username, password);
+  }
+
+  /**
+   * 执行http post 请求
+   *
+   * @param url      请求地址
+   * @param map      请求参数
+   * @param headers  headers
+   * @param username 用户名
+   * @param password 密码
+   * @return
+   * @throws CoreException
+   */
+  public static String postMethod(String url, Map<String, Object> map, Map<String, String> headers, String username,
+      String password) throws CoreException {
     HttpClient httpClient = getHttpClientMethod(username, password);
     HttpRequestBase request = httpRequestPost(url, map, true);
+    setHeaders(request, headers);
     return excute(request, httpClient);
   }
 
@@ -263,6 +358,20 @@ public class HttpClientTool {
   /**
    * 执行http post 不Unicode请求
    *
+   * @param url 请求地址
+   * @param map 请求参数
+   * @param headers headers
+   * @return
+   * @throws CoreException
+   */
+  public static String postMethodUnUnicode(String url, Map<String, Object> map, Map<String, String> headers)
+      throws CoreException {
+    return postMethodUnUnicode(url, map, headers, null, null);
+  }
+
+  /**
+   * 执行http post 不Unicode请求
+   *
    * @param url      请求地址
    * @param map      请求参数
    * @param username 用户名
@@ -272,8 +381,24 @@ public class HttpClientTool {
    */
   public static String postMethodUnUnicode(String url, Map<String, Object> map, String username,
       String password) throws CoreException {
+    return postMethodUnUnicode(url, map, null, username, password);
+  }
+
+  /**
+   * 执行http post 不Unicode请求
+   *
+   * @param url      请求地址
+   * @param map      请求参数
+   * @param headers  headers
+   * @param password 密码
+   * @return
+   * @throws CoreException
+   */
+  public static String postMethodUnUnicode(String url, Map<String, Object> map, Map<String, String> headers, String username,
+      String password) throws CoreException {
     HttpClient httpClient = getHttpClientMethod(username, password);
     HttpRequestBase request = httpRequestPost(url, map, false);
+    setHeaders(request, headers);
     return excute(request, httpClient);
   }
 
@@ -286,7 +411,20 @@ public class HttpClientTool {
    * @throws CoreException
    */
   public static String postMethodJson(String url, Map<String, Object> map) throws CoreException {
-    return postMethodJson(url, map, null, null);
+    return postMethodJson(url, map, null, null, null);
+  }
+
+  /**
+   * 执行http post json请求
+   *
+   * @param url 请求地址
+   * @param map 请求参数
+   * @param headers headers
+   * @return
+   * @throws CoreException
+   */
+  public static String postMethodJson(String url, Map<String, Object> map, Map<String, String> headers) throws CoreException {
+    return postMethodJson(url, map, headers, null, null);
   }
 
   /**
@@ -301,11 +439,29 @@ public class HttpClientTool {
    */
   public static String postMethodJson(String url, Map<String, Object> map, String username,
       String password) throws CoreException {
+    return postMethodJson(url, map, null, username, password);
+  }
+
+  /**
+   * 执行http post json请求
+   *
+   * @param url      请求地址
+   * @param map      请求参数
+   * @param headers  headers
+   * @param username 用户名
+   * @param password 密码
+   * @return
+   * @throws CoreException
+   */
+  public static String postMethodJson(String url, Map<String, Object> map, Map<String, String> headers, String username,
+      String password) throws CoreException {
     HttpClient httpClient = getHttpClientMethod(username, password);
     String obj = Func.toJson(map);
     HttpRequestBase request = httpRequestJson(url, obj);
+    setHeaders(request, headers);
     return excute(request, httpClient);
   }
+  
 
 
   public static HttpClient getHttpClientMethod(String username, String password) {
