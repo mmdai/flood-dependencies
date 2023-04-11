@@ -82,11 +82,11 @@
 					<include>**/*.wsdl</include>
 					<include>**/*.xsd</include>
 					<include>**/*.ftl</include>
-                	<include>**/*.lic</include>
-                	<include>**/*.store</include>
-                	<include>**/*.factories</include>
+          <include>**/*.lic</include>
+          <include>**/*.store</include>
+          <include>**/*.factories</include>
 					<include>**/*.imports</include>
-                	<include>**/static.*</include>
+          <include>**/static.*</include>
 					<include>**/flowable.*</include>
 					<include>**/processes.*</include>
 					<include>**/stencilset.*</include>
