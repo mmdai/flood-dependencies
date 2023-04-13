@@ -31,7 +31,10 @@
 	  <commons.io.version>2.11.0</commons.io.version>
 	  <disruptor.version>3.4.4</disruptor.version>
 	  <!-- swagger -->
-	  <knife4j.version>3.0.3</knife4j.version>
+		<swagger.version>2.2.8</swagger.version>
+		<springdoc.version>1.6.15</springdoc.version>
+		<knife4j.version>4.0.0</knife4j.version>
+
 	  <guava.version>31.1-jre</guava.version>
 	  <google.annotations.version>3.0.1</google.annotations.version>
 	  <!-- base -->
@@ -168,16 +171,16 @@
 		    <type>pom</type>
 		    <scope>import</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.plugin</groupId>
-			<artifactId>spring-plugin-core</artifactId>
-			<version>${spring.plugin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.plugin</groupId>
-			<artifactId>spring-plugin-metadata</artifactId>
-			<version>${spring.plugin.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.plugin</groupId>-->
+<!--			<artifactId>spring-plugin-core</artifactId>-->
+<!--			<version>${spring.plugin.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.plugin</groupId>-->
+<!--			<artifactId>spring-plugin-metadata</artifactId>-->
+<!--			<version>${spring.plugin.version}</version>-->
+<!--		</dependency>-->
 	</dependencies>
    </dependencyManagement>
 

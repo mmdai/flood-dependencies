@@ -61,7 +61,7 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
     //注册中心无实例 抛出异常
     if (Func.isEmpty(serviceInstances)) {
       log.warn("No instance available for {}", serviceId);
-      throw new NotFoundException("No instance available for " + serviceId);
+      throw new NotFoundException(String.format("No instance available for %s", serviceId));
     }
 
     List<ServiceInstance> serviceInstancesList = serviceInstances;
