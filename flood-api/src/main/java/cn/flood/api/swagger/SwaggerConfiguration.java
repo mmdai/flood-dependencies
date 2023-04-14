@@ -2,12 +2,11 @@ package cn.flood.api.swagger;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import io.swagger.annotations.ApiOperation;
-import java.lang.reflect.Field;
+import io.swagger.models.Response;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -15,41 +14,35 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.Profiles;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
 import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * SwaggerConfig
  */
 @AutoConfiguration
-@EnableOpenApi
+@EnableSwagger2WebMvc
 @EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
@@ -72,47 +65,47 @@ public class SwaggerConfiguration {
   @Autowired
   private Environment environment;
 
-  /**
-   * 解决与knife4j有兼容问题
-   *
-   * @return
-   * @see https://github.com/xiaoymin/swagger-bootstrap-ui/issues/396
-   * @see https://github.com/springfox/springfox/issues/3462
-   */
-  @Bean
-  public static BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
-    return new BeanPostProcessor() {
-
-      @Override
-      public Object postProcessAfterInitialization(Object bean, String beanName)
-          throws BeansException {
-        if (bean instanceof WebMvcRequestHandlerProvider) {
-          customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
-        }
-        return bean;
-      }
-
-      private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(
-          List<T> mappings) {
-        List<T> copy = mappings.stream()
-            .filter(mapping -> mapping.getPatternParser() == null)
-            .collect(Collectors.toList());
-        mappings.clear();
-        mappings.addAll(copy);
-      }
-
-      @SuppressWarnings("unchecked")
-      private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean) {
-        try {
-          Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
-          field.setAccessible(true);
-          return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-          throw new IllegalStateException(e);
-        }
-      }
-    };
-  }
+//  /**
+//   * 解决与knife4j有兼容问题
+//   *
+//   * @return
+//   * @see https://github.com/xiaoymin/swagger-bootstrap-ui/issues/396
+//   * @see https://github.com/springfox/springfox/issues/3462
+//   */
+//  @Bean
+//  public static BeanPostProcessor springfoxHandlerProviderBeanPostProcessor() {
+//    return new BeanPostProcessor() {
+//
+//      @Override
+//      public Object postProcessAfterInitialization(Object bean, String beanName)
+//          throws BeansException {
+//        if (bean instanceof WebMvcRequestHandlerProvider) {
+//          customizeSpringfoxHandlerMappings(getHandlerMappings(bean));
+//        }
+//        return bean;
+//      }
+//
+//      private <T extends RequestMappingInfoHandlerMapping> void customizeSpringfoxHandlerMappings(
+//          List<T> mappings) {
+//        List<T> copy = mappings.stream()
+//            .filter(mapping -> mapping.getPatternParser() == null)
+//            .collect(Collectors.toList());
+//        mappings.clear();
+//        mappings.addAll(copy);
+//      }
+//
+//      @SuppressWarnings("unchecked")
+//      private List<RequestMappingInfoHandlerMapping> getHandlerMappings(Object bean) {
+//        try {
+//          Field field = ReflectionUtils.findField(bean.getClass(), "handlerMappings");
+//          field.setAccessible(true);
+//          return (List<RequestMappingInfoHandlerMapping>) field.get(bean);
+//        } catch (IllegalArgumentException | IllegalAccessException e) {
+//          throw new IllegalStateException(e);
+//        }
+//      }
+//    };
+//  }
 
   @Bean
   public Docket swaggerApi() {
@@ -123,7 +116,7 @@ public class SwaggerConfiguration {
     //设置要暴漏接口文档的配置环境
     Profiles profile = Profiles.of("dev", "test");
     boolean flag = environment.acceptsProfiles(profile);
-    return new Docket(DocumentationType.OAS_30).
+    return new Docket(DocumentationType.SWAGGER_2).
         enable(flag).apiInfo(apiInfo()).
         select().
         apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class)).
@@ -167,7 +160,7 @@ public class SwaggerConfiguration {
         .securityReferences(defaultAuth())
 //				.forPaths(PathSelectors.regex("^(?!(oss!pub)).*$"))
         //配置只是该请求头的显示
-        .operationSelector(o -> o.requestMappingPattern().matches("/.*"))
+//        .operationSelector(o -> o.requestMappingPattern().matches("/.*"))
         .build());
     return securityContexts;
   }

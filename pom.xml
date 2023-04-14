@@ -20,7 +20,7 @@
 	  <spring-boot-dependencies.version>2.7.10</spring-boot-dependencies.version>
 	  <spring-cloud-dependencies.version>2021.0.6</spring-cloud-dependencies.version>
 	  <spring-cloud-alibaba-dependencies.version>2021.0.4.0</spring-cloud-alibaba-dependencies.version>
-	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
+<!--	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>-->
 	  <!-- nacos -->
 	  <nacos.version>2.2.0</nacos.version>
 	  <!-- seata -->
@@ -31,7 +31,7 @@
 	  <commons.io.version>2.11.0</commons.io.version>
 	  <disruptor.version>3.4.4</disruptor.version>
 	  <!-- swagger -->
-	  <knife4j.version>3.0.3</knife4j.version>
+	  <knife4j.version>4.1.0</knife4j.version>
 	  <guava.version>31.1-jre</guava.version>
 	  <google.annotations.version>3.0.1</google.annotations.version>
 	  <!-- base -->
@@ -168,16 +168,16 @@
 		    <type>pom</type>
 		    <scope>import</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.plugin</groupId>
-			<artifactId>spring-plugin-core</artifactId>
-			<version>${spring.plugin.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.plugin</groupId>
-			<artifactId>spring-plugin-metadata</artifactId>
-			<version>${spring.plugin.version}</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.plugin</groupId>-->
+<!--			<artifactId>spring-plugin-core</artifactId>-->
+<!--			<version>${spring.plugin.version}</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.plugin</groupId>-->
+<!--			<artifactId>spring-plugin-metadata</artifactId>-->
+<!--			<version>${spring.plugin.version}</version>-->
+<!--		</dependency>-->
 	</dependencies>
    </dependencyManagement>
 

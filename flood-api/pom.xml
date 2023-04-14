@@ -14,28 +14,32 @@
   <url>http://maven.apache.org</url>
 
   <dependencies>
-      <dependency>
-          <groupId>org.springframework.plugin</groupId>
-          <artifactId>spring-plugin-core</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>org.springframework.plugin</groupId>
-          <artifactId>spring-plugin-metadata</artifactId>
-      </dependency>
+<!--      <dependency>-->
+<!--          <groupId>org.springframework.plugin</groupId>-->
+<!--          <artifactId>spring-plugin-core</artifactId>-->
+<!--      </dependency>-->
+<!--      <dependency>-->
+<!--          <groupId>org.springframework.plugin</groupId>-->
+<!--          <artifactId>spring-plugin-metadata</artifactId>-->
+<!--      </dependency>-->
       <!-- swagger -->
       <dependency>
           <groupId>com.github.xiaoymin</groupId>
-          <artifactId>knife4j-spring-boot-starter</artifactId>
+          <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
           <version>${knife4j.version}</version>
           <exclusions>
-              <exclusion>
-                  <groupId>org.springframework.plugin</groupId>
-                  <artifactId>spring-plugin-core</artifactId>
-              </exclusion>
-              <exclusion>
-                  <groupId>org.springframework.plugin</groupId>
-                  <artifactId>spring-plugin-metadata</artifactId>
-              </exclusion>
+            <exclusion>
+              <groupId>com.google.guava</groupId>
+              <artifactId>guava</artifactId>
+            </exclusion>
+<!--              <exclusion>-->
+<!--                  <groupId>org.springframework.plugin</groupId>-->
+<!--                  <artifactId>spring-plugin-core</artifactId>-->
+<!--              </exclusion>-->
+<!--              <exclusion>-->
+<!--                  <groupId>org.springframework.plugin</groupId>-->
+<!--                  <artifactId>spring-plugin-metadata</artifactId>-->
+<!--              </exclusion>-->
           </exclusions>
       </dependency>
       <dependency>

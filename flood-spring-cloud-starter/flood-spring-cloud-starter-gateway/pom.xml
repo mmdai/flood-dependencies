@@ -67,17 +67,17 @@
             </exclusions>
         </dependency>
         <!-- swagger模块 -->
-        <dependency>
-            <groupId>org.springframework.plugin</groupId>
-            <artifactId>spring-plugin-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.plugin</groupId>
-            <artifactId>spring-plugin-metadata</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.plugin</groupId>-->
+<!--            <artifactId>spring-plugin-core</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.plugin</groupId>-->
+<!--            <artifactId>spring-plugin-metadata</artifactId>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
         </dependency>
         <!-- banner -->
