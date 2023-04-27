@@ -39,18 +39,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @see cn.flood.base.mvc.annotation.ApiVersion
  */
 @SuppressWarnings("unchecked")
-public class FloodSpringMvcContract extends SpringMvcContract {
+public class ProtoSpringMvcContract extends SpringMvcContract {
 
 
-  public FloodSpringMvcContract() {
+  public ProtoSpringMvcContract() {
     this(getDefaultAnnotatedArgumentsProcessors());
   }
 
-  public FloodSpringMvcContract(List<AnnotatedParameterProcessor> annotatedParameterProcessors) {
+  public ProtoSpringMvcContract(List<AnnotatedParameterProcessor> annotatedParameterProcessors) {
     this(annotatedParameterProcessors, new DefaultConversionService());
   }
 
-  public FloodSpringMvcContract(List<AnnotatedParameterProcessor> annotatedParameterProcessors,
+  public ProtoSpringMvcContract(List<AnnotatedParameterProcessor> annotatedParameterProcessors,
       ConversionService conversionService) {
     super(annotatedParameterProcessors, conversionService);
   }

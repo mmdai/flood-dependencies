@@ -1,6 +1,6 @@
 package cn.flood.cloud.grpc.fegin;
 
-import cn.flood.cloud.grpc.version.FloodSpringMvcContract;
+import cn.flood.cloud.grpc.version.ProtoSpringMvcContract;
 import feign.Contract;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -67,7 +67,7 @@ public class FeignProtoSupportConfig {
   @Bean
   @Primary
   public Contract feignContract() {
-    return new FloodSpringMvcContract();
+    return new ProtoSpringMvcContract();
   }
 
 }

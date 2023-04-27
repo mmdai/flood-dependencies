@@ -9,7 +9,7 @@
  */
 package cn.flood.cloud.grpc.fegin;
 
-import cn.flood.cloud.grpc.version.FloodSpringMvcContract;
+import cn.flood.cloud.grpc.version.ProtoSpringMvcContract;
 import feign.Contract;
 import feign.Retryer;
 import feign.codec.Encoder;
@@ -38,7 +38,7 @@ public class FeignMultipartSupportConfig {
    */
   @Bean
   public Contract feignContract() {
-    return new FloodSpringMvcContract();
+    return new ProtoSpringMvcContract();
   }
 
   @Bean
