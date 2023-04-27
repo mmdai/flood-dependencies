@@ -4,6 +4,12 @@ import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
 import cn.flood.base.core.json.JsonUtils;
 import cn.flood.base.core.rpc.response.Result;
 import cn.flood.base.core.rpc.response.ResultWapper;
+import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.csp.sentinel.slots.block.authority.AuthorityException;
+import com.alibaba.csp.sentinel.slots.block.degrade.DegradeException;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
+import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import com.fasterxml.jackson.databind.JsonNode;
 import feign.FeignException;
 import java.lang.reflect.Method;
@@ -46,6 +52,43 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
     if (Result.class != returnType) {
       return null;
     }
+    /***************************sentinel 异常***************************************/
+    if (cause instanceof BlockException) {
+      String code = null;
+      String message = null;
+      if (cause instanceof FlowException) {//限流异常
+        // Return 429 (Too Many Requests) by default.
+        //降级异常
+        code = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getCode();
+        message = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getZhName();
+      } else if (cause instanceof DegradeException) {
+        //降级异常
+        code = GlobalErrorCodeEnum.DEGRADE_SERVER_ERROR.getCode();
+        message = GlobalErrorCodeEnum.DEGRADE_SERVER_ERROR.getZhName();
+      } else if (cause instanceof ParamFlowException) {
+        //热点参数异常
+        code = GlobalErrorCodeEnum.PARAM_FLOW_SERVER_ERROR.getCode();
+        message = GlobalErrorCodeEnum.PARAM_FLOW_SERVER_ERROR.getZhName();
+
+      } else if (cause instanceof SystemBlockException) {
+        //系统保护规则
+        code = GlobalErrorCodeEnum.SYSTEM_BLOCK_SERVER_ERROR.getCode();
+        message = GlobalErrorCodeEnum.SYSTEM_BLOCK_SERVER_ERROR.getZhName();
+
+      } else if (cause instanceof AuthorityException) {
+        //授权规则
+        code = GlobalErrorCodeEnum.AUTHORITY_SERVER_ERROR.getCode();
+        message = GlobalErrorCodeEnum.AUTHORITY_SERVER_ERROR.getZhName();
+
+      } else {
+        //其他规则
+        code = GlobalErrorCodeEnum.UNKNOWN.getCode();
+        message = GlobalErrorCodeEnum.UNKNOWN.getZhName();
+      }
+      log.error(">>>retCode:{}, retMsg:{}", code, message);
+      return ResultWapper.wrap(code, message);
+    }
+    /***************************sentinel 异常***************************************/
     // 非 FeignException
     if (!(cause instanceof FeignException)) {
       return ResultWapper.error(errorMessage);
@@ -105,4 +148,5 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
   public int hashCode() {
     return Objects.hash(targetType);
   }
+
 }

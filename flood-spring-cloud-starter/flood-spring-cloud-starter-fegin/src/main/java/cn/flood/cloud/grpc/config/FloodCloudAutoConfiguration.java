@@ -27,6 +27,9 @@ public class FloodCloudAutoConfiguration {
     return FloodFeignSentinel.builder();
   }
 
+  /**
+   * 用于fegin未写fallback, 限流异常全局处理
+   */
   @Bean
   @ConditionalOnMissingBean
   public BlockExceptionHandler blockExceptionHandler() {
