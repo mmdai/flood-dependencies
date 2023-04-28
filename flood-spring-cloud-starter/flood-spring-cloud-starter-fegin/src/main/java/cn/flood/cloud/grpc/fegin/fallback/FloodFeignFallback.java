@@ -99,6 +99,11 @@ public class FloodFeignFallback<T> implements MethodInterceptor {
       return ResultWapper.wrap(GlobalErrorCodeEnum.SERVICE_UNAVAILABLE.getCode(),
           GlobalErrorCodeEnum.SERVICE_UNAVAILABLE.getEnName());
     }
+    //404 找不到接口
+    if (exception.status() == HttpStatus.NOT_FOUND.value()) {
+      return ResultWapper.wrap(GlobalErrorCodeEnum.NOT_FOUND.getCode(),
+          GlobalErrorCodeEnum.NOT_FOUND.getEnName());
+    }
     //超时
     if (exception.getCause() instanceof SocketTimeoutException || exception
         .getCause() instanceof ConnectTimeoutException) {

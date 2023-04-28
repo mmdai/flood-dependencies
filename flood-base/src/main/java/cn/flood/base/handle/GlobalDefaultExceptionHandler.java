@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -35,6 +36,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * 全局Exception捕获RestController
@@ -68,7 +70,7 @@ public class GlobalDefaultExceptionHandler {
   /**
    * <p>Title: handleMaxUploadSizeExceededException</p>
    * <p>Description: file upload error 使用默认错误码S00001</p>
-   *
+   * @param req
    * @param ex
    * @return
    */
@@ -97,7 +99,7 @@ public class GlobalDefaultExceptionHandler {
   /**
    * <p>Title: handleHttpRequestMethodNotSupportedException</p>
    * <p>Description: http method error 使用默认错误码405</p>
-   *
+   * @param req
    * @param ex
    * @return
    */
@@ -124,7 +126,7 @@ public class GlobalDefaultExceptionHandler {
   /**
    * <p>Title: handleMissingServletRequestParameterException</p>
    * <p>Description: http method error 使用默认错误码400</p>
-   *
+   * @param req
    * @param ex
    * @return
    */
@@ -151,7 +153,7 @@ public class GlobalDefaultExceptionHandler {
   /**
    * <p>Title: handleMissingServletRequestParameterException</p>
    * <p>Description: http method error 使用默认错误码400</p>
-   *
+   * @param req
    * @param ex
    * @return
    */
@@ -161,14 +163,87 @@ public class GlobalDefaultExceptionHandler {
     logger.error(GLOBAL_HANDLER_TITLE, ex);
     String code = GlobalErrorCodeEnum.BAD_REQUEST.getCode();
     String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
-    String message = "请求参数类型错误";
+    String message = GlobalErrorCodeEnum.BAD_REQUEST.getZhName();
     if (!ObjectUtils.isEmpty(langContent)) {
       if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
-        message = "BAD_REQUEST_TYPE";
+        message =  GlobalErrorCodeEnum.BAD_REQUEST.getEnName();
       }
     } else {
       if (!ZH_CN_2.equals(localeContent)) {
-        message = "BAD_REQUEST_TYPE";
+        message =  GlobalErrorCodeEnum.BAD_REQUEST.getEnName();
+      }
+    }
+    logger.info(">>>retCode:{}, retMsg:{}", code, message);
+    return getErrorMessage(code, message);
+  }
+
+  /**
+   * 用于fegin抛出异常，接受异常信息
+   * @param req
+   * @param ex
+   * @return
+   */
+  @ExceptionHandler(value = {ResponseStatusException.class})
+  public Object handle(HttpServletRequest req, ResponseStatusException ex) {
+    logger.error(GLOBAL_HANDLER_TITLE, ex);
+    String code;
+    String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+    String message;
+    if (ex.getMessage().contains(HttpStatus.NOT_FOUND.toString())) {
+      code = GlobalErrorCodeEnum.NOT_FOUND.getCode();
+      message = GlobalErrorCodeEnum.NOT_FOUND.getZhName();
+      if (!ObjectUtils.isEmpty(langContent)) {
+        if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+          message = GlobalErrorCodeEnum.NOT_FOUND.getEnName();
+        }
+      } else {
+        if (!ZH_CN_2.equals(localeContent)) {
+          message = GlobalErrorCodeEnum.NOT_FOUND.getEnName();
+        }
+      }
+    } else if (ex.getMessage().contains(HttpStatus.SERVICE_UNAVAILABLE.toString())) {
+      code = GlobalErrorCodeEnum.SERVICE_UNAVAILABLE.getCode();
+      message = GlobalErrorCodeEnum.SERVICE_UNAVAILABLE.getZhName();
+      if (!ObjectUtils.isEmpty(langContent)) {
+        if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+          message = GlobalErrorCodeEnum.SERVICE_UNAVAILABLE.getEnName();
+        }
+      } else {
+        if (!ZH_CN_2.equals(localeContent)) {
+          message = GlobalErrorCodeEnum.SERVICE_UNAVAILABLE.getEnName();
+        }
+      }
+    } else if (ex.getMessage().contains(HttpStatus.GATEWAY_TIMEOUT.toString())) {
+      code = GlobalErrorCodeEnum.READ_TIME_OUT.getCode();
+      message = GlobalErrorCodeEnum.READ_TIME_OUT.getZhName();
+      if (!ObjectUtils.isEmpty(langContent)) {
+        if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+          message = GlobalErrorCodeEnum.READ_TIME_OUT.getEnName();
+        }
+      } else {
+        if (!ZH_CN_2.equals(localeContent)) {
+          message = GlobalErrorCodeEnum.READ_TIME_OUT.getEnName();
+        }
+      }
+    } else if (ex.getMessage().contains(HttpStatus.TOO_MANY_REQUESTS.toString())) {
+      code = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getCode();
+      message = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getZhName();
+      if (!ObjectUtils.isEmpty(langContent)) {
+        if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+          message = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getEnName();
+        }
+      } else {
+        if (!ZH_CN_2.equals(localeContent)) {
+          message = GlobalErrorCodeEnum.TOO_MANY_REQUESTS.getEnName();
+        }
+      }
+    } else {
+      code = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode();
+      message = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getZhName();
+      if (!ObjectUtils.isEmpty(langContent)) {
+        if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+          message = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getEnName();
+        }
       }
     }
     logger.info(">>>retCode:{}, retMsg:{}", code, message);
