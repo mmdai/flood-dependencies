@@ -1,4 +1,7 @@
-package cn.flood.base.core.utils;
+package cn.flood.base.core.regular;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 验证⼯具类 常量
@@ -127,21 +130,25 @@ public class Validation {
    * US姓名
    */
   public static final String US_NAME = "(^[a-zA-Z|.|,|\\s]{5,100}|[\u4e00-\u9fa5|.]{2,20}$)";
+  /**
+   * 通用
+   */
+  public static final String COMM_NAME = "( ^[a-zA-Z0-9]{2,64}$)";
 
-//    /**
-//     *
-//     * 匹配是否符合正则表达式pattern 匹配返回true
-//     * @param str 匹配的字符串
-//     * @param pattern 匹配模式
-//     * @return boolean
-//     */
-//    private static boolean Regular(String str,String pattern){
-//        if(null == str || str.trim().length()<=0)
-//            return false;
-//        Pattern p = Pattern.compile(pattern);
-//        Matcher m = p.matcher(str);
-//        return m.matches();
-//    }
+    /**
+     *
+     * 匹配是否符合正则表达式pattern 匹配返回true
+     * @param str 匹配的字符串
+     * @param pattern 匹配模式
+     * @return boolean
+     */
+    public static boolean Regular(String str,String pattern){
+        if(null == str || str.trim().length()<=0)
+            return false;
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(str);
+        return m.matches();
+    }
 //    public static void main(String[] args){
 //        System.out.println(Regular("20211211", DATE_FORMAT1));
 //    }
