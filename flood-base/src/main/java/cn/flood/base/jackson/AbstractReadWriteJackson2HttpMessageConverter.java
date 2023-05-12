@@ -44,7 +44,7 @@ import org.springframework.util.TypeUtils;
 /**
  * 分读写的 json 消息 处理器
  *
- * @author L.cm
+ * @author mmdai
  */
 public abstract class AbstractReadWriteJackson2HttpMessageConverter extends
     AbstractJackson2HttpMessageConverter {

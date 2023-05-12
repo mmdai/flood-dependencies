@@ -30,7 +30,7 @@ import org.springframework.lang.Nullable;
  * 2. 返回给 app 端的数据使用 writeObjectMapper
  * </p>
  *
- * @author L.cm
+ * @author mmdai
  */
 public class MappingApiJackson2HttpMessageConverter extends
     AbstractReadWriteJackson2HttpMessageConverter {

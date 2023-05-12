@@ -43,7 +43,7 @@ import java.util.List;
  * array []
  * Object {}
  *
- * @author L.cm
+ * @author mmdai
  */
 public class FloodBeanSerializerModifier extends BeanSerializerModifier {
 
