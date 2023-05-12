@@ -1,6 +1,6 @@
 package cn.flood.base.proto.converter;
 
-import cn.flood.base.proto.ProtostuffUtils;
+import cn.flood.base.proto.stuff.ProtostuffUtils;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

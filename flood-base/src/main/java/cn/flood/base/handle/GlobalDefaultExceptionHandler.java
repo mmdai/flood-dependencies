@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * 全局Exception捕获RestController
@@ -90,6 +91,33 @@ public class GlobalDefaultExceptionHandler {
       if (!ZH_CN_2.equals(localeContent)) {
         message =
             "upload file size exceeds system limit (" + ex.getMaxUploadSize() / KILO / KILO + "MB)";
+      }
+    }
+    logger.info(">>>retCode:{}, retMsg:{}", code, message);
+    return getErrorMessage(code, message);
+  }
+
+  /**
+   * <p>Title: NoHandlerFoundException</p>
+   * <p>Description: http method error 使用默认错误码404</p>
+   * @param req
+   * @param ex
+   * @return
+   */
+  @ExceptionHandler(NoHandlerFoundException.class)
+  public Object handleNoHandlerFound(HttpServletRequest req,
+      NoHandlerFoundException ex) {
+    logger.error(GLOBAL_HANDLER_TITLE, ex);
+    String code = GlobalErrorCodeEnum.NOT_FOUND.getCode();
+    String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+    String message = GlobalErrorCodeEnum.NOT_FOUND.getZhName();
+    if (!ObjectUtils.isEmpty(langContent)) {
+      if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+        message = GlobalErrorCodeEnum.NOT_FOUND.getEnName();
+      }
+    } else {
+      if (!ZH_CN_2.equals(localeContent)) {
+        message = GlobalErrorCodeEnum.NOT_FOUND.getEnName();
       }
     }
     logger.info(">>>retCode:{}, retMsg:{}", code, message);

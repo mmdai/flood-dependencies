@@ -1,7 +1,6 @@
-cn.flood.base.message.MessageProtoSupportConfig
+cn.flood.base.proto.MessageProtoSupportConfig
 cn.flood.base.i18n.InternationalConfig
 cn.flood.base.mvc.version.VersionMappingAutoConfiguration
-cn.flood.base.filter.CorsConfig
 cn.flood.base.filter.XssRequestConfig
 cn.flood.base.handle.GlobalDefaultExceptionHandler
 cn.flood.base.undertow.UndertowHttp2Configuration

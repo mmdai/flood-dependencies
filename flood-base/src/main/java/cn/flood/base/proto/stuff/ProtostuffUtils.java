@@ -1,4 +1,4 @@
-package cn.flood.base.proto;
+package cn.flood.base.proto.stuff;
 
 import cn.flood.base.core.rpc.response.Result;
 import com.dyuproject.protostuff.LinkedBuffer;
