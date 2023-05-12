@@ -11,7 +11,6 @@ public enum GlobalErrorCodeEnum {
    * 参数错误
    */
   BAD_REQUEST("400", "请求参数错误", "BAD_REQUEST"),
-
   /**
    * 账号未登录
    */
@@ -20,21 +19,64 @@ public enum GlobalErrorCodeEnum {
    * 登录过期
    */
   EXPIRE("402", "登录已过期", "EXPIRE"),
-
   /**
    * 没有该操作权限
    */
   FORBIDDEN("403", "没有该操作权限", "FORBIDDEN"),
-
   /**
    * 请求未找到
    */
   NOT_FOUND("404", "请求未找到", "NOT_FOUND"),
-
   /**
    * 请求方法不正确
    */
   METHOD_NOT_ALLOWED("405", "请求方法不正确", "METHOD_NOT_ALLOWED"),
+  /**
+   * 请求类型不支持
+   */
+  MEDIA_TYPE_NOT_SUPPORTED("406", "请求HTTP类型不支持", "MEDIA_TYPE_NOT_SUPPORTED"),
+  /**
+   * 接口限流
+   */
+  TOO_MANY_REQUESTS("429", "调用服务过于频繁,接口限流", "TOO_MANY_REQUESTS"),
+  /**
+   * 服务降级
+   */
+  DEGRADE_SERVER_ERROR("430", "调用服务响应异常,已进行降级", "DEGRADE_SERVER_ERROR"),
+  /**
+   * 热点参数限流
+   */
+  PARAM_FLOW_SERVER_ERROR("431", "您对热点参数访问过于频繁,请稍后重试", "PARAM_FLOW_SERVER_ERROR"),
+  /**
+   * 触发系统保护规则
+   */
+  SYSTEM_BLOCK_SERVER_ERROR("432", "已触碰系统的红线规则，请检查访问参数", "SYSTEM_BLOCK_SERVER_ERROR"),
+  /**
+   * 授权规则
+   */
+  AUTHORITY_SERVER_ERROR("433", "授权规则检测不同，请检查访问参数", "AUTHORITY_SERVER_ERROR"),
+  /**
+   * 系统异常
+   */
+  INTERNAL_SERVER_ERROR("500", "系统出错了", "INTERNAL_SERVER_ERROR"),
+
+  /**
+   * 连接超时
+   */
+  CONNECTION_TIME_OUT("501", "服务连接超时", "CONNECTION_TIME_OUT"),
+  /**
+   * 响应超时
+   */
+  READ_TIME_OUT("502", "服务响应超时", "READ_TIME_OUT"),
+
+  /**
+   * 服务不可用
+   */
+  SERVICE_UNAVAILABLE("503", "服务不可用", "SERVICE_UNAVAILABLE"),
+  /**
+   * 未知错误
+   */
+  UNKNOWN("999", "未知错误", "UNKNOWN"),
   /**
    * 获取当前用户失败
    */
@@ -225,51 +267,8 @@ public enum GlobalErrorCodeEnum {
   /**
    * 数据组初始化无机构信息
    */
-  GROUP_INIT_DATA_ERROR("A19002", "数据组初始化无机构信息", "GROUP_INIT_DATA_ERROR"),
-  /**
-   * 接口限流
-   */
-  TOO_MANY_REQUESTS("429", "调用服务过于频繁,接口限流", "TOO_MANY_REQUESTS"),
-  /**
-   * 服务降级
-   */
-  DEGRADE_SERVER_ERROR("430", "调用服务响应异常,已进行降级", "DEGRADE_SERVER_ERROR"),
-  /**
-   * 热点参数限流
-   */
-  PARAM_FLOW_SERVER_ERROR("431", "您对热点参数访问过于频繁,请稍后重试", "PARAM_FLOW_SERVER_ERROR"),
-  /**
-   * 触发系统保护规则
-   */
-  SYSTEM_BLOCK_SERVER_ERROR("432", "已触碰系统的红线规则，请检查访问参数", "SYSTEM_BLOCK_SERVER_ERROR"),
-  /**
-   * 授权规则
-   */
-  AUTHORITY_SERVER_ERROR("433", "授权规则检测不同，请检查访问参数", "AUTHORITY_SERVER_ERROR"),
+  GROUP_INIT_DATA_ERROR("A19002", "数据组初始化无机构信息", "GROUP_INIT_DATA_ERROR");
 
-  /**
-   * 系统异常
-   */
-  INTERNAL_SERVER_ERROR("500", "系统出错了", "INTERNAL_SERVER_ERROR"),
-
-  /**
-   * 连接超时
-   */
-  CONNECTION_TIME_OUT("501", "服务连接超时", "CONNECTION_TIME_OUT"),
-
-  /**
-   * 响应超时
-   */
-  READ_TIME_OUT("502", "服务响应超时", "READ_TIME_OUT"),
-
-  /**
-   * 服务不可用
-   */
-  SERVICE_UNAVAILABLE("503", "服务不可用", "SERVICE_UNAVAILABLE"),
-  /**
-   * 未知错误
-   */
-  UNKNOWN("999", "未知错误", "UNKNOWN");
 
 
   private final String code;

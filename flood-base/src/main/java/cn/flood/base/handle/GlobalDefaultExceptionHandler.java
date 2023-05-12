@@ -29,6 +29,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -127,6 +128,32 @@ public class GlobalDefaultExceptionHandler {
   /**
    * <p>Title: handleHttpRequestMethodNotSupportedException</p>
    * <p>Description: http method error 使用默认错误码405</p>
+   * @param req
+   * @param ex
+   * @return
+   */
+  @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+  public Object handleHttpMediaTypeNotSupportedException(HttpServletRequest req,
+      HttpMediaTypeNotSupportedException ex) {
+    logger.error(GLOBAL_HANDLER_TITLE, ex);
+    String code = GlobalErrorCodeEnum.MEDIA_TYPE_NOT_SUPPORTED.getCode();
+    String langContent = req.getHeader(HttpHeaders.CONTENT_LANGUAGE);
+    String message = GlobalErrorCodeEnum.MEDIA_TYPE_NOT_SUPPORTED.getZhName();
+    if (!ObjectUtils.isEmpty(langContent)) {
+      if (!ZH_CN_1.equals(langContent) && !ZH_CN_2.equals(langContent)) {
+        message = GlobalErrorCodeEnum.MEDIA_TYPE_NOT_SUPPORTED.getEnName();
+      }
+    } else {
+      if (!ZH_CN_2.equals(localeContent)) {
+        message = GlobalErrorCodeEnum.MEDIA_TYPE_NOT_SUPPORTED.getEnName();
+      }
+    }
+    logger.info(">>>retCode:{}, retMsg:{}", code, message);
+    return getErrorMessage(code, message);
+  }
+  /**
+   * <p>Title: handleHttpRequestMethodNotSupportedException</p>
+   * <p>Description: http method error 使用默认错误码406</p>
    * @param req
    * @param ex
    * @return
