@@ -1,6 +1,7 @@
 package cn.flood.db.redis;
 
 import cn.flood.db.redis.builder.RedisTemplaterFactoryBuild;
+import cn.flood.db.redis.config.cache.support.CacheMessage;
 import cn.flood.db.redis.config.lettuce.LettuceConnectionConfiguration;
 import cn.flood.db.redis.config.properties.DynamicRedisProperties;
 import cn.flood.db.redis.provider.RedisProvider;
@@ -11,6 +12,7 @@ import cn.flood.db.redis.util.ApplicationContextUtil;
 import cn.flood.db.redis.util.RedisLockUtil;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -122,6 +124,7 @@ public class RedisAutoConfiguration {
     Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(
         Object.class);
     ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
     // 日期和时间格式化
     JavaTimeModule javaTimeModule = new JavaTimeModule();

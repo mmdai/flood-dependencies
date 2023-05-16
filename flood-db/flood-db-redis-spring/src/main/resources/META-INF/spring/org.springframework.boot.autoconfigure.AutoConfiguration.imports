@@ -1,2 +1,3 @@
 cn.flood.db.redis.RedisAutoConfiguration
+cn.flood.db.redis.config.cache.CacheRedisCaffeineAutoConfiguration
 cn.flood.db.redis.config.lettuce.LettuceConnectionValidConfig
