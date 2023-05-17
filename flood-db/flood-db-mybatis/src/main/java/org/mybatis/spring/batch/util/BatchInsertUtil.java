@@ -22,6 +22,7 @@ import org.mybatis.spring.batch.annotation.BatchInsert;
 
 /**
  * 批量插入注解工具类
+ * @author mmdai
  */
 @SuppressWarnings("unchecked")
 public class BatchInsertUtil {

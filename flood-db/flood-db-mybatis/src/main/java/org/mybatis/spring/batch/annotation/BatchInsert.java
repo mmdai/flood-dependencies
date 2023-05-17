@@ -19,8 +19,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 批量插入注解，zebra微服务框架定制。<br>
+ *
+ * 批量插入注解，。<br>
  * 将此注解添加到Mybatis Mapper接口的批量插入方法接口上。 注解的方法参数必须为List类型对象
+ * @author mmdai
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
