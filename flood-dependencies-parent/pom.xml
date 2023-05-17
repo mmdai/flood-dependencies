@@ -101,6 +101,7 @@
 	<dependencyManagement>
 	<dependencies>
 	<!-- flood Core -->
+		<!-- 业务组件 -->
 		<!-- banner -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -123,12 +124,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-tools-email</artifactId>
-			<version>${flood.version}</version>
-		</dependency>
-		<!-- okhttp -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-tools-okhttp</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 		<!-- 基础async -->
@@ -162,12 +157,6 @@
 			<artifactId>flood-db-jdbc</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
-		<!-- 阿里 canal 工具类-->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-db-canal</artifactId>
-			<version>${flood.version}</version>
-		</dependency>
 		<!-- 基础mongodb -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -180,7 +169,7 @@
 			<artifactId>flood-db-sharding-sphere</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
-		<!-- 基础sharding-jdbc (读写分离)-->
+		<!-- 基础sharding-jdbc (读写分离主从)-->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-db-sharding-master-slave</artifactId>
@@ -222,6 +211,7 @@
 			<version>${flood.version}</version>
 		</dependency>
 		<!-- canal-client -->
+		<!-- 阿里 canal 工具类-->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-canal-client-start</artifactId>
