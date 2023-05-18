@@ -11,6 +11,10 @@
 
     <artifactId>flood-spring-cloud-starter-nacos</artifactId>
     <dependencies>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+        </dependency>
         <!-- nacos注册中心的依赖 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -35,10 +39,5 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>${nacos.version}</version>
-        </dependency>
     </dependencies>
 </project>
