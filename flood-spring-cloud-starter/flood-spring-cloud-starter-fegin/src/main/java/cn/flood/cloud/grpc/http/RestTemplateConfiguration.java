@@ -11,6 +11,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import cn.flood.cloud.grpc.httpclient.DefaultOkHttpClientConnectionPoolFactory;
+import cn.flood.cloud.grpc.httpclient.DefaultOkHttpClientFactory;
+import cn.flood.cloud.grpc.httpclient.OkHttpClientConnectionPoolFactory;
+import cn.flood.cloud.grpc.httpclient.OkHttpClientFactory;
 import lombok.AllArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -19,8 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.cloud.commons.httpclient.OkHttpClientConnectionPoolFactory;
-import org.springframework.cloud.commons.httpclient.OkHttpClientFactory;
 import org.springframework.cloud.openfeign.support.FeignHttpClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
@@ -85,6 +88,20 @@ public class RestTemplateConfiguration {
     return interceptor;
   }
 
+
+
+  @Bean
+  @ConditionalOnMissingBean
+  public OkHttpClientConnectionPoolFactory connPoolFactory() {
+    return new DefaultOkHttpClientConnectionPoolFactory();
+  }
+
+
+  @Bean
+  @ConditionalOnMissingBean
+  public OkHttpClientFactory okHttpClientFactory(OkHttpClient.Builder builder) {
+    return new DefaultOkHttpClientFactory(builder);
+  }
   /**
    * okhttp3 链接池配置
    *

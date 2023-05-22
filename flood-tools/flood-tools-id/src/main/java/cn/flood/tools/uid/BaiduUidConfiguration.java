@@ -14,7 +14,7 @@ import cn.flood.tools.uid.worker.dao.WorkerNodeDAO;
 import com.alibaba.druid.pool.DruidDataSource;
 import java.sql.SQLException;
 import java.util.Properties;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

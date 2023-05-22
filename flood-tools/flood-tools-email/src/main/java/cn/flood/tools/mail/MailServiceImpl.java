@@ -3,7 +3,7 @@ package cn.flood.tools.mail;
 import java.io.File;
 import java.util.List;
 import java.util.Properties;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;

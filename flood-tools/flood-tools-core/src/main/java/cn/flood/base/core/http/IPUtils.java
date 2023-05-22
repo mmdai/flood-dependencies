@@ -13,7 +13,7 @@ import cn.flood.base.core.lang.StringPool;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;

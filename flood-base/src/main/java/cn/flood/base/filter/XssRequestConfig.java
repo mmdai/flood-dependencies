@@ -15,7 +15,7 @@ package cn.flood.base.filter;
 
 import cn.flood.base.core.support.xss.FloodRequestFilter;
 import cn.flood.base.core.support.xss.XssProperties;
-import javax.servlet.DispatcherType;
+import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

@@ -13,7 +13,7 @@ import com.alibaba.csp.sentinel.slots.system.SystemBlockException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.List;
 import java.util.Locale;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

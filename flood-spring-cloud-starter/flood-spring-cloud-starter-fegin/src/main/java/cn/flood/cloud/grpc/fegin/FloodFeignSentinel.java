@@ -6,6 +6,7 @@ import cn.flood.base.core.trace.MDCTraceUtils;
 import cn.flood.cloud.grpc.fegin.fallback.FloodFallbackFactory;
 import cn.flood.cloud.grpc.sentinel.FloodSentinelInvocationHandler;
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
+import com.alibaba.cloud.sentinel.feign.SentinelFeign;
 import feign.Contract;
 import feign.Feign;
 import feign.InvocationHandlerFactory;
@@ -16,12 +17,12 @@ import feign.form.spring.SpringFormEncoder;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.openfeign.FeignContext;
+import org.springframework.cloud.openfeign.FeignClientFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -45,7 +46,7 @@ public class FloodFeignSentinel {
 
     private Contract contract = new Contract.Default();
     private ApplicationContext applicationContext;
-    private FeignContext feignContext;
+    private FeignClientFactory feignClientFactory;
     private SpringFormEncoder encoder = new SpringFormEncoder();
 
     @Override
@@ -97,7 +98,7 @@ public class FloodFeignSentinel {
 
         private Object getFromContext(String name, String type, Class fallbackType,
             Class targetType) {
-          Object fallbackInstance = feignContext.getInstance(name, fallbackType);
+          Object fallbackInstance = FloodFeignSentinel.Builder.this.feignClientFactory.getInstance(name, fallbackType);
           if (fallbackInstance == null) {
             throw new IllegalStateException(
                 String.format("No %s instance of type %s found for feign client %s",
@@ -169,7 +170,7 @@ public class FloodFeignSentinel {
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
       this.applicationContext = applicationContext;
-      feignContext = this.applicationContext.getBean(FeignContext.class);
+      this.feignClientFactory = (FeignClientFactory)this.applicationContext.getBean(FeignClientFactory.class);
     }
   }
 

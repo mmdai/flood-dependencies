@@ -20,6 +20,8 @@ import org.springframework.data.geo.Metric;
 import org.springframework.data.geo.Point;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.connection.zset.Aggregate;
+import org.springframework.data.redis.connection.zset.Weights;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -1034,7 +1036,7 @@ public interface RedisService {
    * @param otherKys 其他键
    * @return 返回交集对象个数
    */
-  Long intersectAndStoreZSet(String key, String storeKey, RedisZSetCommands.Aggregate aggregate,
+  Long intersectAndStoreZSet(String key, String storeKey, Aggregate aggregate,
       String... otherKys);
 
   /**
@@ -1048,8 +1050,8 @@ public interface RedisService {
    * @param otherKys 其他键
    * @return 返回交集对象个数
    */
-  Long intersectAndStoreZSet(String key, String storeKey, RedisZSetCommands.Aggregate aggregate,
-      RedisZSetCommands.Weights weights, String... otherKys);
+  Long intersectAndStoreZSet(String key, String storeKey, Aggregate aggregate,
+                             Weights weights, String... otherKys);
 
   /**
    * 取对象交集(带分数)
@@ -1092,7 +1094,7 @@ public interface RedisService {
    * @param otherKys 其他键
    * @return 返回交集对象个数
    */
-  Long unionAndStoreZSet(String key, String storeKey, RedisZSetCommands.Aggregate aggregate,
+  Long unionAndStoreZSet(String key, String storeKey, Aggregate aggregate,
       String... otherKys);
 
   /**
@@ -1106,8 +1108,8 @@ public interface RedisService {
    * @param otherKys 其他键
    * @return 返回交集对象个数
    */
-  Long unionAndStoreZSet(String key, String storeKey, RedisZSetCommands.Aggregate aggregate,
-      RedisZSetCommands.Weights weights, String... otherKys);
+  Long unionAndStoreZSet(String key, String storeKey, Aggregate aggregate,
+      Weights weights, String... otherKys);
 
   /**
    * 取对象并集(带分数)

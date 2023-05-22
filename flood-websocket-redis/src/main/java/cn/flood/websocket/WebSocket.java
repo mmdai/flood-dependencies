@@ -2,7 +2,7 @@ package cn.flood.websocket;
 
 import java.io.IOException;
 import java.util.Date;
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import lombok.Data;
 
 @Data

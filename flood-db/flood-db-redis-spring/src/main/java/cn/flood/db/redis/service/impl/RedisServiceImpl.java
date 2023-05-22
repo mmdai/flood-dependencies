@@ -32,6 +32,8 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisGeoCommands;
 import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.connection.zset.Aggregate;
+import org.springframework.data.redis.connection.zset.Weights;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisCallback;
@@ -1509,7 +1511,7 @@ public class RedisServiceImpl implements RedisService {
    */
   @Override
   public Long intersectAndStoreZSet(String key, String storeKey,
-      RedisZSetCommands.Aggregate aggregate, String... otherKys) {
+      Aggregate aggregate, String... otherKys) {
     return this.redisTemplate.opsForZSet()
         .intersectAndStore(key, Arrays.asList(otherKys), storeKey, aggregate);
   }
@@ -1527,8 +1529,8 @@ public class RedisServiceImpl implements RedisService {
    */
   @Override
   public Long intersectAndStoreZSet(String key, String storeKey,
-      RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights,
-      String... otherKys) {
+                                    Aggregate aggregate, Weights weights,
+                                    String... otherKys) {
     return this.redisTemplate.opsForZSet()
         .intersectAndStore(key, Arrays.asList(otherKys), storeKey, aggregate, weights);
   }
@@ -1592,7 +1594,7 @@ public class RedisServiceImpl implements RedisService {
    * @return 返回交集对象个数
    */
   @Override
-  public Long unionAndStoreZSet(String key, String storeKey, RedisZSetCommands.Aggregate aggregate,
+  public Long unionAndStoreZSet(String key, String storeKey, Aggregate aggregate,
       String... otherKys) {
     return this.redisTemplate.opsForZSet().unionAndStore(key, Arrays.asList(otherKys), storeKey);
   }
@@ -1609,8 +1611,8 @@ public class RedisServiceImpl implements RedisService {
    * @return 返回交集对象个数
    */
   @Override
-  public Long unionAndStoreZSet(String key, String storeKey, RedisZSetCommands.Aggregate aggregate,
-      RedisZSetCommands.Weights weights, String... otherKys) {
+  public Long unionAndStoreZSet(String key, String storeKey, Aggregate aggregate,
+      Weights weights, String... otherKys) {
     return this.redisTemplate.opsForZSet()
         .unionAndStore(key, Arrays.asList(otherKys), storeKey, aggregate);
   }
