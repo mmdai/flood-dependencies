@@ -72,55 +72,66 @@
     <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-context</artifactId>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
     </dependency>
 	  <!--配置文件-->
 	  <dependency>
 		  <groupId>org.springframework.boot</groupId>
 		  <artifactId>spring-boot-configuration-processor</artifactId>
+		  <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 		  <optional>true</optional>
 	  </dependency>
    	<!-- 引入log4j2依赖 -->
 	<dependency> 
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-log4j2</artifactId>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	<!-- 引入log4j2异步执行并发框架 -->
 	<dependency>
 	    <groupId>com.lmax</groupId>
 	    <artifactId>disruptor</artifactId>
 	    <version>${disruptor.version}</version>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	<!-- aop切面 -->
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-aop</artifactId>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	  <dependency>
 		  <groupId>org.springframework.cloud</groupId>
 		  <artifactId>spring-cloud-starter-bootstrap</artifactId>
+		  <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	  </dependency>
 	<dependency>
 		<groupId>commons-codec</groupId>
 		<artifactId>commons-codec</artifactId>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	<dependency>
 		<groupId>commons-io</groupId>
 		<artifactId>commons-io</artifactId>
 		<version>${commons.io.version}</version>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	 <dependency>
 	    <groupId>org.apache.commons</groupId>
 	    <artifactId>commons-lang3</artifactId>
+		 <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	<!-- validation 校验-->
 	<dependency>
 	    <groupId>javax.validation</groupId>
 	    <artifactId>validation-api</artifactId>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	<!-- jackson-->
 	<dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
 		<artifactId>jackson-databind</artifactId>
+		<scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
 	</dependency>
 	<!-- lombok 工具-->
 	<dependency>
@@ -266,10 +277,10 @@
   <modules>
 		<!-- flood对外依赖包 -->
 		<module>flood-dependencies-parent</module>
-    <!-- 基础base -->
-    <module>flood-base</module>
-    <!-- 基础swagger -->
-  	<module>flood-api</module>
+		<!-- 基础base -->
+		<module>flood-base</module>
+		<!-- 基础swagger -->
+		<module>flood-api</module>
 		<!-- 基础flood 数据库 -->
 		<module>flood-db</module>
 		<!-- 基础flood-oauth -->
