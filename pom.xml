@@ -277,10 +277,10 @@
   <modules>
 		<!-- flood对外依赖包 -->
 		<module>flood-dependencies-parent</module>
-    <!-- 基础base -->
-    <module>flood-base</module>
-    <!-- 基础swagger -->
-  	<module>flood-api</module>
+		<!-- 基础base -->
+		<module>flood-base</module>
+		<!-- 基础swagger -->
+		<module>flood-api</module>
 		<!-- 基础flood 数据库 -->
 		<module>flood-db</module>
 		<!-- 基础flood-oauth -->
