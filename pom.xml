@@ -32,6 +32,7 @@
 	  <disruptor.version>3.4.4</disruptor.version>
 	  <!-- swagger -->
 	  <knife4j.version>4.1.0</knife4j.version>
+	  <springdoc.version>1.6.15</springdoc.version>
 	  <guava.version>31.1-jre</guava.version>
 	  <google.annotations.version>3.0.1</google.annotations.version>
 	  <!-- base -->

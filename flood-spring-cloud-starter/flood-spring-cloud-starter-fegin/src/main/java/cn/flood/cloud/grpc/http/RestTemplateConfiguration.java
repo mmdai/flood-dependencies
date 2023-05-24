@@ -91,16 +91,16 @@ public class RestTemplateConfiguration {
 
 
   @Bean
-  @ConditionalOnMissingBean
+  @ConditionalOnMissingBean(OkHttpClientConnectionPoolFactory.class)
   public OkHttpClientConnectionPoolFactory connPoolFactory() {
     return new DefaultOkHttpClientConnectionPoolFactory();
   }
 
 
   @Bean
-  @ConditionalOnMissingBean
-  public OkHttpClientFactory okHttpClientFactory(OkHttpClient.Builder builder) {
-    return new DefaultOkHttpClientFactory(builder);
+  @ConditionalOnMissingBean(OkHttpClientFactory.class)
+  public OkHttpClientFactory okHttpClientFactory() {
+    return new DefaultOkHttpClientFactory(new OkHttpClient.Builder());
   }
   /**
    * okhttp3 链接池配置
