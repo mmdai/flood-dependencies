@@ -58,10 +58,10 @@ public class ResponseBodyAdviceConfig implements ResponseBodyAdvice<Object> {
       if (body instanceof ErrorMessage) {
         //GlobalDefaultExceptionHandler全局异常捕获  返回 ErrorMessage对象
         ErrorMessage message = (ErrorMessage) body;
-        return ResultWapper.wrap(message.get_code(), message.get_msg());
+        return ResultWapper.wrap(message.getCode(), message.getMsg());
       } else if (body instanceof Result) {
         Result ret = (Result) body;
-        if (ret.is_succeed() || !ret.get_msg().contains("{&")) {
+        if (ret.is_succeed() || !ret.getMsg().contains("{&")) {
           return ret;
         }
         String langContent = localeContent;
@@ -69,8 +69,8 @@ public class ResponseBodyAdviceConfig implements ResponseBodyAdvice<Object> {
         if (!CollectionUtils.isEmpty(langContentList)) {
           langContent = langContentList.get(0);
         }
-        String msg = localeParser.replacePlaceHolderByLocale(ret.get_msg(), langContent);
-        ret.set_msg(msg);
+        String msg = localeParser.replacePlaceHolderByLocale(ret.getMsg(), langContent);
+        ret.setMsg(msg);
         return ret;
       }
     }

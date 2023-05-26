@@ -516,8 +516,8 @@ public class GlobalDefaultExceptionHandler {
     }
     message = localeParser.replacePlaceHolderByLocale(message, langContent);
     logger.info(">>>retCode:{}, retMsg:{}", code, message);
-    error.set_code(code);
-    error.set_msg(message);
+    error.setCode(code);
+    error.setMsg(message);
     return error;
   }
 
@@ -528,8 +528,8 @@ public class GlobalDefaultExceptionHandler {
    */
   private ErrorMessage getErrorMessage(String code, String message) {
     ErrorMessage error = new ErrorMessage();
-    error.set_code(code);
-    error.set_msg(message);
+    error.setCode(code);
+    error.setMsg(message);
     return error;
   }
 

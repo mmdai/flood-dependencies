@@ -85,7 +85,7 @@ public class ResultWapper {
    * @return the e
    */
   public static <E> E unWrap(Result<E> wrapper) {
-    return wrapper.get_data();
+    return wrapper.getData();
   }
 
 

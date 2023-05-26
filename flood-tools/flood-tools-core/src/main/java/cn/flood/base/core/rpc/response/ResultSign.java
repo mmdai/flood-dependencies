@@ -44,13 +44,13 @@ public class ResultSign<T> {
    */
   public static final String ERROR_MESSAGE = "系统内部错误";
   /** 编号 **/
-  private String _code;
+  private String code;
   /** 信息 **/
-  private String _msg;
+  private String msg;
   /** 结果 **/
-  private T _data;
+  private T data;
   /** 签名 **/
-  private String _sign;
+  private String sign;
 
   ResultSign() {
     this(SUCCESS_CODE, SUCCESS_MSG);
@@ -70,10 +70,10 @@ public class ResultSign<T> {
 
   @JsonIgnore
   public boolean is_succeed() {
-    if (ObjectUtils.isEmpty(this._code)) {
+    if (ObjectUtils.isEmpty(this.code)) {
       return false;
     }
-    return this._code.equals(SUCCESS_CODE);
+    return this.code.equals(SUCCESS_CODE);
   }
 
   @JsonIgnore
@@ -89,7 +89,7 @@ public class ResultSign<T> {
    * @return the wrapper
    */
   private ResultSign code(String code) {
-    this.set_code(code);
+    this.setCode(code);
     return this;
   }
 
@@ -101,7 +101,7 @@ public class ResultSign<T> {
    * @return the Result
    */
   private ResultSign message(String msg) {
-    this.set_msg(msg);
+    this.setMsg(msg);
     return this;
   }
 
@@ -113,7 +113,7 @@ public class ResultSign<T> {
    * @return the wrapper
    */
   public ResultSign data(T data) {
-    this.set_data(data);
+    this.setData(data);
     return this;
   }
 
@@ -125,7 +125,7 @@ public class ResultSign<T> {
    * @return the wrapper
    */
   public ResultSign sign(String sign) {
-    this.set_sign(sign);
+    this.setSign(sign);
     return this;
   }
 
