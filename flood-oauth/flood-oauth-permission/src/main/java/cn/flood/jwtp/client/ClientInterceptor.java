@@ -145,12 +145,12 @@ public class ClientInterceptor implements HandlerInterceptor {
     if (result == null) {
       throw new RuntimeException("'" + authCenterUrl + "/authentication' return null");
     }
-    if (Result.ERROR_CODE.equals(result.get_code())) {
+    if (Result.ERROR_CODE.equals(result.getCode())) {
       throw new ExpiredTokenException();
-    } else if (!Result.SUCCESS_CODE.equals(result.get_code())) {
+    } else if (!Result.SUCCESS_CODE.equals(result.getCode())) {
       throw new ErrorTokenException();
     }
-    UserToken userToken = (UserToken) result.get_data();
+    UserToken userToken = (UserToken) result.getData();
     return userToken;
   }
 

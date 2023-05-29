@@ -30,15 +30,15 @@ public class Result<T> {
   /**
    * 编号
    **/
-  private String _code;
+  private String code;
   /**
    * 信息
    **/
-  private String _msg;
+  private String msg;
   /**
    * 结果
    **/
-  private T _data;
+  private T data;
 
   Result() {
     this(SUCCESS_CODE, SUCCESS_MSG);
@@ -55,10 +55,10 @@ public class Result<T> {
 
   @JsonIgnore
   public boolean is_succeed() {
-    if (ObjectUtils.isEmpty(this._code)) {
+    if (ObjectUtils.isEmpty(this.code)) {
       return false;
     }
-    return this._code.equals(SUCCESS_CODE);
+    return this.code.equals(SUCCESS_CODE);
   }
 
   @JsonIgnore
@@ -73,7 +73,7 @@ public class Result<T> {
    * @return the wrapper
    */
   private Result<T> code(String code) {
-    this.set_code(code);
+    this.setCode(code);
     return this;
   }
 
@@ -84,7 +84,7 @@ public class Result<T> {
    * @return the Result
    */
   private Result<T> message(String msg) {
-    this.set_msg(msg);
+    this.setMsg(msg);
     return this;
   }
 
@@ -95,13 +95,13 @@ public class Result<T> {
    * @return the wrapper
    */
   public Result<T> data(T data) {
-    this.set_data(data);
+    this.setData(data);
     return this;
   }
 
   @Override
   public String toString() {
-    return "Result [_code=" + _code + ", _msg=" + _msg + ", _data=" + _data + "]";
+    return "Result [code=" + code + ", msg=" + msg + ", data=" + data + "]";
   }
 
 

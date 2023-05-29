@@ -63,7 +63,7 @@ public class SafeRuleServiceImpl implements SafeRuleService {
         log.info("属于黑名单地址 - {}", originUri.getPath());
         response.setStatusCode(HttpStatus.NOT_ACCEPTABLE);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        String result = "{\"_code\":\"S00000\",\"_message\":\"Not Acceptable 已列入黑名单，访问受限\"}";
+        String result = "{\"code\":\"S00000\",\"msg\":\"Not Acceptable 已列入黑名单，访问受限\"}";
         DataBuffer dataBuffer = response.bufferFactory().wrap((result).getBytes());
         return response.writeWith(Mono.just(dataBuffer));
 
