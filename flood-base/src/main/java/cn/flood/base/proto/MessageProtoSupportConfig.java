@@ -91,7 +91,7 @@ public class MessageProtoSupportConfig implements WebMvcConfigurer {
     //需要追加byte，否则springdoc-openapi接口会响应Base64编码内容，导致接口文档显示失败
     // https://github.com/springdoc/springdoc-openapi/issues/2143
     // 解决方案
-    converters.add(new ByteArrayHttpMessageConverter());
+    converters.add(0, new ByteArrayHttpMessageConverter());
 
     // Jackson配置类
     ObjectMapper objectMapper = new ObjectMapper();
@@ -142,7 +142,7 @@ public class MessageProtoSupportConfig implements WebMvcConfigurer {
     javaTimeModule.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
     objectMapper.registerModule(javaTimeModule);
 
-    converters.add(new MappingApiJackson2HttpMessageConverter(objectMapper));
+    converters.add(1, new MappingApiJackson2HttpMessageConverter(objectMapper));
 
 
   }
