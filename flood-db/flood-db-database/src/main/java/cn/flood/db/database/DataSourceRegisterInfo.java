@@ -45,6 +45,11 @@ public class DataSourceRegisterInfo {
   private Integer maxWait;
 
   /**
+   * 单位：秒，执行查询的超时时间，单位是秒
+   */
+  private Integer queryTimeout;
+
+  /**
    * 有两个含义： 1) Destroy线程会检测连接的间隔时间，如果连接空闲时间大于等于minEvictableIdleTimeMillis则关闭物理连接。 2)
    * testWhileIdle的判断依据，详细看testWhileIdle属性的说明
    */
@@ -202,6 +207,14 @@ public class DataSourceRegisterInfo {
 
   public void setMaxWait(Integer maxWait) {
     this.maxWait = maxWait;
+  }
+
+  public Integer getQueryTimeout() {
+    return queryTimeout;
+  }
+
+  public void setQueryTimeout(Integer queryTimeout) {
+    this.queryTimeout = queryTimeout;
   }
 
   public Integer getTimeBetweenEvictionRunsMillis() {

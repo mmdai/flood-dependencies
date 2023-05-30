@@ -65,11 +65,12 @@ public class DruidDataSourceConfig {
       datasource.setMinIdle(druidDbProperties.getMinIdle());
       datasource.setMaxActive(druidDbProperties.getMaxActive());
       datasource.setMaxWait(druidDbProperties.getMaxWait());
+      datasource.setQueryTimeout(druidDbProperties.getQueryTimeout());
       datasource
           .setTimeBetweenEvictionRunsMillis(druidDbProperties.getTimeBetweenEvictionRunsMillis());
       datasource.setMinEvictableIdleTimeMillis(druidDbProperties.getMinEvictableIdleTimeMillis());
       datasource.setValidationQuery(druidDbProperties.getValidationQuery());
-      datasource.setQueryTimeout(druidDbProperties.getValidationQueryTimeout());
+      datasource.setValidationQueryTimeout(druidDbProperties.getValidationQueryTimeout());
       datasource.setTestWhileIdle(druidDbProperties.isTestWhileIdle());
       datasource.setTestOnBorrow(druidDbProperties.isTestOnBorrow());
       datasource.setTestOnReturn(druidDbProperties.isTestOnReturn());

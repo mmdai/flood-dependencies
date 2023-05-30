@@ -35,7 +35,9 @@ spring:
       min-idle: 20
       max-active: 120
       #获取连接等待超时时间
-      max-wait: 30000
+      max-wait: 15000
+      #查询响应时间
+      query-timeout: 15
       validation-query: select 1
       validation-query-timeout: 5
       test-on-borrow: true
@@ -87,7 +89,9 @@ spring:
       min-idle: 20
       max-active: 120
       #获取连接等待超时时间
-      max-wait: 30000
+      max-wait: 15000
+      #查询响应时间
+      query-timeout: 15
       validation-query: select 1
     druid:
       #配置初始化大小/最小/最大
@@ -95,7 +99,9 @@ spring:
       min-idle: 20
       max-active: 120
       #获取连接等待超时时间
-      max-wait: 30000
+      max-wait: 15000
+      #查询响应时间
+      query-timeout: 15
       validation-query: select 1
       validation-query-timeout: 5
       test-on-borrow: true
