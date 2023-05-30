@@ -33,7 +33,12 @@ public class DruidDbProperties {
   /**
    * 获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置useUnfairLock属性为true使用非公平锁。
    */
-  private int maxWait = 30000;
+  private int maxWait = 15000;
+
+  /**
+   * 单位：秒，执行查询的超时时间，单位是秒
+   */
+  private int queryTimeout = 15;
 
   /**
    * 有两个含义： 1) Destroy线程会检测连接的间隔时间，如果连接空闲时间大于等于minEvictableIdleTimeMillis则关闭物理连接。 2)
@@ -51,7 +56,7 @@ public class DruidDbProperties {
    */
   private String validationQuery = "SELECT 1";
   /**
-   * 单位：秒，检测连接是否有效的超时时间。底层调用jdbc Statement对象的void setQueryTimeout(int seconds)方法
+   *  单位：秒，检测连接是否有效的超时时间。底层调用jdbc Statement对象的void setQueryTimeout(int seconds)方法
    */
   private int validationQueryTimeout = 5;
 
@@ -100,6 +105,7 @@ public class DruidDbProperties {
    * kylin的filter
    */
   private String kylinFilters = "config";
+
   /**
    * 通过connectProperties属性来打开mergeSql功能；慢SQL记录
    */
