@@ -91,6 +91,7 @@ public class FloodRequestMappingHandlerMapping extends RequestMappingHandlerMapp
     if (nonUrlVersion) {
       return null;
     }
+    //springboot 3.x 默认使用PatternParser
     RequestMappingInfo.BuilderConfiguration config = new RequestMappingInfo.BuilderConfiguration();
     config.setPatternParser(new PathPatternParser());
     return RequestMappingInfo.paths(urlVersion.value()).options(config).build();
