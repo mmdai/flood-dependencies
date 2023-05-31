@@ -21,9 +21,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 /**
  * url版本号处理 和 header 版本处理
@@ -89,7 +91,9 @@ public class FloodRequestMappingHandlerMapping extends RequestMappingHandlerMapp
     if (nonUrlVersion) {
       return null;
     }
-    return RequestMappingInfo.paths(urlVersion.value()).build();
+    RequestMappingInfo.BuilderConfiguration config = new RequestMappingInfo.BuilderConfiguration();
+    config.setPatternParser(new PathPatternParser());
+    return RequestMappingInfo.paths(urlVersion.value()).options(config).build();
   }
 
 
