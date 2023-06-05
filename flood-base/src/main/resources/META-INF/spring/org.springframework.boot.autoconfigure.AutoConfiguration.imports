@@ -4,3 +4,4 @@ cn.flood.base.mvc.version.VersionMappingAutoConfiguration
 cn.flood.base.filter.XssRequestConfig
 cn.flood.base.handle.GlobalDefaultExceptionHandler
 cn.flood.base.undertow.UndertowHttp2Configuration
+cn.flood.base.okhttp.RestTemplateConfiguration

@@ -1,4 +1,3 @@
-cn.flood.cloud.grpc.http.RestTemplateConfiguration
 cn.flood.cloud.grpc.config.FloodCloudAutoConfiguration
 cn.flood.cloud.grpc.config.LoadBalancerAutoConfiguration
 cn.flood.cloud.grpc.fegin.FeignProtoSupportConfig

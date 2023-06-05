@@ -42,7 +42,6 @@
 	  <jsoup.version>1.15.3</jsoup.version>
 	  <easy.captcha.version>1.6.2</easy.captcha.version>
 	  <fastjson.version>2.0.23</fastjson.version>
-	  <okhttp3.version>5.0.0-alpha.11</okhttp3.version>
 	  <zookeeper.version>3.7.0</zookeeper.version>
 	  <orika.version>1.5.4</orika.version>
 	  <!-- netty -->

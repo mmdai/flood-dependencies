@@ -17,12 +17,6 @@
             <artifactId>flood-base</artifactId>
             <version>${flood.version}</version>
         </dependency>
-        <!-- okhttp3 -->
-        <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>${okhttp3.version}</version>
-        </dependency>
         <!-- spring jdbc -->
         <dependency>
             <groupId>org.springframework</groupId>
