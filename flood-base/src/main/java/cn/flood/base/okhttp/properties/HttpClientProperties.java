@@ -1,7 +1,8 @@
-package cn.flood.oauth.configuration.client.restTempate;
+package cn.flood.base.okhttp.properties;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.concurrent.TimeUnit;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(
     prefix = "feign.httpclient"

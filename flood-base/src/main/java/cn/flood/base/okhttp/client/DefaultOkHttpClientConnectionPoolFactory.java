@@ -1,8 +1,8 @@
-package cn.flood.oauth.configuration.client.httpclient;
-
-import java.util.concurrent.TimeUnit;
+package cn.flood.base.okhttp.client;
 
 import okhttp3.ConnectionPool;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Default implementation of {@link OkHttpClientConnectionPoolFactory}.

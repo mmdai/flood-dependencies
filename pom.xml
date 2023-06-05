@@ -50,8 +50,9 @@
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->
 	  <druid.version>1.2.18</druid.version>
-	  <mybatis.pagehelper-starter.vesion>1.4.6</mybatis.pagehelper-starter.vesion>
-	  <mybatis.spring.boot.starter.version>3.0.1</mybatis.spring.boot.starter.version>
+	  <pagehelper.version>5.3.2</pagehelper.version>
+	  <mybatis.version>3.5.13</mybatis.version>
+	  <mybatis-spring.version>3.0.2</mybatis-spring.version>
 	  <mysql-connector-java.version>8.0.29</mysql-connector-java.version>
 	  <!--mybatis 3.5.x与jdk1.8的(DefaultReflectorFactory==反射的computeIfAbsent 存在相同key锁问题)，解决升级3.5.7已修改-->
 	  <!--<mybatis.version>3.5.7</mybatis.version>-->

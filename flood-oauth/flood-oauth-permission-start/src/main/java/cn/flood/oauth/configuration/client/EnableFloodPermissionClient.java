@@ -1,7 +1,5 @@
 package cn.flood.oauth.configuration.client;
 
-import cn.flood.oauth.configuration.client.restTempate.HttpClientProperties;
-import cn.flood.oauth.configuration.client.restTempate.RestTemplateConfiguration;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,8 +15,7 @@ import org.springframework.context.annotation.Import;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = {ElementType.TYPE})
 @Documented
-@Import({HttpClientProperties.class, RestTemplateConfiguration.class,
-    FloodPermissionClientConfiguration.class})
+@Import({FloodPermissionClientConfiguration.class})
 public @interface EnableFloodPermissionClient {
 
 }

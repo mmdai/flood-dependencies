@@ -1,4 +1,4 @@
-package cn.flood.cloud.grpc.httpclient;
+package cn.flood.base.okhttp.client;
 
 import okhttp3.OkHttpClient;
 
