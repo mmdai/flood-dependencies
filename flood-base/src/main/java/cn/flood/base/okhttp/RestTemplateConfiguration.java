@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.commons.httpclient.OkHttpClientConnectionPoolFactory;
 import org.springframework.cloud.commons.httpclient.OkHttpClientFactory;
@@ -47,6 +48,7 @@ import java.util.concurrent.TimeUnit;
         HttpClientProperties.class
 })
 @ConditionalOnClass(okhttp3.OkHttpClient.class)
+@ConditionalOnProperty(prefix = "fegin.okhttp", name = "enabled", havingValue = "true") // 设置为 false 时，禁用
 public class RestTemplateConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());
