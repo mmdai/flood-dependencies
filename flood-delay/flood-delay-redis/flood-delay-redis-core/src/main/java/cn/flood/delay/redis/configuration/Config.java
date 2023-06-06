@@ -16,7 +16,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2019/11/21
  */
 
-@ConfigurationProperties("spring.redis")
+@ConfigurationProperties("spring.data.redis")
 public class Config {
 
   private static final String DEFAULT_DQUEUE_PREFIX_NAME = "delay-queue-";
@@ -26,6 +26,8 @@ public class Config {
   private String host;
 
   private int port = 6379;
+
+  private int database = 0;
 
   private String password;
 
@@ -62,13 +64,14 @@ public class Config {
   public Config() {
   }
 
-  public Config(String keyPrefix, String host, int port, String password, Sentinel sentinel,
+  public Config(String keyPrefix, String host, int port, int database, String password, Sentinel sentinel,
       Cluster cluster, Duration timeout, int retryInterval, int taskTtl, int callbackTtl,
       int maxJobCoreSize, int maxCallbackCoreSize, Map<String, Callback> callbacks,
       Set<String> processedKeys) {
     this.keyPrefix = keyPrefix;
     this.host = host;
     this.port = port;
+    this.database = database;
     this.password = password;
     this.sentinel = sentinel;
     this.cluster = cluster;
@@ -196,6 +199,14 @@ public class Config {
 
   public void setPort(int port) {
     this.port = port;
+  }
+
+  public int getDatabase() {
+    return database;
+  }
+
+  public void setDatabase(int database) {
+    this.database = database;
   }
 
   public String getPassword() {
