@@ -43,7 +43,7 @@ public class IndexController {
     user.setId(1234);
 //        user.setDateTime(LocalDateTime.now());
     user.setName("哈哈");
-    user.setContent("我猜你是ABC");
+    user.setContent("我猜你是ABC"+UUID.randomUUID());
     message.setMsg(user);
     message.setMsgId(UUID.randomUUID().toString().replaceAll("-", ""));
     message.setDelayTime(60);
@@ -68,7 +68,7 @@ public class IndexController {
     user.setId(1234);
 //        user.setDateTime(LocalDateTime.now());
     user.setName("哈哈");
-    user.setContent("我猜你是CCCCCCCCCC");
+    user.setContent("我猜你是CCCCCCCCCC"+UUID.randomUUID());
     message.setMsg(user);
     message.setMsgId(UUID.randomUUID().toString().replaceAll("-", ""));
     message.setDelayTime(60);

@@ -16,11 +16,16 @@ public class OrderCancelListener implements MessageListener<Map> {
 
   @Override
   public String topic() {
-    return "order-cancel1";
+    return "order-cancel";
   }
 
   @Override
   public ConsumeStatus execute(Map data) {
+    try {
+      Thread.sleep(60000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
     log.info("取消订单: {}", data.toString());
     return ConsumeStatus.CONSUMED;
   }
