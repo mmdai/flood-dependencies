@@ -46,7 +46,7 @@ public class DQRedis {
   private boolean isCluster;
 
 
-  public DQRedis(String ip, int port, String password, Duration timeout,
+  public DQRedis(String ip, int port, int database, String password, Duration timeout,
       Config.Cluster cluster, Config.Sentinel sentinel) {
     ClientResources resources = DefaultClientResources.builder()
         .ioThreadPoolSize(2) //I/O线程数
@@ -85,9 +85,7 @@ public class DQRedis {
         Assert.notNull(parts, "Must be defined as 'host:port'");
         Assert.state(parts.length == 2, "Must be defined as 'host:port'");
         RedisURI.Builder uri = RedisURI.builder().withSentinel(parts[0], Integer.parseInt(parts[1]))
-            .
-                withSentinelMasterId(sentinel.getMaster()).withTimeout(timeout);
-        ;
+            .withSentinelMasterId(sentinel.getMaster()).withTimeout(timeout);
         if (!ObjectUtils.isEmpty(password)) {
           uri.withPassword(password.toCharArray());
         }
@@ -102,7 +100,7 @@ public class DQRedis {
       this.connection = connection;
     } else {
       RedisURI.Builder redisURI = RedisURI.builder().withHost(ip).withPort(port)
-          .withTimeout(timeout);
+              .withDatabase(database).withTimeout(timeout);
       if (!ObjectUtils.isEmpty(password)) {
         redisURI.withPassword(password.toCharArray());
       }
