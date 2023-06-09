@@ -48,7 +48,7 @@ import java.util.concurrent.TimeUnit;
         HttpClientProperties.class
 })
 @ConditionalOnClass(okhttp3.OkHttpClient.class)
-@ConditionalOnProperty(prefix = "fegin.okhttp", name = "enabled", havingValue = "true") // 设置为 false 时，禁用
+@ConditionalOnProperty(prefix = "feign.okhttp", name = "enabled", havingValue = "true") // 设置为 false 时，禁用
 public class RestTemplateConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());
