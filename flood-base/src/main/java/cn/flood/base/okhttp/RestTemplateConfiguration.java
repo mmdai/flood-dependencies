@@ -149,8 +149,8 @@ public class RestTemplateConfiguration {
     OkHttpClient.Builder builder = httpClientFactory
         .createBuilder(httpClientProperties.isDisableSslValidation())
         .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(15, TimeUnit.SECONDS)
         .followRedirects(followRedirects)
         .connectionPool(connectionPool);
     builder.protocols(protocols);
