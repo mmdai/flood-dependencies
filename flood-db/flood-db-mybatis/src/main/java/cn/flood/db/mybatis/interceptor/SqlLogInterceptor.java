@@ -4,11 +4,7 @@ import com.google.common.base.Stopwatch;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
@@ -47,6 +43,15 @@ public class SqlLogInterceptor implements Interceptor {
   private final Logger log = LoggerFactory.getLogger(this.getClass());
   private Method oracleGetOriginalSqlMethod;
   private Method druidGetSqlMethod;
+
+  private volatile Level level = Level.NONE;
+
+
+  public SqlLogInterceptor setLevel(Level level) {
+    Objects.requireNonNull(level, "level == null. Use Level.NONE instead.");
+    this.level = level;
+    return this;
+  }
 
   public static <T> T realTarget(Object target) {
     if (Proxy.isProxyClass(target.getClass())) {
@@ -132,7 +137,9 @@ public class SqlLogInterceptor implements Interceptor {
       if (index > 0) {
         originalSql = originalSql.substring(index);
       }
-
+      if(level== Level.NONE){
+        return invocation.proceed();
+      }
       // 计算执行 SQL 耗时
       Stopwatch stopwatch = Stopwatch.createStarted();
       Object result = invocation.proceed();
@@ -142,14 +149,20 @@ public class SqlLogInterceptor implements Interceptor {
       Object target = realTarget(invocation.getTarget());
       MetaObject metaObject = SystemMetaObject.forObject(target);
       MappedStatement ms = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
-
-      // 打印 sql
-      String sqlLogger = "\n\n==============  Sql Start  ==============" +
-          "\nExecute ID  ：{}" +
-          "\nExecute SQL ：{}" +
-          "\nExecute Time：{} ms" +
-          "\n==============  Sql  End   ==============\n";
-      log.info(sqlLogger, ms.getId(), originalSql, timing);
+      if(level== Level.BASIC){
+        // 打印 sql
+        String sqlLogger = " Sql Execute ID: {} ,Execute Time: {} ms" ;
+        log.info(sqlLogger, ms.getId(), timing);
+      }
+      if(level== Level.BODY){
+        // 打印 sql
+        String sqlLogger = "\n\n==============  Sql Start  ==============" +
+                "\nExecute ID  ：{}" +
+                "\nExecute SQL ：{}" +
+                "\nExecute Time：{} ms" +
+                "\n==============  Sql  End   ==============\n";
+        log.info(sqlLogger, ms.getId(), originalSql, timing);
+      }
       return result;
     }
     return invocation.proceed();
@@ -204,4 +217,19 @@ public class SqlLogInterceptor implements Interceptor {
     return list.get(0);
   }
 
+
+  public enum Level {
+    /**
+     * No logs.
+     */
+    NONE,
+    /**
+     * Logs request and response lines.
+     */
+    BASIC,
+    /**
+     * Logs request and response lines and their respective headers and bodies (if present).
+     */
+    BODY
+  }
 }
