@@ -1,5 +1,6 @@
 package cn.flood.db.database.spring;
 
+import cn.flood.base.core.constants.AppConstant;
 import cn.flood.db.mybatis.interceptor.SqlLogInterceptor;
 import cn.flood.db.mybatis.plus.EnumConfigurationHelper;
 import cn.flood.db.mybatis.plus.plugins.page.PaginationInterceptor;
@@ -20,6 +21,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.util.ObjectUtils;
@@ -46,8 +48,36 @@ public class SqlSessionFactorySpring {
     this.mybatisProperties = mybatisProperties;
   }
 
+  /**
+   * dev, test, uat 环境打印出BODY
+   *
+   * @return SqlLogInterceptor
+   */
+  @Bean("sqlLogInterceptor")
+  @Profile({AppConstant.DEV_CODE, AppConstant.TEST_CODE, AppConstant.UAT_CODE})
+  public SqlLogInterceptor testLoggingInterceptor() {
+    SqlLogInterceptor sqlLogInterceptor = new SqlLogInterceptor();
+    sqlLogInterceptor.setLevel(SqlLogInterceptor.Level.BODY);
+    return sqlLogInterceptor;
+  }
+
+
+  /**
+   * prod 环境打印出BASIC
+   *
+   * @return SqlLogInterceptor
+   */
+  @Bean("sqlLogInterceptor")
+  @Profile({AppConstant.PROD_CODE})
+  public SqlLogInterceptor prodLoggingInterceptor() {
+    SqlLogInterceptor sqlLogInterceptor = new SqlLogInterceptor();
+    sqlLogInterceptor.setLevel(SqlLogInterceptor.Level.BASIC);
+    return sqlLogInterceptor;
+  }
+
   @Bean(name = "sqlSessionFactory")
-  public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource)
+  public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource,
+                                             SqlLogInterceptor sqlLogInterceptor)
       throws Exception {
     MybatisSqlSessionFactoryBean sessionFactoryBean = new MybatisSqlSessionFactoryBean();
     sessionFactoryBean.setDataSource(dataSource);
@@ -71,7 +101,7 @@ public class SqlSessionFactorySpring {
       //添加分页
       sessionFactoryBean.setPlugins(
           new Interceptor[]{new PaginationInterceptor(), multiTenancyQueryInterceptor,
-              new SqlLogInterceptor()});
+                  sqlLogInterceptor});
       sessionFactoryBean.afterPropertiesSet();
       //添加通用枚举类型
       SqlSessionFactory sessionFactory = sessionFactoryBean.getObject();
