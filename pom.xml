@@ -38,7 +38,7 @@
 	  <commons.collections4.version>4.4</commons.collections4.version>
 	  <transmittable.thread.local.version>2.14.2</transmittable.thread.local.version>
 	  <classindex.version>3.13</classindex.version>
-	  <protostuff.version>1.2.2</protostuff.version>
+	  <protostuff.version>1.3.0</protostuff.version>
 	  <jsoup.version>1.15.3</jsoup.version>
 	  <easy.captcha.version>1.6.2</easy.captcha.version>
 	  <fastjson.version>2.0.23</fastjson.version>
