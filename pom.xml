@@ -28,7 +28,7 @@
 	  <!-- flood 版本 -->
 	  <flood.version>2.7.13-SNAPSHOT</flood.version>
 	  <!-- log -->
-	  <commons.io.version>2.11.0</commons.io.version>
+	  <commons.io.version>2.13.0</commons.io.version>
 	  <disruptor.version>3.4.4</disruptor.version>
 	  <!-- swagger -->
 	  <knife4j.version>4.1.0</knife4j.version>
@@ -47,7 +47,7 @@
 	  <!-- netty -->
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->
-	  <druid.version>1.2.15</druid.version>
+	  <druid.version>1.2.16</druid.version>
 	  <mybatis.version>3.5.13</mybatis.version>
 	  <mybatis-spring.version>2.1.1</mybatis-spring.version>
 	  <pagehelper.version>5.3.1</pagehelper.version>

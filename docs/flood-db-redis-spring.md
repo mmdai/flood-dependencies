@@ -44,7 +44,7 @@ spring:
     database: 0   #Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
     timeout: 10s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
     cluster:
-        max-redirects: 3
+        max-redirects: 3 #在群集中执行命令时要遵循的最大重定向数目
         nodes: 
           - 47.94.7.243:6001
           - 47.94.7.243:6002
