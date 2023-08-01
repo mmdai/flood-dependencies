@@ -20,27 +20,27 @@ public class ErrorMessage implements Serializable {
   /**
    * 错误码
    */
-  private String _code;
+  private String code;
 
   /**
    * 错误信息说明，实际从message.properties中翻译
    */
-  private String _msg;
+  private String msg;
 
 
-  public String get_code() {
-    return _code;
+  public String getCode() {
+    return code;
   }
 
-  public void set_code(String _code) {
-    this._code = _code;
+  public void setCode(String code) {
+    this.code = code;
   }
 
-  public String get_msg() {
-    return _msg;
+  public String getMsg() {
+    return msg;
   }
 
-  public void set_msg(String _msg) {
-    this._msg = _msg;
+  public void setMsg(String msg) {
+    this.msg = msg;
   }
 }

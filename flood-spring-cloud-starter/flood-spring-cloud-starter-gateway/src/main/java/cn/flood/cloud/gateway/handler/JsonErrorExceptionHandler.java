@@ -4,7 +4,6 @@ import cn.flood.cloud.gateway.props.ResourceProperties;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.DefaultErrorWebExceptionHandler;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
@@ -28,14 +27,16 @@ public class JsonErrorExceptionHandler extends DefaultErrorWebExceptionHandler {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-  @Autowired
+
   private ExceptionHandlerAdvice exceptionHandlerAdvice;
 
   public JsonErrorExceptionHandler(ErrorAttributes errorAttributes,
       ResourceProperties resourceProperties,
       ErrorProperties errorProperties,
-      ApplicationContext applicationContext) {
+      ApplicationContext applicationContext,
+       ExceptionHandlerAdvice exceptionHandlerAdvice) {
     super(errorAttributes, resourceProperties, errorProperties, applicationContext);
+    this.exceptionHandlerAdvice =  exceptionHandlerAdvice;
   }
 
 //    @Override

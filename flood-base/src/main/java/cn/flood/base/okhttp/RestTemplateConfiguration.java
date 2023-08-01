@@ -1,16 +1,10 @@
-package cn.flood.cloud.grpc.http;
+package cn.flood.base.okhttp;
 
 import cn.flood.base.core.constants.AppConstant;
 import cn.flood.base.core.exception.CoreException;
 import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
+import cn.flood.base.okhttp.properties.HttpClientProperties;
 import cn.flood.base.proto.converter.ProtostuffHttpMessageConverter;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
 import okhttp3.OkHttpClient;
 import okhttp3.Protocol;
@@ -19,9 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.commons.httpclient.OkHttpClientConnectionPoolFactory;
 import org.springframework.cloud.commons.httpclient.OkHttpClientFactory;
-import org.springframework.cloud.openfeign.support.FeignHttpClientProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -34,6 +29,14 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Http RestTemplateHeaderInterceptor 配置
  *
@@ -41,7 +44,11 @@ import org.springframework.web.client.RestTemplate;
  */
 @AutoConfiguration
 @AllArgsConstructor
+@EnableConfigurationProperties({
+        HttpClientProperties.class
+})
 @ConditionalOnClass(okhttp3.OkHttpClient.class)
+@ConditionalOnProperty(prefix = "feign.okhttp", name = "enabled", havingValue = "true") // 设置为 false 时，禁用
 public class RestTemplateConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -95,7 +102,7 @@ public class RestTemplateConfiguration {
   @Bean
   @ConditionalOnMissingBean(okhttp3.ConnectionPool.class)
   public okhttp3.ConnectionPool httpClientConnectionPool(
-      FeignHttpClientProperties httpClientProperties,
+      HttpClientProperties httpClientProperties,
       OkHttpClientConnectionPoolFactory connectionPoolFactory) {
     Integer maxTotalConnections = httpClientProperties.getMaxConnections();
     Long timeToLive = httpClientProperties.getTimeToLive();
@@ -117,7 +124,7 @@ public class RestTemplateConfiguration {
   public okhttp3.OkHttpClient httpClient(
       OkHttpClientFactory httpClientFactory,
       okhttp3.ConnectionPool connectionPool,
-      FeignHttpClientProperties httpClientProperties,
+      HttpClientProperties httpClientProperties,
       HttpLoggingInterceptor interceptor) {
     Boolean followRedirects = httpClientProperties.isFollowRedirects();
     Integer connectTimeout = httpClientProperties.getConnectionTimeout();
@@ -126,8 +133,8 @@ public class RestTemplateConfiguration {
     OkHttpClient.Builder builder = httpClientFactory
         .createBuilder(httpClientProperties.isDisableSslValidation())
         .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
+        .writeTimeout(15, TimeUnit.SECONDS)
+        .readTimeout(15, TimeUnit.SECONDS)
         .followRedirects(followRedirects)
         .connectionPool(connectionPool);
     builder.protocols(protocols);

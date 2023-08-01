@@ -65,6 +65,8 @@ public class MultiDataSourceRegister implements InitializingBean {
             : druidDbProperties.getMaxActive());
         ds.setMaxWait(Func.isNotEmpty(dsource.getMaxWait()) ? dsource.getMaxWait()
             : druidDbProperties.getMaxWait());
+        ds.setQueryTimeout(Func.isNotEmpty(dsource.getQueryTimeout()) ? dsource
+                .getQueryTimeout() : druidDbProperties.getQueryTimeout());
         ds.setTimeBetweenEvictionRunsMillis(
             Func.isNotEmpty(dsource.getTimeBetweenEvictionRunsMillis()) ? dsource
                 .getTimeBetweenEvictionRunsMillis()
@@ -76,7 +78,7 @@ public class MultiDataSourceRegister implements InitializingBean {
         ds.setValidationQuery(
             Func.isNotEmpty(dsource.getValidationQuery()) ? dsource.getValidationQuery()
                 : druidDbProperties.getValidationQuery());
-        ds.setQueryTimeout(Func.isNotEmpty(dsource.getValidationQueryTimeout()) ? dsource
+        ds.setValidationQueryTimeout(Func.isNotEmpty(dsource.getValidationQueryTimeout()) ? dsource
             .getValidationQueryTimeout() : druidDbProperties.getValidationQueryTimeout());
         ds.setTestWhileIdle(Func.isNotEmpty(dsource.getTestWhileIdle()) ? dsource.getTestWhileIdle()
             : druidDbProperties.isTestWhileIdle());

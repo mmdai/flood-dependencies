@@ -40,7 +40,7 @@ public class RDQueue {
   }
 
   private void init() {
-    this.dqRedis = new DQRedis(config.getHost(), config.getPort(), config.getPassword(),
+    this.dqRedis = new DQRedis(config.getHost(), config.getPort(), config.getDatabase(), config.getPassword(),
         config.getTimeout(), config.getCluster(),
         config.getSentinel());
 

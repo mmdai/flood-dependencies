@@ -27,6 +27,8 @@ public class Config {
 
   private int port = 6379;
 
+  private int database = 0;
+
   private String password;
 
   private Sentinel sentinel;
@@ -196,6 +198,14 @@ public class Config {
 
   public void setPort(int port) {
     this.port = port;
+  }
+
+  public int getDatabase() {
+    return database;
+  }
+
+  public void setDatabase(int database) {
+    this.database = database;
   }
 
   public String getPassword() {
