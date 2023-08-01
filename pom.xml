@@ -44,6 +44,7 @@
 	  <fastjson.version>2.0.23</fastjson.version>
 	  <zookeeper.version>3.7.0</zookeeper.version>
 	  <orika.version>1.5.4</orika.version>
+	  <easypoi.version>4.4.0</easypoi.version>
 	  <!-- netty -->
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->

@@ -28,5 +28,7 @@
         <module>flood-tools-id</module>
         <!-- 对象转换 -->
         <module>flood-tools-orika</module>
+        <!-- easypoi -->
+        <module>flood-tools-easypoi</module>
     </modules>
 </project>
