@@ -18,7 +18,7 @@ Sentinel |  | <img src="https://img.shields.io/badge/Sentinel-1.8.3-blue" alt="s
 Seata |  | <img src="https://img.shields.io/badge/Seata-1.5.2-blue" alt="Seata"/>
 XXL-JOB |  | <img src="https://img.shields.io/badge/XXL-JOB-2.3.0-blue" alt="XXL-JOB"/>
 
-- 主体框架：采用最新的`Spring Cloud 2021.0.3`, `Spring Boot 2.7.0`, `Spring Cloud Alibaba 2021.0.1.0`版本进行系统设计；
+- 主体框架：采用最新的`Spring Cloud 2021.0.8`, `Spring Boot 2.7.14`, `Spring Cloud Alibaba 2021.0.5.0`版本进行系统设计；
 
 - 统一注册：支持`Nacos`作为注册中心，实现多配置、分群组、分命名空间、多业务模块的注册和发现功能；
 
