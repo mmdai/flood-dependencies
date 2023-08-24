@@ -62,7 +62,7 @@
 	  <!-- elasticsearch -->
 	  <elasticsearch.version>7.17.8</elasticsearch.version>
 	  <!-- mq -->
-	  <rocketmq.version>4.9.3</rocketmq.version>
+	  <rocketmq.version>4.9.4</rocketmq.version>
 	  <pulsar.version>2.10.3</pulsar.version>
 	  <!-- outh -->
 	  <jjwt-j.version>0.11.5</jjwt-j.version>
