@@ -25,4 +25,13 @@ public class PersonDestination {
    */
   private int age;
 
+  @Override
+  public String toString() {
+    return "PersonDestination{" +
+            "givenName='" + givenName + '\'' +
+            ", sirName='" + sirName + '\'' +
+            ", birthDayFormat='" + birthDayFormat + '\'' +
+            ", age=" + age +
+            '}';
+  }
 }

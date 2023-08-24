@@ -26,4 +26,14 @@ public class PersonSource {
    */
   private int age;
 
+  @Override
+  public String toString() {
+    return "PersonSource{" +
+            "firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", birthDay=" + birthDay +
+            ", age=" + age +
+            '}';
+  }
+
 }
