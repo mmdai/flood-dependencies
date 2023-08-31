@@ -49,9 +49,14 @@ public class AsyncExecutorConfiguration implements AsyncConfigurer, SchedulingCo
     executor.setThreadNamePrefix("flood-async-executor-");
     //线程池维护线程所允许的空闲时间,单位为秒
     executor.setKeepAliveSeconds(asyncProperties.getKeepAliveSeconds());
-
+    //优雅关闭
+    executor.setWaitForTasksToCompleteOnShutdown(true);
     // rejection-policy：当pool已经达到max size的时候，如何处理新任务
-    // CALLER_RUNS：不在新线程中执行任务，而是有调用者所在的线程来执行
+    //当线程数满MaxPoolSize时，可采用以下拒绝策略
+    //CallerRunsPolicy()：交由调用方线程运行，比如 main 线程；如果添加到线程池失败，那么主线程会自己去执行该任务，不会等待线程池中的线程去执行
+    //AbortPolicy()：该策略是线程池的默认策略，如果线程池队列满了丢掉这个任务并且抛出RejectedExecutionException异常。
+    //DiscardPolicy()：如果线程池队列满了，会直接丢掉这个任务并且不会有任何异常
+    //DiscardOldestPolicy()：丢弃队列中最老的任务，队列满了，会将最早进入队列的任务删掉腾出空间，再尝试加入队列
     executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
     executor.initialize();
     return executor;
