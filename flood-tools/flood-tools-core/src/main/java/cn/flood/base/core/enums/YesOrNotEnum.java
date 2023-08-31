@@ -1,6 +1,8 @@
 package cn.flood.base.core.enums;
 
 import java.util.stream.Stream;
+
+import cn.flood.base.core.enums.base.CommonEnum;
 import lombok.Getter;
 
 /**
@@ -9,7 +11,7 @@ import lombok.Getter;
  * @author aaronuu
  */
 @Getter
-public enum YesOrNotEnum {
+public enum YesOrNotEnum implements CommonEnum {
 
   /**
    * 是
@@ -49,6 +51,11 @@ public enum YesOrNotEnum {
   }
 
   public String getName() {
+    return name;
+  }
+
+  @Override
+  public String getDescription() {
     return name;
   }
 }

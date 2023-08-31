@@ -1,6 +1,8 @@
 package cn.flood.base.core.enums;
 
 
+import cn.flood.base.core.enums.base.CommonEnum;
+
 import java.util.stream.Stream;
 
 /**
@@ -8,7 +10,7 @@ import java.util.stream.Stream;
  *
  * @author aaronuu
  */
-public enum StatusEnum {
+public enum StatusEnum implements CommonEnum {
 
   /**
    * 启用
@@ -51,6 +53,11 @@ public enum StatusEnum {
   }
 
   public String getName() {
+    return name;
+  }
+
+  @Override
+  public String getDescription() {
     return name;
   }
 }

@@ -1,5 +1,7 @@
 package cn.flood.base.core.enums;
 
+import cn.flood.base.core.enums.base.CommonEnum;
+
 import java.util.stream.Stream;
 
 /**
@@ -9,7 +11,7 @@ import java.util.stream.Stream;
  *
  * @author aaronuu
  */
-public enum DbTypeEnum {
+public enum DbTypeEnum implements CommonEnum {
 
   /**
    * mysql
@@ -65,5 +67,10 @@ public enum DbTypeEnum {
 
   public String getName() {
     return name;
+  }
+
+  @Override
+  public String getDescription() {
+     return name;
   }
 }

@@ -1,5 +1,7 @@
 package cn.flood.base.core.enums;
 
+import cn.flood.base.core.enums.base.CommonEnum;
+
 import java.util.stream.Stream;
 
 /**
@@ -7,7 +9,7 @@ import java.util.stream.Stream;
  *
  * @author aaronuu
  */
-public enum SexEnum {
+public enum SexEnum  implements CommonEnum {
 
   /**
    * 男
@@ -52,6 +54,11 @@ public enum SexEnum {
   }
 
   public String getName() {
+    return name;
+  }
+
+  @Override
+  public String getDescription() {
     return name;
   }
 }
