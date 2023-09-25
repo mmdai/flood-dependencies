@@ -20,6 +20,7 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -89,7 +90,7 @@ public class SpringBootVFS extends VFS {
    * @param supplier
    *          the supplier for providing {@link ClassLoader} to used
    *
-   * @since 2.3.1
+   * @since 3.0.2
    */
   public static void setClassLoaderSupplier(Supplier<ClassLoader> supplier) {
     classLoaderSupplier = supplier;
@@ -98,8 +99,9 @@ public class SpringBootVFS extends VFS {
   private static String preserveSubpackageName(final String baseUrlString, final Resource resource,
       final String rootPath) {
     try {
-      return rootPath + (rootPath.endsWith("/") ? "" : "/")
-          + resource.getURL().toString().substring(baseUrlString.length());
+      return rootPath + (rootPath.endsWith("/") ? "" : "/") + Normalizer
+          .normalize(URLDecoder.decode(resource.getURL().toString(), urlDecodingCharset.name()), Normalizer.Form.NFC)
+          .substring(baseUrlString.length());
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }

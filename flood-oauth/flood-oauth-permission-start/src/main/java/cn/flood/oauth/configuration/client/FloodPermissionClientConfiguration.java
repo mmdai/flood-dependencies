@@ -9,7 +9,7 @@ import cn.flood.oauth.configuration.FloodPermissionProperties;
 import java.util.Collection;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableConfigurationProperties(FloodPermissionProperties.class)
-@ConditionalOnClass(RestTemplate.class)
+@ConditionalOnBean(RestTemplate.class)
 public class FloodPermissionClientConfiguration implements WebMvcConfigurer,
     ApplicationContextAware {
 

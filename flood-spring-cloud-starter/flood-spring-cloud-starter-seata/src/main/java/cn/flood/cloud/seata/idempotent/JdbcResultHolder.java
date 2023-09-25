@@ -4,7 +4,7 @@ import cn.flood.base.core.Func;
 import cn.flood.base.core.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.Assert;

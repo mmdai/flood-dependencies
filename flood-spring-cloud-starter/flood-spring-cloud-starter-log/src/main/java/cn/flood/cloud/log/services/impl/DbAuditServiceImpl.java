@@ -7,7 +7,7 @@ import cn.flood.cloud.log.services.IAuditService;
 import com.alibaba.druid.pool.DruidDataSource;
 import java.sql.SQLException;
 import java.util.Properties;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.sql.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

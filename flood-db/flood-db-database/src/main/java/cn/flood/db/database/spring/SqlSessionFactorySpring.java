@@ -48,8 +48,6 @@ public class SqlSessionFactorySpring {
     this.mybatisProperties = mybatisProperties;
   }
 
-
-
   /**
    * dev, test, uat 环境打印出BODY
    *
@@ -79,7 +77,7 @@ public class SqlSessionFactorySpring {
 
   @Bean(name = "sqlSessionFactory")
   public SqlSessionFactory sqlSessionFactory(@Qualifier("dataSource") DataSource dataSource,
-                                             SqlLogInterceptor interceptor)
+                                             SqlLogInterceptor sqlLogInterceptor)
       throws Exception {
     MybatisSqlSessionFactoryBean sessionFactoryBean = new MybatisSqlSessionFactoryBean();
     sessionFactoryBean.setDataSource(dataSource);
@@ -103,7 +101,7 @@ public class SqlSessionFactorySpring {
       //添加分页
       sessionFactoryBean.setPlugins(
           new Interceptor[]{new PaginationInterceptor(), multiTenancyQueryInterceptor,
-                  interceptor});
+                  sqlLogInterceptor});
       sessionFactoryBean.afterPropertiesSet();
       //添加通用枚举类型
       SqlSessionFactory sessionFactory = sessionFactoryBean.getObject();

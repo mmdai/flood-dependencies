@@ -49,6 +49,7 @@ public class DataSourceRegisterInfo {
    */
   private Integer queryTimeout = 15;
 
+
   /**
    * 有两个含义： 1) Destroy线程会检测连接的间隔时间，如果连接空闲时间大于等于minEvictableIdleTimeMillis则关闭物理连接。 2)
    * testWhileIdle的判断依据，详细看testWhileIdle属性的说明

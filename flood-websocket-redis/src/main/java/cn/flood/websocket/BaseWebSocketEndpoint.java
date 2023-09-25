@@ -5,7 +5,7 @@ import cn.flood.base.core.Func;
 import cn.flood.base.core.context.SpringBeanManager;
 import cn.flood.websocket.utils.WebSocketUtil;
 import java.util.Date;
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

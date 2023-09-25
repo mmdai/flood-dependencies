@@ -3,6 +3,10 @@ package cn.flood.base.okhttp;
 import cn.flood.base.core.constants.AppConstant;
 import cn.flood.base.core.exception.CoreException;
 import cn.flood.base.core.exception.enums.GlobalErrorCodeEnum;
+import cn.flood.base.okhttp.client.DefaultOkHttpClientConnectionPoolFactory;
+import cn.flood.base.okhttp.client.DefaultOkHttpClientFactory;
+import cn.flood.base.okhttp.client.OkHttpClientConnectionPoolFactory;
+import cn.flood.base.okhttp.client.OkHttpClientFactory;
 import cn.flood.base.okhttp.properties.HttpClientProperties;
 import cn.flood.base.proto.converter.ProtostuffHttpMessageConverter;
 import lombok.AllArgsConstructor;
@@ -15,8 +19,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.commons.httpclient.OkHttpClientConnectionPoolFactory;
-import org.springframework.cloud.commons.httpclient.OkHttpClientFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
@@ -48,7 +50,7 @@ import java.util.concurrent.TimeUnit;
         HttpClientProperties.class
 })
 @ConditionalOnClass(okhttp3.OkHttpClient.class)
-@ConditionalOnProperty(prefix = "feign.okhttp", name = "enabled", havingValue = "true") // 设置为 false 时，禁用
+@ConditionalOnProperty(prefix = "spring.cloud.openfeign.okhttp", name = "enabled", havingValue = "true") // 设置为 false 时，禁用
 public class RestTemplateConfiguration {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -92,6 +94,20 @@ public class RestTemplateConfiguration {
     return interceptor;
   }
 
+
+
+  @Bean
+  @ConditionalOnMissingBean(OkHttpClientConnectionPoolFactory.class)
+  public OkHttpClientConnectionPoolFactory connPoolFactory() {
+    return new DefaultOkHttpClientConnectionPoolFactory();
+  }
+
+
+  @Bean
+  @ConditionalOnMissingBean(OkHttpClientFactory.class)
+  public OkHttpClientFactory okHttpClientFactory() {
+    return new DefaultOkHttpClientFactory(new OkHttpClient.Builder());
+  }
   /**
    * okhttp3 链接池配置
    *

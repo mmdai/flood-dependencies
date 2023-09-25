@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
@@ -87,6 +88,10 @@ public class MessageProtoSupportConfig implements WebMvcConfigurer {
     converters.add(new StringHttpMessageConverter(StandardCharsets.UTF_8));
     //使用converters.add(xxx)会放在最低优先级（List的尾部）
     converters.add(protobufHttpMessageConverter());
+    //需要追加byte，否则springdoc-openapi接口会响应Base64编码内容，导致接口文档显示失败
+    // https://github.com/springdoc/springdoc-openapi/issues/2143
+    // 解决方案
+    converters.add(0, new ByteArrayHttpMessageConverter());
 
     // Jackson配置类
     ObjectMapper objectMapper = new ObjectMapper();
@@ -137,7 +142,8 @@ public class MessageProtoSupportConfig implements WebMvcConfigurer {
     javaTimeModule.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
     objectMapper.registerModule(javaTimeModule);
 
-    converters.add(0, new MappingApiJackson2HttpMessageConverter(objectMapper));
+    converters.add(1, new MappingApiJackson2HttpMessageConverter(objectMapper));
+
 
   }
 

@@ -13,10 +13,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Field;
@@ -269,7 +268,7 @@ public class EasyExcelUtil {
         /*生成图表*/
         if(!StringUtils.isEmpty(imgBase64)) {
             String[] imgUrlArr = imgBase64.split("base64,");  //拆分base64编码后部分
-            byte[] buffer = new BASE64Decoder().decodeBuffer(imgUrlArr[1]);
+            byte[] buffer = Base64.getDecoder().decode(imgUrlArr[1]);
             String picPath = System.getProperty("user.dir")+"\\upload\\excel\\pic.png"; // 图片临时路径
             File file = new File(picPath); //图片文件
             try {

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Future;
-import javax.websocket.Session;
+import jakarta.websocket.Session;
 
 
 public class WebSocketUtil {

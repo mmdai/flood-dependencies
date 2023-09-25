@@ -11,6 +11,7 @@
     </dependency>
 ```
 ##### 2. 使用说明：
+springboot 3.x redis配置 prefix = "spring.data.redis"
 
 @Autowired
 private RedisService redisService
@@ -20,31 +21,33 @@ yml方式：
 ```yaml
 # 默认配置
 spring:
-  redis:
-    database: 0
-    host: localhost
-    password: 
-    port: 6379
-    timeout: 0
-    ssl: false
-    lettuce:
-      pool:
-        max-wait: -1ms
-        max-active: 8
-        max-idle: 8
-        min-idle: 0
+  data:
+    redis:
+      database: 0
+      host: localhost
+      password: 
+      port: 6379
+      timeout: 0
+      ssl: false
+      lettuce:
+        pool:
+          max-wait: -1ms
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
 
 ```
 #集群配置    
 ---
 spring:
-  redis:
-    password: 
-    encode: utf-8
-    database: 0   #Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
-    timeout: 10s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
-    cluster:
-        max-redirects: 3 #在群集中执行命令时要遵循的最大重定向数目
+  data:
+    redis:
+      password: 
+      encode: utf-8
+      database: 0   #Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
+      timeout: 10s  # 数据库连接超时时间，2.0 中该参数的类型为Duration，这里在配置的时候需要指明单位
+      cluster:
+        max-redirects: 3
         nodes: 
           - 47.94.7.243:6001
           - 47.94.7.243:6002
@@ -52,32 +55,32 @@ spring:
           - 47.94.7.243:6004
           - 47.94.7.243:6005
           - 47.94.7.243:6006
-    # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
-    lettuce:
-      pool:
-       # 连接池最大活跃连接数（使用负值表示没有限制） 默认 8,负数为不限制
-       max-active: 20
-       # 连接池中的最大空闲连接 默认 8
-       max-idle: 20
-       # 最小空闲连接数
-       min-idle: 15
-       # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
-       max-wait: 30000
+      # 连接池配置，2.0中直接使用jedis或者lettuce配置连接池
+      lettuce:
+        pool:
+        # 连接池最大活跃连接数（使用负值表示没有限制） 默认 8,负数为不限制
+        max-active: 20
+        # 连接池中的最大空闲连接 默认 8
+        max-idle: 20
+        # 最小空闲连接数
+        min-idle: 15
+        # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认 -1
+        max-wait: 30000
 
 
 properties方式：
 ```properties
 # 默认配置
-spring.redis.database=0
-spring.redis.host=localhost
-spring.redis.password=
-spring.redis.port=6379
-spring.redis.timeout=0
-spring.redis.ssl=false
-spring.redis.lettuce.pool.max-wait=1ms
-spring.redis.lettuce.pool.max-active=8
-spring.redis.lettuce.pool.max-idle=8
-spring.redis.lettuce.pool.min-idle=0
+spring.data.redis.database=0
+spring.data.redis.host=localhost
+spring.data.redis.password=
+spring.data.redis.port=6379
+spring.data.redis.timeout=0
+spring.data.redis.ssl=false
+spring.data.redis.lettuce.pool.max-wait=1ms
+spring.data.redis.lettuce.pool.max-active=8
+spring.data.redis.lettuce.pool.max-idle=8
+spring.data.redis.lettuce.pool.min-idle=0
 ```
 
 ##### 二、开始使用

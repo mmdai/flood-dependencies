@@ -5,11 +5,12 @@
   <parent>
     <groupId>io.github.mmdai</groupId>
     <artifactId>flood-dependencies</artifactId>
-    <version>2.7.16.0-SNAPSHOT</version>
+    <version> 3.0.8.0-SNAPSHOT</version>
   </parent>
   <groupId>io.github.mmdai</groupId>
   <artifactId>flood-base</artifactId>
-  <version>2.7.16.0-SNAPSHOT</version>
+  <version> 3.0.8.0-SNAPSHOT</version>
+
   <name>flood-base</name>
   <url>http://maven.apache.org</url>
 
@@ -25,8 +26,8 @@
           <artifactId>undertow-websockets-jsr</artifactId>
       </dependency>
     <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>javax.servlet-api</artifactId>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
     </dependency>
     <dependency>
     	<groupId>org.springframework</groupId>
@@ -83,6 +84,16 @@
       <dependency>
           <groupId>com.alibaba.csp</groupId>
           <artifactId>sentinel-parameter-flow-control</artifactId>
+      </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+
+      <dependency>
+          <groupId>com.squareup.okhttp3</groupId>
+          <artifactId>okhttp</artifactId>
       </dependency>
 
       <dependency>
