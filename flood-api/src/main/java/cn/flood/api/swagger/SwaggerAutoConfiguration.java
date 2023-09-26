@@ -108,7 +108,7 @@ public class SwaggerAutoConfiguration {
      */
     @Bean
     public GroupedOpenApi allGroupedOpenApi() {
-        return buildGroupedOpenApi("all", "");
+        return buildGroupedOpenApi("default", "");
     }
 
     public static GroupedOpenApi buildGroupedOpenApi(String group) {
