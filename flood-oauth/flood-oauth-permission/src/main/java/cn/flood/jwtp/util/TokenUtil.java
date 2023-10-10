@@ -150,7 +150,7 @@ public class TokenUtil {
    * @return 载体
    */
   public static String parseToken(String token, String hexKey) {
-    Jws<Claims> claimsJws = Jwts.parserBuilder().setSigningKey(parseHexKey(hexKey)).build()
+    Jws<Claims> claimsJws = Jwts.parser().setSigningKey(parseHexKey(hexKey)).build()
         .parseClaimsJws(token);
     return claimsJws.getBody().getSubject();
   }

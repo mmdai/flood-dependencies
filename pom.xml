@@ -53,9 +53,9 @@
 	  <!-- netty -->
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->
-	  <druid.version>1.2.18</druid.version>
+	  <druid.version>1.2.20</druid.version>
 
-	  <pagehelper.version>5.3.2</pagehelper.version>
+	  <pagehelper.version>5.3.3</pagehelper.version>
 	  <mybatis.version>3.5.13</mybatis.version>
 	  <mybatis-spring.version>3.0.2</mybatis-spring.version>
 
@@ -72,7 +72,7 @@
 	  <rocketmq.version>4.9.4</rocketmq.version>
 	  <pulsar.version>2.10.3</pulsar.version>
 	  <!-- outh -->
-	  <jjwt-j.version>0.11.5</jjwt-j.version>
+	  <jjwt-j.version>0.12.2</jjwt-j.version>
 	</properties>
 
   <dependencies>
