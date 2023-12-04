@@ -13,7 +13,7 @@ public interface HeaderConstant {
   /**
    * 平台类型 WEB,APP
    */
-  String CLIENT_ID = "client_id";
+  String CLIENT_ID = "client-id";
 
 
   String DEFAULT_CLIENT_ID = "all";
@@ -21,7 +21,7 @@ public interface HeaderConstant {
   /**
    * header 中租户ID
    */
-  String TENANT_ID = "tenant_id";
+  String TENANT_ID = "tenant-id";
 
   /**
    * 租户id参数
@@ -46,5 +46,5 @@ public interface HeaderConstant {
   /**
    * 传参token
    */
-  String ACCESS_TOKEN = "access_token";
+  String ACCESS_TOKEN = "access-token";
 }

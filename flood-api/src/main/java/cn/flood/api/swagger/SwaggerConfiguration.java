@@ -148,17 +148,17 @@ public class SwaggerConfiguration {
   private List<SecurityScheme> securitySchemes() {
     List<SecurityScheme> securitySchemes = new ArrayList<>();
     securitySchemes.add(new ApiKey("Authorization", "Authorization", "header"));
-    securitySchemes.add(new ApiKey("access_token", "access_token", "header"));
+    securitySchemes.add(new ApiKey("access-token", "access-token", "header"));
     securitySchemes.add(new ApiKey("version", "version", "header"));
-    securitySchemes.add(new ApiKey("tenant_id", "tenant_id", "header"));
-    securitySchemes.add(new ApiKey("client_id", "client_id", "header"));
-    securitySchemes.add(new ApiKey("captcha_key", "captcha_key", "header"));
-    securitySchemes.add(new ApiKey("captcha_code", "captcha_code", "header"));
+    securitySchemes.add(new ApiKey("tenant-id", "tenant-id", "header"));
+    securitySchemes.add(new ApiKey("client-id", "client-id", "header"));
+    securitySchemes.add(new ApiKey("captcha-key", "captcha-key", "header"));
+    securitySchemes.add(new ApiKey("captcha-code", "captcha-code", "header"));
 //		securitySchemes.add(new ApiKey("版本号(1.0.0)", "version", "header"));
-//		securitySchemes.add(new ApiKey("租户ID", "tenant_id", "header"));
-//		securitySchemes.add(new ApiKey("平台类型(web,app)", "client_id", "header"));
-//		securitySchemes.add(new ApiKey("验证码KEY", "captcha_key", "header"));
-//		securitySchemes.add(new ApiKey("验证码CODE", "captcha_code", "header"));
+//		securitySchemes.add(new ApiKey("租户ID", "tenant-id", "header"));
+//		securitySchemes.add(new ApiKey("平台类型(web,app)", "client-id", "header"));
+//		securitySchemes.add(new ApiKey("验证码KEY", "captcha-key", "header"));
+//		securitySchemes.add(new ApiKey("验证码CODE", "captcha-code", "header"));
     return securitySchemes;
   }
 
@@ -179,9 +179,9 @@ public class SwaggerConfiguration {
         new AuthorizationScope[]{new AuthorizationScope("global", "accessEverything")}));
     securityReferences.add(new SecurityReference("version",
         new AuthorizationScope[]{new AuthorizationScope("global", "1.0.0")}));
-    securityReferences.add(new SecurityReference("client_id",
+    securityReferences.add(new SecurityReference("client-id",
         new AuthorizationScope[]{new AuthorizationScope("global", "all")}));
-    securityReferences.add(new SecurityReference("tenant_id",
+    securityReferences.add(new SecurityReference("tenant-id",
         new AuthorizationScope[]{new AuthorizationScope("global", "0")}));
 //		securityReferences.add(new SecurityReference("Authorization", new AuthorizationScope[]{new AuthorizationScope("global", "accessEverything")}));
 //		securityReferences.add(new SecurityReference("版本号(1.0.0)", new AuthorizationScope[]{new AuthorizationScope("global", "1.0.0")}));

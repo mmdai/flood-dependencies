@@ -37,9 +37,9 @@ public class TokenUtil {
   //默认头
   public static final String PREFIX = "Bearer ";
 
-  public static final String CAPTCHA_HEADER_KEY = "captcha_key";
+  public static final String CAPTCHA_HEADER_KEY = "captcha-key";
 
-  public static final String CAPTCHA_HEADER_CODE = "captcha_code";
+  public static final String CAPTCHA_HEADER_CODE = "captcha-code";
 
   /**
    * 生成token
