@@ -136,10 +136,10 @@ public class SwaggerAutoConfiguration {
      */
     private static Parameter buildTenantHeaderParameter() {
         return new Parameter()
-                .name("tenant_id") // header 名
+                .name("tenant-id") // header 名
                 .description("租户编号") // 描述
                 .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new IntegerSchema()._default(1L).name("tenant_id").description("租户编号")); // 默认：使用租户编号为 1
+                .schema(new IntegerSchema()._default(1L).name("tenant-id").description("租户编号")); // 默认：使用租户编号为 1
     }
 
     /**
@@ -162,10 +162,10 @@ public class SwaggerAutoConfiguration {
      */
     private static Parameter buildPlatformHeaderParameter() {
         return new Parameter()
-                .name("client_id") // header 名
+                .name("client-id") // header 名
                 .description("平台类型") // 描述
                 .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new StringSchema()._default("web").name("client_id").description("平台类型")); // 默认：使用平台编号为web
+                .schema(new StringSchema()._default("web").name("client-id").description("平台类型")); // 默认：使用平台编号为web
     }
 
     /**
@@ -175,10 +175,10 @@ public class SwaggerAutoConfiguration {
      */
     private static Parameter buildCaptchaKeyHeaderParameter() {
         return new Parameter()
-                .name("captcha_key") // header 名
+                .name("captcha-key") // header 名
                 .description("验证码KEY") // 描述
                 .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new StringSchema()._default("www-random").name("captcha_key").description("验证码KEY")); // 默认：验证码KEY
+                .schema(new StringSchema()._default("www-random").name("captcha-key").description("验证码KEY")); // 默认：验证码KEY
     }
 
 
@@ -189,10 +189,10 @@ public class SwaggerAutoConfiguration {
      */
     private static Parameter buildCaptchaCodeHeaderParameter() {
         return new Parameter()
-                .name("captcha_code") // header 名
+                .name("captcha-code") // header 名
                 .description("验证码CODE") // 描述
                 .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new StringSchema()._default("23").name("captcha_code").description("验证码CODE")); // 默认：使用平台编号为web
+                .schema(new StringSchema()._default("23").name("captcha-code").description("验证码CODE")); // 默认：使用平台编号为web
     }
 
 
@@ -209,7 +209,7 @@ public class SwaggerAutoConfiguration {
                 .name(HttpHeaders.AUTHORIZATION) // header 名
                 .description("认证 Token") // 描述
                 .in(String.valueOf(SecurityScheme.In.HEADER)) // 请求 header
-                .schema(new StringSchema()._default("Bearer test1").name("tenant_id").description("认证 Token")); // 默认：使用用户编号为 1
+                .schema(new StringSchema()._default("Bearer test1").name("tenant-id").description("认证 Token")); // 默认：使用用户编号为 1
     }
 
 }
