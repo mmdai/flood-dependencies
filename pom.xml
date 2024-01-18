@@ -22,7 +22,7 @@
 	  <spring-cloud-alibaba-dependencies.version>2021.0.5.0</spring-cloud-alibaba-dependencies.version>
 <!--	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>-->
 	  <!-- nacos -->
-	  <nacos.version>2.2.3</nacos.version>
+	  <nacos.version>2.3.0</nacos.version>
 	  <!-- seata -->
 	  <seata.version>1.6.1</seata.version>
 	  <!-- flood 版本 -->
@@ -178,6 +178,11 @@
 			<version>${nacos.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-spring-boot-starter</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 		    <artifactId>spring-cloud-alibaba-dependencies</artifactId>
 		    <version>${spring-cloud-alibaba-dependencies.version}</version>
@@ -187,6 +192,10 @@
 					<exclusion>
 						<groupId>com.alibaba.nacos</groupId>
 						<artifactId>nacos-client</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>io.seata</groupId>
+						<artifactId>seata-spring-boot-starter</artifactId>
 					</exclusion>
 				</exclusions>
 		</dependency>
