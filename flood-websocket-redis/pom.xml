@@ -18,6 +18,12 @@
             <artifactId>flood-tools-core</artifactId>
             <version>${flood.version}</version>
         </dependency>
+        <!--fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
         <!-- 1.5的版本默认采用的连接池技术是jedis  2.0以上版本默认连接池是lettuce -->
         <!-- redis -->
         <dependency>
