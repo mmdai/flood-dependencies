@@ -14,7 +14,6 @@
 package cn.flood.base.core;
 
 import cn.flood.base.core.encrypt.DigestUtil;
-import cn.flood.base.core.http.UrlUtils;
 import cn.flood.base.core.json.JsonUtils;
 import cn.flood.base.core.lang.ClassUtil;
 import cn.flood.base.core.lang.CollectionUtil;
@@ -1038,35 +1037,6 @@ public class Func {
     return JsonUtils.toJavaObjectList(value, tClass, defaultSupplier);
   }
 
-
-  /**
-   * Encode all characters that are either illegal, or have any reserved
-   * meaning, anywhere within a URI, as defined in
-   * <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>.
-   * This is useful to ensure that the given String will be preserved as-is
-   * and will not have any o impact on the structure or meaning of the URI.
-   *
-   * @param source the String to be encoded
-   * @return the encoded String
-   */
-  public static String encode(String source) {
-    return UrlUtils.getURLEncoderString(source, StandardCharsets.UTF_8.name());
-  }
-
-  /**
-   * Encode all characters that are either illegal, or have any reserved
-   * meaning, anywhere within a URI, as defined in
-   * <a href="https://tools.ietf.org/html/rfc3986">RFC 3986</a>.
-   * This is useful to ensure that the given String will be preserved as-is
-   * and will not have any o impact on the structure or meaning of the URI.
-   *
-   * @param source  the String to be encoded
-   * @param charset the character encoding to encode to
-   * @return the encoded String
-   */
-  public static String encode(String source, Charset charset) {
-    return UrlUtils.getURLEncoderString(source, charset.name());
-  }
 
   /**
    * Decode the given encoded URI component.

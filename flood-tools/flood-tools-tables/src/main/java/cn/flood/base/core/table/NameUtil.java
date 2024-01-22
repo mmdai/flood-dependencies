@@ -1,4 +1,4 @@
-package cn.flood.base.core.lang;
+package cn.flood.base.core.table;
 
 /**
  *

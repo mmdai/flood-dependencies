@@ -18,6 +18,8 @@ public class HttpClientProperties {
   public static final int DEFAULT_CONNECTION_TIMEOUT = 2000;
   public static final int DEFAULT_CONNECTION_TIMER_REPEAT = 3000;
 
+  public static final int DEFAULT_SOCKET_TIMEOUT = 15000;
+
   static {
     DEFAULT_TIME_TO_LIVE_UNIT = TimeUnit.SECONDS;
   }

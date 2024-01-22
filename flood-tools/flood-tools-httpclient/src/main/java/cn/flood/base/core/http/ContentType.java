@@ -9,12 +9,13 @@
  */
 package cn.flood.base.core.http;
 
+import org.springframework.util.ObjectUtils;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.util.ObjectUtils;
 
 /**
  * <p>Title: ContentType</p>  

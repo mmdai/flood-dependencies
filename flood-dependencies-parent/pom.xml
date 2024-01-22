@@ -144,6 +144,18 @@
 			<artifactId>flood-tools-orika</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<!-- 对外httpclient -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-tools-httpclient</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
+		<!-- 聚合table -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-tools-tables</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 
 		<!-- flood关系型数据库，支持单及多数据源配置 -->
 		<dependency>

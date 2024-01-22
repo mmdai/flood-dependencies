@@ -9,9 +9,10 @@
  */
 package cn.flood.base.core.http;
 
-import java.io.UnsupportedEncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>Title: UrlUtils</p>  
