@@ -28,5 +28,9 @@
         <module>flood-tools-id</module>
         <!-- 对象转换 -->
         <module>flood-tools-orika</module>
+        <!-- 对外的httpclient -->
+        <module>flood-tools-httpclient</module>
+
+        <module>flood-tools-tables</module>
     </modules>
 </project>

@@ -72,7 +72,10 @@
             <artifactId>flood-base</artifactId>
             <version>${flood.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
 
 
     </dependencies>

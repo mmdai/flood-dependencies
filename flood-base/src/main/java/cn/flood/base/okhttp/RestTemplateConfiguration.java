@@ -144,13 +144,14 @@ public class RestTemplateConfiguration {
       HttpLoggingInterceptor interceptor) {
     Boolean followRedirects = httpClientProperties.isFollowRedirects();
     Integer connectTimeout = httpClientProperties.getConnectionTimeout();
+    Integer socketTimeout = httpClientProperties.DEFAULT_SOCKET_TIMEOUT;
     List<Protocol> protocols = new ArrayList<>();
     protocols.add(Protocol.H2_PRIOR_KNOWLEDGE);
     OkHttpClient.Builder builder = httpClientFactory
         .createBuilder(httpClientProperties.isDisableSslValidation())
         .connectTimeout(connectTimeout, TimeUnit.MILLISECONDS)
-        .writeTimeout(15, TimeUnit.SECONDS)
-        .readTimeout(15, TimeUnit.SECONDS)
+        .writeTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+        .readTimeout(socketTimeout, TimeUnit.MILLISECONDS)
         .followRedirects(followRedirects)
         .connectionPool(connectionPool);
     builder.protocols(protocols);
