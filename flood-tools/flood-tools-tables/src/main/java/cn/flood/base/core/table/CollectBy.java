@@ -1,7 +1,7 @@
 package cn.flood.base.core.table;
 
 
-import cn.flood.base.core.table.ReflectBeans;
+import cn.flood.base.core.lang.ReflectBeans;
 import cn.flood.base.core.lang.StringUtils;
 import com.alibaba.fastjson2.JSON;
 
