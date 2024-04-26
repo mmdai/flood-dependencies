@@ -156,7 +156,12 @@
 			<artifactId>flood-tools-tables</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
-
+		<!-- base -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-base</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 		<!-- flood关系型数据库，支持单及多数据源配置 -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
