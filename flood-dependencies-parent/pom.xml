@@ -156,6 +156,12 @@
 			<artifactId>flood-tools-tables</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
+		<!-- api -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-api</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
 		<!-- base -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
