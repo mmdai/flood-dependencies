@@ -34,7 +34,7 @@
 	  <commons.io.version>2.13.0</commons.io.version>
 	  <disruptor.version>3.4.4</disruptor.version>
 	  <!-- swagger -->
-	  <knife4j.version>4.3.0</knife4j.version>
+	  <knife4j.version>4.5.0</knife4j.version>
 	  <springdoc.version>1.6.15</springdoc.version>
 	  <guava.version>31.1-jre</guava.version>
 
@@ -53,11 +53,11 @@
 	  <!-- netty -->
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->
-	  <druid.version>1.2.20</druid.version>
+	  <druid.version>1.2.22</druid.version>
 
 	  <pagehelper.version>5.3.3</pagehelper.version>
-	  <mybatis.version>3.5.13</mybatis.version>
-	  <mybatis-spring.version>3.0.2</mybatis-spring.version>
+	  <mybatis.version>3.5.16</mybatis.version>
+	  <mybatis-spring.version>3.0.3</mybatis-spring.version>
 
 	  <mysql-connector-java.version>8.0.29</mysql-connector-java.version>
 	  <!--mybatis 3.5.x与jdk1.8的(DefaultReflectorFactory==反射的computeIfAbsent 存在相同key锁问题)，解决升级3.5.7已修改-->
