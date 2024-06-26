@@ -1,11 +1,9 @@
 package cn.flood.cloud.gateway.filter;
 
-import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
 
 import cn.flood.base.core.trace.MDCTraceUtils;
 import cn.flood.cloud.gateway.props.WebSocketProperties;
 import com.google.common.base.Stopwatch;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,9 +16,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -57,7 +53,7 @@ public class TraceIdLogFilter implements GlobalFilter, Ordered {
     List<Object> beforeReqArgs = new ArrayList<>();
     beforeReqLog.append("===> {}: {}");
     // 参数
-    String requestMethod = exchange.getRequest().getMethodValue();
+    String requestMethod = exchange.getRequest().getMethod().name();
     beforeReqArgs.add(requestMethod);
     beforeReqArgs.add(requestUrl);
 

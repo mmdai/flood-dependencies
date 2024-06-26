@@ -13,7 +13,7 @@ import java.util.List;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.expression.MethodBasedEvaluationContext;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.util.CollectionUtils;
@@ -30,7 +30,7 @@ public class ExpressionResolver implements KeyResolver {
 
   private static final SpelExpressionParser PARSER = new SpelExpressionParser();
 
-  private static final LocalVariableTableParameterNameDiscoverer DISCOVERER = new LocalVariableTableParameterNameDiscoverer();
+  private static final StandardReflectionParameterNameDiscoverer DISCOVERER = new StandardReflectionParameterNameDiscoverer();
 
   @Override
   public String resolver(Idempotent idempotent, JoinPoint point) {
