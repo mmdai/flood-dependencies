@@ -38,6 +38,7 @@ public class FloodErrorDecoder implements ErrorDecoder {
           HttpStatus.SERVICE_UNAVAILABLE.name(),
           response.request().httpMethod(),
           null,
+          1L,
           response.request());
     }
     // 其他异常交给Default去解码处理

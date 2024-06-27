@@ -62,7 +62,7 @@ public class FloodFeignSentinel {
     }
 
     @Override
-    public Feign build() {
+    public  Feign internalBuild() {
       super.invocationHandlerFactory(new InvocationHandlerFactory() {
         @SneakyThrows
         @Override
@@ -164,7 +164,8 @@ public class FloodFeignSentinel {
           }
         }
       });
-      return super.build();
+      super.contract(new SentinelContractHolder(contract));
+      return super.internalBuild();
     }
 
     @Override
