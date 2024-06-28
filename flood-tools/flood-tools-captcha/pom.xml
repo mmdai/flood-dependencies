@@ -17,6 +17,11 @@
             <artifactId>easy-captcha</artifactId>
             <version>${easy.captcha.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>${nashorn.core.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>io.github.mmdai</groupId>

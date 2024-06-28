@@ -35,7 +35,6 @@
 	  <disruptor.version>3.4.4</disruptor.version>
 	  <!-- swagger -->
 	  <knife4j.version>4.5.0</knife4j.version>
-	  <springdoc.version>1.6.15</springdoc.version>
 	  <guava.version>33.2.1-jre</guava.version>
 
 	  <google.annotations.version>3.0.1</google.annotations.version>
@@ -46,6 +45,7 @@
 	  <protostuff.version>1.3.0</protostuff.version>
 	  <jsoup.version>1.15.3</jsoup.version>
 	  <easy.captcha.version>1.6.2</easy.captcha.version>
+	  <nashorn.core.version>15.4</nashorn.core.version><!--jdk17 导致easy 问题-->
 	  <fastjson.version>2.0.23</fastjson.version>
 	  <zookeeper.version>3.7.0</zookeeper.version>
 	  <orika.version>1.5.4</orika.version>
@@ -63,7 +63,7 @@
 	  <!--mybatis 3.5.x与jdk1.8的(DefaultReflectorFactory==反射的computeIfAbsent 存在相同key锁问题)，解决升级3.5.7已修改-->
 	  <!--<mybatis.version>3.5.7</mybatis.version>-->
 	  <sharding.jdbc.version>4.1.1</sharding.jdbc.version>
-	  <redisson.version>3.17.7</redisson.version>
+	  <redisson.version>3.21.3</redisson.version>
 	  <joda-time.version>2.12.5</joda-time.version>
 	  <persistence.version>1.0.2</persistence.version>
 	  <!-- elasticsearch -->
@@ -90,7 +90,7 @@
 		  <optional>true</optional>
 	  </dependency>
    	<!-- 引入log4j2依赖 -->
-	<dependency> 
+	<dependency>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-log4j2</artifactId>
 <!--		<scope>provided</scope> &lt;!&ndash; 设置为 provided，只有工具类需要使用到 &ndash;&gt;-->
