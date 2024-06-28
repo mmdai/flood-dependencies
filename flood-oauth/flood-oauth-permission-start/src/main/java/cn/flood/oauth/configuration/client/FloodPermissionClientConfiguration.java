@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableConfigurationProperties(FloodPermissionProperties.class)
-@ConditionalOnBean(RestTemplate.class)
+//@ConditionalOnBean(RestTemplate.class)
 public class FloodPermissionClientConfiguration implements WebMvcConfigurer,
     ApplicationContextAware {
 
