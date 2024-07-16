@@ -1,13 +1,11 @@
 package cn.flood.db.redis;
 
 import cn.flood.db.redis.builder.RedisTemplaterFactoryBuild;
-import cn.flood.db.redis.config.cache.support.CacheMessage;
+import cn.flood.db.redis.cache.FloodRedis;
 import cn.flood.db.redis.config.lettuce.LettuceConnectionConfiguration;
 import cn.flood.db.redis.config.properties.DynamicRedisProperties;
 import cn.flood.db.redis.provider.RedisProvider;
 import cn.flood.db.redis.provider.impl.DynamicRedisProvider;
-import cn.flood.db.redis.service.RedisService;
-import cn.flood.db.redis.service.impl.RedisServiceImpl;
 import cn.flood.db.redis.util.ApplicationContextUtil;
 import cn.flood.db.redis.util.RedisLockUtil;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -247,8 +245,7 @@ public class RedisAutoConfiguration {
   }
 
   @Bean
-  public RedisService getRedisService(RedisTemplate<String, Object> redisTemplate,
-      RedisLockUtil redisLockUtil) {
-    return new RedisServiceImpl(redisTemplate, redisLockUtil);
+  public FloodRedis floodRedis(RedisTemplate<String, Object> redisTemplate, StringRedisTemplate stringRedisTemplate) {
+    return new FloodRedis(redisTemplate, stringRedisTemplate);
   }
 }
