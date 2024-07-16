@@ -3,11 +3,12 @@ package cn.flood.cloud.comm.service.impl;
 import cn.flood.base.core.Func;
 import cn.flood.base.core.lang.StringPool;
 import cn.flood.cloud.comm.service.ValidCodeService;
-import cn.flood.db.redis.service.RedisService;
+import cn.flood.db.redis.cache.FloodRedis;
 import cn.flood.tools.captcha.Token;
 import cn.flood.tools.captcha.TokenEnum;
 import cn.flood.tools.captcha.TokenService;
-import java.util.concurrent.TimeUnit;
+
+import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -34,7 +35,7 @@ public class ValidCodeServiceImpl implements ValidCodeService {
   private TokenService tokenService;
 
   @Autowired
-  private RedisService redisService;
+  private FloodRedis floodRedis;
 
   /**
    * @param deviceId  设备号
@@ -68,7 +69,7 @@ public class ValidCodeServiceImpl implements ValidCodeService {
   private void saveToken(String driverId, TokenEnum tokenType, Token token) {
     StringBuilder tokenKey = new StringBuilder(KEY_TOKEN);
     tokenKey.append(tokenType.getName()).append(StringPool.COLON).append(driverId);
-    redisService.set(tokenKey.toString(), token, BEING_TIME, TimeUnit.SECONDS);
+    floodRedis.setEx(tokenKey.toString(), token, Duration.ofSeconds(BEING_TIME));
   }
 
   /**
@@ -81,7 +82,7 @@ public class ValidCodeServiceImpl implements ValidCodeService {
   public boolean validToken(String tokenKey, TokenEnum tokenType, String verifyCode) {
     StringBuilder key = new StringBuilder(KEY_TOKEN);
     key.append(tokenType.getName()).append(StringPool.COLON).append(tokenKey);
-    Token token = redisService.get(key.toString());
+    Token token = floodRedis.get(key.toString());
     if (Func.isEmpty(token)) {
       return false;
     }
@@ -97,6 +98,6 @@ public class ValidCodeServiceImpl implements ValidCodeService {
   public boolean remove(String deviceId, TokenEnum tokenType) {
     StringBuilder tokenKey = new StringBuilder(KEY_TOKEN);
     tokenKey.append(tokenType.getName()).append(StringPool.COLON).append(deviceId);
-    return redisService.remove(tokenKey.toString());
+    return floodRedis.del(tokenKey.toString());
   }
 }

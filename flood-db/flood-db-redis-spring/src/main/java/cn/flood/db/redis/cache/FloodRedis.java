@@ -1,5 +1,6 @@
 package cn.flood.db.redis.cache;
 
+import cn.flood.db.redis.util.ConvertUtil;
 import lombok.Getter;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.*;
@@ -557,7 +558,29 @@ public class FloodRedis {
     public Long lRem(String key, long count, Object value) {
         return listOps.remove(key, count, value);
     }
+  /**
+   * 获取集合对象
+   * @see <a href="http://redis.io/commands/zrange">Redis Documentation: ZRANGE</a>
+   * @since redis 1.2.0
+   * @param key 键
+   * @return 返回对象字典
+   */
+  public Set getAllZSet(String key) {
+    return this.ascRangeZSet(key, 0L, -1L);
+  }
 
+      /**
+   * 正序获取范围内的对象
+   * @see <a href="http://redis.io/commands/zrange">Redis Documentation: ZRANGE</a>
+   * @since redis 1.2.0
+   * @param key 键
+   * @param startIndex 开始索引
+   * @param endIndex 结束索引
+   * @return 返回对象集合
+   */
+  public Set ascRangeZSet(String key, Long startIndex, Long endIndex) {
+    return this.redisTemplate.opsForZSet().range(key, startIndex, endIndex);
+  }
     /**
      * 返回列表 key 中指定区间内的元素，区间以偏移量 start 和 stop 指定。
      * 下标(index)参数 start 和 stop 都以 0 为底，也就是说，以 0 表示列表的第一个元素，以 1 表示列表的第二个元素，以此类推。
@@ -582,7 +605,17 @@ public class FloodRedis {
     public void lTrim(String key, long start, long end) {
         listOps.trim(key, start, end);
     }
-
+    /**
+   * 移除对象
+   * @see <a href="http://redis.io/commands/zrem">Redis Documentation: ZREM</a>
+   * @since redis 1.2.0
+   * @param key 键
+   * @param values 对象
+   * @return 返回对象移除数量
+   */
+  public Long removeZSet(String key, Object... values) {
+    return this.redisTemplate.opsForZSet().remove(key, values);
+  }
     /**
      * 移除并返回列表 key 的尾元素。
      */
@@ -714,7 +747,18 @@ public class FloodRedis {
     public Set sDiff(String key, Collection<String> otherKeys) {
         return setOps.difference(key, otherKeys);
     }
+    /**
+     * 新增对象存在则更新
+       * @see <a href="http://redis.io/commands/zadd">Redis Documentation: ZADD</a>
+       * @since redis 1.2.0
+       * @param key 键
+       * @param values 对象
+       * @return 返回成功个数
+       */
 
+      public Long addZSet(String key, Object... values) {
+        return this.addZSet(key, ConvertUtil.toMap(values));
+      }
     /**
      * 将一个或多个 member 元素及其 score 值加入到有序集 key 当中。
      * 如果某个 member 已经是有序集的成员，那么更新这个 member 的 score 值，

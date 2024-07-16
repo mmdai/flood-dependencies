@@ -3,7 +3,7 @@ package cn.flood.cloud.rule.config;
 import cn.flood.cloud.rule.service.RuleCacheService;
 import cn.flood.cloud.rule.service.impl.RuleCacheServiceImpl;
 import cn.flood.db.redis.RedisAutoConfiguration;
-import cn.flood.db.redis.service.RedisService;
+import cn.flood.db.redis.cache.FloodRedis;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Import;
 public class RuleConfiguration {
 
   @Bean
-  public RuleCacheService ruleCacheService(RedisService redisService) {
-    return new RuleCacheServiceImpl(redisService);
+  public RuleCacheService ruleCacheService(FloodRedis floodRedis) {
+    return new RuleCacheServiceImpl(floodRedis);
   }
 }
