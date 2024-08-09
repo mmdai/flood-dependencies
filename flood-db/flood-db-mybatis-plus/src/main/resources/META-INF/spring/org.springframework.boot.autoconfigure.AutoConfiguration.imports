@@ -1,0 +1,3 @@
+cn.flood.db.mybatisplus.datasource.config.FloodDataSourceAutoConfiguration
+cn.flood.db.mybatisplus.mybatis.config.FloodMybatisAutoConfiguration
+cn.flood.db.mybatisplus.translate.config.FloodTranslateAutoConfiguration

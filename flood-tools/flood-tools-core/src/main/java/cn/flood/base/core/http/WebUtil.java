@@ -323,27 +323,6 @@ public class WebUtil extends org.springframework.web.util.WebUtils {
   }
 
   /**
-   * 获取用户信息
-   *
-   * @return User
-   */
-  public static UserToken getUser() {
-    HttpServletRequest request = WebUtil.getRequest();
-    if (request == null) {
-      return null;
-    }
-    // 优先从 request 中获取
-    Object floodUser = request.getAttribute(REQUEST_TOKEN_NAME);
-    if (floodUser == null) {
-      if (floodUser != null) {
-        // 设置到 request 中
-        request.setAttribute(REQUEST_TOKEN_NAME, floodUser);
-      }
-    }
-    return (UserToken) floodUser;
-  }
-
-  /**
    * 设置响应
    *
    * @param response    HttpServletResponse

@@ -173,7 +173,7 @@ public class RestTemplateConfiguration {
 
       @Override
       public boolean hasError(ClientHttpResponse response) throws IOException {
-        int rawStatusCode = response.getRawStatusCode();
+        int rawStatusCode = response.getStatusCode().value();
 //				log.info("rawStatusCode: {}",rawStatusCode);
         if (rawStatusCode == HttpStatus.OK.value() || rawStatusCode == HttpStatus.CREATED.value()) {
           return false;
@@ -205,7 +205,7 @@ public class RestTemplateConfiguration {
         String code = GlobalErrorCodeEnum.INTERNAL_SERVER_ERROR.getCode();
         String message = "";
 
-        int rawStatusCode = response.getRawStatusCode();
+        int rawStatusCode = response.getStatusCode().value();
         //404
         if (rawStatusCode == HttpStatus.NOT_FOUND.value()) {
           code = GlobalErrorCodeEnum.NOT_FOUND.getCode();

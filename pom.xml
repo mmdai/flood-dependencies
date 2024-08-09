@@ -4,7 +4,7 @@
 
   <groupId>io.github.mmdai</groupId>
   <artifactId>flood-dependencies</artifactId>
-  <version> 3.2.7.0-SNAPSHOT</version>
+  <version> 3.2.8.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -19,8 +19,8 @@
 	  <maven.compiler.source>17</maven.compiler.source>
 	  <maven.compiler.target>17</maven.compiler.target>
 	  <java.version>17</java.version>
-	  <spring-boot-dependencies.version>3.2.7</spring-boot-dependencies.version>
-	  <spring-cloud-dependencies.version>2023.0.2</spring-cloud-dependencies.version>
+	  <spring-boot-dependencies.version>3.2.8</spring-boot-dependencies.version>
+	  <spring-cloud-dependencies.version>2023.0.3</spring-cloud-dependencies.version>
 	  <spring-cloud-alibaba-dependencies.version>2023.0.1.0</spring-cloud-alibaba-dependencies.version>
 
 <!--	  <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>-->
@@ -29,7 +29,7 @@
 	  <!-- seata -->
 	  <seata.version>1.5.2</seata.version>
 	  <!-- flood 版本 -->
-	  <flood.version>3.2.7.0-SNAPSHOT</flood.version>
+	  <flood.version>3.2.8.0-SNAPSHOT</flood.version>
 	  <!-- log -->
 	  <commons.io.version>2.13.0</commons.io.version>
 	  <disruptor.version>3.4.4</disruptor.version>
@@ -50,6 +50,7 @@
 	  <zookeeper.version>3.7.0</zookeeper.version>
 	  <orika.version>1.5.4</orika.version>
 	  <easypoi.version>4.4.0</easypoi.version>
+	  <hutool.version>5.8.25</hutool.version>
 	  <!-- netty -->
 	  <netty.version>4.1.59.Final</netty.version>
 	  <!--db -->
@@ -58,6 +59,11 @@
 	  <pagehelper.version>5.3.3</pagehelper.version>
 	  <mybatis.version>3.5.16</mybatis.version>
 	  <mybatis-spring.version>3.0.3</mybatis-spring.version>
+	  <druid.spring3.version>1.2.22</druid.spring3.version>
+	  <mybatis.plus.spring3.verson>3.5.5</mybatis.plus.spring3.verson>
+	  <dynamic.datasource.springt3.version>4.3.0</dynamic.datasource.springt3.version>
+	  <mybatis.plus.join.version>1.4.10</mybatis.plus.join.version>
+	  <easy.trans.version>2.2.11</easy.trans.version>
 
 	  <mysql-connector-java.version>8.0.29</mysql-connector-java.version>
 	  <!--mybatis 3.5.x与jdk1.8的(DefaultReflectorFactory==反射的computeIfAbsent 存在相同key锁问题)，解决升级3.5.7已修改-->

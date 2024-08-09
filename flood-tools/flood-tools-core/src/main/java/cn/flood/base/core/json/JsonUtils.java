@@ -3,6 +3,7 @@ package cn.flood.base.core.json;
 import cn.flood.base.core.lang.Exceptions;
 import cn.flood.base.core.lang.StringUtils;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -166,6 +167,23 @@ public class JsonUtils {
 //			log.error(String.format("toJavaObject exception: \n %s\n %s", value, tClass), e);
     }
     return defaultSupplier.get();
+  }
+  /**
+   * 功能描述: 将json数据转化为对象
+   * @author mmdai
+   * @param text
+   * @param typeReference
+   * @return T
+   * @createTime 2024/7/30 下午3:07
+   */
+
+  public static <T> T parseObject(String text, TypeReference<T> typeReference) {
+    try {
+      return defaultMapper.readValue(text, typeReference);
+    } catch (IOException e) {
+      log.error("json parse err,json:{}", text, e);
+      throw new RuntimeException(e);
+    }
   }
 
   /**

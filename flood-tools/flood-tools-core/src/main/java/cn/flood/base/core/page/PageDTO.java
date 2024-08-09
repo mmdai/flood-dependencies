@@ -24,6 +24,8 @@ public class PageDTO implements Serializable {
   /** serialVersionUID*/
   private static final long serialVersionUID = -7826768548777861694L;
 
+  public static final Integer PAGE_SIZE_NONE = -1;
+
   private Integer pageno = 1;
 
   private Integer pagesize = 10;

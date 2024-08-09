@@ -5,11 +5,11 @@
   <parent>
     <groupId>io.github.mmdai</groupId>
     <artifactId>flood-dependencies</artifactId>
-	  <version> 3.2.7.0-SNAPSHOT</version>
+	  <version> 3.2.8.0-SNAPSHOT</version>
   </parent>
   <groupId>io.github.mmdai</groupId>
   <artifactId>flood-dependencies-parent</artifactId>
-  <version> 3.2.7.0-SNAPSHOT</version>
+  <version> 3.2.8.0-SNAPSHOT</version>
 
   <name>flood-dependencies-parent</name>
   <url>http://maven.apache.org</url>
@@ -83,11 +83,11 @@
 					<include>**/*.wsdl</include>
 					<include>**/*.xsd</include>
 					<include>**/*.ftl</include>
-          <include>**/*.lic</include>
-          <include>**/*.store</include>
-          <include>**/*.factories</include>
+         			<include>**/*.lic</include>
+          			<include>**/*.store</include>
+          			<include>**/*.factories</include>
 					<include>**/*.imports</include>
-          <include>**/static.*</include>
+          			<include>**/static.*</include>
 					<include>**/flowable.*</include>
 					<include>**/processes.*</include>
 					<include>**/stencilset.*</include>
@@ -222,11 +222,6 @@
 		<!-- floodCloud Core -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>flood-config-nacos</artifactId>
-			<version>${flood.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-spring-cloud-starter-nacos</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
@@ -270,6 +265,11 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>flood-spring-cloud-starter-mysql</artifactId>
+			<version>${flood.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>flood-spring-cloud-starter-mybatis</artifactId>
 			<version>${flood.version}</version>
 		</dependency>
 		<dependency>
