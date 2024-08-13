@@ -77,6 +77,14 @@ public class FloodRedis {
      * 存放 key value 对到 redis，并将 key 的生存时间设为 seconds (以秒为单位)。
      * 如果 key 已经存在， SETEX 命令将覆写旧值。
      */
+    public boolean setIfAbsent(String key, Object value, Duration timeout) {
+        return valueOps.setIfAbsent(key, value, timeout);
+    }
+
+    /**
+     * 存放 key value 对到 redis，并将 key 的生存时间设为 seconds (以秒为单位)。
+     * 如果 key 已经存在， SETEX 命令将覆写旧值。
+     */
     public void setEx(String key, Object value, Long seconds) {
         valueOps.set(key, value, seconds, TimeUnit.SECONDS);
     }
