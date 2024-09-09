@@ -59,9 +59,9 @@
 	  <pagehelper.version>5.3.3</pagehelper.version>
 	  <mybatis.version>3.5.16</mybatis.version>
 	  <mybatis-spring.version>3.0.3</mybatis-spring.version>
-	  <druid.spring3.version>1.2.22</druid.spring3.version>
-	  <mybatis.plus.spring3.verson>3.5.5</mybatis.plus.spring3.verson>
-	  <dynamic.datasource.springt3.version>4.3.0</dynamic.datasource.springt3.version>
+	  <druid.spring3.version>1.2.23</druid.spring3.version>
+	  <mybatis.plus.spring3.verson>3.5.7</mybatis.plus.spring3.verson>
+	  <dynamic.datasource.springt3.version>4.3.1</dynamic.datasource.springt3.version>
 	  <mybatis.plus.join.version>1.4.10</mybatis.plus.join.version>
 	  <easy.trans.version>2.2.11</easy.trans.version>
 

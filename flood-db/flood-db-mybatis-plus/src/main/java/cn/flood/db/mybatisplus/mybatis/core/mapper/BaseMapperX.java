@@ -149,7 +149,7 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
      *
      * @param entities 实体们
      */
-    default Boolean insertBatch(Collection<T> entities) {
+    default boolean insertBatch(Collection<T> entities) {
         // 特殊：SQL Server 批量插入后，获取 id 会报错，因此通过循环处理
         if (Objects.equals(SqlConstants.DB_TYPE, DbType.SQL_SERVER)) {
             entities.forEach(this::insert);
@@ -164,7 +164,7 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
      * @param entities 实体们
      * @param size     插入数量 Db.saveBatch 默认为 1000
      */
-    default Boolean insertBatch(Collection<T> entities, int size) {
+    default boolean insertBatch(Collection<T> entities, int size) {
         // 特殊：SQL Server 批量插入后，获取 id 会报错，因此通过循环处理
         if (Objects.equals(SqlConstants.DB_TYPE, DbType.SQL_SERVER)) {
             entities.forEach(this::insert);
@@ -177,19 +177,19 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
         return update(update, new QueryWrapper<>());
     }
 
-    default Boolean updateBatch(Collection<T> entities) {
+    default boolean updateBatch(Collection<T> entities) {
         return Db.updateBatchById(entities);
     }
 
-    default Boolean updateBatch(Collection<T> entities, int size) {
+    default boolean updateBatch(Collection<T> entities, int size) {
         return Db.updateBatchById(entities, size);
     }
 
-    default Boolean insertOrUpdate(T entity) {
+    default boolean insertOrUpdate(T entity) {
         return  Db.saveOrUpdate(entity);
     }
 
-    default Boolean insertOrUpdateBatch(Collection<T> collection) {
+    default boolean insertOrUpdateBatch(Collection<T> collection) {
         return Db.saveOrUpdateBatch(collection);
     }
 
